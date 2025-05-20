@@ -1,0 +1,8 @@
+<h1 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h1><p>​<code>Timing Attack注入，也就是时间盲注</code>​。通过简单的条件语句比如 and 1=2 是无法看出异常的。</p>
+<p>在MySQL中，有一个<code>Benchmark()</code>​函数，它是用于测试性能的。Benchmark(count,expr) ，这个函数执行的结果，是将表达式 expr 执行 count 次 。</p>
+<p>因此，利用benchmark函数，可以让同一个函数执行若干次，使得结果返回的时间比平时要长，通过时间长短的变化，可以判断注入语句是否执行成功。这是一种边信道攻击，这个技巧在盲注中被称为<code>Timing Attack</code>​，也就是时间盲注。</p>
+<p>利用前提：<u><strong>页面上没有显示位</strong></u>​<u>，</u>​<u><strong>也没有输出 SQL 语句执行错误信息</strong></u>​<u>。</u>​<u><strong>正确的 SQL 语句和错误的 SQL 语句返回页面都一样</strong></u>​<u>，</u>​<u><strong>但是加入 sleep(5)条件之后</strong></u>​<u>，</u>​<u><strong>页面的返回速度明显慢了 5 秒</strong></u>​<u>。</u></p>
+<pre><code class="language-bash">//判断是否存在延时注入
+?id=1&#39; and sleep(5) --+
+</code></pre>
+<p>‍</p>

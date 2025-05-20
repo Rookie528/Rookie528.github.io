@@ -1,0 +1,27 @@
+<h1 id="sql——labs"><a href="#sql——labs" class="headerlink" title="sql——labs"></a>sql——labs</h1><h1 id="Less—1"><a href="#Less—1" class="headerlink" title="Less—1"></a>Less—1</h1><p>字符型包裹为 ‘’</p>
+<h1 id="Less—2"><a href="#Less—2" class="headerlink" title="Less—2"></a>Less—2</h1><p>数字型无包裹</p>
+<h1 id="Less—3"><a href="#Less—3" class="headerlink" title="Less—3"></a>Less—3</h1><p>字符括号包裹（’’）</p>
+<h1 id="Less—4"><a href="#Less—4" class="headerlink" title="Less—4"></a>Less—4</h1><p>字符双引号括号包裹（””）</p>
+<h1 id="Less—5"><a href="#Less—5" class="headerlink" title="Less—5"></a>Less—5</h1><p>布尔盲注</p>
+<blockquote>
+<p><strong>1.left函数：</strong> select left(database(),1)&#x3D;’s’;  left(a,b)从左侧截取a的前b位，正确则返回，错误返回</p>
+<p><strong>2.regexp函数：</strong> select user() regexp ‘r’;   user()的结果是root，regexp为匹配root的正则表达式</p>
+<p><strong>3.like函数：</strong> select user() like ‘ro%’;	 匹配与regexp相似</p>
+<p><strong>4.substr(a,b,c):</strong>  select substr() XXXX;     substr(a,b,c)从位置b开始，截取a字符串c位长度  select substr((select database()),1,1)&#x3D;’s’;</p>
+<p><strong>5.ascii:</strong></p>
+<p><strong>6.chr(‘数字’)  ord(‘字母’)</strong>  			   python中转换ascii值</p>
+</blockquote>
+<p>‍</p>
+<h1 id="Less——7"><a href="#Less——7" class="headerlink" title="Less——7"></a>Less——7</h1><blockquote>
+<p>补充知识点</p>
+<p>​<code>show variables like &#39;%secure%&#39;;</code>​查看secure-file-priv当前的值，如果显示为NULL，则需要打开，：\phpstudy\PHPTutorial\MySQL\my.ini文件，在其中加上一句：secure file priv&#x3D;”&#x2F;”。</p>
+<p>而且要先设置secure_file_priv&#x3D;,如果它为空则可以指定任意目录，如果设置等于某个路径就只能在这个指定路径下，而它为NULL则禁止导入导出功能</p>
+<p>​<code>load_file()</code>​读取本地文件<code>select load_file(&#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7&#39;)</code>​</p>
+<p>​<code>into outfile</code>​写文件    用法：<code>select &#39;mysql is very good&#39; into outfile &#39;test1.txt&#39;;</code>​</p>
+<pre><code>				文件位置： 是在sql版本下的data文件中
+</code></pre>
+<p>我们要写到绝对位置那就，双反斜线是因为\t这种类型被转义掉了</p>
+<p>​<code>select &#39;a&#39; into outfile &#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\tsxt.txt&#39;；</code>​</p>
+<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">！！！注意sql语句中\需要转译</span></p>
+</blockquote>
+<p>‍</p>

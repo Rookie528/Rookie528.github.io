@@ -1,0 +1,35 @@
+<h1 id="Pass-20"><a href="#Pass-20" class="headerlink" title="Pass-20"></a>Pass-20</h1><pre><code class="language-php">$is_upload = false;
+$msg = null;
+if(!empty($_FILES[&#39;upload_file&#39;])){
+    //检查MIME
+    $allow_type = array(&#39;image/jpeg&#39;,&#39;image/png&#39;,&#39;image/gif&#39;);
+    if(!in_array($_FILES[&#39;upload_file&#39;][&#39;type&#39;],$allow_type)){
+        $msg = &quot;禁止上传该类型文件!&quot;;
+    }else{
+        //检查文件名
+        $file = empty($_POST[&#39;save_name&#39;]) ? $_FILES[&#39;upload_file&#39;][&#39;name&#39;] : $_POST[&#39;save_name&#39;];
+        if (!is_array($file)) {
+            $file = explode(&#39;.&#39;, strtolower($file));
+        }
+
+        $ext = end($file);
+        $allow_suffix = array(&#39;jpg&#39;,&#39;png&#39;,&#39;gif&#39;);
+        if (!in_array($ext, $allow_suffix)) {
+            $msg = &quot;禁止上传该后缀文件!&quot;;
+        }else{
+            $file_name = reset($file) . &#39;.&#39; . $file[count($file) - 1];
+            $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+            $img_path = UPLOAD_PATH . &#39;/&#39; .$file_name;
+            if (move_uploaded_file($temp_file, $img_path)) {
+                $msg = &quot;文件上传成功！&quot;;
+                $is_upload = true;
+            } else {
+                $msg = &quot;文件上传失败！&quot;;
+            }
+        }
+    }
+}else{
+    $msg = &quot;请选择要上传的文件！&quot;;
+}
+</code></pre>
+<p>‍</p>

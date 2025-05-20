@@ -1,0 +1,125 @@
+<h1 id="Apache解析漏洞-条件竞争"><a href="#Apache解析漏洞-条件竞争" class="headerlink" title="Apache解析漏洞+条件竞争"></a>Apache解析漏洞+条件竞争</h1><pre><code class="language-php">//index.php
+$is_upload = false;
+$msg = null;
+if (isset($_POST[&#39;submit&#39;]))
+{
+    require_once(&quot;./myupload.php&quot;);
+    $imgFileName =time();
+    $u = new MyUpload($_FILES[&#39;upload_file&#39;][&#39;name&#39;], $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;], $_FILES[&#39;upload_file&#39;][&#39;size&#39;],$imgFileName);
+    $status_code = $u-&gt;upload(UPLOAD_PATH);
+    switch ($status_code) {
+        case 1:
+            $is_upload = true;
+            $img_path = $u-&gt;cls_upload_dir . $u-&gt;cls_file_rename_to;
+            break;
+        case 2:
+            $msg = &#39;文件已经被上传，但没有重命名。&#39;;
+            break; 
+        case -1:
+            $msg = &#39;这个文件不能上传到服务器的临时文件存储目录。&#39;;
+            break; 
+        case -2:
+            $msg = &#39;上传失败，上传目录不可写。&#39;;
+            break; 
+        case -3:
+            $msg = &#39;上传失败，无法上传该类型文件。&#39;;
+            break; 
+        case -4:
+            $msg = &#39;上传失败，上传的文件过大。&#39;;
+            break; 
+        case -5:
+            $msg = &#39;上传失败，服务器已经存在相同名称文件。&#39;;
+            break; 
+        case -6:
+            $msg = &#39;文件无法上传，文件不能复制到目标目录。&#39;;
+            break;  
+        default:
+            $msg = &#39;未知错误！&#39;;
+            break;
+    }
+}
+
+//myupload.php
+class MyUpload{
+......
+......
+...... 
+  var $cls_arr_ext_accepted = array(
+      &quot;.doc&quot;, &quot;.xls&quot;, &quot;.txt&quot;, &quot;.pdf&quot;, &quot;.gif&quot;, &quot;.jpg&quot;, &quot;.zip&quot;, &quot;.rar&quot;, &quot;.7z&quot;,&quot;.ppt&quot;,
+      &quot;.html&quot;, &quot;.xml&quot;, &quot;.tiff&quot;, &quot;.jpeg&quot;, &quot;.png&quot; );
+
+......
+......
+......  
+  /** upload()
+   **
+   ** Method to upload the file.
+   ** This is the only method to call outside the class.
+   ** @para String name of directory we upload to
+   ** @returns void
+  **/
+  function upload( $dir ){
+  
+    $ret = $this-&gt;isUploadedFile();
+  
+    if( $ret != 1 ){
+      return $this-&gt;resultUpload( $ret );
+    }
+
+    $ret = $this-&gt;setDir( $dir );
+    if( $ret != 1 ){
+      return $this-&gt;resultUpload( $ret );
+    }
+
+    $ret = $this-&gt;checkExtension();
+    if( $ret != 1 ){
+      return $this-&gt;resultUpload( $ret );
+    }
+
+    $ret = $this-&gt;checkSize();
+    if( $ret != 1 ){
+      return $this-&gt;resultUpload( $ret );  
+    }
+  
+    // if flag to check if the file exists is set to 1
+  
+    if( $this-&gt;cls_file_exists == 1 ){
+  
+      $ret = $this-&gt;checkFileExists();
+      if( $ret != 1 ){
+        return $this-&gt;resultUpload( $ret );  
+      }
+    }
+
+    // if we are here, we are ready to move the file to destination
+
+    $ret = $this-&gt;move();
+    if( $ret != 1 ){
+      return $this-&gt;resultUpload( $ret );  
+    }
+
+    // check if we need to rename the file
+
+    if( $this-&gt;cls_rename_file == 1 ){
+      $ret = $this-&gt;renameFile();
+      if( $ret != 1 ){
+        return $this-&gt;resultUpload( $ret );  
+      }
+    }
+  
+    // if we are here, everything worked as planned :)
+
+    return $this-&gt;resultUpload( &quot;SUCCESS&quot; );
+  
+  }
+......
+......
+...... 
+};
+</code></pre>
+<blockquote>
+<p>先检查后缀，再到服务器,不能直接上传php文件了，apache从后往前看，不能去解析那个.7z文件那么就会往前面解析php文件</p>
+<p>我们要在重命名之前,对那个访问小马文件进行访问，就可以留下一句话木马</p>
+<p>在上传抓包生成小马文件后，在末尾加上.7z</p>
+</blockquote>
+<p>‍</p>

@@ -1,0 +1,39 @@
+<h1 id="Pass-15"><a href="#Pass-15" class="headerlink" title="Pass-15"></a>Pass-15</h1><pre><code class="language-php">function isImage($filename){
+    //需要开启php_exif模块
+    $image_type = exif_imagetype($filename);
+    switch ($image_type) {
+        case IMAGETYPE_GIF:
+            return &quot;gif&quot;;
+            break;
+        case IMAGETYPE_JPEG:
+            return &quot;jpg&quot;;
+            break;
+        case IMAGETYPE_PNG:
+            return &quot;png&quot;;
+            break;  
+        default:
+            return false;
+            break;
+    }
+}
+
+$is_upload = false;
+$msg = null;
+if(isset($_POST[&#39;submit&#39;])){
+    $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+    $res = isImage($temp_file);
+    if(!$res){
+        $msg = &quot;文件未知，上传失败！&quot;;
+    }else{
+        $img_path = UPLOAD_PATH.&quot;/&quot;.rand(10, 99).date(&quot;YmdHis&quot;).&quot;.&quot;.$res;
+        if(move_uploaded_file($temp_file,$img_path)){
+            $is_upload = true;
+        } else {
+            $msg = &quot;上传出错！&quot;;
+        }
+    }
+}
+</code></pre>
+<blockquote>
+<p>由于判定其实是上一关是差不多的，所以还是上传一个图片马即可</p>
+</blockquote>

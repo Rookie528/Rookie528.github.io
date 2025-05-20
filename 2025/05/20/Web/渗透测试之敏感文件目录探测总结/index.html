@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="渗透测试之敏感文件目录探测总结目录扫描的介绍目录扫描可以让我们发现这个网站存在多少个目录，多少个页面，探索出网站的整体结构。通过目录扫描我们还能扫描敏感文件，后台文件，数据库文件，和信息泄漏文件等等 目录扫描有两种方式： •使用目录字典进行暴力才接存在该目录或文件返回200或者403；•使用爬虫爬行主页上的所有链接，对每个链接进行再次爬行，收集这个域名下的所有链接，然后总结出需要的信息。 常见敏感">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2025/05/20/Web/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E6%8E%A2%E6%B5%8B%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="渗透测试之敏感文件目录探测总结目录扫描的介绍目录扫描可以让我们发现这个网站存在多少个目录，多少个页面，探索出网站的整体结构。通过目录扫描我们还能扫描敏感文件，后台文件，数据库文件，和信息泄漏文件等等 目录扫描有两种方式： •使用目录字典进行暴力才接存在该目录或文件返回200或者403；•使用爬虫爬行主页上的所有链接，对每个链接进行再次爬行，收集这个域名下的所有链接，然后总结出需要的信息。 常见敏感">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/.com//image-20241106163307-mmk2zo3.png">
+<meta property="og:image" content="http://example.com/.com//image-20241106163311-fa0g1ja.png">
+<meta property="og:image" content="http://example.com/.com//image-20241106163316-rnv4jhi.png">
+<meta property="og:image" content="http://example.com/.com//image-20241106163325-ps5mgd3.png">
+<meta property="og:image" content="http://example.com/.com//image-20241106163330-cjsy4cy.png">
+<meta property="og:image" content="http://example.com/.com//image-20241106163334-jzkjv6l.png">
+<meta property="og:image" content="http://example.com/.com//image-20241106163339-zl38u6j.png">
+<meta property="og:image" content="http://example.com/.com//image-20241106163344-bnuftkb.png">
+<meta property="og:image" content="http://example.com/.com//image-20241106163349-azvbv81.png">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-5957324/e8ea6ea2a48a6af41fb053131a979ec7.png?imageView2/2/w/660">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-5957324/a2fbf4e766bdbba6e3f04c432256918d.png?imageView2/2/w/660">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-5957324/b293c79e4ce6cc7ba0ab7d4bceff8102.png?imageView2/2/w/660">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-5957324/24ce89ac6d03de0bb3224cb4c9b67c4e.png?imageView2/2/w/660">
+<meta property="article:published_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:modified_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//image-20241106163307-mmk2zo3.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Web/渗透测试之敏感文件目录探测总结" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E6%8E%A2%E6%B5%8B%E6%80%BB%E7%BB%93/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="渗透测试之敏感文件目录探测总结"><a href="#渗透测试之敏感文件目录探测总结" class="headerlink" title="渗透测试之敏感文件目录探测总结"></a>渗透测试之敏感文件目录探测总结</h1><h3 id="目录扫描的介绍"><a href="#目录扫描的介绍" class="headerlink" title="目录扫描的介绍"></a>目录扫描的介绍</h3><p>目录扫描可以让我们发现这个网站存在多少个目录，多少个页面，探索出网站的整体结构。通过目录扫描我们还能扫描敏感文件，后台文件，数据库文件，和信息泄漏文件等等</p>
+<p>目录扫描有两种方式：</p>
+<p>•使用目录字典进行暴力才接存在该目录或文件返回200或者403；•使用爬虫爬行主页上的所有链接，对每个链接进行再次爬行，收集这个域名下的所有链接，然后总结出需要的信息。</p>
+<h3 id="常见敏感文件或目录"><a href="#常见敏感文件或目录" class="headerlink" title="常见敏感文件或目录"></a>常见敏感文件或目录</h3><p>通常我们所说的敏感文件、敏感目录大概有以下几种：</p>
+<p>•robots.txt•crossdomain.xml•sitemap.xml•后台目录•网站安装目录•网站上传目录•mysql管理页面•phpinfo•网站文本编辑器•测试文件•网站备份文件（.rar、.zip、.7z、.tar、.gz、.bak）•DS_Store文件•vim编辑器备份文件（.swp）•WEB-INF&#x2F;web.xml文件</p>
+<h4 id="robots-txt"><a href="#robots-txt" class="headerlink" title="robots.txt"></a>robots.txt</h4><h5 id="robots-txt是什么？"><a href="#robots-txt是什么？" class="headerlink" title="robots.txt是什么？"></a>robots.txt是什么？</h5><p>robots.txt是一个纯文本文件，在这个文件中网站管理者可以声明该网站中不想被搜索引擎访问的部分，或者指定搜索引擎只收录指定的内容。当一个搜索引擎（又称搜索机器人或蜘蛛程序）访问一个站点时，它会首先检查该站点根目录下是否存在robots.txt，如果存在，搜索机器人就会按照该文件中的内容来确定访问的范围；如果该文件不存在，那么搜索机器人就沿着链接抓取。</p>
+<h5 id="robots-txt的作用？"><a href="#robots-txt的作用？" class="headerlink" title="robots.txt的作用？"></a>robots.txt的作用？</h5><p>•引导搜索引擎蜘蛛抓取指定栏目或内容•网站改版或者URL重写优化时候屏蔽对搜索引擎的不友好的链接•屏蔽死链接、404错误页•屏蔽无内容、无价值页面•屏蔽重复页面，如评论页、搜索结果页•引导蜘蛛抓取网站地图</p>
+<h5 id="robots-txt的语法？"><a href="#robots-txt的语法？" class="headerlink" title="robots.txt的语法？"></a>robots.txt的语法？</h5><p>•User-agent: （定义搜索引擎）<code>示例：User-agent: *            （定义所有搜索引擎）User-agent: Googlebot        （定义谷歌，只允许谷歌蜘蛛爬行）User-agent: Baiduspider        （定义百度，只允许百度蜘蛛爬行）不同的搜索引擎的搜索机器人有不同的名称，谷歌:Googlebot、百度:Baiduspider、MSN:MSNbot、Yahoo:Slurp。</code>​•Disallow: （用来定义禁止蜘蛛爬行的页面或目录）<code>示例：Disallow: /        （禁止蜘蛛爬行网站的所有目录&quot;/&quot;表示根目录下）Disallow:/admin        （禁止蜘蛛爬取/admin目录）Disallow: /abc.html    （禁止蜘蛛爬去abc.html页面）Disallow: /help.html     （禁止蜘蛛爬去help.html页面）</code>​•Allow：（用来定义允许蜘蛛爬取的页面或子目录）<code>示例：Allow: /admin/test/    （允许蜘蛛爬取admin下的test目录）Allow: /admin/abc.html    （允许蜘蛛爬去admin目录中的abc.html页面）</code>​</p>
+<p><img src="/.com//image-20241106163307-mmk2zo3.png" alt="image"></p>
+<p>img</p>
+<h4 id="crossdomain-xml"><a href="#crossdomain-xml" class="headerlink" title="crossdomain.xml"></a>crossdomain.xml</h4><p>跨域，顾名思义就是需要的资源不在自己的域<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/cvm?from_column=20065&from=20065">服务器</a>上，需要访问其他域服务器。跨域策略文件是一个xml文档文件，主要是为web客户端(如Adobe Flash Player等)设置跨域处理数据的权限。打个比方说，公司A部门有一台公共的电脑，里面存放着一些资料文件，专门供A部门内成员自己使用，这样，A部门内的员工就可以访问该电脑，其他部门人员则不允许访问。如下图：</p>
+<p><img src="/.com//image-20241106163311-fa0g1ja.png" alt="image"></p>
+<p>img</p>
+<blockquote>
+<p>A部门的员工可以任意访问A部门的公共电脑，但是不能直接访问B部门的公共电脑。有一天，B部门领导觉得他们的资料非常有用，想要与A部门分享，于是就给A部门一个令牌，这样A部门的员工也可以访问B部门的公共电脑了。A部门可访问B部门设置访问权限，这个权限设置就是跨域策略文件crossdomain.xml存在的意义。</p>
+</blockquote>
+<p>crossdomin.xml 示例文件如下，重点查看<code>allow-access-from</code>​字段获取网站目录信息</p>
+<p><img src="/.com//image-20241106163316-rnv4jhi.png" alt="image"></p>
+<p>img</p>
+<h4 id="sitemap-xml"><a href="#sitemap-xml" class="headerlink" title="sitemap.xml"></a>sitemap.xml</h4><p>Sitemap 可方便网站管理员通知搜索引擎他们网站上有哪些可供抓取的网页。最简单的 Sitemap 形式，就是XML 文件，在其中列出网站中的网址以及关于每个网址的其他元数据（上次更新的时间、更改的频率以及相对于网站上其他网址的重要程度为何等），以便搜索引擎可以更加智能地抓取网站。</p>
+<p><img src="/.com//image-20241106163325-ps5mgd3.png" alt="image"></p>
+<p>img</p>
+<h4 id="源代码泄露"><a href="#源代码泄露" class="headerlink" title="源代码泄露"></a>源代码泄露</h4><h5 id="git源代码泄露"><a href="#git源代码泄露" class="headerlink" title=".git源代码泄露"></a>.git源代码泄露</h5><p>Git是一个开源的分布式版本控制系统，在执行git init初始化目录的时候，会在当前目录下自动创建一个.git目录，用来记录代码变更记录等。发布代码的时候，如果没有把.git这个目录删除，就直接发布到了服务器上，攻击者就可以通过它来恢复源代码。</p>
+<p>利用工具：GitHack</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/BugScanTeam/GitHack">https://github.com/BugScanTeam/GitHack</a></p>
+<p>扫描目录：</p>
+<p><img src="/.com//image-20241106163330-cjsy4cy.png" alt="image">​</p>
+<p>img</p>
+<p>使用GitHack工具成功恢复代码</p>
+<p><img src="/.com//image-20241106163334-jzkjv6l.png" alt="image"></p>
+<p>img</p>
+<h5 id="cvs源代码泄露"><a href="#cvs源代码泄露" class="headerlink" title=".cvs源代码泄露"></a>.cvs源代码泄露</h5><p>CSV是一个C&#x2F;S系统，多个开发人员通过中心版本控制系统来记录文件版本，从而达到保证文件同步的目的。主要是针对CVS&#x2F;Root以及CVS&#x2F;Entries目录，直接就可以看到泄露的信息。</p>
+<p>返回根信息：<code>http://www.example.com/CVS/Root</code>​</p>
+<p>返回所有文件的结构：<code>http://www.example.com/CVS/Entries</code>​</p>
+<p>漏洞利用工具：dvcs-ripper</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/kost/dvcs-ripper.git">https://github.com/kost/dvcs-ripper.git</a></p>
+<p>运行示例：</p>
+<p>代码语言：javascript</p>
+<p>复制</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rip-cvs.<span class="property">pl</span> -v -u <span class="attr">http</span>:<span class="comment">//www.example.com/CVS</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="svn源代码泄露"><a href="#svn源代码泄露" class="headerlink" title=".svn源代码泄露"></a>.svn源代码泄露</h5><p>SVN是一个开放源代码的版本控制系统。在使用SVN管理本地代码过程中，会自动生成一个名为.svn的隐藏文件夹，其中包含重要地方源代码信息。网站管理员在发布代码时，没有使用‘导出’功能，而是直接复制代码文件夹到WEB服务器上，这就使.svn隐藏文件夹被暴露在外网环境，可以使用.svn&#x2F;entries文件，获取到服务器源码。</p>
+<p>漏洞利用工具：</p>
+<p>Seay SVN漏洞利用工具</p>
+<p><img src="/.com//image-20241106163339-zl38u6j.png" alt="image"></p>
+<p>img</p>
+<p>SvnExploit</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/admintony/svnExploit/">https://github.com/admintony/svnExploit/</a></p>
+<p>扫描站点存在&#x2F;.svn&#x2F;entries目录</p>
+<p><img src="/.com//image-20241106163344-bnuftkb.png" alt="image"></p>
+<p>img</p>
+<p>成功恢复代码</p>
+<p><img src="/.com//image-20241106163349-azvbv81.png" alt="image"></p>
+<p>img</p>
+<h5 id="hg源代码泄露"><a href="#hg源代码泄露" class="headerlink" title=".hg源代码泄露"></a>.hg源代码泄露</h5><p>Mercurial是一种轻量级分布式版本控制系统，使用hg init的时候会生成.hg。</p>
+<p>漏洞利用工具：dvcs-ripper</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/kost/dvcs-ripper.git">https://github.com/kost/dvcs-ripper.git</a></p>
+<p>运行示例：</p>
+<p>代码语言：javascript</p>
+<p>复制</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rip-cvs.<span class="property">pl</span> -v -u <span class="attr">http</span>:<span class="comment">//www.example.com/.hg/</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="DS-store文件泄露"><a href="#DS-store文件泄露" class="headerlink" title=".DS_store文件泄露"></a>.DS_store文件泄露</h4><p>.DS_store是Mac下Finder用来保存如何展示 文件&#x2F;文件夹 的数据文件，每个文件夹下对应一个。如果将.DS_store上传部署到服务器，可能造成文件目录结构泄露，特别是备份文件、源代码文件。</p>
+<p>漏洞利用工具：ds_store_exp</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/lijiejie/ds/_store/_exp">https://github.com/lijiejie/ds\_store\_exp</a></p>
+<p>运行示例：</p>
+<p>代码语言：javascript</p>
+<p>复制</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ds_store_exp.<span class="property">py</span> <span class="attr">http</span>:<span class="comment">//xxx.com/.DS_Store</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="网站备份文件泄露"><a href="#网站备份文件泄露" class="headerlink" title="网站备份文件泄露"></a>网站备份文件泄露</h4><p>管理员将网站源代码备份在Web目录下，攻击者通过猜解文件路径，下载备份文件，导致源代码泄露。常见的备份文件后缀：<code>.rar</code>​、<code>.zip</code>​、<code>.7z</code>​、<code>.tar.gz</code>​、<code>.bak</code>​、<code>.txt</code>​、<code>.old</code>​、<code>.temp</code>​</p>
+<h4 id="SWP文件泄露"><a href="#SWP文件泄露" class="headerlink" title="SWP文件泄露"></a>SWP文件泄露</h4><p>swp即swap文件，在编辑文件时产生的临时文件，它是隐藏文件，如果程序正常退出，临时文件自动删除，如果意外退出就会保留，文件名为.filename.swp。</p>
+<h4 id="WEB-INF-web-xml泄露"><a href="#WEB-INF-web-xml泄露" class="headerlink" title="WEB-INF&#x2F;web.xml泄露"></a>WEB-INF&#x2F;web.xml泄露</h4><p>WEB-INF是Java的Web应用的安全目录，如果想在页面中直接访问其中的文件，必须通过web.xml文件对要访问的文件进行相应映射才能访问。</p>
+<p>WEB-INF主要包含以下文件或目录：</p>
+<p>•WEB-INF&#x2F;web.xml：Web应用程序配置文件，描述了servlet和其他的应用组件及命名规则•WEB-INF&#x2F;database.properties：数据库配置文件•WEB-INF&#x2F;classes&#x2F;：一般用来存放Java类文件（.class）•WEB-INF&#x2F;lib&#x2F;：用来存放打包好的库（.jar）•WEB-INF&#x2F;src&#x2F;：用来存放源代码</p>
+<p>通过找到 web.xml 文件，推断 class 文件的路径，最后直接下载 class 文件，再通过反编译 class 文件，得到网站源码。</p>
+<h3 id="敏感目录收集方式"><a href="#敏感目录收集方式" class="headerlink" title="敏感目录收集方式"></a>敏感目录收集方式</h3><h4 id="网页中寻找"><a href="#网页中寻找" class="headerlink" title="网页中寻找"></a>网页中寻找</h4><p>•在robots.txt中看能否发现敏感目录•F12源代码链接处•通过查看一些图片的属性路径，运气好会发现很多隐藏的目录 结合域名+目录，用御剑进行扫描，当然也可以手动输入一些常见的后台管理地址进行访问。</p>
+<h4 id="其他端口中寻找"><a href="#其他端口中寻找" class="headerlink" title="其他端口中寻找"></a>其他端口中寻找</h4><p>有时候网站的不同端口中有一些便是专门的后台管理地址。根据经验总结，很多网站8080、8081端口是网站的管理地址。</p>
+<p>例如：<code>http://www.xxx.com:8080</code>​</p>
+<h4 id="网站分目录下寻找"><a href="#网站分目录下寻找" class="headerlink" title="网站分目录下寻找"></a>网站分目录下寻找</h4><p>有的时候网站会把管理地址放在一个分目录下，有的时候一个网站比较大，后台管理页面也比较多，就要分目录的去找，</p>
+<p>例如：<code>http://www.xxx.com/test/admin/manage.php</code>​</p>
+<p>你可以通过一些方式获取到网站的目录，然后在这个目录下进行扫描。当一个网站你扫描根目录没有任何收获时，这个时候通过分析网站的目录结构，然后扫描域名+目录，就能找出它的后台管理地址。</p>
+<h4 id="子域名下寻找"><a href="#子域名下寻找" class="headerlink" title="子域名下寻找"></a>子域名下寻找</h4><p>有的时候网站的管理地址会放在子域名下，所以主站什么都找不到的情况下，如果发现子域名，就通过这些方法去子域名下找一下吧。</p>
+<p>例如：<code>http://admin.xxx.com/login</code>​</p>
+<h4 id="Google-Hacking"><a href="#Google-Hacking" class="headerlink" title="Google Hacking"></a>Google Hacking</h4><p>Google Hacking 一般是做为黑客在入侵时的一个手段.在入侵过程中有时需要查找后台的登陆口就需要用到Google Hacking。有时猜解密码的时候谷歌也是提供查找管理员资料的有效平台。是一种社会工程学获取目标信息的手段。可以用于跟踪某对象在网络上的各种踪迹（如交友平台、微博等）。</p>
+<p>有关谷歌语法的介绍可参考第一章的第一节：1.开源情报与搜索引擎</p>
+<h4 id="网站爬虫"><a href="#网站爬虫" class="headerlink" title="网站爬虫"></a>网站爬虫</h4><p>通过awvs，burpsuite的爬行功能，可以拓扑出网站的目录结构，有的时候运气好能在网页的目录结构中找到好东西，不过爬行一般会结合工具扫描，比如你构造域名+目录，然后扫描这个。</p>
+<p>burp spider爬行</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-5957324/e8ea6ea2a48a6af41fb053131a979ec7.png?imageView2/2/w/660"></p>
+<p>img</p>
+<h4 id="扫描工具"><a href="#扫描工具" class="headerlink" title="扫描工具"></a>扫描工具</h4><h5 id="御剑后台扫描工具"><a href="#御剑后台扫描工具" class="headerlink" title="御剑后台扫描工具"></a>御剑后台扫描工具</h5><p>御剑是一款针对网站目录及后台管理地址进行扫描的工具。该工具的开发思路其实是非常简单的，而工具里目录或者后台管理地址等的扫描用例才是一个黑客多年经验的结晶。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-5957324/a2fbf4e766bdbba6e3f04c432256918d.png?imageView2/2/w/660"></p>
+<p>img</p>
+<h5 id="DirBuster"><a href="#DirBuster" class="headerlink" title="DirBuster"></a>DirBuster</h5><p>DirBuster是OWASP（Open Web Application Security Project）开发的一款专门用于探测Web服务器目录及隐藏文件的，功能十分强大的工具。DirBuster最擅长目录的暴力猜解，因此，DirBuster一般都会发现一些目录浏览、目录遍历及目录穿越等漏洞，甚至还会发现一些后台管理地址等。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-5957324/b293c79e4ce6cc7ba0ab7d4bceff8102.png?imageView2/2/w/660"></p>
+<p>3b2fca51126d0f343b1cb86a1085d9a9.png</p>
+<h5 id="wwwscan"><a href="#wwwscan" class="headerlink" title="wwwscan"></a>wwwscan</h5><p>wwwscan是一款网站后台扫描工具，简单好用又强大。它有命令行和图形界面两种。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-5957324/24ce89ac6d03de0bb3224cb4c9b67c4e.png?imageView2/2/w/660"></p>
+<p>e22f74eaee18b731c5453b0e79f8e294.png</p>
+<h5 id="dirb"><a href="#dirb" class="headerlink" title="dirb"></a>dirb</h5><p>Kali Linux内置工具</p>
+<p>dirb是一个基于字典的web目录扫描工具,会用递归的方式来获取更多的目录,它还支持代理和http认证限制访问的网站。</p>
+<p>运行示例：</p>
+<p>代码语言：javascript</p>
+<p>复制</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirb <span class="attr">http</span>:<span class="comment">//www.baidu.com</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="dirmap"><a href="#dirmap" class="headerlink" title="dirmap"></a>dirmap</h5><p>一个高级web目录扫描工具，功能将会强于DirBuster、Dirsearch、cansina、御剑</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/H4ckForJob/dirmap">https://github.com/H4ckForJob/dirmap</a></p>
+<p>运行示例：</p>
+<p>代码语言：javascript</p>
+<p>复制</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirmap.<span class="property">py</span> -i <span class="attr">https</span>:<span class="comment">//target.com -lcf</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="Cansina"><a href="#Cansina" class="headerlink" title="Cansina"></a>Cansina</h5><p>Cansina是用python写的一款探测网站的敏感目录和内容的<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/sr?from_column=20065&from=20065">安全测试</a>工具</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/deibit/cansina">https://github.com/deibit/cansina</a></p>
+<p>运行示例：</p>
+<p>代码语言：javascript</p>
+<p>复制</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 cansina.<span class="property">py</span> -u <span class="attr">http</span>:<span class="comment">//baidu.com</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="dirsearch"><a href="#dirsearch" class="headerlink" title="dirsearch"></a>dirsearch</h5><p>dirsearch是一个python开发的目录扫描工具,目的是扫描网站的敏感文件和目录从而找到突破口。</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/maurosoria/dirsearch/">https://github.com/maurosoria/dirsearch/</a></p>
+<p>运行示例：</p>
+<p>代码语言：javascript</p>
+<p>复制</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.<span class="property">py</span> -u <span class="attr">http</span>:<span class="comment">//www.baidu.com -e php,js --exclude-status 403,401</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="weakfilescan"><a href="#weakfilescan" class="headerlink" title="weakfilescan"></a>weakfilescan</h5><p>基于爬虫，动态收集扫描目标相关信息后进行二次整理形成字典规则，利用动态规则的多线程敏感信息泄露<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/tools?from_column=20065&from=20065">检测工具</a>。</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/ring04h/weakfilescan">https://github.com/ring04h/weakfilescan</a></p>
+<p>运行示例：</p>
+<p>代码语言：javascript</p>
+<p>复制</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python wyspider.<span class="property">py</span> <span class="attr">http</span>:<span class="comment">//wuyun.org php</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E6%8E%A2%E6%B5%8B%E6%80%BB%E7%BB%93/" data-id="cmawal1j10019bo7ke0sbcww1" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/05/20/Web/%E6%BC%8F%E6%B4%9E%E5%90%8D%E8%AF%8D/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/05/20/Web/CSRF/%E6%9C%AA%E5%91%BD%E5%90%8D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

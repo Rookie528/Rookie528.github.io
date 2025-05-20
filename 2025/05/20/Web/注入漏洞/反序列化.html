@@ -1,0 +1,26 @@
+<h1 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h1><h2 id="魔法方法php反序列化知识点总结-Th0r-博客园-cnblogs-com"><a href="#魔法方法php反序列化知识点总结-Th0r-博客园-cnblogs-com" class="headerlink" title="魔法方法php反序列化知识点总结 - Th0r - 博客园 (cnblogs.com)"></a>魔法方法<a href="https://www.cnblogs.com/th0r/p/14071894.html#0x02-%E9%AD%94%E6%B3%95%E6%96%B9%E6%B3%95">php反序列化知识点总结 - Th0r - 博客园 (cnblogs.com)</a></h2><p>魔法方法指的是在php执行某个过程或函数时会调用的方法</p>
+<p>​<code>__construct()</code>​：在创建对象时候初始化对象，一般用于对变量赋初值（实例化对象时）。</p>
+<p>​<code>__destruct()</code>​： 和构造函数相反，当对象所在函数调用完毕后执行。（对象引用完成或对象被销毁反序列化之后）</p>
+<p>​<code>__toString()</code>​：当对象被当做一个字符串使用时调用。</p>
+<p>​<code>__invoke()</code>​：把对象当成函数调用</p>
+<p>​<code>__clone</code>​：当使用clone关键字拷贝完成一个对象</p>
+<p>​<code>__sleep()</code>​：序列化对象之前就调用此方法(其返回需要一个数组（序列化unserilize（）之前）</p>
+<p>​<code>__wakeup()</code>​：反序列化恢复对象之前调用该方法（反序列化unserilize（）之前）</p>
+<p>​<code>__call()</code>​：当调用对象中不存在的方法会自动调用该方法。  __callStatic():静态调用或调用成员常量时使用的方法不存在</p>
+<p>​<code>__get()</code>​：在调用私有属性（不存在）的时候会自动执行</p>
+<p>​<code>__set()</code>​：给不存在的成员属性赋值</p>
+<p>​<code>__isset()</code>​：在不可访问的属性上调用isset()或empty()触发</p>
+<p>​<code>__unset()</code>​：在不可访问的属性上使用unset()时触发</p>
+<h3 id="绕过-wakeup​PHP-反序列化基础完全解析-先知社区-aliyun-com"><a href="#绕过-wakeup​PHP-反序列化基础完全解析-先知社区-aliyun-com" class="headerlink" title="绕过 __wakeup​PHP 反序列化基础完全解析 - 先知社区 (aliyun.com)"></a>绕过 <code>__wakeup</code>​<a href="https://xz.aliyun.com/t/14667?time__1311=mqmx9QDtDQ0QD=oDsdoYK0=9bkOQ=DcD3D&alichlgref=https://www.bing.com/">PHP 反序列化基础完全解析 - 先知社区 (aliyun.com)</a></h3><p>当反序列化时, 给出的字段个数的数字小于提供的字段个数, 将不会执行 <code>__wakeup</code>​</p>
+<p>例如:</p>
+<pre><code>O:4:&quot;Dino&quot;:1:{s:4:&quot;addr&quot;;s:3:&quot;209&quot;;}
+</code></pre>
+<p>改为:</p>
+<pre><code>O:4:&quot;Dino&quot;:114514:{s:4:&quot;addr&quot;;s:3:&quot;209&quot;;}
+</code></pre>
+<p>‍</p>
+<p>‍</p>
+<p>‍</p>
+<h2 id="反序列化分隔符"><a href="#反序列化分隔符" class="headerlink" title="反序列化分隔符"></a>反序列化分隔符</h2><p>反序列化以;}结束，后面的字符串不影响正常的反序列化</p>
+<h2 id="属性逃逸"><a href="#属性逃逸" class="headerlink" title="属性逃逸"></a>属性逃逸</h2><p>般在数据先经过一次serialize再经过unserialize，在这个中间反序列化的字符串变多或者变少的时候有可能存在反序列化属性逃逸</p>
+<p>‍</p>

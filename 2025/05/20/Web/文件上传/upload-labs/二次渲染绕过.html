@@ -1,0 +1,94 @@
+<h1 id="二次渲染绕过"><a href="#二次渲染绕过" class="headerlink" title="二次渲染绕过"></a>二次渲染绕过</h1><pre><code class="language-php">$is_upload = false;
+$msg = null;
+if (isset($_POST[&#39;submit&#39;])){
+    // 获得上传文件的基本信息，文件名，类型，大小，临时文件路径
+    $filename = $_FILES[&#39;upload_file&#39;][&#39;name&#39;];//会去获得浏览器中的content-type
+    $filetype = $_FILES[&#39;upload_file&#39;][&#39;type&#39;];
+    $tmpname = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+
+    $target_path=UPLOAD_PATH.&#39;/&#39;.basename($filename);
+
+    // 获得上传文件的扩展名
+    $fileext= substr(strrchr($filename,&quot;.&quot;),1);
+
+    //判断文件后缀与类型，合法才进行上传操作
+    if(($fileext == &quot;jpg&quot;) &amp;&amp; ($filetype==&quot;image/jpeg&quot;)){
+        if(move_uploaded_file($tmpname,$target_path)){
+            $im = imagecreatefromjpeg($target_path);//使用上传的图片生成新的图片,文件的重写，二次渲染
+            if($im == false){
+                $msg = &quot;该文件不是jpg格式的图片！&quot;;
+                @unlink($target_path);
+            }else{
+                //给新图片指定文件名
+                srand(time());
+                $newfilename = strval(rand()).&quot;.jpg&quot;;
+                //显示二次渲染后的图片（使用用户上传图片生成的新图片）
+                $img_path = UPLOAD_PATH.&#39;/&#39;.$newfilename;
+                imagejpeg($im,$img_path);
+                @unlink($target_path);
+                $is_upload = true;
+            }
+        } else {
+            $msg = &quot;上传出错！&quot;;
+        }
+
+    }else if(($fileext == &quot;png&quot;) &amp;&amp; ($filetype==&quot;image/png&quot;)){
+        if(move_uploaded_file($tmpname,$target_path)){
+            //使用上传的图片生成新的图片
+            $im = imagecreatefrompng($target_path);
+
+            if($im == false){
+                $msg = &quot;该文件不是png格式的图片！&quot;;
+                @unlink($target_path);
+            }else{
+                 //给新图片指定文件名
+                srand(time());
+                $newfilename = strval(rand()).&quot;.png&quot;;
+                //显示二次渲染后的图片（使用用户上传图片生成的新图片）
+                $img_path = UPLOAD_PATH.&#39;/&#39;.$newfilename;
+                imagepng($im,$img_path);
+
+                @unlink($target_path);
+                $is_upload = true;         
+            }
+        } else {
+            $msg = &quot;上传出错！&quot;;
+        }
+
+    }else if(($fileext == &quot;gif&quot;) &amp;&amp; ($filetype==&quot;image/gif&quot;)){
+        if(move_uploaded_file($tmpname,$target_path)){
+            //使用上传的图片生成新的图片
+            $im = imagecreatefromgif($target_path);
+            if($im == false){
+                $msg = &quot;该文件不是gif格式的图片！&quot;;
+                @unlink($target_path);
+            }else{
+                //给新图片指定文件名
+                srand(time());
+                $newfilename = strval(rand()).&quot;.gif&quot;;
+                //显示二次渲染后的图片（使用用户上传图片生成的新图片）
+                $img_path = UPLOAD_PATH.&#39;/&#39;.$newfilename;
+                imagegif($im,$img_path);
+
+                @unlink($target_path);
+                $is_upload = true;
+            }
+        } else {
+            $msg = &quot;上传出错！&quot;;
+        }
+    }else{
+        $msg = &quot;只允许上传后缀为.jpg|.png|.gif的图片文件！&quot;;
+    }
+}
+</code></pre>
+<blockquote>
+<p>经过二次渲染以后的图片马，将不会保留一句话木马，只保留图片的原始信息</p>
+</blockquote>
+<p>所以要绕过，我们就去找二次渲染后的图片，然后比较和之前的图片相同的地方，然后因为那里面是不会被二次渲染的，我们在那里插入我们的一句话木马</p>
+<blockquote>
+<p>但是推荐用gif，因为gif的二次渲染的相匹配的更多</p>
+</blockquote>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><blockquote>
+<p>php二次渲染不会重复多次渲染，我们可以检测二次渲染过后的再上传再看，然后再在二次渲染的图片中插入一句话木马，有可能不会被二次渲染掉</p>
+</blockquote>
+<p>‍</p>

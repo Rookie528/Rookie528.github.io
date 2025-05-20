@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="使用教程扫描单个网址 python xsstrike.py -u “http:&#x2F;&#x2F;example.com&#x2F;search.php?q\&#x3D;query“  测试 URL 路径组件选项：–path 在 URL 路径中注入有效负载  python xsstrike.py -u “http:&#x2F;&#x2F;example.com&#x2F;search&#x2F;form&#x2F;query“ –path  将 POST 数据视为 JSON选项：–">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="使用教程扫描单个网址 python xsstrike.py -u “http:&#x2F;&#x2F;example.com&#x2F;search.php?q\&#x3D;query“  测试 URL 路径组件选项：–path 在 URL 路径中注入有效负载  python xsstrike.py -u “http:&#x2F;&#x2F;example.com&#x2F;search&#x2F;form&#x2F;query“ –path  将 POST 数据视为 JSON选项：–">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/.com//image-20250520022958-fyivqpz.png">
+<meta property="og:image" content="http://example.com/.com//image-20250520023134-ibwla1x.png">
+<meta property="article:published_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:modified_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//image-20250520022958-fyivqpz.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Web/工具使用/xsstrike/使用教程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h1><h3 id="扫描单个网址"><a href="#扫描单个网址" class="headerlink" title="扫描单个网址"></a>扫描单个网址</h3><blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“</p>
+</blockquote>
+<h3 id="测试-URL-路径组件"><a href="#测试-URL-路径组件" class="headerlink" title="测试 URL 路径组件"></a>测试 URL 路径组件</h3><p>选项：–path</p>
+<p>在 URL 路径中注入有效负载</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search/form/query">http://example.com/search/form/query</a>“ –path</p>
+</blockquote>
+<h3 id="将-POST-数据视为-JSON"><a href="#将-POST-数据视为-JSON" class="headerlink" title="将 POST 数据视为 JSON"></a>将 POST 数据视为 JSON</h3><p>选项：–json</p>
+<p>该开关可用于通过 POST 方法测试 JSON 数据</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search.php">http://example.com/search.php</a>“ –data ‘{“q”:”query”}’ –json</p>
+</blockquote>
+<h3 id="爬行"><a href="#爬行" class="headerlink" title="爬行"></a>爬行</h3><p>选项：–crawl</p>
+<p>从目标网页开始抓取目标并进行测试</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/page.php">http://example.com/page.php</a>“ –crawl</p>
+</blockquote>
+<p><img src="/.com//image-20250520022958-fyivqpz.png" alt="image"></p>
+<h3 id="爬行深度"><a href="#爬行深度" class="headerlink" title="爬行深度"></a>爬行深度</h3><p>选项：-l（默认为 2）</p>
+<p>此选项允许您指定爬网的深度</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/page.php">http://example.com/page.php</a>“ –crawl -l 3</p>
+</blockquote>
+<h3 id="从文件中测试-抓取-URL"><a href="#从文件中测试-抓取-URL" class="headerlink" title="从文件中测试&#x2F;抓取 URL"></a>从文件中测试&#x2F;抓取 URL</h3><p>选项：–seeds</p>
+<blockquote>
+<p>python xsstrike.py –seeds urls.txt</p>
+<p>python xsstrike.py -u “<a href="http://example.com/">http://example.com</a>“ -l 3 –seeds urls.txt</p>
+</blockquote>
+<h3 id="从文件中暴力破解有效负载"><a href="#从文件中暴力破解有效负载" class="headerlink" title="从文件中暴力破解有效负载"></a>从文件中暴力破解有效负载</h3><p>选项：-f</p>
+<p>您可以从文件加载有效负载并检查它们是否有效</p>
+<blockquote>
+<p>python3 xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -f &#x2F;path&#x2F;to&#x2F;file.txt</p>
+</blockquote>
+<h3 id="线程数"><a href="#线程数" class="headerlink" title="线程数"></a>线程数</h3><p>选项：-t</p>
+<p>在爬行时可以向目标发出并发请求，并且-t可以使用选项来指定要发出的并发请求的数量。虽然线程可以帮助加快爬行速度，但它们也可能会触发安全机制。大量线程也会导致小型网站瘫痪</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/">http://example.com</a>“ -t 10 –crawl -l 3</p>
+</blockquote>
+<h3 id="暂停"><a href="#暂停" class="headerlink" title="暂停"></a>暂停</h3><p>选项：–timeout（默认为 7）</p>
+<p>可以指定在考虑 HTTP(S) 请求超时之前等待的秒数</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ –timeout=4</p>
+</blockquote>
+<h3 id="延迟"><a href="#延迟" class="headerlink" title="延迟"></a>延迟</h3><p>选项：-d</p>
+<p>可以指定每个 HTTP(S) 请求之间保持的秒数。有效值为 int，例如 1 表示秒</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -d 2</p>
+</blockquote>
+<h3 id="提供-HTTP-标头"><a href="#提供-HTTP-标头" class="headerlink" title="提供 HTTP 标头"></a>提供 HTTP 标头</h3><p>选项：–headers</p>
+<p>简单地从命令行添加标头，并用 \n 以下分隔符分隔</p>
+<blockquote>
+<p>python xsstrike.py -u <a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a> –headers “Accept-Language: en-US\nCookie: null”</p>
+</blockquote>
+<h3 id="盲目跨站"><a href="#盲目跨站" class="headerlink" title="盲目跨站"></a>盲目跨站</h3><p>选项：–blind</p>
+<p>在爬行时使用此选项将使 XSStrike 注入您定义的盲 XSS 有效负载 <code>core/config.py</code>​，以将其注入到每个 HTML 表单的每个参数中</p>
+<blockquote>
+<p>python xsstrike.py -u <a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a> –crawl –blind</p>
+</blockquote>
+<h3 id="有效负载编码"><a href="#有效负载编码" class="headerlink" title="有效负载编码"></a>有效负载编码</h3><p>选项：-e</p>
+<p>XSStrike 可以按需对有效负载进行编码。目前支持 base64 编码</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -e base64</p>
+</blockquote>
+<h3 id="模糊测试"><a href="#模糊测试" class="headerlink" title="模糊测试"></a>模糊测试</h3><p>选项：–fuzzer</p>
+<p>模糊器旨在测试过滤器和 Web 应用程序防火墙。它非常慢，因为它随机发送*延迟请求，并且延迟可能长达 30 秒。要最小化延迟，请使用<code>-d</code>​选项将延迟设置为 1 秒</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –fuzzer</p>
+</blockquote>
+<h3 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h3><p>选项： –proxy（默认 0.0.0.0:8080）</p>
+<p>您必须设置您的代理（y|ies）core&#x2F;config.py，然后您可以–proxy随时使用开关来使用它们</p>
+<h3 id="跳过确认提示"><a href="#跳过确认提示" class="headerlink" title="跳过确认提示"></a>跳过确认提示</h3><p>选项：–skip</p>
+<p>如果您希望 XSStrike 在找到工作负载时继续扫描而不询问您是否要继续扫描，那么您可以使用此选项。它还会跳过 POC 生成</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –skip</p>
+</blockquote>
+<h3 id="跳过-DOM-扫描"><a href="#跳过-DOM-扫描" class="headerlink" title="跳过 DOM 扫描"></a>跳过 DOM 扫描</h3><p>选项：–skip-dom</p>
+<p>您可能希望在爬行时跳过 DOM XSS 扫描以节省时间</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –skip-dom</p>
+</blockquote>
+<p><img src="/.com//image-20250520023134-ibwla1x.png" alt="image"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" data-id="cmawal1ja0023bo7k19vg1pps" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/%E7%BB%95%E8%BF%87WAF/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

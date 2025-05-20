@@ -1,0 +1,4 @@
+<h1 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h1><h2 id="宽字节注入-1"><a href="#宽字节注入-1" class="headerlink" title="宽字节注入"></a>宽字节注入</h2><p>在了解宽字节注入之前，我们先来看一看字符集是什么。</p>
+<p><strong>字符集:</strong> 也叫字符编码，是一种将符号转换为二进制数的映射关系。几种常见的字符集:<br> <strong>·ASCII编码:</strong> 单字节编码。<br> <strong>·gbk编码:</strong> 使用一字节和双字节编码，0x00-0x7F范围内是一位，和ASCII保持一致。双字节的第一字节范围是0x81-0xFE。<br> <strong>·UTF-8编码:</strong> 使用一至四字节编码，0x00-0x7F范围内是一位，和ASCII保持一致。其它字符用二至四个字节变长表示。<br><strong>宽字节:</strong> 就是两个以上的字节，宽字节注入产生的原因就是各种字符编码的不当操作，使得攻击者可以通过宽字节编码绕过SQL注入防御。</p>
+<p>通常来说，一个gbk编码汉字，占用<strong>2个</strong>字节。一个utf-8编码的汉字，占用<strong>3个</strong>字节。在php中，我们可以通过输出echo strlen(“和”);来测试</p>
+<p>‍</p>

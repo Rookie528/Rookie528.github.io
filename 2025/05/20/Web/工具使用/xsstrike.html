@@ -1,0 +1,17 @@
+<h1 id="xsstrike"><a href="#xsstrike" class="headerlink" title="xsstrike"></a>xsstrike</h1><pre><code class="language-bash">git clone https://github.com/s0md3v/XSStrike.git
+</code></pre>
+<h3 id="方法-1：创建软链接到系统路径（推荐）"><a href="#方法-1：创建软链接到系统路径（推荐）" class="headerlink" title="方法 1：创建软链接到系统路径（推荐）"></a><strong>方法 1：创建软链接到系统路径（推荐）</strong></h3><ol>
+<li><p><strong>确保脚本可执行</strong></p>
+<pre><code class="language-bash">chmod +x /path/to/xsstrike.py  # 赋予执行权限
+</code></pre>
+<p> <em>如果脚本第一行没有 Shebang（如</em>  <em>​<code>#!/usr/bin/env python3</code>​</em>​ <em>），需手动添加。</em></p>
+</li>
+<li><p><strong>创建软链接到</strong>  <strong>​<code>/usr/local/bin</code>​</strong>​</p>
+<pre><code class="language-bash">sudo ln -s /path/to/xsstrike.py /usr/local/bin/xsstrike
+</code></pre>
+<ul>
+<li>​<code>/usr/local/bin</code>​ 是用户级全局命令的标准路径，无需修改 <code>PATH</code>​ 变量。</li>
+<li>完成后，任意位置输入 <code>xsstrike</code>​ 即可运行脚本。</li>
+</ul>
+</li>
+</ol>

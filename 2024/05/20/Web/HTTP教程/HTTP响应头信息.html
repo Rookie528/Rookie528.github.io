@@ -1,0 +1,142 @@
+<h1 id="HTTP响应头信息"><a href="#HTTP响应头信息" class="headerlink" title="HTTP响应头信息"></a>HTTP响应头信息</h1><p>HTTP 响应头信息是服务器在响应客户端的HTTP请求时发送的一系列头字段，它们提供了关于响应的附加信息和服务器的指令。</p>
+<p>以下是一些常见的 HTTP 响应头信息：</p>
+<table>
+<thead>
+<tr>
+<th>响应头信息（英文）</th>
+<th>响应头信息（中文）</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Date</td>
+<td>日期</td>
+<td>响应生成的日期和时间。例如：Wed, 18 Apr 2024 12:00:00 GMT</td>
+</tr>
+<tr>
+<td>Server</td>
+<td>服务器</td>
+<td>服务器软件的名称和版本。例如：Apache&#x2F;2.4.1 (Unix)</td>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>内容类型</td>
+<td>响应体的媒体类型（MIME类型），如<code>text/html; charset=UTF-8</code>​, <code>application/json</code>​等。</td>
+</tr>
+<tr>
+<td>Content-Length</td>
+<td>内容长度</td>
+<td>响应体的大小，单位是字节。例如：3145</td>
+</tr>
+<tr>
+<td>Content-Encoding</td>
+<td>内容编码</td>
+<td>响应体的压缩编码，如 <code>gzip</code>​, <code>deflate</code>​等。</td>
+</tr>
+<tr>
+<td>Content-Language</td>
+<td>内容语言</td>
+<td>响应体的语言。例如：zh-CN</td>
+</tr>
+<tr>
+<td>Content-Location</td>
+<td>内容位置</td>
+<td>响应体的 URI。例如：&#x2F;index.html</td>
+</tr>
+<tr>
+<td>Content-Range</td>
+<td>内容范围</td>
+<td>响应体的字节范围，用于分块传输。例如：bytes 0-999&#x2F;8000</td>
+</tr>
+<tr>
+<td>Cache-Control</td>
+<td>缓存控制</td>
+<td>控制响应的缓存行为, 如 no-cache 表示必须重新请求。</td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>连接</td>
+<td>管理连接的选项，如<code>keep-alive</code>​或<code>close</code>​，keep-alive 表示连接不会在传输后关闭。。</td>
+</tr>
+<tr>
+<td>Set-Cookie</td>
+<td>设置 Cookie</td>
+<td>设置客户端的 cookie。例如：sessionId=abc123; Path=&#x2F;; Secure</td>
+</tr>
+<tr>
+<td>Expires</td>
+<td>过期时间</td>
+<td>响应体的过期日期和时间。例如：Thu, 18 Apr 2024 12:00:00 GMT</td>
+</tr>
+<tr>
+<td>Last-Modified</td>
+<td>最后修改时间</td>
+<td>资源最后被修改的日期和时间。例如：Wed, 18 Apr 2024 11:00:00 GMT</td>
+</tr>
+<tr>
+<td>ETag</td>
+<td>实体标签</td>
+<td>资源的特定版本的标识符。例如：”33a64df551425fcc55e6”</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>位置</td>
+<td>用于重定向的 URI。例如：&#x2F;newresource</td>
+</tr>
+<tr>
+<td>Pragma</td>
+<td>实现特定的指令</td>
+<td>包含实现特定的指令，如 <code>no-cache</code>​。</td>
+</tr>
+<tr>
+<td>WWW-Authenticate</td>
+<td>认证信息</td>
+<td>认证信息，通常用于HTTP认证。例如：Basic realm=“Access to the site”</td>
+</tr>
+<tr>
+<td>Accept-Ranges</td>
+<td>接受范围</td>
+<td>指定可接受的请求范围类型。例如：bytes</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>经过时间</td>
+<td>响应生成后经过的秒数，从原始服务器生成到代理服务器。例如：24</td>
+</tr>
+<tr>
+<td>Allow</td>
+<td>允许方法</td>
+<td>列出资源允许的 HTTP 方法 。例如：GET, POST，HEAD等</td>
+</tr>
+<tr>
+<td>Vary</td>
+<td>变化</td>
+<td>告诉下游代理如何使用响应头信息来确定响应是否可以从缓存中获取。例如：Accept</td>
+</tr>
+<tr>
+<td>Strict-Transport-Security</td>
+<td>严格传输安全</td>
+<td>指示浏览器仅通过 HTTPS 与服务器通信。例如：max-age=31536000; includeSubDomains</td>
+</tr>
+<tr>
+<td>X-Frame-Options</td>
+<td>框架选项</td>
+<td>控制页面是否允许在框架中显示，防止点击劫持攻击。例如：SAMEORIGIN</td>
+</tr>
+<tr>
+<td>X-Content-Type-Options</td>
+<td>内容类型选项</td>
+<td>指示浏览器不要尝试猜测资源的 MIME 类型。例如：nosniff</td>
+</tr>
+<tr>
+<td>X-XSS-Protection</td>
+<td>XSS保护</td>
+<td>控制浏览器的 XSS 过滤和阻断。例如：1; mode=block</td>
+</tr>
+<tr>
+<td>Public-Key-Pins</td>
+<td>公钥固定</td>
+<td>HTTP 头信息，用于HTTP公共密钥固定（HPKP），一种安全机制，用于防止中间人攻击。例如：pin-sha256=“base64+primarykey”; pin-sha256=“base64+backupkey”; max-age=expireTime</td>
+</tr>
+</tbody></table>
+<p>这些响应头信息在实际的 HTTP 响应中可能会有所不同，具体值取决于服务器的配置和处理逻辑。</p>

@@ -1,0 +1,77 @@
+<h1 id="HTTP请求方法"><a href="#HTTP请求方法" class="headerlink" title="HTTP请求方法"></a>HTTP请求方法</h1><p>HTTP 请求方法定义了客户端和服务器之间的通信方式。</p>
+<p>根据 HTTP 标准，HTTP 请求可以使用多种请求方法。</p>
+<p>以下是常见的 HTTP 请求方法列表：</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>GET</td>
+<td>从<strong>服务器获取资源</strong>。用于<strong>请求数据</strong>而<strong>不对数据进行更改</strong>。例如，从服务器获取网页、图片等。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>POST</td>
+<td>向服务器<strong>发送数据</strong>以<strong>创建新资源</strong>。常用于<strong>提交表单数据</strong>或<strong>上传文件</strong>。发送的数据包含在请求体中。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>PUT</td>
+<td>向服务器<strong>发送数据</strong>以<strong>更新现有资源</strong>。如果<strong>资源不存在</strong>，则<strong>创建新的资源</strong>。与 POST 不同，PUT 通常是幂等的，即多<strong>次执行相同的 PUT</strong> 请求不会<strong>产生不同的结果</strong>。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>DELETE</td>
+<td>从服务器<strong>删除指定的资源</strong>。请求中包含要<strong>删除的资源标识符</strong>。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>PATCH</td>
+<td>对<strong>资源</strong>进行<strong>部分修改</strong>。与 PUT 类似，但 <strong>PATCH</strong> 只<strong>更改部分数据</strong>而不是<strong>替换整个资源</strong>。</td>
+</tr>
+<tr>
+<td>6</td>
+<td>HEAD</td>
+<td><strong>类似于 GET</strong>，但服务器<strong>只返回响应的头部</strong>，不<strong>返回实际数据</strong>。用于<strong>检查资源的元数据</strong>（例如，检查资源是否存在，查看响应的头部信息）。</td>
+</tr>
+<tr>
+<td>7</td>
+<td>OPTIONS</td>
+<td>返回服务器支持的 <strong>HTTP 方法</strong>。用于<strong>检查服务器支持</strong>哪些<strong>请求方法</strong>，通常用于<strong>跨域资源共享（CORS）的预检请求</strong>。</td>
+</tr>
+<tr>
+<td>8</td>
+<td>TRACE</td>
+<td><strong>回显服务器收到的请求</strong>，主要<strong>用于诊断</strong>。客户端可以<strong>查看请求在服务器</strong>中的<strong>处理路径</strong>。</td>
+</tr>
+<tr>
+<td>9</td>
+<td>CONNECT</td>
+<td>建立一个<strong>到服务器的隧道</strong>，通常<strong>用于 HTTPS</strong> 连接。客户端可以通过该<strong>隧道发送加密</strong>的数据。</td>
+</tr>
+</tbody></table>
+<h2 id="各个版本定义的请求方法"><a href="#各个版本定义的请求方法" class="headerlink" title="各个版本定义的请求方法"></a>各个版本定义的请求方法</h2><h3 id="HTTP-1-0"><a href="#HTTP-1-0" class="headerlink" title="HTTP&#x2F;1.0"></a>HTTP&#x2F;1.0</h3><p>HTTP&#x2F;1.0 定义了以下三种请求方法：</p>
+<ul>
+<li><strong>GET</strong> - 请求指定的资源。</li>
+<li><strong>POST</strong> - 提交数据以处理请求。</li>
+<li><strong>HEAD</strong> - 请求资源的响应头信息。</li>
+</ul>
+<h3 id="HTTP-1-1"><a href="#HTTP-1-1" class="headerlink" title="HTTP&#x2F;1.1"></a>HTTP&#x2F;1.1</h3><p>HTTP&#x2F;1.1 引入了更多的方法：</p>
+<ul>
+<li><strong>GET</strong> - 请求指定的资源。</li>
+<li><strong>POST</strong> - 提交数据以处理请求。</li>
+<li><strong>HEAD</strong> - 请求资源的响应头信息。</li>
+<li><strong>PUT</strong> - 上传文件或者更新资源。</li>
+<li><strong>DELETE</strong> - 删除指定的资源。</li>
+<li><strong>OPTIONS</strong> - 请求获取服务器支持的请求方法。</li>
+<li><strong>TRACE</strong> - 回显服务器收到的请求，主要用于诊断。</li>
+<li><strong>CONNECT</strong> - 建立一个隧道用于代理服务器的通信，通常用于 HTTPS。</li>
+</ul>
+<h3 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP&#x2F;2"></a>HTTP&#x2F;2</h3><p>HTTP&#x2F;2 基本上沿用了 HTTP&#x2F;1.1 的方法，但对协议进行了优化，提高了传输效率和速度。HTTP&#x2F;2 也引入了新的特性，如<strong>多路复用、头部压缩和服务器推送</strong>等。</p>
+<h3 id="HTTP-3"><a href="#HTTP-3" class="headerlink" title="HTTP&#x2F;3"></a>HTTP&#x2F;3</h3><p>HTTP&#x2F;3 基于 QUIC 协议实现，继续使用 HTTP&#x2F;2 的方法。HTTP&#x2F;3 主要<strong>改进了传输层</strong>，使用 <strong>UDP 代替 TCP</strong> 以提高传输速度和可靠性。</p>
+<p>‍</p>

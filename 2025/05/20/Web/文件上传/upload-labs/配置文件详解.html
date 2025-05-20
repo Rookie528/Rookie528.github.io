@@ -1,0 +1,18 @@
+<h1 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h1><h1 id="htaccess"><a href="#htaccess" class="headerlink" title=".htaccess"></a>.htaccess</h1><blockquote>
+<p>作用:·分布式配置文件，一般用于 URL·重写、认证、访问控制等<br>作用范围:特定目录(一般是网站根目录)及其子目录<br>优先级:<strong>较高</strong>，可覆盖Apache·的主要配置文件(httpd-conf)<br>生效方式:修改后立刻生效</p>
+</blockquote>
+<h1 id="httpd-conf"><a href="#httpd-conf" class="headerlink" title="httpd-conf"></a>httpd-conf</h1><blockquote>
+<p>作用:°包含 Apache·HTTP.服务器的全局行为和默认设置<br>作用范围:整个服务器<br>优先级:<strong>较低</strong><br>生效方式:管理员权限，重启服务器后生效</p>
+</blockquote>
+<h1 id="user-ini"><a href="#user-ini" class="headerlink" title=".user.ini"></a>.user.ini</h1><blockquote>
+<p>作用:特定于用户或特定目录的配置文件,通常位于·Web·应用程序的根目录下。<br>它用于覆盖或追加全局配置文件(如·php.ini)中的·PHP.配置选项。<br>作用范围:存放该文件的目录以及其子目录<br>优先级:<strong>较高</strong>，可以覆盖 php.ini<br>生效方式:立即生效</p>
+</blockquote>
+<h1 id="php-ini"><a href="#php-ini" class="headerlink" title=".php.ini"></a>.php.ini</h1><blockquote>
+<p>作用:存储了对整个·PHP.环境生效的配置选项。它通常位于·PHP.安装目录中<br>作用范围:所有运行在该·PHP·环境中的·PHP·请求<br>优先级:·较低<br>生效方式:重启 php 或 web 服务器</p>
+</blockquote>
+<p>‍</p>
+<p>加载方式:会首先加载·php.ini&#x2F;httpd-conf 文件中的配置。然而，如果在某个目录下存在·.userini&#x2F;.htaccess:文件,服务器会在处理请求时检查该目录,并覆盖相应的配置项。</p>
+<p>‍</p>
+<h1 id="user-ini可以生效的前提"><a href="#user-ini可以生效的前提" class="headerlink" title=".user.ini可以生效的前提:"></a>.user.ini可以生效的前提:</h1><p>最好大于 5.3.0，最好是用 7.X 版本的<br>Server·AP!.为 CGl&#x2F;FastCG——Phpinfo()查看Server·API<br>(Server·API(Application·Programming·Interface，应用程序编程接<br>口)是一组定义了软件组件之间交互方式的规范。在这种情况下<br>Server·API·是指用于连接和交互的服务器端软件接口。)<br>user.ini 文件上传漏洞的前提:<br>.user.ini 可以生效并且该上传目录有 php 文件</p>
+<p>‍</p>
+<h1 id="user-ini文件上传漏洞的前提："><a href="#user-ini文件上传漏洞的前提：" class="headerlink" title=".user.ini文件上传漏洞的前提："></a>.user.ini文件上传漏洞的前提：</h1><p>.user.ini可以生效并且该上传目录<span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">有php文件</span></p>

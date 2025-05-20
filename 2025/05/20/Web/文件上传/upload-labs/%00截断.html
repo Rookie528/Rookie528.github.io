@@ -1,0 +1,32 @@
+<h1 id="00截断"><a href="#00截断" class="headerlink" title="%00截断"></a>%00截断</h1><pre><code class="language-php">$is_upload = false;
+$msg = null;
+if(isset($_POST[&#39;submit&#39;])){
+    $ext_arr = array(&#39;jpg&#39;,&#39;png&#39;,&#39;gif&#39;);
+    $file_ext = substr($_FILES[&#39;upload_file&#39;][&#39;name&#39;],strrpos($_FILES[&#39;upload_file&#39;][&#39;name&#39;],&quot;.&quot;)+1);
+    if(in_array($file_ext,$ext_arr)){
+        $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+        $img_path = $_GET[&#39;save_path&#39;].&quot;/&quot;.rand(10, 99).date(&quot;YmdHis&quot;).&quot;.&quot;.$file_ext;
+
+        if(move_uploaded_file($temp_file,$img_path)){
+            $is_upload = true;
+        } else {
+            $msg = &#39;上传出错！&#39;;
+        }
+    } else{
+        $msg = &quot;只允许上传.jpg|.png|.gif类型文件！&quot;;
+    }
+}
+</code></pre>
+<blockquote>
+<p>都表示为空,加了这个空字符的话，会将后面的字符截断不显示</p>
+<p> <strong>%00:在url中</strong></p>
+<p><strong>0x00:在编程语言中</strong></p>
+</blockquote>
+<blockquote>
+<p>这一关用的是白名单过滤</p>
+<p>​<kbd>$_FILES[&#39;upload_file&#39;][&#39;name&#39;]</kbd>​:获取提交的文件名</p>
+<p>​<kbd>strrpos($_FILES[&#39;upload_file&#39;][&#39;name&#39;],&quot;.&quot;)</kbd>​搜寻”.”首次出现的是在第几位，然后我们加1</p>
+<p>​<kbd>substr</kbd>​:获取字符串的子集,这里获取的是”.”后面的</p>
+</blockquote>
+<p>在实际路径直接加1.php%00</p>
+<p>‍</p>

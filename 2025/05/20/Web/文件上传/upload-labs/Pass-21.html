@@ -1,0 +1,44 @@
+<h1 id="Pass-21"><a href="#Pass-21" class="headerlink" title="Pass-21"></a>Pass-21</h1><pre><code class="language-php">$is_upload = false;
+$msg = null;
+if(!empty($_FILES[&#39;upload_file&#39;])){
+    //检查MIME
+    $allow_type = array(&#39;image/jpeg&#39;,&#39;image/png&#39;,&#39;image/gif&#39;);
+    if(!in_array($_FILES[&#39;upload_file&#39;][&#39;type&#39;],$allow_type)){
+        $msg = &quot;禁止上传该类型文件!&quot;;
+    }else{
+        //检查文件名,是否为空，是空就用文件名字
+        $file = empty($_POST[&#39;save_name&#39;]) ? $_FILES[&#39;upload_file&#39;][&#39;name&#39;] : $_POST[&#39;save_name&#39;];
+        if (!is_array($file)) {
+            $file = explode(&#39;.&#39;, strtolower($file));
+        }//通过‘.’分割勒，就不能用. .绕过，‘.’拿来分割成一个数组
+
+        $ext = end($file);//file是个数组，ext后缀是取最后一个值再判断是不是在白名单
+        $allow_suffix = array(&#39;jpg&#39;,&#39;png&#39;,&#39;gif&#39;);
+        if (!in_array($ext, $allow_suffix)) {
+            $msg = &quot;禁止上传该后缀文件!&quot;;
+        }else{
+            $file_name = reset($file) . &#39;.&#39; . $file[count($file) - 1];
+            $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+            $img_path = UPLOAD_PATH . &#39;/&#39; .$file_name;
+            if (move_uploaded_file($temp_file, $img_path)) {
+                $msg = &quot;文件上传成功！&quot;;
+                $is_upload = true;
+            } else {
+                $msg = &quot;文件上传失败！&quot;;
+            }
+        }
+    }
+}else{
+    $msg = &quot;请选择要上传的文件！&quot;;
+}
+</code></pre>
+<blockquote>
+<p>首先检查conteng-type  源码表示只允许jpg，png，gif</p>
+</blockquote>
+<blockquote>
+<p>主要漏洞在数组这里</p>
+</blockquote>
+<p>需要在burp上面更改数组，让在有值的后面几位都是空的，例如file[0]&#x3D;1.php. file[1]’&#x3D;null,file[7]&#x3D;1,还需要更改content-type</p>
+<p><img src="/assets/image-20250202154152-0fqfc21.png" alt="image"></p>
+<p>变成数组的意义提交，第一个是1.php，更改一个比较长的值，第4个就是jpg白名单绕过</p>
+<p>‍</p>

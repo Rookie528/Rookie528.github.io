@@ -1,0 +1,62 @@
+<h1 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h1><h1 id="Mysql学习"><a href="#Mysql学习" class="headerlink" title="Mysql学习"></a><a href="https://blog.csdn.net/qq_45173404/article/details/115712758">Mysql学习</a></h1><h1 id="列出所有数据库"><a href="#列出所有数据库" class="headerlink" title="列出所有数据库"></a>列出所有数据库</h1><p><span data-type="text" style="color: var(--b3-font-color12);">SHOW DATABASES;</span></p>
+<p>‍</p>
+<h1 id="查看某一个数据库里所有的表"><a href="#查看某一个数据库里所有的表" class="headerlink" title="查看某一个数据库里所有的表"></a>查看某一个数据库里所有的表</h1><p><span data-type="text" style="color: var(--b3-font-color12);">USE databasename;</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">USE mysql;</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SHOW TABLES;</span></p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SHOW TABLES FROM mysql;</span></p>
+<p>‍</p>
+<h1 id="select函数"><a href="#select函数" class="headerlink" title="select函数"></a>select函数</h1><p><span data-type="text" style="color: var(--b3-font-color12);">SELECT NOW();</span>   – 查看当前时间</p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">use information_schema;</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT DATABASE</span></p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT VERSION(); </span>– 查看版本</p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT USER();</span> – 查看当前登录数据库的用户</p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT @@datadir;</span> – 查看数据路径</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT @@basedir;</span> – 查看mysql安装路径</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT @@vesion_compile_os;</span> – 查看mysql安装的系统</p>
+<p>‍</p>
+<h2 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h2><p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM mysql.user;</span> – SELECT 查询关键字     #  ***** 代表所有</p>
+<p><span data-type="text" style="color: var(--b3-font-color8);">eg:</span> <span data-type="text" style="color: var(--b3-font-color9);">SELECT USER,HOST FROM mysql.user;</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT schema_name FROM information_schema.’SCHEMATA’;</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM information.tables;	</span></p>
+<h2 id="where-相当于编程语言里面的if"><a href="#where-相当于编程语言里面的if" class="headerlink" title="where 相当于编程语言里面的if"></a>where 相当于编程语言里面的if</h2><p><span data-type="text" style="color: var(--b3-font-color9);">SELECT USER,HOST FROM mysql.user WHERE USER &#x3D; ‘root’;</span> – mysql里面都是单引号</p>
+<h2 id="创建库"><a href="#创建库" class="headerlink" title="创建库"></a>创建库</h2><p><span data-type="text" style="color: var(--b3-font-color12);">CREATE DATABASE test CHARSET utf8mb4;</span></p>
+<h2 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h2><p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">CREATE TABLE t1(id INT);</span></p>
+<p>DROP TABLE t1;</p>
+<p>‍</p>
+<p>SHOW TABLES FROM test;</p>
+<p>ALTER TABLE t1 ADD NAME VARCHAR(32);</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">DESC t1;</span></p>
+<h2 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h2><p>INSERT INTO t1 VALUES (1,”张三”),(2,”李四”),(3,”王五”)</p>
+<p>SELECT * FROM t1;</p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT DATABASE();</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM information_schema.tables WHERE table_schema &#x3D;’test’;</span> – 传库名</p>
+<p>‍</p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM test.t1 WHERE NAME &#x3D; ‘张三’ AND id &#x3D; 1 ;</span></p>
+<p>‍</p>
+<h2 id="union"><a href="#union" class="headerlink" title="union"></a>union</h2><p>SELECT * FROM test.t1 UNION SELECT 1,2,3,4,5;</p>
+<p>SELECT USER,HOST FROM mysql.user UNION SELECT * FROM test.’t1’;</p>
+<p>‍</p>
+<p>（rand：生成0~1的随机数 floor向下取整）</p>
+<p>select * from users group by name;(将相同名字的分层一个组)</p>
+<p>select name,count(*) from users group by name;</p>
+<p>在执行 group by name 语句时，MySQL 会在内部建立一个虚拟表，用来储存列的数据，表中会有一个 group 的 key 值作为表的主键，这里的主键就是用来分类的name列中获取的数据，当查询数据时，读取数据库数据，然后查看虚拟表中是否存在，不存在则插入新纪录，当读取到第一行数据时，发现name字段的admin不存在，将admin放入主键列中，1放在id列中;然后指针下移，继续读取数据表中的数据，读到第三行的 name 字段为 admin数据时，发现 admin 在虚拟表中已经存在，就汇总在一起，虚拟表如下如此循环，查询完所有的表后，虚拟表为如下所示，但是显示的结果在数据库中如下，因为以 name 分组，id 值取最前面一个，形成结果数据表显示出来</p>
+<p>select name,id from users group by name; 只取第一个出来</p>
+<p>当我们加上count(<em>)函数时，操作过程为:查看虚拟表是否存在该主键值，不存在则插入新记录，存在则count(</em>)字段直接加1，这样就能对上面的分类结果进行统计，然后将统计结果返回:</p>
+<p>select id,name,concat((select database()),0x7e,floor(rand(0)*2)) as a from users;</p>
+<p>select count(*),concat((select database()),0x7e,floor(rand(0)*2)) as a from users group by a ; **(此时group by的对象是a，a&#x3D;concat((select database()),0x7e,floor(rand(0)<em>2)),as a的意思也就是把前面的当作a为一个别名)</em>*</p>
+<blockquote>
+<p>第一次:<br>1:先查询虚拟表 有无a数据，比如第一次査询时为a&#x3D;sqli<del>0(也有可能是其他值)<br>2:查询无对应的数据，执行插入操作，插入时该语句再次执行，比如此时a&#x3D;sqli</del>0(也有可能是其他值)</p>
+</blockquote>
+<blockquote>
+<p>第二次:<br>1.先查询虚拟表 有无a数据，比如第二次查询时还是a&#x3D;sqli~01:<br>2:查询无对应的数据，执行插入操作，插入时该语句再次执行，比如插入时，此时a&#x3D;sqli-0，执行insert操作就会报错，因为key主键对应的列内容不允许重复</p>
+</blockquote>
+<p>当随机到相同的0或者1key键值的时候就会报错就会把这个爆出来</p>
+<p>‍</p>

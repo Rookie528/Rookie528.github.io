@@ -1,0 +1,14 @@
+<h1 id="文件类型绕过"><a href="#文件类型绕过" class="headerlink" title="文件类型绕过"></a>文件类型绕过</h1><blockquote>
+<p>1.还是打开抓包工具，上传一句话木马，发现是上传成功了，说明是后端验证的</p>
+</blockquote>
+<blockquote>
+<p>2.通过content-type判断文件类型</p>
+</blockquote>
+<p><img src="/assets/image-20250119174443-twfakc5.png" alt="image"></p>
+<h1 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h1><blockquote>
+<p>上传一句话木马php，然后把content-type的验证改为jpg的可以放行</p>
+</blockquote>
+<h1 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h1><blockquote>
+<p>上传更改过后的一句话木马，上传jpg后缀的，然后burp改为php放行</p>
+</blockquote>
+<p>‍</p>

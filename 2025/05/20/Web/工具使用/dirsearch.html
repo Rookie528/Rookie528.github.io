@@ -1,0 +1,68 @@
+<h1 id="dirsearch"><a href="#dirsearch" class="headerlink" title="dirsearch"></a>dirsearch</h1><p>windows下要下载dirsearch包，然后用python解析使用，所以我选择用kali</p>
+<h3 id="常用参数说明"><a href="#常用参数说明" class="headerlink" title="常用参数说明"></a>常用参数说明</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>​<code>-u</code>​&#x2F;<code>--url</code>​</td>
+<td>指定目标URL</td>
+<td>​<code>-u http://example.com</code>​</td>
+</tr>
+<tr>
+<td>​<code>-e</code>​&#x2F;<code>--extensions</code>​</td>
+<td>指定文件扩展名</td>
+<td>​<code>-e php,html,js</code>​</td>
+</tr>
+<tr>
+<td>​<code>-w</code>​&#x2F;<code>--wordlist</code>​</td>
+<td>使用自定义字典</td>
+<td>​<code>-w /path/to/wordlist.txt</code>​</td>
+</tr>
+<tr>
+<td>​<code>-r</code>​&#x2F;<code>--recursive</code>​</td>
+<td>递归扫描</td>
+<td>​<code>-r</code>​</td>
+</tr>
+<tr>
+<td>​<code>--threads</code>​</td>
+<td>设置线程数</td>
+<td>​<code>--threads 50</code>​</td>
+</tr>
+<tr>
+<td>​<code>--timeout</code>​</td>
+<td>设置超时时间</td>
+<td>​<code>--timeout 5</code>​</td>
+</tr>
+<tr>
+<td>​<code>--random-agent</code>​</td>
+<td>使用随机User-Agent</td>
+<td>​<code>--random-agent</code>​</td>
+</tr>
+<tr>
+<td>​<code>--proxy</code>​</td>
+<td>使用代理</td>
+<td>​<code>--proxy http://127.0.0.1:8080</code>​</td>
+</tr>
+</tbody></table>
+<p>‍</p>
+<h2 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h2><h3 id="1-使用扩展名过滤"><a href="#1-使用扩展名过滤" class="headerlink" title="1. 使用扩展名过滤"></a>1. 使用扩展名过滤</h3><pre><code class="language-bash">python3 dirsearch.py -u http://example.com -e php,html,js
+</code></pre>
+<h3 id="2-使用自定义字典"><a href="#2-使用自定义字典" class="headerlink" title="2. 使用自定义字典"></a>2. 使用自定义字典</h3><pre><code class="language-bash">python3 dirsearch.py -u http://example.com -w /path/to/custom_wordlist.txt
+</code></pre>
+<h3 id="3-递归扫描"><a href="#3-递归扫描" class="headerlink" title="3. 递归扫描"></a>3. 递归扫描</h3><pre><code class="language-bash">python3 dirsearch.py -u http://example.com -r
+</code></pre>
+<h3 id="4-排除特定状态码"><a href="#4-排除特定状态码" class="headerlink" title="4. 排除特定状态码"></a>4. 排除特定状态码</h3><pre><code class="language-bash">python3 dirsearch.py -u http://example.com --exclude-status 403,404
+</code></pre>
+<h3 id="5-保存扫描结果"><a href="#5-保存扫描结果" class="headerlink" title="5. 保存扫描结果"></a>5. 保存扫描结果</h3><pre><code>python3 dirsearch.py -u http://example.com -o /path/to/report.txt
+</code></pre>
+<p>‍</p>
+<h2 id="实用技巧"><a href="#实用技巧" class="headerlink" title="实用技巧"></a>实用技巧</h2><ol>
+<li><strong>降低扫描速度</strong>：添加 <code>--delay=1</code>​ 参数，设置每次请求间隔1秒</li>
+<li><strong>只显示特定状态码</strong>：使用 <code>--status-codes 200,301,302</code>​</li>
+<li><strong>强制扫描</strong>：使用 <code>--force</code>​ 参数，即使目标返回403也继续扫描</li>
+<li><strong>HTTP方法</strong>：使用 <code>-m GET,POST</code>​ 指定HTTP方法</li>
+</ol>

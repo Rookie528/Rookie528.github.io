@@ -1,0 +1,43 @@
+<h1 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h1><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><hr>
+<p>二次注入是指<u><strong>已存储（数据库、文件）</strong></u>​<u>的用户</u>​<u><strong>输入被读取</strong></u>​<u>后再次进入到 </u>​<u><strong>SQL 查询</strong></u>​<u>语句中导致的注入</u>。二次注入是sql注入的一种，但是比普通<code>sql注入</code>​利用更加困难，利用门槛更高。普通注入数据直接进入到 SQL 查询中，而二次注入则是<u><strong>输入数据经处理后存储</strong></u>​<u>，取出后，再次进入到 SQL 查询。</u></p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><hr>
+<p>在第一次进行数据插入数据库得时候，仅仅知识使用了<code>addslashes()</code>​或者是借助<code>get_magic_quotes_gpc()</code>​对其中得字符进行了转义，在后端代码中可能会被转义，但在存入数据库时候还是原来得数据，数据中一般带有单引号和#号，然后下次使用在拼凑SQL中，所以就行了二次注入。</p>
+<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><hr>
+<ol>
+<li>插入1‘#</li>
+<li>转义成1\’#</li>
+<li>不能注入，但是保存在数据库时变成了原来的1’#</li>
+<li>利用1’#进行注入,这里利用时要求取出数据时不转义</li>
+</ol>
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><hr>
+<ol>
+<li>用户向数据库插入恶意语句（即使后端代码对语句进行了转义，如mysql_escape_string、mysql_real_escape_string转义）</li>
+<li>数据库对自己存储得数据非常放心，直接读取出恶意数据给用户</li>
+</ol>
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><hr>
+<ol>
+<li>注册用户名admin’– -(后面的-是为了突出前面的空格，起到了注释作用)</li>
+</ol>
+<p><img src="/assets/image-20250519103414-6zcaw3y.png" alt="image"></p>
+<ol start="2">
+<li>使用刚刚注册得账号进行登录。</li>
+</ol>
+<p><img src="/assets/image-20250519103420-s73mbz9.png" alt="image"></p>
+<p>3、查看注册源代码查看注册源代码</p>
+<p><img src="/assets/image-20250519103431-9996xhm.png" alt="image"></p>
+<p>发现用户在注册的时候没有进行特殊符号过滤，所以再一次说明我们注册的用户成功！</p>
+<ol start="4">
+<li>进行修改密码（攻击）</li>
+</ol>
+<p><img src="/assets/image-20250519103453-0kn30rw.png" alt="image"></p>
+<ol start="5">
+<li>攻击成功 ，返回使用更新后的密码登录账号 admin。</li>
+</ol>
+<p><img src="/assets/image-20250519103500-foxcdsq.png" alt="image"></p>
+<p>6.登录成功</p>
+<p><img src="/assets/image-20250519103514-e9du0uj.png" alt="image"></p>
+<p>修改密码的时候，语句就会变为：</p>
+<pre><code>$sql = &quot;UPDATE users SET PASSWORD=&#39;aaaaaa&#39; where username=&#39;admin&#39; -- w&#39; and password=&#39;$curr_pass&#39; &quot;;
+</code></pre>
+<p>​<code>-- w</code>​把后面的都给注释了，所以就是修改了admin用户的密码为 aaaaaa</p>
+<p>‍</p>

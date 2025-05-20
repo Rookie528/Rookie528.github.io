@@ -1,0 +1,11 @@
+<h1 id="User-Agent-注入"><a href="#User-Agent-注入" class="headerlink" title="User-Agent 注入"></a>User-Agent 注入</h1><p>我们访问 <a href="http://127.0.0.1/sqli/Less-18/">http://127.0.0.1/sqli/Less-18/</a>，页面显示一个登陆框和我们的ip信息。</p>
+<p>当我们输入正确的用户名和密码之后登陆之后，页面多显示了 浏览器的User-Agent。</p>
+<p><img src="/assets/image-20250519103817-3j29chv.png" alt="image"></p>
+<p>抓包，修改其User-Agent如下图，测试是否存在user-agent注入</p>
+<p><img src="/assets/image-20250519103833-uzzkn29.png" alt="image"></p>
+<p>页面报错，存在报错注入</p>
+<p><img src="/assets/image-20250519103843-0hzuo2m.png" alt="image"></p>
+<p>​<code>&#39; and extractvalue(1,concat(0x7e,database(),0x7e))and &#39;1&#39;=&#39;1 #</code>​我们可以将 database()修改为任何的函数</p>
+<p>可以看到，页面将当前的数据库显示出来了。</p>
+<p><img src="/assets/image-20250519103901-b4xcu6i.png" alt="image"></p>
+<p>‍</p>

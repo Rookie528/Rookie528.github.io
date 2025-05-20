@@ -1,0 +1,82 @@
+<h1 id="弱比较"><a href="#弱比较" class="headerlink" title="弱比较"></a>弱比较</h1><h3 id="1-MD5-碰撞攻击"><a href="#1-MD5-碰撞攻击" class="headerlink" title="1. MD5 碰撞攻击"></a>1. <strong>MD5 碰撞攻击</strong></h3><ul>
+<li><p><strong>原理</strong>: MD5 算法存在碰撞漏洞，即两个不同的输入可以生成相同的 MD5 哈希值。</p>
+</li>
+<li><p><strong>示例</strong>:</p>
+</li>
+<li><pre><code class="language-php">$x = &quot;240610708&quot;;
+$y = &quot;QNKCDZO&quot;;
+</code></pre>
+<p>这两个字符串的 MD5 哈希值都是 <code>0e830400451993494058024219903391</code>​，因此 <code>md5($x) == md5($y)</code>​ 会返回 <code>true</code>​。</p>
+</li>
+</ul>
+<h3 id="2-科学计数法绕过"><a href="#2-科学计数法绕过" class="headerlink" title="2. 科学计数法绕过"></a>2. <strong>科学计数法绕过</strong></h3><ul>
+<li><p><strong>原理</strong>: PHP 在比较字符串时，如果字符串以 <code>0e</code>​ 开头，并且后面都是数字，PHP 会将其解释为科学计数法表示的浮点数 <code>0</code>​。因此，如果两个字符串的 MD5 哈希值都以 <code>0e</code>​ 开头，并且后面都是数字，它们会被认为是相等的。</p>
+</li>
+<li><p><strong>示例</strong>:</p>
+</li>
+<li><pre><code class="language-php">$x = &quot;240610708&quot;;
+$y = &quot;QNKCDZO&quot;;
+</code></pre>
+<p>如上所述，这两个字符串的 MD5 哈希值都是 <code>0e830400451993494058024219903391</code>​，PHP 会认为它们相等。</p>
+</li>
+</ul>
+<h3 id="3-空字符串绕过"><a href="#3-空字符串绕过" class="headerlink" title="3. 空字符串绕过"></a>3. <strong>空字符串绕过</strong></h3><ul>
+<li><p><strong>原理</strong>: 空字符串的 MD5 哈希值是 <code>d41d8cd98f00b204e9800998ecf8427e</code>​，但如果输入为空字符串，某些情况下可能会被忽略或处理为相同的值。</p>
+</li>
+<li><p><strong>示例</strong>:</p>
+</li>
+<li><pre><code class="language-php">$x = &quot;&quot;;
+$y = &quot;&quot;;
+</code></pre>
+<p>这种情况下，<code>md5($x) == md5($y)</code>​ 显然为 <code>true</code>​。</p>
+</li>
+</ul>
+<h3 id="4-大小写不敏感"><a href="#4-大小写不敏感" class="headerlink" title="4. 大小写不敏感"></a>4. <strong>大小写不敏感</strong></h3><ul>
+<li><p><strong>原理</strong>: 如果代码中使用了不区分大小写的比较（如 <code>strcasecmp</code>​ 或 <code>==</code>​），可能会绕过某些检查。</p>
+</li>
+<li><p><strong>示例</strong>:</p>
+</li>
+<li><pre><code class="language-php">$x = &quot;abc&quot;;
+$y = &quot;ABC&quot;;
+</code></pre>
+<p>如果使用 <code>strcasecmp(md5($x), md5($y)) == 0</code>​，则可能会绕过检查。</p>
+</li>
+</ul>
+<h3 id="5-特殊字符处理"><a href="#5-特殊字符处理" class="headerlink" title="5. 特殊字符处理"></a>5. <strong>特殊字符处理</strong></h3><ul>
+<li><p><strong>原理</strong>: 某些特殊字符在输入时可能会被处理为相同的值，尤其是在 URL 编码或解码过程中。</p>
+</li>
+<li><p><strong>示例</strong>:</p>
+</li>
+<li><pre><code class="language-php">$x = &quot;%00&quot;;
+$y = &quot;&quot;;
+</code></pre>
+<p>在某些情况下，<code>%00</code>​ 可能会被解释为空字符串，从而导致 <code>md5($x) == md5($y)</code>​ 为 <code>true</code>​。</p>
+</li>
+</ul>
+<h3 id="6-时间戳或随机数绕过"><a href="#6-时间戳或随机数绕过" class="headerlink" title="6. 时间戳或随机数绕过"></a>6. <strong>时间戳或随机数绕过</strong></h3><ul>
+<li><p><strong>原理</strong>: 如果输入是基于时间戳或随机数生成的，可能在某些情况下生成相同的 MD5 哈希值。</p>
+</li>
+<li><p><strong>示例</strong>:</p>
+</li>
+<li><pre><code class="language-php">$x = time();
+$y = time() - 1;
+</code></pre>
+<p>虽然这种情况比较罕见，但在某些特定情况下可能会发生。</p>
+</li>
+</ul>
+<h3 id="7-利用-PHP-的松散比较"><a href="#7-利用-PHP-的松散比较" class="headerlink" title="7. 利用 PHP 的松散比较"></a>7. <strong>利用 PHP 的松散比较</strong></h3><ul>
+<li><strong>原理</strong>: PHP 中的 <code>==</code>​ 是松散比较，会进行类型转换。如果两个字符串的 MD5 哈希值在类型转换后相等，<code>==</code>​ 会返回 <code>true</code>​。</li>
+<li><strong>示例</strong>:</li>
+</ul>
+<pre><code class="language-php">$x = &quot;0e123456789abcdef&quot;;
+$y = &quot;0e987654321fedcba&quot;;
+</code></pre>
+<p>这两个字符串的 MD5 哈希值都以 <code>0e</code>​ 开头，PHP 会认为它们相等。</p>
+<h3 id="8-数组绕过"><a href="#8-数组绕过" class="headerlink" title="8. 数组绕过"></a>8. 数组绕过</h3><ul>
+<li><strong>原理</strong>: PHP 中的 <code>==</code>​ 是松散比较，会进行类型转换。如果两个字符串的 MD5 哈希值在类型转换后相等，<code>==</code>​ 会返回 <code>true</code>​。</li>
+<li><strong>示例</strong>:</li>
+</ul>
+<pre><code class="language-php">?x[]=1&amp;y[]=7
+</code></pre>
+<p>这两个字符串的 MD5 哈希值都以 <code>0e</code>​ 开头，PHP 会认为它们相等。</p>
+<p>‍</p>

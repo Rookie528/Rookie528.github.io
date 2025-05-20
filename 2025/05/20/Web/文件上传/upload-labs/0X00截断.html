@@ -1,0 +1,23 @@
+<h1 id="0X00截断"><a href="#0X00截断" class="headerlink" title="0X00截断"></a>0X00截断</h1><pre><code class="language-php">$is_upload = false;
+$msg = null;
+if(isset($_POST[&#39;submit&#39;])){
+    $ext_arr = array(&#39;jpg&#39;,&#39;png&#39;,&#39;gif&#39;);
+    $file_ext = substr($_FILES[&#39;upload_file&#39;][&#39;name&#39;],strrpos($_FILES[&#39;upload_file&#39;][&#39;name&#39;],&quot;.&quot;)+1);
+    if(in_array($file_ext,$ext_arr)){
+        $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+        $img_path = $_POST[&#39;save_path&#39;].&quot;/&quot;.rand(10, 99).date(&quot;YmdHis&quot;).&quot;.&quot;.$file_ext;
+
+        if(move_uploaded_file($temp_file,$img_path)){
+            $is_upload = true;
+        } else {
+            $msg = &quot;上传失败&quot;;
+        }
+    } else {
+        $msg = &quot;只允许上传.jpg|.png|.gif类型文件！&quot;;
+    }
+}
+</code></pre>
+<blockquote>
+<p>这个是一个POST请求，上一关是GET请求,它的实际路径变到下面去了,要注意一下</p>
+</blockquote>
+<p>‍</p>

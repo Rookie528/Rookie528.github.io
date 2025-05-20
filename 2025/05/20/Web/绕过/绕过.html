@@ -1,0 +1,60 @@
+<h1 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h1><pre><code class="language-php">&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;ctf.show萌新计划web1&lt;/title&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;?php# 包含数据库连接文件
+include(&quot;config.php&quot;);# 判断get提交的参数id是否存在
+if(isset($_GET[&#39;id&#39;])){
+        $id = $_GET[&#39;id&#39;];
+    if(preg_match(&quot;/\&#39;|\&quot;|or|\||\-|\\\|\/|\\*|\&lt;|\&gt;|\^|\!|\~|x|hex|\(|\)|\+|select/i&quot;,$id)){
+            die(&quot;id error&quot;);
+    }# 判断id的值是否大于999
+    if(intval($id) &gt; 999){# id 大于 999 直接退出并返回错误
+        die(&quot;id error&quot;);
+    }else{# id 小于 999 拼接sql语句
+        $sql = &quot;select * from article where id = $id order by id limit 1 &quot;;
+        echo &quot;执行的sql为：$sql&lt;br&gt;&quot;;# 执行sql 语句
+        $result = $conn-&gt;query($sql);# 判断有没有查询结果
+        if ($result-&gt;num_rows &gt; 0) {
+            # 如果有结果，获取结果对象的值$row
+            while($row = $result-&gt;fetch_assoc()) {
+                echo &quot;id: &quot; . $row[&quot;id&quot;]. &quot; - title: &quot; . $row[&quot;title&quot;]. &quot; &lt;br&gt;&lt;hr&gt;&quot; . $row[&quot;content&quot;]. &quot;&lt;br&gt;&quot;;
+            }
+        }# 关闭数据库连接
+        $conn-&gt;close();
+    }
+}else{
+    highlight_file(__FILE__);
+}
+?&gt;
+&lt;/body&gt;
+&lt;!-- flag in id = 1000 --&gt;
+&lt;/html&gt;
+</code></pre>
+<blockquote>
+<p>查看题目给我们的源码，发现这是用的intval函数，我们看这个禁用的名单，发现还是有很多没有禁用的</p>
+</blockquote>
+<blockquote>
+<p>方法一：?id&#x3D;1 || id&#x3D;1000 那这样sql语句就会变成select * from article where id &#x3D; 1 || id&#x3D;1000 order by id limit 1，以至于满足查询条件，而且查询到1000的信息</p>
+</blockquote>
+<blockquote>
+<p>方法二：~取反符号，双重取反~~1000</p>
+</blockquote>
+<blockquote>
+<p>方法三：二进制转换，<code>id=0b1111101000</code>​</p>
+</blockquote>
+<blockquote>
+<p>方法四：采用单引号，让判断为字符id&#x3D;’1000’</p>
+</blockquote>
+<blockquote>
+<p>方法五：采用异或，0000%5E1000</p>
+</blockquote>
+<blockquote>
+<p>方法六：采用恒定真值，id %23</p>
+</blockquote>
+<blockquote>
+<p>方法七：采用sql中除号的另外一种写法绕过（div）?id&#x3D;500 div 0.5</p>
+</blockquote>
+<p>‍</p>

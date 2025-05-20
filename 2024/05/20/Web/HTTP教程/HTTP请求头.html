@@ -1,0 +1,80 @@
+<h1 id="HTTP请求头"><a href="#HTTP请求头" class="headerlink" title="HTTP请求头"></a>HTTP请求头</h1><h2 id="HTTP请求头组成"><a href="#HTTP请求头组成" class="headerlink" title="HTTP请求头组成"></a>HTTP请求头组成</h2><p>HTTP请求头提供了关于请求，响应或者其他的发送实体的信息。HTTP的头信息包括通用头、请求头、响应头和实体头四个部分。每个头域由一个域名，冒号（:）和域值三部分组成。</p>
+<p>四个部分</p>
+<ul>
+<li>通用头标：即可用于请求，也可用于响应，是作为一个整体而不是特定资源与事务相关联。</li>
+<li>请求头标：允许客户端传递关于自身的信息和希望的响应形式。</li>
+<li>响应头标：服务器和于传递自身信息的响应。</li>
+<li>实体头标：定义被传送资源的信息。即可用于请求，也可用于响应。</li>
+</ul>
+<h2 id="常用的Header"><a href="#常用的Header" class="headerlink" title="常用的Header"></a>常用的Header</h2><h3 id="1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；"><a href="#1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；" class="headerlink" title="1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；"></a>1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；</h3><p>比方说你的参数值填写的是<strong>application&#x2F;json</strong>，就说明浏览器所接收的数据是<strong>json</strong>类型的数据，当你加了Accept请求头之后，你会发现<strong>你得到的数据</strong>和你<strong>没有加Accept请求头的数据</strong>是完全不一样的。如果你没有加Accept这个请求头，你得到的数据可能就是一个简单的网页。Accept它可以影响你返回的数据。</p>
+<p><img src="/assets/image-20250410002930-dkix7sg.png" alt="image"></p>
+<h3 id="2、X-Requested-With：它的作用是：异步请求；"><a href="#2、X-Requested-With：它的作用是：异步请求；" class="headerlink" title="2、X-Requested-With：它的作用是：异步请求；"></a>2、X-Requested-With：它的作用是：异步请求；</h3><p>如果对开发有一定的了解的话，前端里面有这样一个技术<strong>Ajax</strong>异步请求。现在很多的功能都会用到这个异步请求，比如说登录。</p>
+<p>简单的举个列子：如果现在你想去上海，只有一条路的话，你只能走唯一的一条路。那么如果有两条路或者多条路，可以坐飞机，高铁，汽车等等。那么它们就相当于异步，也就是说你可以通过飞机到上海，也可以坐高铁到上海，这样通俗的理解异步请求。</p>
+<p>异步请求的特点：无刷新。就是说登录的时候是需要进行页面跳转的，而异步请求它不需要跳转也可以做到这样的请求。</p>
+<h3 id="3、User-Aget：它的作用是：发送请求的客户端的类型；"><a href="#3、User-Aget：它的作用是：发送请求的客户端的类型；" class="headerlink" title="3、User-Aget：它的作用是：发送请求的客户端的类型；"></a>3、User-Aget：它的作用是：发送请求的客户端的类型；</h3><p>比方说我们可以通过postman去发送请求类型，也可以通过浏览器去发送请求等等，那么有的接口你通过非浏览器去请求它是无法通过的。</p>
+<h3 id="4、Content-type：它的作用是：请求的报文格式；"><a href="#4、Content-type：它的作用是：请求的报文格式；" class="headerlink" title="4、Content-type：它的作用是：请求的报文格式；"></a>4、Content-type：它的作用是：请求的报文格式；</h3><p><img src="/assets/image-20250410002956-9rw475z.png" alt="image"></p>
+<h3 id="5、Cookie：Cookie信息；"><a href="#5、Cookie：Cookie信息；" class="headerlink" title="5、Cookie：Cookie信息；"></a>5、Cookie：Cookie信息；</h3><p>有的接口需要登录之后才会生成Cookie信息，必须要保持登录的状态。这种情况我们就需要对Cookie信息进行管理。</p>
+<p><img src="/assets/image-20250410003007-2dtyxzw.png" alt="image"></p>
+<h2 id="HTTP-Request-Header-请求头"><a href="#HTTP-Request-Header-请求头" class="headerlink" title="HTTP Request Header 请求头"></a>HTTP Request Header 请求头</h2><blockquote>
+<p><strong>Accept：</strong> 指定客户端能够接收的内容类型。</p>
+<p><strong>Accept-Charset：</strong> 浏览器可以接受的字符编码集。</p>
+<p><strong>Accept-Encoding：</strong> 指定浏览器可以支持的web服务器返回内容压缩编码类型。</p>
+<p><strong>Accept-Language：</strong> 浏览器可接受的语言。</p>
+<p><strong>Accept-Ranges：</strong> 可以请求网页实体的一个或者多个子范围字段。</p>
+<p><strong>AuthorizationHTTP：</strong> 授权的授权证书。</p>
+<p><strong>Cache-Control：</strong> 指定请求和响应遵循的缓存机制。</p>
+<p><strong>Connection：</strong> 表示是否需要持久连接。（HTTP 1.1默认进行持久连接）</p>
+<p><strong>CookieHTTP：</strong> 请求发送时，会把保存在该请求域名下的所有cookie值一起发送给web服务器。</p>
+<p><strong>Content-Length：</strong> 请求的内容长度。</p>
+<p><strong>Content-Type：</strong> 请求的与实体对应的MIME信息。</p>
+<p><strong>Date：</strong> 请求发送的日期和时间。</p>
+<p><strong>Expect：</strong> 请求的特定的服务器行为。</p>
+<p><strong>From：</strong> 发出请求的用户的Email。</p>
+<p><strong>Host：</strong> 指定请求的服务器的域名和端口号。</p>
+<p><strong>If-Match：</strong> 只有请求内容与实体相匹配才有效。</p>
+<p><strong>If-Modified-Since：</strong> 如果请求的部分在指定时间之后被修改则请求成功，未被修改则返回304代码。</p>
+<p><strong>If-None-Match：</strong> 如果内容未改变返回304代码，参数为服务器先前发送的Etag，与服务器回应的Etag比较判断是否改变。</p>
+<p><strong>If-Range：</strong> 如果实体未改变，服务器发送客户端丢失的部分，否则发送整个实体。</p>
+<p><strong>If-Unmodified-Since：</strong> 只在实体在指定时间之后未被修改才请求成功。</p>
+<p><strong>Max-Forwards：</strong> 限制信息通过代理和网关传送的时间。</p>
+<p><strong>Pragma：</strong> 用来包含实现特定的指令。</p>
+<p><strong>Proxy-Authorization：</strong> 连接到代理的授权证书。</p>
+<p><strong>Range：</strong> 只请求实体的一部分，指定范围。</p>
+<p><strong>Referer：</strong> 先前网页的地址，当前请求网页紧随其后,即来路。</p>
+<p><strong>TE：</strong> 客户端愿意接受的传输编码，并通知服务器接受接受尾加头信息。</p>
+<p><strong>Upgrade：</strong> 向服务器指定某种传输协议以便服务器进行转换（如果支持。</p>
+<p><strong>User-AgentUser-Agent：</strong> 的内容包含发出请求的用户信息。</p>
+<p><strong>Via：</strong> 通知中间网关或代理服务器地址，通信协议。</p>
+<p><strong>Warning：</strong> 关于消息实体的警告信息</p>
+</blockquote>
+<h2 id="HTTP-Responses-Header-响应头"><a href="#HTTP-Responses-Header-响应头" class="headerlink" title="HTTP Responses Header 响应头"></a>HTTP Responses Header 响应头</h2><blockquote>
+<p><strong>Accept-Ranges：</strong> 表明服务器是否支持指定范围请求及哪种类型的分段请求。</p>
+<p><strong>Age：</strong> 从原始服务器到代理缓存形成的估算时间（以秒计，非负）。</p>
+<p><strong>Allow：</strong> 对某网络资源的有效的请求行为，不允许则返回405。</p>
+<p><strong>Cache-Control：</strong> 告诉所有的缓存机制是否可以缓存及哪种类型。</p>
+<p><strong>Content-Encodingweb：</strong> 服务器支持的返回内容压缩编码类型。。</p>
+<p><strong>Content-Language：</strong> 响应体的语言。</p>
+<p><strong>Content-Length：</strong> 响应体的长度。</p>
+<p><strong>Content-Location：</strong> 请求资源可替代的备用的另一地址。</p>
+<p><strong>Content-MD5：</strong> 返回资源的MD5校验值。</p>
+<p><strong>Content-Range：</strong> 在整个返回体中本部分的字节位置。</p>
+<p><strong>Content-Type：</strong> 返回内容的MIME类型。</p>
+<p><strong>Date：</strong> 原始服务器消息发出的时间。</p>
+<p><strong>ETag：</strong> 请求变量的实体标签的当前值。</p>
+<p><strong>Expires：</strong> 响应过期的日期和时间。</p>
+<p><strong>Last-Modified：</strong> 请求资源的最后修改时间。</p>
+<p><strong>Location：</strong> 用来重定向接收方到非请求URL的位置来完成请求或标识新的资源。</p>
+<p><strong>Pragma：</strong> 包括实现特定的指令，它可应用到响应链上的任何接收方。</p>
+<p><strong>Proxy-Authenticate：</strong> 它指出认证方案和可应用到代理的该URL上的参数。</p>
+<p><strong>refresh：</strong> 应用于重定向或一个新的资源被创造，在5秒之后重定向（由网景提出，被大部分浏览器支持）</p>
+<p><strong>Retry-After：</strong> 如果实体暂时不可取，通知客户端在指定时间之后再次尝试。</p>
+<p><strong>Serverweb：</strong> 服务器软件名称。</p>
+<p><strong>Set-Cookie：</strong> 设置Http Cookie。</p>
+<p><strong>Trailer：</strong> 指出头域在分块传输编码的尾部存在。</p>
+<p><strong>Transfer-Encoding：</strong> 文件传输编码。</p>
+<p><strong>Vary：</strong> 告诉下游代理是使用缓存响应还是从原始服务器请求。</p>
+<p><strong>Via：</strong> 告知代理客户端响应是通过哪里发送的。</p>
+<p><strong>Warning：</strong> 警告实体可能存在的问题。</p>
+<p><strong>WWW-Authenticate：</strong> 表明客户端请求实体应该使用的授权方案。</p>
+</blockquote>
+<p>‍</p>

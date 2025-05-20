@@ -1,0 +1,38 @@
+<h1 id="别名攻击"><a href="#别名攻击" class="headerlink" title="别名攻击"></a>别名攻击</h1><pre><code class="language-php">$is_upload = false;
+$msg = null;
+if (isset($_POST[&#39;submit&#39;])) {
+    if (file_exists(UPLOAD_PATH)) {
+        $deny_ext = array(&#39;.asp&#39;,&#39;.aspx&#39;,&#39;.php&#39;,&#39;.jsp&#39;);
+        $file_name = trim($_FILES[&#39;upload_file&#39;][&#39;name&#39;]);
+        $file_name = deldot($file_name);//删除文件名末尾的点
+        $file_ext = strrchr($file_name, &#39;.&#39;);
+        $file_ext = strtolower($file_ext); //转换为小写
+        $file_ext = str_ireplace(&#39;::$DATA&#39;, &#39;&#39;, $file_ext);//去除字符串::$DATA
+        $file_ext = trim($file_ext); //收尾去空
+
+        if(!in_array($file_ext, $deny_ext)) {
+            $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+            $img_path = UPLOAD_PATH.&#39;/&#39;.date(&quot;YmdHis&quot;).rand(1000,9999).$file_ext;        
+            if (move_uploaded_file($temp_file,$img_path)) {
+                 $is_upload = true;
+            } else {
+                $msg = &#39;上传出错！&#39;;
+            }
+        } else {
+            $msg = &#39;不允许上传.asp,.aspx,.php,.jsp后缀文件！&#39;;
+        }
+    } else {
+        $msg = UPLOAD_PATH . &#39;文件夹不存在,请手工创建！&#39;;
+    }
+}
+</code></pre>
+<blockquote>
+<p>只提出了黑名单，可以使用别名攻击</p>
+<p>但是改成php3测试连接返回未空，而且会提示你下载一些东西，说明服务器并没将php3当作php来解析</p>
+<p>所以我没要找到服务器Apache的配置文件httpd.conf然后找到AddType,找到<kbd>#AddType application/x-httpd-php  .php</kbd>​这一句，意思是以什么结尾的服务器会以php认可</p>
+</blockquote>
+<p><img src="/assets/image-20250119180334-7khsgt2.png" alt="image"></p>
+<blockquote>
+<p>添加多一些后缀，也就可以实现别名攻击,还有可能和php版本有问题</p>
+</blockquote>
+<p>‍</p>

