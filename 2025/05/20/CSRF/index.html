@@ -13,8 +13,8 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="CSRF一、什么是CSRF? CSRF (Cross-site request forgery，跨站请求伪造)也被称为One Click Attack或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本(XSS)，但它与XSS非常不同，XSS利用站点内的信任用户，而CSRF则通过伪装成受信任用户请求受信任的网站。 简单的说，是攻击者通过一些">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/assets/image-20250520024626-zm1u5u8.png">
-<meta property="og:image" content="http://example.com/assets/image-20250520024642-rrrnihd.png">
+<meta property="og:image" content="http://example.com/.com//image-20250520024626-zm1u5u8.png">
+<meta property="og:image" content="http://example.com/.com//image-20250520024642-rrrnihd.png">
 <meta property="og:image" content="http://example.com/assets/image-20250520025130-b7gdarh.png">
 <meta property="og:image" content="http://example.com/assets/image-20250520025142-8swgbme.png">
 <meta property="og:image" content="http://example.com/assets/image-20250520025208-tr38ddf.png">
@@ -27,7 +27,7 @@
 <meta property="article:tag" content="CSRF">
 <meta property="article:tag" content="跨站请求伪造">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/assets/image-20250520024626-zm1u5u8.png">
+<meta name="twitter:image" content="http://example.com/.com//image-20250520024626-zm1u5u8.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -124,7 +124,7 @@
 <p>其本质原因是重要操作的所有参数都是可以被攻击者猜测到的。</p>
 <p>攻击者只有预测出URL的所有参数与参数值，才能成功地构造一个伪造的请求;反之，攻击者将无法攻击成功。</p>
 </blockquote>
-<p><img src="/assets/image-20250520024626-zm1u5u8.png" alt="image"></p>
+<p><img src="/.com//image-20250520024626-zm1u5u8.png" alt="image"></p>
 <p>从上图能够看出，要完毕一次CSRF攻击，受害者必须依次完毕两个步骤：</p>
 <blockquote>
 <pre><code>    登录受信任站点A，并在本地生成Cookie。
@@ -132,7 +132,7 @@
     在不登出A的情况下，访问危急站点B。
 </code></pre>
 </blockquote>
-<p><img src="/assets/image-20250520024642-rrrnihd.png" alt="image"></p>
+<p><img src="/.com//image-20250520024642-rrrnihd.png" alt="image"></p>
 <blockquote>
 <p>1、客户端通过账户密码登录访问网站A。<br>2、网站A验证客户端的账号密码，成功则生成一个sessionlD，并返回给客户端存储在浏览器中。<br>3、该客户端Tab—个新页面访问了网站B。<br>4、网站B自动触发要求该客户端访问网站A。(即在网站B中有链接指向网站A)<br>5、客户端通过网站B中的链接访问网站A。(此时携带有合法的SessionID进行访问站A的)<br>6、此时网站A只需检验sessionIlD是否合法，合法则执行相应的操作。(因此具体啥工具就得看链接，以及网站B要求访问时携带的数据)</p>
 </blockquote>
@@ -235,11 +235,11 @@
 <p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">即便是使用最新的浏览器，黑客无法篡改 Referer 值，这种方法仍然有问题。因为 Referer 值会记录下用户的访问来源，有些用户认为这样会侵犯到他们自己的隐私权，特别是有些组织担心 Referer 值会把组织内网中的某些信息泄露到外网中。</span></p>
 <p>因此，用户自己可以设置浏览器使其在发送请求时不再提供 Referer。当他们正常访问银行网站时，网站会因为请求没有 Referer 值而认为是 CSRF 攻击，拒绝合法用户的访问。</p>
 <p>总结<br>CSRF攻击是攻击者利用用户的身份操作用户账户的一种攻击方式。设计CSRF的防御方案必须先理解CSRF攻击的原理和本质。我们通常使用Anti CSRF Token来防御CSRF攻击，在使用Token时，要注意Token的保密性和随机性。</p>
-
+</script></iframe></image></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/CSRF/" data-id="cmaw4w3qx000dzg7k2h0z6lmw" data-title="CSRF攻击详解" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/CSRF/" data-id="cmawa28n30000847k4dkx1qz9" data-title="CSRF攻击详解" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -260,11 +260,6 @@
       </div>
     </a>
   
-  
-    <a href="/2025/05/20/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
   
 </nav>
 
@@ -327,10 +322,6 @@
         
           <li>
             <a href="/2025/05/20/CSRF/">CSRF攻击详解</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/hello-world/">Hello World</a>
           </li>
         
       </ul>

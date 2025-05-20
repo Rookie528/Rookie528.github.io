@@ -178,7 +178,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/CSRF/CSRF%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/" data-id="cmaw4w3qp0000zg7kfboree91" data-title="CSRF攻击实战案例" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/CSRF/CSRF%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/" data-id="cmawa28nb000b847kawucag31" data-title="CSRF攻击实战案例" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -232,7 +232,7 @@
 <p>其本质原因是重要操作的所有参数都是可以被攻击者猜测到的。</p>
 <p>攻击者只有预测出URL的所有参数与参数值，才能成功地构造一个伪造的请求;反之，攻击者将无法攻击成功。</p>
 </blockquote>
-<p><img src="/assets/image-20250520024626-zm1u5u8.png" alt="image"></p>
+<p><img src="/.com//image-20250520024626-zm1u5u8.png" alt="image"></p>
 <p>从上图能够看出，要完毕一次CSRF攻击，受害者必须依次完毕两个步骤：</p>
 <blockquote>
 <pre><code>    登录受信任站点A，并在本地生成Cookie。
@@ -240,7 +240,7 @@
     在不登出A的情况下，访问危急站点B。
 </code></pre>
 </blockquote>
-<p><img src="/assets/image-20250520024642-rrrnihd.png" alt="image"></p>
+<p><img src="/.com//image-20250520024642-rrrnihd.png" alt="image"></p>
 <blockquote>
 <p>1、客户端通过账户密码登录访问网站A。<br>2、网站A验证客户端的账号密码，成功则生成一个sessionlD，并返回给客户端存储在浏览器中。<br>3、该客户端Tab—个新页面访问了网站B。<br>4、网站B自动触发要求该客户端访问网站A。(即在网站B中有链接指向网站A)<br>5、客户端通过网站B中的链接访问网站A。(此时携带有合法的SessionID进行访问站A的)<br>6、此时网站A只需检验sessionIlD是否合法，合法则执行相应的操作。(因此具体啥工具就得看链接，以及网站B要求访问时携带的数据)</p>
 </blockquote>
@@ -343,67 +343,16 @@
 <p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">即便是使用最新的浏览器，黑客无法篡改 Referer 值，这种方法仍然有问题。因为 Referer 值会记录下用户的访问来源，有些用户认为这样会侵犯到他们自己的隐私权，特别是有些组织担心 Referer 值会把组织内网中的某些信息泄露到外网中。</span></p>
 <p>因此，用户自己可以设置浏览器使其在发送请求时不再提供 Referer。当他们正常访问银行网站时，网站会因为请求没有 Referer 值而认为是 CSRF 攻击，拒绝合法用户的访问。</p>
 <p>总结<br>CSRF攻击是攻击者利用用户的身份操作用户账户的一种攻击方式。设计CSRF的防御方案必须先理解CSRF攻击的原理和本质。我们通常使用Anti CSRF Token来防御CSRF攻击，在使用Token时，要注意Token的保密性和随机性。</p>
-
+</script></iframe></image></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/CSRF/" data-id="cmaw4w3qx000dzg7k2h0z6lmw" data-title="CSRF攻击详解" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/CSRF/" data-id="cmawa28n30000847k4dkx1qz9" data-title="CSRF攻击详解" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E5%AE%89%E5%85%A8/" rel="tag">Web安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" rel="tag">跨站请求伪造</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T06:01:59.102Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/05/20/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/hello-world/" data-id="cmaw4gfqt0000hg7khk9ad5k1" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
     </footer>
   </div>
   
@@ -469,10 +418,6 @@
         
           <li>
             <a href="/2025/05/20/CSRF/">CSRF攻击详解</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/hello-world/">Hello World</a>
           </li>
         
       </ul>
