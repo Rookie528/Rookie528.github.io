@@ -111,7 +111,7 @@ Twig使用一个加载器 loader(Twig_Loader_Array) 来定位模板，以及一�
 ```php
 <div>{$what}</div>
 <p>Welcome, \{\{username\}\}</p>
-<div>{%$a%}</div>
+<div>{% $a %}</div>
 ...
 ```
 

