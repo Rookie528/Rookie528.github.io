@@ -1,4 +1,5 @@
-<h1 id="字节标识绕过"><a href="#字节标识绕过" class="headerlink" title="字节标识绕过"></a>字节标识绕过</h1><pre><code class="language-php">function getReailFileType($filename){
+<hr>
+<h2 id="title-字节标识绕过date-2025-05-20categories-Web-文件上传-upload-labstags-字节标识绕过"><a href="#title-字节标识绕过date-2025-05-20categories-Web-文件上传-upload-labstags-字节标识绕过" class="headerlink" title="title: 字节标识绕过date: 2025-05-20categories:  - Web  - 文件上传  - upload-labstags:  - 字节标识绕过"></a>title: 字节标识绕过<br>date: 2025-05-20<br>categories:<br>  - Web<br>  - 文件上传<br>  - upload-labs<br>tags:<br>  - 字节标识绕过</h2><h1 id="字节标识绕过"><a href="#字节标识绕过" class="headerlink" title="字节标识绕过"></a>字节标识绕过</h1><pre><code class="language-php">function getReailFileType($filename){
     $file = fopen($filename, &quot;rb&quot;);
     $bin = fread($file, 2); //只读2字节
     fclose($file);

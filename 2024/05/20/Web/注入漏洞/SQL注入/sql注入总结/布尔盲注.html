@@ -1,4 +1,5 @@
-<h1 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h1><h3 id="1-原理以及手工注入"><a href="#1-原理以及手工注入" class="headerlink" title="1. 原理以及手工注入"></a>1. 原理以及手工注入</h3><hr>
+<hr>
+<h2 id="title-布尔盲注date-2025-05-20categories-Web-注入漏洞-SQL注入-sql注入总结tags-布尔盲注"><a href="#title-布尔盲注date-2025-05-20categories-Web-注入漏洞-SQL注入-sql注入总结tags-布尔盲注" class="headerlink" title="title: 布尔盲注date: 2025-05-20categories:  - Web  - 注入漏洞  - SQL注入  - sql注入总结tags:  - 布尔盲注"></a>title: 布尔盲注<br>date: 2025-05-20<br>categories:<br>  - Web<br>  - 注入漏洞<br>  - SQL注入<br>  - sql注入总结<br>tags:<br>  - 布尔盲注</h2><h1 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h1><h3 id="1-原理以及手工注入"><a href="#1-原理以及手工注入" class="headerlink" title="1. 原理以及手工注入"></a>1. 原理以及手工注入</h3><hr>
 <p>条件：<code>攻击者无法直接获取到这些信息</code>​Web 的页面的仅仅会返回<code>True</code>​和<code>False</code>​。那么布尔盲注就是进行 SQL 注入之后然后根据页面返回的 True 或者是 False 来得到数据库中的相关信息。这里介绍的是通过 <strong>ascii 码</strong>进行盲注的案例。</p>
 <p>盲注一般用到的一些函数：<code>ascii()</code>​、<code>substr()</code>​、<code>length()</code>​，<code>exists()</code>​、<code>concat()</code>​等</p>
 <p>​<code>http://192.168.1.132:86/Less-5/?id=1</code>​为正确页面，回显如下图：</p>

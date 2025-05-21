@@ -1,18 +1,31 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="DVWA靶场通关1.暴力破解 brute forcelow 使用bp抓包，分别在username和password处添加变量，使用集束炸弹（cluster bomb）模式，添加字典进行爆破    可以手工SQL注入（万能密码），在用户名框中输入admin’ or ‘1’&#x3D;‘1，任意输入密码即可登陆（同时在弱口令字典里也有该语句） Medium 和low相比，过滤了一些转义字符，但依旧可以使用bp爆">
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="DVWA靶场通关1.暴力破解 brute forcelow 使用bp抓包，分别在username和password处添加变量，使用集束炸弹（cluster bomb）模式，添加字典进行爆破    可以手工SQL注入（万能密码），在用户名框中输入admin’ or ‘1’&#x3D;‘1，任意输入密码即可登陆（同时在弱口令字典里也有该语句） Medium 和low相比，过滤了一些转义字符，但依旧可以使用bp爆">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="DVWA靶场通关">
 <meta property="og:url" content="http://example.com/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="DVWA靶场通关1.暴力破解 brute forcelow 使用bp抓包，分别在username和password处添加变量，使用集束炸弹（cluster bomb）模式，添加字典进行爆破    可以手工SQL注入（万能密码），在用户名框中输入admin’ or ‘1’&#x3D;‘1，任意输入密码即可登陆（同时在弱口令字典里也有该语句） Medium 和low相比，过滤了一些转义字符，但依旧可以使用bp爆">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/.com//0c1252a336f1a19d4a0c461a2625dfbd-20250425163154-kusite3.png">
 <meta property="og:image" content="http://example.com/.com//6a77d729ad1c18c986d038672540d012-20250425164624-cuo7973.png">
 <meta property="og:image" content="http://example.com/.com//b25d2a1090203c32d0788cdd25e2dcdc-20250425164628-ohxr4rn.png">
@@ -73,103 +86,295 @@
 <meta property="og:image" content="http://example.com/.com//a4553a678f1d6482e5fb8ce9841c3538-20250425173338-wyz18se.png">
 <meta property="og:image" content="http://example.com/.com//ca86f4d80df4b3feccbf28e4ccdaf857-20250425173346-utigrlz.png">
 <meta property="og:image" content="http://example.com/.com//31274efc2f2bde6b41b806798e997547-20250425173353-ae59gvt.png">
-<meta property="article:published_time" content="2025-05-20T00:55:54.000Z">
-<meta property="article:modified_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:published_time" content="2025-05-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-21T13:22:45.961Z">
 <meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
+<meta property="article:tag" content="DVWA靶场通关">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/.com//0c1252a336f1a19d4a0c461a2625dfbd-20250425163154-kusite3.png">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/favicon.png">
+  <title>DVWA靶场通关 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/image/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
-<link rel="stylesheet" href="/css/style.css">
+
 
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
 <meta name="generator" content="Hexo 7.3.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
 
-      <div class="outer">
-        <section id="main"><article id="post-Web/DVWA靶场通关" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="DVWA靶场通关"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-20 00:00" pubdate>
+          星期二, 五月 20日 2025, 12:00 凌晨
+        </time>
+      </span>
     
   </div>
-  <div class="article-inner">
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          19 分钟
+        
+      </span>
+    
+
     
     
-    <div class="e-content article-entry" itemprop="articleBody">
+  </div>
+
+
+        
+      </div>
+
       
-        <h1 id="DVWA靶场通关"><a href="#DVWA靶场通关" class="headerlink" title="DVWA靶场通关"></a>DVWA靶场通关</h1><h2 id="1-暴力破解-brute-force"><a href="#1-暴力破解-brute-force" class="headerlink" title="1.暴力破解 brute force"></a>1.暴力破解 brute force</h2><h3 id="low"><a href="#low" class="headerlink" title="low"></a>low</h3><blockquote>
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">DVWA靶场通关</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="DVWA靶场通关"><a href="#DVWA靶场通关" class="headerlink" title="DVWA靶场通关"></a>DVWA靶场通关</h1><h2 id="1-暴力破解-brute-force"><a href="#1-暴力破解-brute-force" class="headerlink" title="1.暴力破解 brute force"></a>1.暴力破解 brute force</h2><h3 id="low"><a href="#low" class="headerlink" title="low"></a>low</h3><blockquote>
 <p>使用bp抓包，分别在username和password处添加变量，使用集束炸弹（cluster bomb）模式，添加字典进行爆破</p>
 </blockquote>
-<p><img src="/.com//0c1252a336f1a19d4a0c461a2625dfbd-20250425163154-kusite3.png" alt="0c1252a336f1a19d4a0c461a2625dfbd"></p>
-<p><img src="/.com//6a77d729ad1c18c986d038672540d012-20250425164624-cuo7973.png" alt="6a77d729ad1c18c986d038672540d012"></p>
+<p><img src="/.com//0c1252a336f1a19d4a0c461a2625dfbd-20250425163154-kusite3.png" srcset="/image/loading.gif" lazyload alt="0c1252a336f1a19d4a0c461a2625dfbd"></p>
+<p><img src="/.com//6a77d729ad1c18c986d038672540d012-20250425164624-cuo7973.png" srcset="/image/loading.gif" lazyload alt="6a77d729ad1c18c986d038672540d012"></p>
 <p>可以手工SQL注入（万能密码），在用户名框中输入admin’ or ‘1’=‘1，任意输入密码即可登陆（同时在弱口令字典里也有该语句）</p>
 <h3 id="Medium"><a href="#Medium" class="headerlink" title="Medium"></a>Medium</h3><p> 和low相比，过滤了一些转义字符，但依旧可以使用bp爆破方法同low</p>
-<p><img src="/.com//b25d2a1090203c32d0788cdd25e2dcdc-20250425164628-ohxr4rn.png" alt="b25d2a1090203c32d0788cdd25e2dcdc"></p>
+<p><img src="/.com//b25d2a1090203c32d0788cdd25e2dcdc-20250425164628-ohxr4rn.png" srcset="/image/loading.gif" lazyload alt="b25d2a1090203c32d0788cdd25e2dcdc"></p>
 <h3 id="High"><a href="#High" class="headerlink" title="High"></a>High</h3><p> 随意输入用户名密码，抓个包可以看到，携带了token</p>
-<p><img src="/.com//b25d2a1090203c32d0788cdd25e2dcdc-20250425164628-ohxr4rn.png" alt="b25d2a1090203c32d0788cdd25e2dcdc-1"></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GET /vulnerabilities/brute/?username=123&amp;password=123&amp;Login=Login&amp;user_token=bd32cb5998988f7c2f041f82f0dd701c HTTP/1.1</span><br><span class="line">Host: 69044566-74ca-4a40-bab8-8275aae0037d.node5.buuoj.cn:81</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Connection: close</span><br><span class="line">Referer: http://69044566-74ca-4a40-bab8-8275aae0037d.node5.buuoj.cn:81/vulnerabilities/brute/</span><br><span class="line">Cookie: PHPSESSID=76shf76ao4uqleikshlanj6eh0; security=high</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Priority: u=0, i</span><br></pre></td></tr></table></figure>
+<p><img src="/.com//b25d2a1090203c32d0788cdd25e2dcdc-20250425164628-ohxr4rn.png" srcset="/image/loading.gif" lazyload alt="b25d2a1090203c32d0788cdd25e2dcdc-1"></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs html">GET /vulnerabilities/brute/?username=123&amp;password=123&amp;Login=Login&amp;user_token=bd32cb5998988f7c2f041f82f0dd701c HTTP/1.1<br>Host: 69044566-74ca-4a40-bab8-8275aae0037d.node5.buuoj.cn:81<br>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8<br>Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2<br>Accept-Encoding: gzip, deflate, br<br>Connection: close<br>Referer: http://69044566-74ca-4a40-bab8-8275aae0037d.node5.buuoj.cn:81/vulnerabilities/brute/<br>Cookie: PHPSESSID=76shf76ao4uqleikshlanj6eh0; security=high<br>Upgrade-Insecure-Requests: 1<br>Priority: u=0, i<br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>发送到Intruder，攻击类型选择交叉攻击Pitchfork，给password和token添加payload位置</p>
 </blockquote>
-<p><img src="/.com//image-20250425164433-gi0ryza.png" alt="image"></p>
-<p><img src="/.com//image-20250425164358-rpkpeox.png" alt="image"></p>
+<p><img src="/.com//image-20250425164433-gi0ryza.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250425164358-rpkpeox.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>然后token选择递归提取，并且把初始可用的token代入</p>
-<p><img src="/.com//image-20250425164754-z5wbyc4.png" alt="image"></p>
-<p><img src="/.com//image-20250425164835-vvz11kl.png" alt="image"></p>
+<p><img src="/.com//image-20250425164754-z5wbyc4.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250425164835-vvz11kl.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>然后开始攻击即可</p>
 <p>‍</p>
 <h2 id="Command-Injection"><a href="#Command-Injection" class="headerlink" title="Command Injection"></a>Command Injection</h2><h3 id="Low"><a href="#Low" class="headerlink" title="Low"></a>Low</h3><p>网站提示我们输入ip地址</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line"></span><br><span class="line">    // Determine OS and execute the ping command.</span><br><span class="line">    if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">        // Windows</span><br><span class="line">        $cmd = shell_exec( &#x27;ping  &#x27; . $target );//函数能执行系统命令</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // *nix</span><br><span class="line">        $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Feedback for the end user</span><br><span class="line">    echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt; </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs sc">&lt;?php<br><br>if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;<br>    // Get input<br>    $target = $_REQUEST[ &#x27;ip&#x27; ];<br><br>    // Determine OS and execute the ping command.<br>    if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;<br>        // Windows<br>        $cmd = shell_exec( &#x27;ping  &#x27; . $target );//函数能执行系统命令<br>    &#125;<br>    else &#123;<br>        // *nix<br>        $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );<br>    &#125;<br><br>    // Feedback for the end user<br>    echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;<br>&#125;<br><br>?&gt; <br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>这里我们要说一下命令连接符<br>&amp; ：前面一个命令无论是否执行，后面的命令都能执行，两个命令都执行<br>&amp;&amp;：前面一个命令执行成功后，才能执行后面一个命令，两个命令都执行<br>|：前面一个命令无论是否执行，后面的命令都能执行且只执行后面一个<br>||：前面一个命令不能正常执行后，才能执行后面一个命令</p>
@@ -177,49 +382,49 @@
 </blockquote>
 <p>‍</p>
 <h3 id="Medium-1"><a href="#Medium-1" class="headerlink" title="Medium"></a>Medium</h3><p> 直接分析源码看看和Low等级有什么区别<br> 源码分析：发现在Low等级源码的基础上添加了一个黑名单，把‘&amp;&amp;’字符和‘;’字符过滤掉了，但我们可以使用黑名单之外的命令连接符继续命令注入</p>
-<p><img src="/.com//9275c6eed4da2dc9b0c7c1e5e63d563c-20250425170542-d99goej.png" alt="9275c6eed4da2dc9b0c7c1e5e63d563c"></p>
+<p><img src="/.com//9275c6eed4da2dc9b0c7c1e5e63d563c-20250425170542-d99goej.png" srcset="/image/loading.gif" lazyload alt="9275c6eed4da2dc9b0c7c1e5e63d563c"></p>
 <p>‍</p>
 <h3 id="High-1"><a href="#High-1" class="headerlink" title="High"></a>High</h3><p> 源码分析：发现还是一样的套路，也是过滤字符但过滤得更多了。但仔细观察发现有一个过滤是’| ‘，注意这个过滤是加了空格的，说明这个过滤其实是没用的，只需要’|’后面直接加入参数，不保留空格，我们依然可以用这个命令连接符进行命令注入</p>
-<p><img src="/.com//a24bd3a257d4e129cca8019070a9b07d-20250425170620-rfpguy9.png" alt="a24bd3a257d4e129cca8019070a9b07d"></p>
+<p><img src="/.com//a24bd3a257d4e129cca8019070a9b07d-20250425170620-rfpguy9.png" srcset="/image/loading.gif" lazyload alt="a24bd3a257d4e129cca8019070a9b07d"></p>
 <p>‍</p>
 <h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><h3 id="Low-1"><a href="#Low-1" class="headerlink" title="Low"></a>Low</h3><p> 网站的本意是让我们在网站里更改密码</p>
-<p><img src="/.com//1939fdc85c82e1df86c9b1f916522081-20250425171126-xu4wwp5.png" alt="1939fdc85c82e1df86c9b1f916522081"></p>
+<p><img src="/.com//1939fdc85c82e1df86c9b1f916522081-20250425171126-xu4wwp5.png" srcset="/image/loading.gif" lazyload alt="1939fdc85c82e1df86c9b1f916522081"></p>
 <blockquote>
 <p>但是能够主要到当我们更改密码成功后url栏的参数是这样的<br><a target="_blank" rel="noopener" href="http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=123456&password_conf=123456&Change=Change#">http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=123456&amp;password_conf=123456&amp;Change=Change#</a><br>可以分析出password_new是我输入的密码，password_conf是我确认的密码，说明我们在网站上输入的信息是会在url栏这里进行一个传输执行</p>
 </blockquote>
-<p><img src="/.com//830adffb3898c5c5488d85ee81e8e6a9-20250425171137-dr9bhdv.png" alt="830adffb3898c5c5488d85ee81e8e6a9"></p>
+<p><img src="/.com//830adffb3898c5c5488d85ee81e8e6a9-20250425171137-dr9bhdv.png" srcset="/image/loading.gif" lazyload alt="830adffb3898c5c5488d85ee81e8e6a9"></p>
 <p>抓个包看看，发现url栏的信息和请求的信息是一致的</p>
-<p> <img src="/.com//de160531a83b91e4ff84d165b7a7c13a-20250425171147-iksxt52.png" alt="de160531a83b91e4ff84d165b7a7c13a"></p>
+<p> <img src="/.com//de160531a83b91e4ff84d165b7a7c13a-20250425171147-iksxt52.png" srcset="/image/loading.gif" lazyload alt="de160531a83b91e4ff84d165b7a7c13a"></p>
 <blockquote>
 <p>那是不是说明如果我能控制url栏里传入的参数，就能够不在网站内执行更改密码的操作呢？<br>更改url的参数：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=456789&password_conf=456789&Change=Change#">http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=456789&amp;password_conf=456789&amp;Change=Change#</a><br>只需要在原来的url基础上该新密码和确认密码的参数即可</p>
 <p>为了显示效果，我使当前页面是密码不匹配状态</p>
 </blockquote>
-<p><img src="/.com//c170717135b963832851ab18cdd7291e-20250425171200-nuulqr6.png" alt="c170717135b963832851ab18cdd7291e"></p>
+<p><img src="/.com//c170717135b963832851ab18cdd7291e-20250425171200-nuulqr6.png" srcset="/image/loading.gif" lazyload alt="c170717135b963832851ab18cdd7291e"></p>
 <p>在新标签内放入设置好的url，点击执行</p>
-<p><img src="/.com//5c64252299acea56a3b35687d997aeb0-20250425171207-xr9kfct.png" alt="5c64252299acea56a3b35687d997aeb0"></p>
+<p><img src="/.com//5c64252299acea56a3b35687d997aeb0-20250425171207-xr9kfct.png" srcset="/image/loading.gif" lazyload alt="5c64252299acea56a3b35687d997aeb0"></p>
 <p>页面跳转到了dvwa的更改密码界面，csrf攻击成功</p>
-<p><img src="/.com//2ada0b8e5e0e9bc04452aa3935526506-20250425171213-9w5xvbr.png" alt="2ada0b8e5e0e9bc04452aa3935526506"></p>
+<p><img src="/.com//2ada0b8e5e0e9bc04452aa3935526506-20250425171213-9w5xvbr.png" srcset="/image/loading.gif" lazyload alt="2ada0b8e5e0e9bc04452aa3935526506"></p>
 <blockquote>
 <p>网站的本意是在网站内更改密码，而我通过控制url的传参就能使我能在网站之外执行更改密码的操作，那么当我知道一个网站有csrf漏洞后也可以通过构造url的方式让别人点击执行他意想之外的行为</p>
 <p>源码分析：源码中只对传入的密码和确认密码进行比较，两者一致则执行更改密码命令成功返回Password Change，不一致则返回Passwords did not match，没有任何过滤，所以能轻易执行csrf漏洞</p>
 </blockquote>
-<p><img src="/.com//f0c609415b16d644263608771e005b1a-20250425171252-o8j4acs.png" alt="f0c609415b16d644263608771e005b1a"></p>
+<p><img src="/.com//f0c609415b16d644263608771e005b1a-20250425171252-o8j4acs.png" srcset="/image/loading.gif" lazyload alt="f0c609415b16d644263608771e005b1a"></p>
 <p>‍</p>
 <h3 id="Medium-2"><a href="#Medium-2" class="headerlink" title="Medium"></a>Medium</h3><p> 源码分析：和Low等级比较发现，只有一处改变，即在传入密码和确认密码参数前先进行了一个&#x3D;&#x3D;if语句的判断&#x3D;&#x3D;，判断里面的内容主要是验证这个访问请求是否是从&#x3D;&#x3D;dwva网站&#x3D;&#x3D;本身发起的，若不是就不执行后面的操作</p>
-<p><img src="/.com//9dbaa6761aa3ad43ade255e9fe296b30-20250425171315-yfcd81j.png" alt="9dbaa6761aa3ad43ade255e9fe296b30"></p>
+<p><img src="/.com//9dbaa6761aa3ad43ade255e9fe296b30-20250425171315-yfcd81j.png" srcset="/image/loading.gif" lazyload alt="9dbaa6761aa3ad43ade255e9fe296b30"></p>
 <p>源码是通过referrer这个字段的参数进行判断的，通常情况下在增加referrer验证时就是网站本身当前页面的ip地址，我们通过抓包看看信息</p>
 <p>首先抓一个包，可以看到这里有referer</p>
-<p><img src="/.com//9cea6507c937a1c9f35fd8b63940524c-20250425171659-wyha15h.png" alt="9cea6507c937a1c9f35fd8b63940524c"></p>
+<p><img src="/.com//9cea6507c937a1c9f35fd8b63940524c-20250425171659-wyha15h.png" srcset="/image/loading.gif" lazyload alt="9cea6507c937a1c9f35fd8b63940524c"></p>
 <p>复制刚才构造好的url，在新页面打开：<a target="_blank" rel="noopener" href="http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new=666666&password_conf=666666&Change=Change#" title="http:&#x2F;&#x2F;192.168.10.5&#x2F;DVWA&#x2F;vulnerabilities&#x2F;csrf&#x2F;?password_new&#x3D;666666&amp;password_conf&#x3D;666666&amp;Change&#x3D;Change#">http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new&#x3D;666666&amp;password_conf&#x3D;666666&amp;Change&#x3D;Change#</a></p>
 <p>抓包，发现没有referer</p>
-<p><img src="/.com//3d4b2706cc958a8f1394de205839b040-20250425171716-w1cnaaw.png" alt="3d4b2706cc958a8f1394de205839b040"></p>
+<p><img src="/.com//3d4b2706cc958a8f1394de205839b040-20250425171716-w1cnaaw.png" srcset="/image/loading.gif" lazyload alt="3d4b2706cc958a8f1394de205839b040"></p>
 <p>我们自己在这里加一个referer，随意添加，包含本机就可以例如：127.0.0.1</p>
-<p><img src="/.com//ab872067c571ccab991bbebbbe9c311d-20250425171723-miwfpva.png" alt="ab872067c571ccab991bbebbbe9c311d"></p>
+<p><img src="/.com//ab872067c571ccab991bbebbbe9c311d-20250425171723-miwfpva.png" srcset="/image/loading.gif" lazyload alt="ab872067c571ccab991bbebbbe9c311d"></p>
 <p>放包，发现已经成功修改</p>
 <p>‍</p>
 <h3 id="high"><a href="#high" class="headerlink" title="high"></a>high</h3><p> 可以看到，设置了token</p>
 <p> 这里我们采用抓包，把包发到重放模块，在row中可以看到新的token</p>
-<p><img src="/.com//4eb20c2a54b3919e475b47dfde22f4ff-20250425171734-p8nrrqi.png" alt="4eb20c2a54b3919e475b47dfde22f4ff"></p>
+<p><img src="/.com//4eb20c2a54b3919e475b47dfde22f4ff-20250425171734-p8nrrqi.png" srcset="/image/loading.gif" lazyload alt="4eb20c2a54b3919e475b47dfde22f4ff"></p>
 <blockquote>
 <p>接下来使用获取到的新token构造链接</p>
 <p><a target="_blank" rel="noopener" href="http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new=666666&password_conf=666666&Change=Change&user_token=9c36edfc71b135e726adce6603be8651">http://192.168.10.5/DVWA/vulnerabilities/csrf/?password_new=666666&amp;password_conf=666666&amp;Change=Change&amp;user_token=9c36edfc71b135e726adce6603be8651</a></p>
@@ -227,265 +432,475 @@
 </blockquote>
 <p>‍</p>
 <h2 id="4-File-inclusion-文件包含"><a href="#4-File-inclusion-文件包含" class="headerlink" title="4.File inclusion 文件包含"></a>4.File inclusion 文件包含</h2><h3 id="low-1"><a href="#low-1" class="headerlink" title="low"></a>low</h3><p> 每次点击都会跳转，所以可以在page=后面添加本地文件路径</p>
-<p><img src="/.com//7386fd3fd2979574a11e49bbf188337a-20250425172020-tcersi4.png" alt="7386fd3fd2979574a11e49bbf188337a"></p>
+<p><img src="/.com//7386fd3fd2979574a11e49bbf188337a-20250425172020-tcersi4.png" srcset="/image/loading.gif" lazyload alt="7386fd3fd2979574a11e49bbf188337a"></p>
 <h3 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h3><p> 可以通过ip+路径包含文件</p>
-<p><img src="/.com//d28bea7da6e424606062dfb78c2893e1-20250425172030-4kgs98a.png" alt="d28bea7da6e424606062dfb78c2893e1"></p>
-<h3 id="high-1"><a href="#high-1" class="headerlink" title="high"></a>high</h3><p><img src="/.com//ea03f7407dc9279a2ed7d860673023f0-20250425172036-kxf2wi3.png" alt="ea03f7407dc9279a2ed7d860673023f0"></p>
+<p><img src="/.com//d28bea7da6e424606062dfb78c2893e1-20250425172030-4kgs98a.png" srcset="/image/loading.gif" lazyload alt="d28bea7da6e424606062dfb78c2893e1"></p>
+<h3 id="high-1"><a href="#high-1" class="headerlink" title="high"></a>high</h3><p><img src="/.com//ea03f7407dc9279a2ed7d860673023f0-20250425172036-kxf2wi3.png" srcset="/image/loading.gif" lazyload alt="ea03f7407dc9279a2ed7d860673023f0"></p>
 <p>源码限制了page之后的参数是以file开头，所以可以用file函数去构建</p>
 <p> <a target="_blank" rel="noopener" href="http://192.168.10.5/DVWA/vulnerabilities/fi/?page=file://E:%5CphpStudy%5CWWW%5CDVWA%5Cfile555.txt" title="http:&#x2F;&#x2F;192.168.10.5&#x2F;DVWA&#x2F;vulnerabilities&#x2F;fi&#x2F;?page&#x3D;file:&#x2F;&#x2F;E:\phpStudy\WWW\DVWA\file555.txt">http://192.168.10.5/DVWA/vulnerabilities/fi/?page=file://E:\phpStudy\WWW\DVWA\file555.txt</a></p>
-<p><img src="/.com//b94534da3ee8d55a722bd51d644994e6-20250425172043-5fapvh7.png" alt="b94534da3ee8d55a722bd51d644994e6"></p>
+<p><img src="/.com//b94534da3ee8d55a722bd51d644994e6-20250425172043-5fapvh7.png" srcset="/image/loading.gif" lazyload alt="b94534da3ee8d55a722bd51d644994e6"></p>
 <p>‍</p>
-<h2 id="5-File-upload文件上传"><a href="#5-File-upload文件上传" class="headerlink" title="5.File upload文件上传"></a>5.File upload文件上传</h2><h3 id="low-2"><a href="#low-2" class="headerlink" title="low"></a>low</h3><p><img src="/.com//c92f0ca2659de359b6dda9fdd58d23cd-20250425172053-9ya348y.png" alt="c92f0ca2659de359b6dda9fdd58d23cd"></p>
+<h2 id="5-File-upload文件上传"><a href="#5-File-upload文件上传" class="headerlink" title="5.File upload文件上传"></a>5.File upload文件上传</h2><h3 id="low-2"><a href="#low-2" class="headerlink" title="low"></a>low</h3><p><img src="/.com//c92f0ca2659de359b6dda9fdd58d23cd-20250425172053-9ya348y.png" srcset="/image/loading.gif" lazyload alt="c92f0ca2659de359b6dda9fdd58d23cd"></p>
 <p>可以看到，没有任何限制，所以直接上传一个php后门文件即可</p>
 <p> 直接上传一句话木马，蚁剑链接即可</p>
 <h3 id="Medium-3"><a href="#Medium-3" class="headerlink" title="Medium"></a>Medium</h3><p> 可以看到，靶场对文件类型做了限制，只允许上传png、jpeg，并且检查</p>
-<p><img src="/.com//fd8bc231d15557db234ddd92e2d4a745-20250425172423-br5ll4y.png" alt="fd8bc231d15557db234ddd92e2d4a745"></p>
+<p><img src="/.com//fd8bc231d15557db234ddd92e2d4a745-20250425172423-br5ll4y.png" srcset="/image/loading.gif" lazyload alt="fd8bc231d15557db234ddd92e2d4a745"></p>
 <p>burp后台改后缀即可</p>
 <p>‍</p>
 <h3 id="High-2"><a href="#High-2" class="headerlink" title="High"></a>High</h3><p> 看源代码可以发现，不仅限制了文件类型，而且限制了大小，不能少于100kb</p>
-<p><img src="/.com//42a6ceb6367ab31ef8b9468d9d5c45fb-20250425172446-hhvsnf6.png" alt="42a6ceb6367ab31ef8b9468d9d5c45fb"></p>
+<p><img src="/.com//42a6ceb6367ab31ef8b9468d9d5c45fb-20250425172446-hhvsnf6.png" srcset="/image/loading.gif" lazyload alt="42a6ceb6367ab31ef8b9468d9d5c45fb"></p>
 <p>可以上传一个图片马，打开cmd，输入以下命令：<code>copy post2.php/a + 111.png/b 66.png</code>​</p>
-<p><img src="/.com//549490ef5de7cd680ca26bd8f524f483-20250425172455-32a0xdu.png" alt="549490ef5de7cd680ca26bd8f524f483"></p>
+<p><img src="/.com//549490ef5de7cd680ca26bd8f524f483-20250425172455-32a0xdu.png" srcset="/image/loading.gif" lazyload alt="549490ef5de7cd680ca26bd8f524f483"></p>
 <p>此时已经上传成功，但不能利用</p>
-<p><img src="/.com//4a84d8fcccf0c77b894d775b47aa45cd-20250425172506-52ttghn.png" alt="4a84d8fcccf0c77b894d775b47aa45cd"></p>
+<p><img src="/.com//4a84d8fcccf0c77b894d775b47aa45cd-20250425172506-52ttghn.png" srcset="/image/loading.gif" lazyload alt="4a84d8fcccf0c77b894d775b47aa45cd"></p>
 <p>在命令注入中输入127.0.0.1|| ren C:\phpstudy_pro\WWW\DVWA-master\hackable\uploads\888.png 888.php</p>
-<p><img src="/.com//ccfc7557d167997fdc4dd98f505a1078-20250425172532-dnkw477.png" alt="ccfc7557d167997fdc4dd98f505a1078">此时发现，888.png已经被改名为888.php</p>
+<p><img src="/.com//ccfc7557d167997fdc4dd98f505a1078-20250425172532-dnkw477.png" srcset="/image/loading.gif" lazyload alt="ccfc7557d167997fdc4dd98f505a1078">此时发现，888.png已经被改名为888.php</p>
 <p>‍</p>
 <h2 id="6-insecure-captcha不安全的验证"><a href="#6-insecure-captcha不安全的验证" class="headerlink" title="6.insecure captcha不安全的验证"></a>6.insecure captcha不安全的验证</h2><h3 id="low-3"><a href="#low-3" class="headerlink" title="low"></a>low</h3><p> 本关是在第二步做验证，所以把step改为2就可以绕过验证</p>
-<p><img src="/.com//eabf443fe5d55d6af0739e5c7df2e765-20250425172652-x0th1hw.png" alt="eabf443fe5d55d6af0739e5c7df2e765"></p>
+<p><img src="/.com//eabf443fe5d55d6af0739e5c7df2e765-20250425172652-x0th1hw.png" srcset="/image/loading.gif" lazyload alt="eabf443fe5d55d6af0739e5c7df2e765"></p>
 <h3 id="medium-1"><a href="#medium-1" class="headerlink" title="medium"></a>medium</h3><p> 依旧抓包改包</p>
-<p><img src="/.com//3635ebcbdcf767c961b46cda65863f80-20250425172657-5hierei.png" alt="3635ebcbdcf767c961b46cda65863f80"></p>
-<h3 id="high-2"><a href="#high-2" class="headerlink" title="high"></a>high</h3><p><img src="/.com//490a93c21a9bd427fe3d29dea67d7efa-20250425172703-77m3kop.png" alt="490a93c21a9bd427fe3d29dea67d7efa"></p>
+<p><img src="/.com//3635ebcbdcf767c961b46cda65863f80-20250425172657-5hierei.png" srcset="/image/loading.gif" lazyload alt="3635ebcbdcf767c961b46cda65863f80"></p>
+<h3 id="high-2"><a href="#high-2" class="headerlink" title="high"></a>high</h3><p><img src="/.com//490a93c21a9bd427fe3d29dea67d7efa-20250425172703-77m3kop.png" srcset="/image/loading.gif" lazyload alt="490a93c21a9bd427fe3d29dea67d7efa"></p>
 <p>让通过验证的情况增加了一种。原先是只有验证码为真才能通过验证，现在新增“或者g-recaptcha-response且HTTP_USER_AGENT为特定内容”通过验证。</p>
 <p> 那直接用Burpsuite修改数据包</p>
-<p><img src="/.com//8601e5ee714e65e6521aaecea77fbe2d-20250425172708-5gq4swo.png" alt="8601e5ee714e65e6521aaecea77fbe2d"></p>
+<p><img src="/.com//8601e5ee714e65e6521aaecea77fbe2d-20250425172708-5gq4swo.png" srcset="/image/loading.gif" lazyload alt="8601e5ee714e65e6521aaecea77fbe2d"></p>
 <p>‍</p>
 <h2 id="7-SQL-injection-sql注入"><a href="#7-SQL-injection-sql注入" class="headerlink" title="7.SQL injection sql注入"></a>7.SQL injection sql注入</h2><h3 id="low-4"><a href="#low-4" class="headerlink" title="low"></a>low</h3><ol>
 <li>输入1+2，可以看到，并未输出3，所以可以判定是字符型注入</li>
 </ol>
-<p><img src="/.com//91a5a615ee0f8c4b9199dd8788cb79e2-20250425172821-gb4jvax.png" alt="91a5a615ee0f8c4b9199dd8788cb79e2"></p>
+<p><img src="/.com//91a5a615ee0f8c4b9199dd8788cb79e2-20250425172821-gb4jvax.png" srcset="/image/loading.gif" lazyload alt="91a5a615ee0f8c4b9199dd8788cb79e2"></p>
 <p>输入如下payload：’1 or 1=1’ ，可以看到有报错，所以一定存在sql注入</p>
-<p><img src="/.com//0ded62d0731c2502d756236e702834a6-20250425172828-2scjktq.png" alt="0ded62d0731c2502d756236e702834a6"></p>
-<p><img src="/.com//4fd521db8e735523d0a818882dce5597-20250425172831-e9o5jfm.png" alt="4fd521db8e735523d0a818882dce5597"></p>
+<p><img src="/.com//0ded62d0731c2502d756236e702834a6-20250425172828-2scjktq.png" srcset="/image/loading.gif" lazyload alt="0ded62d0731c2502d756236e702834a6"></p>
+<p><img src="/.com//4fd521db8e735523d0a818882dce5597-20250425172831-e9o5jfm.png" srcset="/image/loading.gif" lazyload alt="4fd521db8e735523d0a818882dce5597"></p>
 <p>使用order by判断字段数 1’ order by 2 #</p>
-<p><img src="/.com//a17effc3868eb93c474867f504fe2e02-20250425172838-0nbohx7.png" alt="a17effc3868eb93c474867f504fe2e02"></p>
+<p><img src="/.com//a17effc3868eb93c474867f504fe2e02-20250425172838-0nbohx7.png" srcset="/image/loading.gif" lazyload alt="a17effc3868eb93c474867f504fe2e02"></p>
 <p>1’ order by 3 #</p>
-<p><img src="/.com//3200280212d7dbbf9417cd5f46a177ce-20250425172844-yv8r8qc.png" alt="3200280212d7dbbf9417cd5f46a177ce"></p>
+<p><img src="/.com//3200280212d7dbbf9417cd5f46a177ce-20250425172844-yv8r8qc.png" srcset="/image/loading.gif" lazyload alt="3200280212d7dbbf9417cd5f46a177ce"></p>
 <p>由此判断，他只有两个字段</p>
 <ol>
 <li>然后使用联合查询 1’ union select 1,2 # 获取回显位置</li>
 </ol>
-<p><img src="/.com//14b5a5a1f63d114e0c22f9649147a3fd-20250425172850-1pa3jj7.png" alt="14b5a5a1f63d114e0c22f9649147a3fd"></p>
+<p><img src="/.com//14b5a5a1f63d114e0c22f9649147a3fd-20250425172850-1pa3jj7.png" srcset="/image/loading.gif" lazyload alt="14b5a5a1f63d114e0c22f9649147a3fd"></p>
 <p>在对应位置获取数据库名 1’ union select database(),2 #</p>
-<p><img src="/.com//5c64dd66f4fed0355fd501f7ce4768e7-20250425172856-izm3bma.png" alt="5c64dd66f4fed0355fd501f7ce4768e7"></p>
+<p><img src="/.com//5c64dd66f4fed0355fd501f7ce4768e7-20250425172856-izm3bma.png" srcset="/image/loading.gif" lazyload alt="5c64dd66f4fed0355fd501f7ce4768e7"></p>
 <p>获取数据库所有表名 1’ union select group_concat(table_name),2 from information_schema.tables where table_schema=database() #</p>
-<p><img src="/.com//60b5183c063b38ef89a35c0f06b11302-20250425172901-19j6jn0.png" alt="60b5183c063b38ef89a35c0f06b11302"></p>
-<pre><code>获取users字段名
+<p><img src="/.com//60b5183c063b38ef89a35c0f06b11302-20250425172901-19j6jn0.png" srcset="/image/loading.gif" lazyload alt="60b5183c063b38ef89a35c0f06b11302"></p>
+<pre><code class="hljs">获取users字段名
 </code></pre>
 <p>1’ union select group_concat(column_name),2 from information_schema.columns where table_name&#x3D;’users’ and table_schema&#x3D;database() #</p>
-<p><img src="/.com//9b28bb76146997ac3c1a0310c70c0290-20250425172911-y5kdd7j.png" alt="9b28bb76146997ac3c1a0310c70c0290"></p>
+<p><img src="/.com//9b28bb76146997ac3c1a0310c70c0290-20250425172911-y5kdd7j.png" srcset="/image/loading.gif" lazyload alt="9b28bb76146997ac3c1a0310c70c0290"></p>
 <ol>
 <li>获取字段值</li>
 </ol>
 <p> 1’ union select password,user from users #</p>
-<p><img src="/.com//830ea6ebdea4a1cafbd68c3b1fc28c7d-20250425172925-6nzb1g3.png" alt="830ea6ebdea4a1cafbd68c3b1fc28c7d"></p>
+<p><img src="/.com//830ea6ebdea4a1cafbd68c3b1fc28c7d-20250425172925-6nzb1g3.png" srcset="/image/loading.gif" lazyload alt="830ea6ebdea4a1cafbd68c3b1fc28c7d"></p>
 <p>现在已经拿到了用户和密码，但密码是加密的，可使用md5自行解密 <a target="_blank" rel="noopener" href="https://cmd5.com/" title="md5在线解密破解,md5解密加密">md5在线解密破解,md5解密加密</a></p>
 <p>‍</p>
 <h3 id="Medium-4"><a href="#Medium-4" class="headerlink" title="Medium"></a>Medium</h3><ol>
 <li>先选中1，抓一个包，然后发到重放模块，用于测试，可以修改参数，数字型注入</li>
 </ol>
 <p> id修改为1+1，出现报错</p>
-<p><img src="/.com//f290b11a4a46c412831d62057faa65c5-20250425173006-w7azyem.png" alt="f290b11a4a46c412831d62057faa65c5"></p>
+<p><img src="/.com//f290b11a4a46c412831d62057faa65c5-20250425173006-w7azyem.png" srcset="/image/loading.gif" lazyload alt="f290b11a4a46c412831d62057faa65c5"></p>
 <p>使用order by判断字段数</p>
-<p><img src="/.com//f7080fe5b14c527ac83e957fa6f387af-20250425173025-p1mqx8c.png" alt="f7080fe5b14c527ac83e957fa6f387af"></p>
-<p><img src="/.com//7e576d86d507cb5fda0d514b7f339a7c-20250425173028-dvfygd6.png" alt="7e576d86d507cb5fda0d514b7f339a7c"></p>
+<p><img src="/.com//f7080fe5b14c527ac83e957fa6f387af-20250425173025-p1mqx8c.png" srcset="/image/loading.gif" lazyload alt="f7080fe5b14c527ac83e957fa6f387af"></p>
+<p><img src="/.com//7e576d86d507cb5fda0d514b7f339a7c-20250425173028-dvfygd6.png" srcset="/image/loading.gif" lazyload alt="7e576d86d507cb5fda0d514b7f339a7c"></p>
 <p>输入联合查询语句</p>
-<p><img src="/.com//94c752d33768607b940ba5c088b8454c-20250425173035-pg461k1.png" alt="94c752d33768607b940ba5c088b8454c"></p>
+<p><img src="/.com//94c752d33768607b940ba5c088b8454c-20250425173035-pg461k1.png" srcset="/image/loading.gif" lazyload alt="94c752d33768607b940ba5c088b8454c"></p>
 <p>剩余步骤同上</p>
 <h3 id="high-3"><a href="#high-3" class="headerlink" title="high"></a>high</h3><p> 1.输入1’，发现报错</p>
-<p><img src="/.com//c3e7ddd980a483947e4df2376ac0d2ff-20250425173042-zcr3d58.png" alt="c3e7ddd980a483947e4df2376ac0d2ff"></p>
+<p><img src="/.com//c3e7ddd980a483947e4df2376ac0d2ff-20250425173042-zcr3d58.png" srcset="/image/loading.gif" lazyload alt="c3e7ddd980a483947e4df2376ac0d2ff"></p>
 <p>输入联合查询语句</p>
-<p><img src="/.com//1bfc929320387d76beafeb6597f52f71-20250425173052-250wxuk.png" alt="1bfc929320387d76beafeb6597f52f71"></p>
+<p><img src="/.com//1bfc929320387d76beafeb6597f52f71-20250425173052-250wxuk.png" srcset="/image/loading.gif" lazyload alt="1bfc929320387d76beafeb6597f52f71"></p>
 <p>按上述步骤进行查询</p>
 <h3 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h3><p> 限制只能为数字   不存在注入</p>
 <p>‍</p>
 <h2 id="8-SQL-injection（blind）盲注"><a href="#8-SQL-injection（blind）盲注" class="headerlink" title="8.SQL injection（blind）盲注"></a>8.SQL injection（blind）盲注</h2><h3 id="low-5"><a href="#low-5" class="headerlink" title="low"></a>low</h3><ol>
 <li>输入 1’ and 1=1 # 可以看到 正常执行</li>
 </ol>
-<p><img src="/.com//34337217f9b95502cde5e73d522aba79-20250425173105-dwfpfwp.png" alt="34337217f9b95502cde5e73d522aba79"></p>
+<p><img src="/.com//34337217f9b95502cde5e73d522aba79-20250425173105-dwfpfwp.png" srcset="/image/loading.gif" lazyload alt="34337217f9b95502cde5e73d522aba79"></p>
 <p>猜解开数据库长度1’ and length(database())=x #</p>
-<p><img src="/.com//751149ca4a1557d6985de8d258d2cf01-20250425173119-c3wcxww.png" alt="751149ca4a1557d6985de8d258d2cf01"></p>
-<p><img src="/.com//4b90b927976bd2e18252b41bdb1b5f48-20250425173123-ffmyd3b.png" alt="4b90b927976bd2e18252b41bdb1b5f48"></p>
+<p><img src="/.com//751149ca4a1557d6985de8d258d2cf01-20250425173119-c3wcxww.png" srcset="/image/loading.gif" lazyload alt="751149ca4a1557d6985de8d258d2cf01"></p>
+<p><img src="/.com//4b90b927976bd2e18252b41bdb1b5f48-20250425173123-ffmyd3b.png" srcset="/image/loading.gif" lazyload alt="4b90b927976bd2e18252b41bdb1b5f48"></p>
 <p>用aascii猜解数据库名 1’ and ascii(substr(database(),1,1))=100 # 由此确定，第一位ascii是100，对比ascii表（<a target="_blank" rel="noopener" href="http://ascii.wjccx.com/" title="ASCII码对照表-完整ASCII码表-我就查查询">ASCII码对照表-完整ASCII码表-我就查查询</a>）可得 为d</p>
-<p><img src="/.com//43b0bc8b8ca471ba0126fe4f5f6a2a0e-20250425173156-3qawi2b.png" alt="43b0bc8b8ca471ba0126fe4f5f6a2a0e"></p>
+<p><img src="/.com//43b0bc8b8ca471ba0126fe4f5f6a2a0e-20250425173156-3qawi2b.png" srcset="/image/loading.gif" lazyload alt="43b0bc8b8ca471ba0126fe4f5f6a2a0e"></p>
 <ol>
 <li>和普通sql注入相同，依次查询库名表名字段名</li>
 </ol>
 <h3 id="Medium-5"><a href="#Medium-5" class="headerlink" title="Medium"></a>Medium</h3><ol>
 <li>随意选择一个数，然后抓包</li>
 </ol>
-<p><img src="/.com//7ac45f64d1403222c82393a5b210906c-20250425173331-kchwbjb.png" alt="7ac45f64d1403222c82393a5b210906c"></p>
+<p><img src="/.com//7ac45f64d1403222c82393a5b210906c-20250425173331-kchwbjb.png" srcset="/image/loading.gif" lazyload alt="7ac45f64d1403222c82393a5b210906c"></p>
 <p>修改参数 1 and length(database())=4 #，根据布尔 盲注判断，，数据库名为4</p>
-<p><img src="/.com//a4553a678f1d6482e5fb8ce9841c3538-20250425173338-wyz18se.png" alt="a4553a678f1d6482e5fb8ce9841c3538"></p>
+<p><img src="/.com//a4553a678f1d6482e5fb8ce9841c3538-20250425173338-wyz18se.png" srcset="/image/loading.gif" lazyload alt="a4553a678f1d6482e5fb8ce9841c3538"></p>
 <p>下面依旧使用sql语句进行查询，步骤同上</p>
 <p>‍</p>
 <h3 id="high-4"><a href="#high-4" class="headerlink" title="high"></a>high</h3><ol>
 <li>1’ and 1=1 # 测试，发现成功执行</li>
 </ol>
-<p><img src="/.com//ca86f4d80df4b3feccbf28e4ccdaf857-20250425173346-utigrlz.png" alt="ca86f4d80df4b3feccbf28e4ccdaf857"></p>
+<p><img src="/.com//ca86f4d80df4b3feccbf28e4ccdaf857-20250425173346-utigrlz.png" srcset="/image/loading.gif" lazyload alt="ca86f4d80df4b3feccbf28e4ccdaf857"></p>
 <p>盲注，测试数据库名长度 1’ and length(database())=4 #</p>
-<p><img src="/.com//31274efc2f2bde6b41b806798e997547-20250425173353-ae59gvt.png" alt="31274efc2f2bde6b41b806798e997547"></p>
+<p><img src="/.com//31274efc2f2bde6b41b806798e997547-20250425173353-ae59gvt.png" srcset="/image/loading.gif" lazyload alt="31274efc2f2bde6b41b806798e997547"></p>
 <p>接下来的步骤同上</p>
 
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" data-id="cmaxygi0l000doc7k8l7ogc1u" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
+
+<span class="category-chains">
+  
   
     
-<nav id="article-nav">
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
   
-    <a href="/2025/05/20/Web/SSRF/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" class="print-no-link">#DVWA靶场通关</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>DVWA靶场通关</div>
+      <div>http://example.com/2025/05/20/Web/DVWA靶场通关/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/20/Web/SSRF/" title="SSRF">
+                        <span class="hidden-mobile">SSRF</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
       </div>
-    </a>
-  
-  
-    <a href="/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
     </div>
-  </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSTI/" rel="tag">SSTI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" rel="tag">模板注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/SSTI/" style="font-size: 10px;">SSTI</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">模板注入</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
+    <div class="side-col d-none d-lg-block col-lg-2">
       
-      &copy; 2025 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
 
     </div>
-    <nav id="mobile-nav">
+  </div>
+</div>
+
+
+
+
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
+
+
+
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+
+
+
   
-</nav>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
 
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="/js/jquery.min.js/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
-<script src="/js/script.js"></script>
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-  </div>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>

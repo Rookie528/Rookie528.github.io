@@ -1,4 +1,5 @@
-<h1 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h1><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><hr>
+<hr>
+<h2 id="title-二次注入date-2025-05-20categories-Web-注入漏洞-SQL注入-sql注入总结tags-二次注入"><a href="#title-二次注入date-2025-05-20categories-Web-注入漏洞-SQL注入-sql注入总结tags-二次注入" class="headerlink" title="title: 二次注入date: 2025-05-20categories:  - Web  - 注入漏洞  - SQL注入  - sql注入总结tags:  - 二次注入"></a>title: 二次注入<br>date: 2025-05-20<br>categories:<br>  - Web<br>  - 注入漏洞<br>  - SQL注入<br>  - sql注入总结<br>tags:<br>  - 二次注入</h2><h1 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h1><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><hr>
 <p>二次注入是指<u><strong>已存储（数据库、文件）</strong></u>​<u>的用户</u>​<u><strong>输入被读取</strong></u>​<u>后再次进入到 </u>​<u><strong>SQL 查询</strong></u>​<u>语句中导致的注入</u>。二次注入是sql注入的一种，但是比普通<code>sql注入</code>​利用更加困难，利用门槛更高。普通注入数据直接进入到 SQL 查询中，而二次注入则是<u><strong>输入数据经处理后存储</strong></u>​<u>，取出后，再次进入到 SQL 查询。</u></p>
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><hr>
 <p>在第一次进行数据插入数据库得时候，仅仅知识使用了<code>addslashes()</code>​或者是借助<code>get_magic_quotes_gpc()</code>​对其中得字符进行了转义，在后端代码中可能会被转义，但在存入数据库时候还是原来得数据，数据中一般带有单引号和#号，然后下次使用在拼凑SQL中，所以就行了二次注入。</p>

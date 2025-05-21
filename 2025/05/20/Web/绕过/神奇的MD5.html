@@ -1,4 +1,5 @@
-<h1 id="神奇的MD5"><a href="#神奇的MD5" class="headerlink" title="神奇的MD5"></a>神奇的MD5</h1><h4 id="奇妙的字符串"><a href="#奇妙的字符串" class="headerlink" title="奇妙的字符串"></a>奇妙的字符串</h4><p>一个是MD5加密后弱比较等于自身，这个字符串是 0e215962017 ：</p>
+<hr>
+<h2 id="title-神奇的MD5date-2025-05-20categories-Web-绕过tags-神奇的MD5"><a href="#title-神奇的MD5date-2025-05-20categories-Web-绕过tags-神奇的MD5" class="headerlink" title="title: 神奇的MD5date: 2025-05-20categories:  - Web  - 绕过tags:  - 神奇的MD5"></a>title: 神奇的MD5<br>date: 2025-05-20<br>categories:<br>  - Web<br>  - 绕过<br>tags:<br>  - 神奇的MD5</h2><h1 id="神奇的MD5"><a href="#神奇的MD5" class="headerlink" title="神奇的MD5"></a>神奇的MD5</h1><h4 id="奇妙的字符串"><a href="#奇妙的字符串" class="headerlink" title="奇妙的字符串"></a>奇妙的字符串</h4><p>一个是MD5加密后弱比较等于自身，这个字符串是 0e215962017 ：</p>
 <p>另一个是 MD5 加密后变成万能密码，这个字符串是 ffifdyop ：</p>
 <blockquote>
 <p>经过md5加密后：276f722736c95d99e921722cf9ed621c<br>再转换为字符串：‘or’6&lt;乱码&gt; 即 ‘or’66�]��!r,��b<br>用途：<br>select * from admin where password=’‘or’6&lt;乱码&gt;’<br>就相当于select * from admin where password=’’or 1 实现sql注入</p>

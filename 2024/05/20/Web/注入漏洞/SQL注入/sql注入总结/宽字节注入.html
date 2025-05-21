@@ -1,4 +1,5 @@
-<h1 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h1><p>宽字节注入是由于<strong>不同编码</strong>中中英文所占字符的的不同所导致的，通常的来说，在GBK编码当中，一个<strong>汉字占用2个字节</strong>。除了UTF-8以外，所有的ANSI编码中文都是<strong>占用俩个字符</strong>。</p>
+<hr>
+<h2 id="title-宽字节注入date-2025-05-20categories-Web-注入漏洞-SQL注入-sql注入总结tags-宽字节注入"><a href="#title-宽字节注入date-2025-05-20categories-Web-注入漏洞-SQL注入-sql注入总结tags-宽字节注入" class="headerlink" title="title: 宽字节注入date: 2025-05-20categories:  - Web  - 注入漏洞  - SQL注入  - sql注入总结tags:  - 宽字节注入"></a>title: 宽字节注入<br>date: 2025-05-20<br>categories:<br>  - Web<br>  - 注入漏洞<br>  - SQL注入<br>  - sql注入总结<br>tags:<br>  - 宽字节注入</h2><h1 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h1><p>宽字节注入是由于<strong>不同编码</strong>中中英文所占字符的的不同所导致的，通常的来说，在GBK编码当中，一个<strong>汉字占用2个字节</strong>。除了UTF-8以外，所有的ANSI编码中文都是<strong>占用俩个字符</strong>。</p>
 <pre><code class="language-bash">//GBK和其他所有ANSI结果为2
 echo strlen(&quot;中&quot;) 
 

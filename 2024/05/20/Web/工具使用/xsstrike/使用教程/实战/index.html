@@ -1,18 +1,31 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>XSStrike实战教程 | Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="实战XSStrike的基本使用下面是他的常用命令  -u url –skip 跳过确认提示 –skip-dom 跳过dom型扫描 –data post型时的数据  这里我们使用pikachu平台进行测试 反射型xss(get) 这是最简单的，我们先手动submit一下看看url  直接写payload 1python xsstrike.py -u &quot;http:&#x2F;&#x2F;127.0.0.1&#x2F;pi">
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="实战XSStrike的基本使用下面是他的常用命令  -u url –skip 跳过确认提示 –skip-dom 跳过dom型扫描 –data post型时的数据  这里我们使用pikachu平台进行测试 反射型xss(get) 这是最简单的，我们先手动submit一下看看url  直接写payload 1python xsstrike.py -u &quot;http:&#x2F;&#x2F;127.0.0.1&#x2F;pi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XSStrike实战教程">
 <meta property="og:url" content="http://example.com/2024/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/%E5%AE%9E%E6%88%98/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="实战XSStrike的基本使用下面是他的常用命令  -u url –skip 跳过确认提示 –skip-dom 跳过dom型扫描 –data post型时的数据  这里我们使用pikachu平台进行测试 反射型xss(get) 这是最简单的，我们先手动submit一下看看url  直接写payload 1python xsstrike.py -u &quot;http:&#x2F;&#x2F;127.0.0.1&#x2F;pi">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/.com//image-20250520023352-uo3hi74.png">
 <meta property="og:image" content="http://example.com/.com//image-20250520023402-255gf3e.png">
 <meta property="og:image" content="http://example.com/.com//image-20250520023415-vfrekc7.png">
@@ -42,91 +55,268 @@
 <meta property="article:tag" content="XSS">
 <meta property="article:tag" content="XSStrike">
 <meta property="article:tag" content="渗透测试">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/.com//image-20250520023352-uo3hi74.png">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/favicon.png">
+  <title>XSStrike实战教程 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/image/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
-<link rel="stylesheet" href="/css/style.css">
+
 
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
 <meta name="generator" content="Hexo 7.3.0"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="XSStrike实战教程"></span>
+          
+        </div>
+
         
-          <a class="main-nav-link" href="/">Home</a>
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-20 00:00" pubdate>
+          星期一, 五月 20日 2024, 12:00 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          <!-- compatible with older versions-->
+          582 字
         
-      </nav>
-      <nav id="sub-nav">
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
         
         
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
         
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+          <!-- compatible with older versions-->
+          5 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
       </div>
+
+      
     </div>
   </div>
-</header>
+</div>
 
-      <div class="outer">
-        <section id="main"><article id="post-Web/工具使用/xsstrike/使用教程/实战" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/%E5%AE%9E%E6%88%98/" class="article-date">
-  <time class="dt-published" datetime="2024-05-19T16:00:00.000Z" itemprop="datePublished">2024-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>►<a class="article-category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a>
-  </div>
+</div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      XSStrike实战教程
-    </h1>
-  
+  </header>
 
-      </header>
+  <main>
     
-    <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h1 id="XSStrike的基本使用"><a href="#XSStrike的基本使用" class="headerlink" title="XSStrike的基本使用"></a>XSStrike的基本使用</h1><p>下面是他的常用命令</p>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">XSStrike实战教程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h1 id="XSStrike的基本使用"><a href="#XSStrike的基本使用" class="headerlink" title="XSStrike的基本使用"></a>XSStrike的基本使用</h1><p>下面是他的常用命令</p>
 <ul>
 <li>-u url</li>
 <li>–skip 跳过确认提示</li>
@@ -134,221 +324,446 @@
 <li>–data post型时的数据</li>
 </ul>
 <p>这里我们使用pikachu平台进行测试</p>
-<h2 id="反射型xss-get"><a href="#反射型xss-get" class="headerlink" title="反射型xss(get)"></a>反射型xss(get)</h2><p><img src="/.com//image-20250520023352-uo3hi74.png" alt="image"></p>
+<h2 id="反射型xss-get"><a href="#反射型xss-get" class="headerlink" title="反射型xss(get)"></a>反射型xss(get)</h2><p><img src="/.com//image-20250520023352-uo3hi74.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>这是最简单的，我们先手动submit一下看看url</p>
-<p><img src="/.com//image-20250520023402-255gf3e.png" alt="image"></p>
+<p><img src="/.com//image-20250520023402-255gf3e.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>直接写payload</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://127.0.0.1/pikachu-master/vul/xss/xss_reflected_get.php?message=k123&amp;submit=submit&quot;</span> --skip --skip-dom</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python xsstrike.py -u <span class="hljs-string">&quot;http://127.0.0.1/pikachu-master/vul/xss/xss_reflected_get.php?message=k123&amp;submit=submit&quot;</span> --skip --skip-dom<br></code></pre></td></tr></table></figure>
 
 <p>这就是根据刚刚的基本命令写的，最后两个参数就是跳过确认提示和跳过dom型扫描，因为已经说了是反射型了</p>
-<p><img src="/.com//image-20250520023415-vfrekc7.png" alt="image">​</p>
+<p><img src="/.com//image-20250520023415-vfrekc7.png" srcset="/image/loading.gif" lazyload alt="image">​</p>
 <p>因为这个是最简单的xss所以有很多的payload，列出的payload都是成功的</p>
 <p>比如第一个(注意payload包括括号)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://10.211.55.4/pikachu-master/vul/xss/xss_reflected_get.php?message=%3CdEtaIls/+/ontoggLE+=+[8].find(confirm)%3E&amp;submit=submit</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://10.211.55.4/pikachu-master/vul/xss/xss_reflected_get.php?message=%3CdEtaIls/+/ontoggLE+=+[8].find(confirm)%3E&amp;submit=submit<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//image-20250520023440-tiuzgl6.png" alt="image"></p>
+<p><img src="/.com//image-20250520023440-tiuzgl6.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>点击详细信息就会弹窗（safari浏览器弹不了，只能用谷歌）</p>
 <h2 id="反射型XSS-post"><a href="#反射型XSS-post" class="headerlink" title="反射型XSS(post)"></a>反射型XSS(post)</h2><hr>
 <p>这个是需要登陆的，所以需要拿cookie</p>
-<p><img src="/.com//image-20250520023454-xfhhd3j.png" alt="image"></p>
+<p><img src="/.com//image-20250520023454-xfhhd3j.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>这里传的参是通过post传的，所以还需要拿post</p>
 <p>获取post可以抓包获取，也可以直接看请求</p>
-<p><img src="/.com//image-20250520023501-fcokexp.png" alt="image"></p>
+<p><img src="/.com//image-20250520023501-fcokexp.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>点一下view source看完整的</p>
-<p><img src="/.com//image-20250520023508-ywgokzv.png" alt="image"></p>
+<p><img src="/.com//image-20250520023508-ywgokzv.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>这就是post请求了，然后再找cookie</p>
-<p><img src="/.com//image-20250520023515-lv1zzz7.png" alt="image"></p>
+<p><img src="/.com//image-20250520023515-lv1zzz7.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>可以在控制台输入document.cookie来获取cookie</p>
 <p>现在有了post请求和cookie就可以使用软件了</p>
 <blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xsspost/xss_reflected_post.php&quot;</span> --data <span class="string">&quot;message=1&amp;submit=submit&quot;</span> --headers <span class="string">&quot;Cookie: ant[uname]=admin; ant[pw]=10470c3b4b1fed12c3baac014be15fac67c6e815; PHPSESSID=ik287bd9bniuabdun1psescmr3&quot;</span></span><br></pre></td></tr></table></figure></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python xsstrike.py -u <span class="hljs-string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xsspost/xss_reflected_post.php&quot;</span> --data <span class="hljs-string">&quot;message=1&amp;submit=submit&quot;</span> --headers <span class="hljs-string">&quot;Cookie: ant[uname]=admin; ant[pw]=10470c3b4b1fed12c3baac014be15fac67c6e815; PHPSESSID=ik287bd9bniuabdun1psescmr3&quot;</span><br></code></pre></td></tr></table></figure></blockquote>
 <p>要注意格式，需要自己添加Cookie:然后这后面又个空格</p>
-<p><img src="/.com//image-20250520023535-u7joe1g.png" alt="image"></p>
+<p><img src="/.com//image-20250520023535-u7joe1g.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>用第一个payload试一试</p>
-<p><img src="/.com//image-20250520023542-25jl455.png" alt="image"></p>
+<p><img src="/.com//image-20250520023542-25jl455.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>配合hackbar发送</p>
-<p><img src="/.com//image-20250520023550-3xuog8w.png" alt="image"><img src="/.com//image-20250520023553-0kxick2.png" alt="image"></p>
+<p><img src="/.com//image-20250520023550-3xuog8w.png" srcset="/image/loading.gif" lazyload alt="image"><img src="/.com//image-20250520023553-0kxick2.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>鼠标移动上去就弹窗</p>
 <hr>
-<h2 id="存储型XSS"><a href="#存储型XSS" class="headerlink" title="存储型XSS"></a>存储型XSS</h2><p><img src="/.com//image-20250520023610-8smbq12.png" alt="image"></p>
+<h2 id="存储型XSS"><a href="#存储型XSS" class="headerlink" title="存储型XSS"></a>存储型XSS</h2><p><img src="/.com//image-20250520023610-8smbq12.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>这也是post发送的</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_stored.php&quot;</span> <span class="params">--data</span> <span class="string">&quot;message=1&amp;submit=submit&quot;</span> <span class="params">--skip-dom</span> <span class="params">--skip</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">python xsstrike.py -u <span class="hljs-string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_stored.php&quot;</span> <span class="hljs-params">--data</span> <span class="hljs-string">&quot;message=1&amp;submit=submit&quot;</span> <span class="hljs-params">--skip-dom</span> <span class="hljs-params">--skip</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//image-20250520023623-pjrutwo.png" alt="image"></p>
+<p><img src="/.com//image-20250520023623-pjrutwo.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>因为这是存储的，所以它测试的时候会不断传进去，及时按ctrl+c停止</p>
-<p><img src="/.com//image-20250520023631-8diah4y.png" alt="image"><img src="/.com//image-20250520023634-zrbz4a5.png" alt="image"></p>
+<p><img src="/.com//image-20250520023631-8diah4y.png" srcset="/image/loading.gif" lazyload alt="image"><img src="/.com//image-20250520023634-zrbz4a5.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <hr>
 <h2 id="DOM型XSS"><a href="#DOM型XSS" class="headerlink" title="DOM型XSS"></a>DOM型XSS</h2><p>这个用XSStrike做不出来，如果有人可以做出来欢迎补充</p>
 <hr>
-<h2 id="XSS之过滤"><a href="#XSS之过滤" class="headerlink" title="XSS之过滤"></a>XSS之过滤</h2><p><img src="/.com//image-20250520023650-yn41p64.png" alt="image"></p>
+<h2 id="XSS之过滤"><a href="#XSS之过滤" class="headerlink" title="XSS之过滤"></a>XSS之过滤</h2><p><img src="/.com//image-20250520023650-yn41p64.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>通过get传参并且有回显，直接跑</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">python</span> xsstrike.<span class="keyword">py</span> -<span class="keyword">u</span> <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_01.php?message=13&amp;submit=submit&quot;</span> --skip</span><br></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">python</span> xsstrike.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">u</span> <span class="hljs-string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_01.php?message=13&amp;submit=submit&quot;</span> --skip<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//image-20250520023703-qk66wlr.png" alt="image"></p>
-<p><img src="/.com//image-20250520023714-ujyvkd4.png" alt="image"><img src="/.com//image-20250520023717-tqnkd4v.png" alt="image"></p>
+<p><img src="/.com//image-20250520023703-qk66wlr.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250520023714-ujyvkd4.png" srcset="/image/loading.gif" lazyload alt="image"><img src="/.com//image-20250520023717-tqnkd4v.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <hr>
 <h2 id="XSS之HTML特殊字符"><a href="#XSS之HTML特殊字符" class="headerlink" title="XSS之HTML特殊字符"></a>XSS之HTML特殊字符</h2><p>这题用工具跑出来的payload用不了，会被转义</p>
 <p>还是手动好</p>
 <hr>
-<h2 id="XSS之href输出"><a href="#XSS之href输出" class="headerlink" title="XSS之href输出"></a>XSS之href输出</h2><p><img src="/.com//image-20250520023740-4kqh3ql.png" alt="image"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python xsstrike.py -u <span class="string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_03.php?message=123&amp;submit=submit&quot;</span> --skip</span><br></pre></td></tr></table></figure>
+<h2 id="XSS之href输出"><a href="#XSS之href输出" class="headerlink" title="XSS之href输出"></a>XSS之href输出</h2><p><img src="/.com//image-20250520023740-4kqh3ql.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python xsstrike.py -u <span class="hljs-string">&quot;http://10.211.55.4/pikachu-master/vul/xss/xss_03.php?message=123&amp;submit=submit&quot;</span> --skip<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//image-20250520023750-d85dkno.png" alt="image"></p>
-<p><img src="/.com//image-20250520023753-b9ptlcx.png" alt="image"></p>
+<p><img src="/.com//image-20250520023750-d85dkno.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250520023753-b9ptlcx.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <hr>
 <h2 id="XSS之href输出-1"><a href="#XSS之href输出-1" class="headerlink" title="XSS之href输出"></a>XSS之href输出</h2><p>这题也不能靠工具</p>
 
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/%E5%AE%9E%E6%88%98/" data-id="cmaxygi1f003roc7k7r11gkcu" data-title="XSStrike实战教程" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li></ul>
 
-    </footer>
-  </div>
+<span class="category-chains">
+  
   
     
-<nav id="article-nav">
+      <span class="category-chain">
+        
+  <a href="/categories/Web%E5%AE%89%E5%85%A8/" class="category-chain-item">Web安全</a>
   
-    <a href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          SQL注入总结
-        
+  
+    <span>></span>
+    
+  <a href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" class="category-chain-item">工具使用</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/XSS/" class="print-no-link">#XSS</a>
+      
+        <a href="/tags/XSStrike/" class="print-no-link">#XSStrike</a>
+      
+        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="print-no-link">#渗透测试</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>XSStrike实战教程</div>
+      <div>http://example.com/2024/05/20/Web/工具使用/xsstrike/使用教程/实战/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/" title="SQL注入总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SQL注入总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" title="SQL报错注入技术">
+                        <span class="hidden-mobile">SQL报错注入技术</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
       </div>
-    </a>
-  
-  
-    <a href="/2024/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">SQL报错注入技术</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
     </div>
-  </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSTI/" rel="tag">SSTI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" rel="tag">模板注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/SSTI/" style="font-size: 10px;">SSTI</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">模板注入</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
+    <div class="side-col d-none d-lg-block col-lg-2">
       
-      &copy; 2025 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
 
     </div>
-    <nav id="mobile-nav">
+  </div>
+</div>
+
+
+
+
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
+
+
+
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+
+
+
   
-</nav>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
 
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="/js/jquery.min.js/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
-<script src="/js/script.js"></script>
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-  </div>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>

@@ -1,18 +1,31 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="PHP比较漏洞实验1 php中有两种比较的符号 &#x3D;&#x3D;​ 与 &#x3D;&#x3D;&#x3D;​  1234&lt;?php  	$a &#x3D;&#x3D; $b;  &#x2F;&#x2F; &#x3D;&#x3D;  在进行比较的时候，会先将字符串类型转化成相同，再比较	$a &#x3D;&#x3D;&#x3D; $b; &#x2F;&#x2F; &#x3D;&#x3D;&#x3D; 在进行比较的时候，会先判断两种字符串的类型是否相等，再比较 ?&gt;  &#x3D;&#x3D;PHP 8.0.0 之前，如果 string 与数字或者以数字开头的字符串">
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="PHP比较漏洞实验1 php中有两种比较的符号 &#x3D;&#x3D;​ 与 &#x3D;&#x3D;&#x3D;​  1234&lt;?php  	$a &#x3D;&#x3D; $b;  &#x2F;&#x2F; &#x3D;&#x3D;  在进行比较的时候，会先将字符串类型转化成相同，再比较	$a &#x3D;&#x3D;&#x3D; $b; &#x2F;&#x2F; &#x3D;&#x3D;&#x3D; 在进行比较的时候，会先判断两种字符串的类型是否相等，再比较 ?&gt;  &#x3D;&#x3D;PHP 8.0.0 之前，如果 string 与数字或者以数字开头的字符串">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="PHP比较漏洞">
 <meta property="og:url" content="http://example.com/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="PHP比较漏洞实验1 php中有两种比较的符号 &#x3D;&#x3D;​ 与 &#x3D;&#x3D;&#x3D;​  1234&lt;?php  	$a &#x3D;&#x3D; $b;  &#x2F;&#x2F; &#x3D;&#x3D;  在进行比较的时候，会先将字符串类型转化成相同，再比较	$a &#x3D;&#x3D;&#x3D; $b; &#x2F;&#x2F; &#x3D;&#x3D;&#x3D; 在进行比较的时候，会先判断两种字符串的类型是否相等，再比较 ?&gt;  &#x3D;&#x3D;PHP 8.0.0 之前，如果 string 与数字或者以数字开头的字符串">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/.com//image-20250417174634-5opnoh2.png">
 <meta property="og:image" content="http://example.com/.com//image-20250417174637-541lm5p.png">
 <meta property="og:image" content="http://example.com/.com//image-20250417174658-89jjpnd.png">
@@ -43,89 +56,281 @@
 <meta property="og:image" content="http://example.com/.com//image-20250417175213-75wbvwu.png">
 <meta property="og:image" content="http://example.com/.com//image-20250417175225-hxln96p.png">
 <meta property="og:image" content="http://example.com/.com//image-20250417175228-20igd3y.png">
-<meta property="article:published_time" content="2025-05-20T00:55:54.000Z">
-<meta property="article:modified_time" content="2025-05-20T00:55:54.000Z">
+<meta property="article:published_time" content="2025-05-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-21T13:22:45.976Z">
 <meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
+<meta property="article:tag" content="PHP比较漏洞">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/.com//image-20250417174634-5opnoh2.png">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/favicon.png">
+  <title>PHP比较漏洞 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/image/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
-<link rel="stylesheet" href="/css/style.css">
+
 
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
 <meta name="generator" content="Hexo 7.3.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
 
-      <div class="outer">
-        <section id="main"><article id="post-Web/PHP比较漏洞" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" class="article-date">
-  <time class="dt-published" datetime="2025-05-20T00:55:54.000Z" itemprop="datePublished">2025-05-20</time>
-</a>
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="PHP比较漏洞"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-20 00:00" pubdate>
+          星期二, 五月 20日 2025, 12:00 凌晨
+        </time>
+      </span>
     
   </div>
-  <div class="article-inner">
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          19 分钟
+        
+      </span>
+    
+
     
     
-    <div class="e-content article-entry" itemprop="articleBody">
+  </div>
+
+
+        
+      </div>
+
       
-        <h1 id="PHP比较漏洞"><a href="#PHP比较漏洞" class="headerlink" title="PHP比较漏洞"></a>PHP比较漏洞</h1><h1 id="实验1"><a href="#实验1" class="headerlink" title="实验1"></a>实验1</h1><blockquote>
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">PHP比较漏洞</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="PHP比较漏洞"><a href="#PHP比较漏洞" class="headerlink" title="PHP比较漏洞"></a>PHP比较漏洞</h1><h1 id="实验1"><a href="#实验1" class="headerlink" title="实验1"></a>实验1</h1><blockquote>
 <p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.operators.comparison.php">php</a>中有两种比较的符号 <code>==</code>​ 与 <code>===</code>​</p>
 </blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line">	<span class="variable">$a</span> == <span class="variable">$b</span>;  <span class="comment">// ==  在进行比较的时候，会先将字符串类型转化成相同，再比较</span></span><br><span class="line">	<span class="variable">$a</span> === <span class="variable">$b</span>; <span class="comment">// === 在进行比较的时候，会先判断两种字符串的类型是否相等，再比较 </span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>  <br>	<span class="hljs-variable">$a</span> == <span class="hljs-variable">$b</span>;  <span class="hljs-comment">// ==  在进行比较的时候，会先将字符串类型转化成相同，再比较</span><br>	<span class="hljs-variable">$a</span> === <span class="hljs-variable">$b</span>; <span class="hljs-comment">// === 在进行比较的时候，会先判断两种字符串的类型是否相等，再比较 </span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>&#x3D;&#x3D;PHP 8.0.0 之前，如果 string 与数字或者以数字开头的字符串进行比较， 则在&#x3D;&#x3D;​**&#x3D;&#x3D;比较前会将 string 转化为数字&#x3D;&#x3D;**​&#x3D;&#x3D;。&#x3D;&#x3D;</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;admin&quot;</span>==<span class="number">0</span>);  <span class="comment">//true</span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;1admin&quot;</span>==<span class="number">1</span>); <span class="comment">//true </span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;admin1&quot;</span>==<span class="number">1</span>); <span class="comment">//false</span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;admin1&quot;</span>==<span class="number">0</span>); <span class="comment">//true</span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;0e123456&quot;</span>==<span class="string">&quot;0e4456789&quot;</span>); <span class="comment">//true</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-string">&quot;admin&quot;</span>==<span class="hljs-number">0</span>);  <span class="hljs-comment">//true</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-string">&quot;1admin&quot;</span>==<span class="hljs-number">1</span>); <span class="hljs-comment">//true </span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-string">&quot;admin1&quot;</span>==<span class="hljs-number">1</span>); <span class="hljs-comment">//false</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-string">&quot;admin1&quot;</span>==<span class="hljs-number">0</span>); <span class="hljs-comment">//true</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-string">&quot;0e123456&quot;</span>==<span class="hljs-string">&quot;0e4456789&quot;</span>); <span class="hljs-comment">//true</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//image-20250417174634-5opnoh2.png" alt="image"></p>
-<p><img src="/.com//image-20250417174637-541lm5p.png" alt="image"></p>
+<p><img src="/.com//image-20250417174634-5opnoh2.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417174637-541lm5p.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>实验结果：</p>
 <ol>
 <li>​<code>&quot;admin&quot;==0</code>​ 比较的时候，会将字符串<code>admin</code>​强制转化成整数<code>0</code>​</li>
@@ -136,263 +341,479 @@
 <blockquote>
 <p>注意：例子中的字符串还有一个特征，<code>0e</code>​后面字符全是数字，才能漏洞利用，否则例如<code>0e3f2c44</code>​仍然会被识别成字符串。</p>
 </blockquote>
-<h1 id="实验2"><a href="#实验2" class="headerlink" title="实验2"></a>实验2</h1><p><img src="/.com//image-20250417174658-89jjpnd.png" alt="image"></p>
-<p><img src="/.com//image-20250417174701-vej9ys6.png" alt="image"></p>
+<h1 id="实验2"><a href="#实验2" class="headerlink" title="实验2"></a>实验2</h1><p><img src="/.com//image-20250417174658-89jjpnd.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417174701-vej9ys6.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>&#x3D;&#x3D;当字符串被强制转化为数值，其结果和类型如下:&#x3D;&#x3D;</p>
 <p>&#x3D;&#x3D;如果该字符串没有包含&#x3D;&#x3D;​&#x3D;&#x3D;​<code>&#39;.&#39;, e, E</code>​&#x3D;&#x3D;​&#x3D;&#x3D;并且其数值在整形范围之内，该字符串作为&#x3D;&#x3D;​&#x3D;&#x3D;​<code>int</code>​&#x3D;&#x3D;​&#x3D;&#x3D;来取值，其他所有情况下都被作为&#x3D;&#x3D;​&#x3D;&#x3D;​<code>float</code>​&#x3D;&#x3D;​&#x3D;&#x3D;来取值；&#x3D;&#x3D;</p>
 <p>&#x3D;&#x3D;该字符串的开始部分决定了它的值，如果该字符串以合法的数值开始，则使用该数值，否则其值为0。&#x3D;&#x3D;</p>
 <p>也印证了实验1中通过<code>&quot;admin1&quot;==1 =&gt;False</code>​</p>
-<h1 id="0e绕过弱比较-MD5和SHA1函数漏洞"><a href="#0e绕过弱比较-MD5和SHA1函数漏洞" class="headerlink" title="0e绕过弱比较-MD5和SHA1函数漏洞"></a>0e绕过弱比较-MD5和SHA1函数漏洞</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>] != <span class="variable">$_GET</span>[<span class="string">&#x27;password&#x27;</span>] &amp;&amp;<span class="title function_ invoke__">MD5</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>]) == <span class="title function_ invoke__">MD5</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;password&#x27;</span>])</span><br><span class="line">  </span><br><span class="line">(<span class="title function_ invoke__">sha1</span>(<span class="variable">$s1</span>)==<span class="title function_ invoke__">sha1</span>(<span class="variable">$s2</span>) &amp;&amp; <span class="variable">$s1</span>!=<span class="variable">$s2</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="0e绕过弱比较-MD5和SHA1函数漏洞"><a href="#0e绕过弱比较-MD5和SHA1函数漏洞" class="headerlink" title="0e绕过弱比较-MD5和SHA1函数漏洞"></a>0e绕过弱比较-MD5和SHA1函数漏洞</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;name&#x27;</span>] != <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>] &amp;&amp;<span class="hljs-title function_ invoke__">MD5</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;name&#x27;</span>]) == <span class="hljs-title function_ invoke__">MD5</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>])<br>  <br>(<span class="hljs-title function_ invoke__">sha1</span>(<span class="hljs-variable">$s1</span>)==<span class="hljs-title function_ invoke__">sha1</span>(<span class="hljs-variable">$s2</span>) &amp;&amp; <span class="hljs-variable">$s1</span>!=<span class="hljs-variable">$s2</span>)<br></code></pre></td></tr></table></figure>
 
 <p>​<code>sha1</code>​和<code>md5</code>​属于哈希编码，在<code>PHP</code>​中，这两种编码是存在绕过漏洞的。</p>
 <p>PHP在处理哈希字符串时，利用<code>!=</code>​或<code>==</code>​来对哈希值进行比较，把以<code>0e</code>​开头的哈希值都解释为<code>0</code>​，所以如果两个不同的密码经过哈希加密后，其哈希值都是以<code>0e</code>​开头的，那么<code>0e</code>​将会认为他们相同，都是<code>0</code>​。只需要传入开头都是<code>0e</code>​的两个值，比如<code>$s1=QNKCDZO</code>​,<code> $s2=240610708</code>​, 便可成功绕过。</p>
 <p>利用<code>0e</code>​绕过方式只有在弱比较的时候才能使用。</p>
-<h1 id="实验3"><a href="#实验3" class="headerlink" title="实验3"></a>实验3</h1><p><img src="/.com//image-20250417174743-u6bmulp.png" alt="image"></p>
-<p><img src="/.com//image-20250417174746-61l5osn.png" alt="image"></p>
+<h1 id="实验3"><a href="#实验3" class="headerlink" title="实验3"></a>实验3</h1><p><img src="/.com//image-20250417174743-u6bmulp.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417174746-61l5osn.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>以下值在<code>md5</code>​加密后以<code>0e</code>​开头：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">QNKCDZO</span><br><span class="line"><span class="number">240610708</span></span><br><span class="line">s878926199a</span><br><span class="line">s155964671a</span><br><span class="line">s214587387a</span><br><span class="line">s214587387a</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php">QNKCDZO<br><span class="hljs-number">240610708</span><br>s878926199a<br>s155964671a<br>s214587387a<br>s214587387a<br></code></pre></td></tr></table></figure>
 
 <p>验证</p>
-<p><img src="/.com//image-20250417174803-33e2qv1.png" alt="image"></p>
+<p><img src="/.com//image-20250417174803-33e2qv1.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>批量验证</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">ants = [<span class="string">&#x27;QNKCDZO&#x27;</span>, <span class="string">&#x27;240610708&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;s878926199a&#x27;</span>, <span class="string">&#x27;s155964671a&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;s214587387a&#x27;</span>, <span class="string">&#x27;s214587387a&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ant in ants:</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">md5</span>(ant.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    <span class="keyword">print</span>(f<span class="string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php">import hashlib<br><br>ants = [<span class="hljs-string">&#x27;QNKCDZO&#x27;</span>, <span class="hljs-string">&#x27;240610708&#x27;</span>,<br>        <span class="hljs-string">&#x27;s878926199a&#x27;</span>, <span class="hljs-string">&#x27;s155964671a&#x27;</span>,<br>        <span class="hljs-string">&#x27;s214587387a&#x27;</span>, <span class="hljs-string">&#x27;s214587387a&#x27;</span>]<br><br><span class="hljs-keyword">for</span> ant in ants:<br>    cipher = hashlib.<span class="hljs-title function_ invoke__">md5</span>(ant.<span class="hljs-title function_ invoke__">encode</span>()).<span class="hljs-title function_ invoke__">hexdigest</span>()<br>    <span class="hljs-keyword">print</span>(f<span class="hljs-string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//image-20250417174815-hvdrbp5.png" alt="image"></p>
+<p><img src="/.com//image-20250417174815-hvdrbp5.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>以下值在<code>sha1</code>​加密后以<code>0e</code>​开头</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">aaroZmOk</span><br><span class="line">aaK1STfY</span><br><span class="line">aaO8zKZF</span><br><span class="line">aa3OFF9m</span><br><span class="line"><span class="number">0e1290633704</span></span><br><span class="line"><span class="number">10932435112</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php">aaroZmOk<br>aaK1STfY<br>aaO8zKZF<br>aa3OFF9m<br><span class="hljs-number">0e1290633704</span><br><span class="hljs-number">10932435112</span><br></code></pre></td></tr></table></figure>
 
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">ants = [<span class="string">&#x27;aaroZmOk&#x27;</span>, <span class="string">&#x27;aaK1STfY&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;aaO8zKZF&#x27;</span>, <span class="string">&#x27;aa3OFF9m&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;0e1290633704&#x27;</span>, <span class="string">&#x27;10932435112&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ant in ants:</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">sha1</span>(ant.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    <span class="keyword">print</span>(f<span class="string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php">import hashlib<br><br>ants = [<span class="hljs-string">&#x27;aaroZmOk&#x27;</span>, <span class="hljs-string">&#x27;aaK1STfY&#x27;</span>,<br>        <span class="hljs-string">&#x27;aaO8zKZF&#x27;</span>, <span class="hljs-string">&#x27;aa3OFF9m&#x27;</span>,<br>        <span class="hljs-string">&#x27;0e1290633704&#x27;</span>, <span class="hljs-string">&#x27;10932435112&#x27;</span>]<br><br><span class="hljs-keyword">for</span> ant in ants:<br>    cipher = hashlib.<span class="hljs-title function_ invoke__">sha1</span>(ant.<span class="hljs-title function_ invoke__">encode</span>()).<span class="hljs-title function_ invoke__">hexdigest</span>()<br>    <span class="hljs-keyword">print</span>(f<span class="hljs-string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//image-20250417174829-y4ysat8.png" alt="image"></p>
+<p><img src="/.com//image-20250417174829-y4ysat8.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>双重<code>MD5</code>​加密后<code>0e</code>​开头：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">ants = [<span class="string">&#x27;7r4lGXCH2Ksu2JNT3BYM&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;CbDLytmyGm2xQyaLNhWn&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;770hQgrBOjrcqftrlaZk&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ant in ants:</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">md5</span>(ant.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    cipher = hashlib.<span class="title function_ invoke__">md5</span>(cipher.<span class="title function_ invoke__">encode</span>()).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line">    <span class="keyword">print</span>(f<span class="string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php">import hashlib<br><br>ants = [<span class="hljs-string">&#x27;7r4lGXCH2Ksu2JNT3BYM&#x27;</span>,<br>        <span class="hljs-string">&#x27;CbDLytmyGm2xQyaLNhWn&#x27;</span>,<br>        <span class="hljs-string">&#x27;770hQgrBOjrcqftrlaZk&#x27;</span>]<br><br><span class="hljs-keyword">for</span> ant in ants:<br>    cipher = hashlib.<span class="hljs-title function_ invoke__">md5</span>(ant.<span class="hljs-title function_ invoke__">encode</span>()).<span class="hljs-title function_ invoke__">hexdigest</span>()<br>    cipher = hashlib.<span class="hljs-title function_ invoke__">md5</span>(cipher.<span class="hljs-title function_ invoke__">encode</span>()).<span class="hljs-title function_ invoke__">hexdigest</span>()<br>    <span class="hljs-keyword">print</span>(f<span class="hljs-string">&#x27;[-]&#123;ant&#125;\n&#123;cipher&#125;&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//image-20250417174839-vxse526.png" alt="image"></p>
+<p><img src="/.com//image-20250417174839-vxse526.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <blockquote>
 <p>其它情况：会限制字符串为纯数字或字母</p>
 </blockquote>
 <p>‍</p>
 <h1 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h1><p>对于php强比较和弱比较：<code>md5()</code>​，<code>sha1()</code>​函数无法处理数组，如果传入的为数组，会返回<code>NULL</code>​，所以两个数组经过加密后得到的都是<code>NULL</code>​，也就是相等的。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line"><span class="variable">$b</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;b&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$a</span>!==<span class="variable">$b</span> &amp;&amp; <span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>)===<span class="title function_ invoke__">md5</span>(<span class="variable">$b</span>))&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>];<br><span class="hljs-variable">$b</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;b&#x27;</span>];<br><span class="hljs-keyword">if</span> (<span class="hljs-variable">$a</span>!==<span class="hljs-variable">$b</span> &amp;&amp; <span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$a</span>)===<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$b</span>))&#123;...&#125;<br></code></pre></td></tr></table></figure>
 
 <p>​<code>payload: ?a[]=1&amp;b[]=2	</code>​</p>
 <p>‍</p>
-<h1 id="实验4"><a href="#实验4" class="headerlink" title="实验4"></a>实验4</h1><p><img src="/.com//image-20250417174912-0qsam45.png" alt="image"></p>
-<p><img src="/.com//image-20250417174914-tik3goc.png" alt="image"></p>
+<h1 id="实验4"><a href="#实验4" class="headerlink" title="实验4"></a>实验4</h1><p><img src="/.com//image-20250417174912-0qsam45.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417174914-tik3goc.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>‍</p>
 <h1 id="实验5"><a href="#实验5" class="headerlink" title="实验5"></a>实验5</h1><p>查看报错信息去验证上述结论</p>
-<p><img src="/.com//image-20250417174924-ovxj2mz.png" alt="image"></p>
-<p><img src="/.com//image-20250417174927-4udg3hc.png" alt="image"></p>
+<p><img src="/.com//image-20250417174924-ovxj2mz.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417174927-4udg3hc.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>​<code>md5()</code>​函数希望接受的是字符串而不是数组。</p>
 <p>‍</p>
-<h1 id="MD5碰撞"><a href="#MD5碰撞" class="headerlink" title="MD5碰撞"></a>MD5碰撞</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>((<span class="keyword">string</span>)<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>]!==(<span class="keyword">string</span>)<span class="variable">$_POST</span>[<span class="string">&#x27;b&#x27;</span>] &amp;&amp; </span><br><span class="line">   <span class="title function_ invoke__">md5</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>])===<span class="title function_ invoke__">md5</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;b&#x27;</span>]))&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="MD5碰撞"><a href="#MD5碰撞" class="headerlink" title="MD5碰撞"></a>MD5碰撞</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">if</span>((<span class="hljs-keyword">string</span>)<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;a&#x27;</span>]!==(<span class="hljs-keyword">string</span>)<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;b&#x27;</span>] &amp;&amp; <br>   <span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;a&#x27;</span>])===<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;b&#x27;</span>]))&#123;...&#125;<br></code></pre></td></tr></table></figure>
 
 <p>比较<code>a</code>​，<code>b</code>​时会将<code>a</code>​，<code>b</code>​转换为字符串比较，就不能用数组绕过了。因为数组转换为字符串时都会变成<code>&quot;Array&quot;</code>​。</p>
 <p>‍</p>
-<h1 id="实验6"><a href="#实验6" class="headerlink" title="实验6"></a>实验6</h1><p><img src="/.com//image-20250417174950-8fwszbt.png" alt="image"></p>
-<p><img src="/.com//image-20250417174953-l3vi7qb.png" alt="image"></p>
+<h1 id="实验6"><a href="#实验6" class="headerlink" title="实验6"></a>实验6</h1><p><img src="/.com//image-20250417174950-8fwszbt.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417174953-l3vi7qb.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>因为数组要求构造a和b不同，但是MD5相同，也就是说要求传入两个MD5相同的不同字符串。所以我们只能用MD5碰撞来实现</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span>=M%C9h%FF%<span class="number">0</span>E%E3%<span class="number">5</span>C%<span class="number">20</span>%<span class="number">95</span>r%D4w%<span class="number">7</span>Br%<span class="number">15</span>%<span class="number">87</span>%D3o%A7%B2%<span class="number">1</span>B%DCV%B7J%<span class="number">3</span>D%C0x%<span class="number">3</span>E%<span class="number">7</span>B%<span class="number">95</span>%<span class="number">18</span>%AF%BF%A2%<span class="number">02</span>%A8%<span class="number">28</span>K%F3n%<span class="number">8</span>EKU%B3_Bu%<span class="number">93</span>%D8Igm%A0%D1%D5%<span class="number">5</span>D%<span class="number">83</span>%<span class="number">60</span>%FB_%<span class="number">07</span>%FE%A2</span><br><span class="line"><span class="variable">$b</span>=M%C9h%FF%<span class="number">0</span>E%E3%<span class="number">5</span>C%<span class="number">20</span>%<span class="number">95</span>r%D4w%<span class="number">7</span>Br%<span class="number">15</span>%<span class="number">87</span>%D3o%A7%B2%<span class="number">1</span>B%DCV%B7J%<span class="number">3</span>D%C0x%<span class="number">3</span>E%<span class="number">7</span>B%<span class="number">95</span>%<span class="number">18</span>%AF%BF%A2%<span class="number">00</span>%A8%<span class="number">28</span>K%F3n%<span class="number">8</span>EKU%B3_Bu%<span class="number">93</span>%D8Igm%A0%D1U%<span class="number">5</span>D%<span class="number">83</span>%<span class="number">60</span>%FB_%<span class="number">07</span>%FE%A2</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$a</span>=M%C9h%FF%<span class="hljs-number">0</span>E%E3%<span class="hljs-number">5</span>C%<span class="hljs-number">20</span>%<span class="hljs-number">95</span>r%D4w%<span class="hljs-number">7</span>Br%<span class="hljs-number">15</span>%<span class="hljs-number">87</span>%D3o%A7%B2%<span class="hljs-number">1</span>B%DCV%B7J%<span class="hljs-number">3</span>D%C0x%<span class="hljs-number">3</span>E%<span class="hljs-number">7</span>B%<span class="hljs-number">95</span>%<span class="hljs-number">18</span>%AF%BF%A2%<span class="hljs-number">02</span>%A8%<span class="hljs-number">28</span>K%F3n%<span class="hljs-number">8</span>EKU%B3_Bu%<span class="hljs-number">93</span>%D8Igm%A0%D1%D5%<span class="hljs-number">5</span>D%<span class="hljs-number">83</span>%<span class="hljs-number">60</span>%FB_%<span class="hljs-number">07</span>%FE%A2<br><span class="hljs-variable">$b</span>=M%C9h%FF%<span class="hljs-number">0</span>E%E3%<span class="hljs-number">5</span>C%<span class="hljs-number">20</span>%<span class="hljs-number">95</span>r%D4w%<span class="hljs-number">7</span>Br%<span class="hljs-number">15</span>%<span class="hljs-number">87</span>%D3o%A7%B2%<span class="hljs-number">1</span>B%DCV%B7J%<span class="hljs-number">3</span>D%C0x%<span class="hljs-number">3</span>E%<span class="hljs-number">7</span>B%<span class="hljs-number">95</span>%<span class="hljs-number">18</span>%AF%BF%A2%<span class="hljs-number">00</span>%A8%<span class="hljs-number">28</span>K%F3n%<span class="hljs-number">8</span>EKU%B3_Bu%<span class="hljs-number">93</span>%D8Igm%A0%D1U%<span class="hljs-number">5</span>D%<span class="hljs-number">83</span>%<span class="hljs-number">60</span>%FB_%<span class="hljs-number">07</span>%FE%A2<br></code></pre></td></tr></table></figure>
 
 <p>‍</p>
-<h1 id="实验7"><a href="#实验7" class="headerlink" title="实验7"></a>实验7</h1><p><img src="/.com//image-20250417175005-bwx4402.png" alt="image"></p>
-<p><img src="/.com//image-20250417175008-g6uw5ex.png" alt="image"></p>
+<h1 id="实验7"><a href="#实验7" class="headerlink" title="实验7"></a>实验7</h1><p><img src="/.com//image-20250417175005-bwx4402.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417175008-g6uw5ex.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>‍</p>
 <p>文件：</p>
 <p>linux使用md5collgen碰撞生成两个md5值相同但内容不同的文件</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">md5collgen -o <span class="number">1</span>.bin <span class="number">2</span>.bin</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">md5collgen -o <span class="hljs-number">1</span>.bin <span class="hljs-number">2</span>.bin<br></code></pre></td></tr></table></figure>
 
 <p>windows可以下载fastcoll，碰撞生成两个md5值相同但内容不同的文件</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastcoll.exe -p <span class="number">123</span>.txt -o <span class="number">1</span>.txt <span class="number">2</span>.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">fastcoll.exe -p <span class="hljs-number">123</span>.txt -o <span class="hljs-number">1</span>.txt <span class="hljs-number">2</span>.txt<br></code></pre></td></tr></table></figure>
 
 <p>‍</p>
-<h1 id="sha1碰撞："><a href="#sha1碰撞：" class="headerlink" title="sha1碰撞："></a>sha1碰撞：</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a=%<span class="number">25</span>PDF-<span class="number">1.3</span>%<span class="number">0</span>A%<span class="number">25</span>%E2%E3%CF%D3%<span class="number">0</span>A%<span class="number">0</span>A%<span class="number">0</span>A1%<span class="number">200</span>%<span class="number">20</span>obj%<span class="number">0</span>A%<span class="number">3</span>C%<span class="number">3</span>C/Width%<span class="number">202</span>%<span class="number">200</span>%<span class="number">20</span>R/Height%<span class="number">203</span>%<span class="number">200</span>%<span class="number">20</span>R/Type%<span class="number">204</span>%<span class="number">200</span>%<span class="number">20</span>R/Subtype%<span class="number">205</span>%<span class="number">200</span>%<span class="number">20</span>R/Filter%<span class="number">206</span>%<span class="number">200</span>%<span class="number">20</span>R/ColorSpace%<span class="number">207</span>%<span class="number">200</span>%<span class="number">20</span>R/Length%<span class="number">208</span>%<span class="number">200</span>%<span class="number">20</span>R/BitsPerComponent%<span class="number">208</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">0</span>Astream%<span class="number">0</span>A%FF%D8%FF%FE%<span class="number">00</span>%<span class="number">24</span>SHA-<span class="number">1</span>%<span class="number">20</span>is%<span class="number">20</span>dead%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">85</span>/%EC%<span class="number">09</span>%<span class="number">239</span>u%<span class="number">9</span>C9%B1%A1%C6%<span class="number">3</span>CL%<span class="number">97</span>%E1%FF%FE%<span class="number">01</span>%<span class="number">7</span>FF%DC%<span class="number">93</span>%A6%B6%<span class="number">7</span>E%<span class="number">01</span>%<span class="number">3</span>B%<span class="number">02</span>%<span class="number">9</span>A%AA%<span class="number">1</span>D%B2V%<span class="number">0</span>BE%CAg%D6%<span class="number">88</span>%C7%F8K%<span class="number">8</span>CLy%<span class="number">1</span>F%E0%<span class="number">2</span>B%<span class="number">3</span>D%F6%<span class="number">14</span>%F8m%B1i%<span class="number">09</span>%<span class="number">01</span>%C5kE%C1S%<span class="number">0</span>A%FE%DF%B7%<span class="number">608</span>%E9rr/%E7%ADr%<span class="number">8</span>F%<span class="number">0</span>EI%<span class="number">04</span>%E0F%C20W%<span class="number">0</span>F%E9%D4%<span class="number">13</span>%<span class="number">98</span>%AB%E1.%F5%BC%<span class="number">94</span>%<span class="number">2</span>B%E35B%A4%<span class="number">80</span>-%<span class="number">98</span>%B5%D7%<span class="number">0</span>F%<span class="number">2</span>A3.%C3%<span class="number">7</span>F%AC5%<span class="number">14</span>%E7M%DC%<span class="number">0</span>F%<span class="number">2</span>C%C1%A8t%CD%<span class="number">0</span>Cx0Z%<span class="number">21</span>Vda0%<span class="number">97</span>%<span class="number">89</span>%<span class="number">60</span>k%D0%BF%<span class="number">3</span>F%<span class="number">98</span>%CD%A8%<span class="number">04</span>F%<span class="number">29</span>%A1</span><br><span class="line">b=%<span class="number">25</span>PDF-<span class="number">1.3</span>%<span class="number">0</span>A%<span class="number">25</span>%E2%E3%CF%D3%<span class="number">0</span>A%<span class="number">0</span>A%<span class="number">0</span>A1%<span class="number">200</span>%<span class="number">20</span>obj%<span class="number">0</span>A%<span class="number">3</span>C%<span class="number">3</span>C/Width%<span class="number">202</span>%<span class="number">200</span>%<span class="number">20</span>R/Height%<span class="number">203</span>%<span class="number">200</span>%<span class="number">20</span>R/Type%<span class="number">204</span>%<span class="number">200</span>%<span class="number">20</span>R/Subtype%<span class="number">205</span>%<span class="number">200</span>%<span class="number">20</span>R/Filter%<span class="number">206</span>%<span class="number">200</span>%<span class="number">20</span>R/ColorSpace%<span class="number">207</span>%<span class="number">200</span>%<span class="number">20</span>R/Length%<span class="number">208</span>%<span class="number">200</span>%<span class="number">20</span>R/BitsPerComponent%<span class="number">208</span>%<span class="number">3</span>E%<span class="number">3</span>E%<span class="number">0</span>Astream%<span class="number">0</span>A%FF%D8%FF%FE%<span class="number">00</span>%<span class="number">24</span>SHA-<span class="number">1</span>%<span class="number">20</span>is%<span class="number">20</span>dead%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">21</span>%<span class="number">85</span>/%EC%<span class="number">09</span>%<span class="number">239</span>u%<span class="number">9</span>C9%B1%A1%C6%<span class="number">3</span>CL%<span class="number">97</span>%E1%FF%FE%<span class="number">01</span>sF%DC%<span class="number">91</span>f%B6%<span class="number">7</span>E%<span class="number">11</span>%<span class="number">8</span>F%<span class="number">02</span>%<span class="number">9</span>A%B6%<span class="number">21</span>%B2V%<span class="number">0</span>F%F9%CAg%CC%A8%C7%F8%<span class="number">5</span>B%A8Ly%<span class="number">03</span>%<span class="number">0</span>C%<span class="number">2</span>B%<span class="number">3</span>D%E2%<span class="number">18</span>%F8m%B3%A9%<span class="number">09</span>%<span class="number">01</span>%D5%DFE%C1O%<span class="number">26</span>%FE%DF%B3%DC8%E9j%C2/%E7%BDr%<span class="number">8</span>F%<span class="number">0</span>EE%BC%E0F%D2%<span class="number">3</span>CW%<span class="number">0</span>F%EB%<span class="number">14</span>%<span class="number">13</span>%<span class="number">98</span>%BBU.%F5%A0%A8%<span class="number">2</span>B%E31%FE%A4%<span class="number">807</span>%B8%B5%D7%<span class="number">1</span>F%<span class="number">0E3</span>.%DF%<span class="number">93</span>%AC5%<span class="number">00</span>%EBM%DC%<span class="number">0</span>D%EC%C1%A8dy%<span class="number">0</span>Cx%<span class="number">2</span>Cv%<span class="number">21</span>V%<span class="number">60</span>%DD0%<span class="number">97</span>%<span class="number">91</span>%D0k%D0%AF%<span class="number">3</span>F%<span class="number">98</span>%CD%A4%BCF%<span class="number">29</span>%B1</span><br></pre></td></tr></table></figure>
+<h1 id="sha1碰撞："><a href="#sha1碰撞：" class="headerlink" title="sha1碰撞："></a>sha1碰撞：</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php">a=%<span class="hljs-number">25</span>PDF-<span class="hljs-number">1.3</span>%<span class="hljs-number">0</span>A%<span class="hljs-number">25</span>%E2%E3%CF%D3%<span class="hljs-number">0</span>A%<span class="hljs-number">0</span>A%<span class="hljs-number">0</span>A1%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>obj%<span class="hljs-number">0</span>A%<span class="hljs-number">3</span>C%<span class="hljs-number">3</span>C/Width%<span class="hljs-number">202</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/Height%<span class="hljs-number">203</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/Type%<span class="hljs-number">204</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/Subtype%<span class="hljs-number">205</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/Filter%<span class="hljs-number">206</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/ColorSpace%<span class="hljs-number">207</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/Length%<span class="hljs-number">208</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/BitsPerComponent%<span class="hljs-number">208</span>%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>E%<span class="hljs-number">0</span>Astream%<span class="hljs-number">0</span>A%FF%D8%FF%FE%<span class="hljs-number">00</span>%<span class="hljs-number">24</span>SHA-<span class="hljs-number">1</span>%<span class="hljs-number">20</span>is%<span class="hljs-number">20</span>dead%<span class="hljs-number">21</span>%<span class="hljs-number">21</span>%<span class="hljs-number">21</span>%<span class="hljs-number">21</span>%<span class="hljs-number">21</span>%<span class="hljs-number">85</span>/%EC%<span class="hljs-number">09</span>%<span class="hljs-number">239</span>u%<span class="hljs-number">9</span>C9%B1%A1%C6%<span class="hljs-number">3</span>CL%<span class="hljs-number">97</span>%E1%FF%FE%<span class="hljs-number">01</span>%<span class="hljs-number">7</span>FF%DC%<span class="hljs-number">93</span>%A6%B6%<span class="hljs-number">7</span>E%<span class="hljs-number">01</span>%<span class="hljs-number">3</span>B%<span class="hljs-number">02</span>%<span class="hljs-number">9</span>A%AA%<span class="hljs-number">1</span>D%B2V%<span class="hljs-number">0</span>BE%CAg%D6%<span class="hljs-number">88</span>%C7%F8K%<span class="hljs-number">8</span>CLy%<span class="hljs-number">1</span>F%E0%<span class="hljs-number">2</span>B%<span class="hljs-number">3</span>D%F6%<span class="hljs-number">14</span>%F8m%B1i%<span class="hljs-number">09</span>%<span class="hljs-number">01</span>%C5kE%C1S%<span class="hljs-number">0</span>A%FE%DF%B7%<span class="hljs-number">608</span>%E9rr/%E7%ADr%<span class="hljs-number">8</span>F%<span class="hljs-number">0</span>EI%<span class="hljs-number">04</span>%E0F%C20W%<span class="hljs-number">0</span>F%E9%D4%<span class="hljs-number">13</span>%<span class="hljs-number">98</span>%AB%E1.%F5%BC%<span class="hljs-number">94</span>%<span class="hljs-number">2</span>B%E35B%A4%<span class="hljs-number">80</span>-%<span class="hljs-number">98</span>%B5%D7%<span class="hljs-number">0</span>F%<span class="hljs-number">2</span>A3.%C3%<span class="hljs-number">7</span>F%AC5%<span class="hljs-number">14</span>%E7M%DC%<span class="hljs-number">0</span>F%<span class="hljs-number">2</span>C%C1%A8t%CD%<span class="hljs-number">0</span>Cx0Z%<span class="hljs-number">21</span>Vda0%<span class="hljs-number">97</span>%<span class="hljs-number">89</span>%<span class="hljs-number">60</span>k%D0%BF%<span class="hljs-number">3</span>F%<span class="hljs-number">98</span>%CD%A8%<span class="hljs-number">04</span>F%<span class="hljs-number">29</span>%A1<br>b=%<span class="hljs-number">25</span>PDF-<span class="hljs-number">1.3</span>%<span class="hljs-number">0</span>A%<span class="hljs-number">25</span>%E2%E3%CF%D3%<span class="hljs-number">0</span>A%<span class="hljs-number">0</span>A%<span class="hljs-number">0</span>A1%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>obj%<span class="hljs-number">0</span>A%<span class="hljs-number">3</span>C%<span class="hljs-number">3</span>C/Width%<span class="hljs-number">202</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/Height%<span class="hljs-number">203</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/Type%<span class="hljs-number">204</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/Subtype%<span class="hljs-number">205</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/Filter%<span class="hljs-number">206</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/ColorSpace%<span class="hljs-number">207</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/Length%<span class="hljs-number">208</span>%<span class="hljs-number">200</span>%<span class="hljs-number">20</span>R/BitsPerComponent%<span class="hljs-number">208</span>%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>E%<span class="hljs-number">0</span>Astream%<span class="hljs-number">0</span>A%FF%D8%FF%FE%<span class="hljs-number">00</span>%<span class="hljs-number">24</span>SHA-<span class="hljs-number">1</span>%<span class="hljs-number">20</span>is%<span class="hljs-number">20</span>dead%<span class="hljs-number">21</span>%<span class="hljs-number">21</span>%<span class="hljs-number">21</span>%<span class="hljs-number">21</span>%<span class="hljs-number">21</span>%<span class="hljs-number">85</span>/%EC%<span class="hljs-number">09</span>%<span class="hljs-number">239</span>u%<span class="hljs-number">9</span>C9%B1%A1%C6%<span class="hljs-number">3</span>CL%<span class="hljs-number">97</span>%E1%FF%FE%<span class="hljs-number">01</span>sF%DC%<span class="hljs-number">91</span>f%B6%<span class="hljs-number">7</span>E%<span class="hljs-number">11</span>%<span class="hljs-number">8</span>F%<span class="hljs-number">02</span>%<span class="hljs-number">9</span>A%B6%<span class="hljs-number">21</span>%B2V%<span class="hljs-number">0</span>F%F9%CAg%CC%A8%C7%F8%<span class="hljs-number">5</span>B%A8Ly%<span class="hljs-number">03</span>%<span class="hljs-number">0</span>C%<span class="hljs-number">2</span>B%<span class="hljs-number">3</span>D%E2%<span class="hljs-number">18</span>%F8m%B3%A9%<span class="hljs-number">09</span>%<span class="hljs-number">01</span>%D5%DFE%C1O%<span class="hljs-number">26</span>%FE%DF%B3%DC8%E9j%C2/%E7%BDr%<span class="hljs-number">8</span>F%<span class="hljs-number">0</span>EE%BC%E0F%D2%<span class="hljs-number">3</span>CW%<span class="hljs-number">0</span>F%EB%<span class="hljs-number">14</span>%<span class="hljs-number">13</span>%<span class="hljs-number">98</span>%BBU.%F5%A0%A8%<span class="hljs-number">2</span>B%E31%FE%A4%<span class="hljs-number">807</span>%B8%B5%D7%<span class="hljs-number">1</span>F%<span class="hljs-number">0E3</span>.%DF%<span class="hljs-number">93</span>%AC5%<span class="hljs-number">00</span>%EBM%DC%<span class="hljs-number">0</span>D%EC%C1%A8dy%<span class="hljs-number">0</span>Cx%<span class="hljs-number">2</span>Cv%<span class="hljs-number">21</span>V%<span class="hljs-number">60</span>%DD0%<span class="hljs-number">97</span>%<span class="hljs-number">91</span>%D0k%D0%AF%<span class="hljs-number">3</span>F%<span class="hljs-number">98</span>%CD%A4%BCF%<span class="hljs-number">29</span>%B1<br></code></pre></td></tr></table></figure>
 
 <p>‍</p>
-<h1 id="实验8"><a href="#实验8" class="headerlink" title="实验8"></a>实验8</h1><p><img src="/.com//image-20250417175035-pl0a3iz.png" alt="image"></p>
-<p><img src="/.com//image-20250417175038-xd91avl.png" alt="image"></p>
+<h1 id="实验8"><a href="#实验8" class="headerlink" title="实验8"></a>实验8</h1><p><img src="/.com//image-20250417175035-pl0a3iz.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417175038-xd91avl.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>两个SHA1值相同而SHA256的值不同的pdf文件, <a target="_blank" rel="noopener" href="https://shattered.it/static/shattered-1.pdf">shattered-1.pdf</a>和<a target="_blank" rel="noopener" href="https://shattered.it/static/shattered-2.pdf">shattered-2.pdf</a></p>
 <p>‍</p>
 <h1 id="a-md5-a"><a href="#a-md5-a" class="headerlink" title="$a==md5($a)"></a>$a==md5($a)</h1><p>​<code>0e215962017</code>​的 <code>MD5</code>​ 值也是由 <code>0e</code>​ 开头，在 PHP 弱类型比较中等</p>
 <p>‍</p>
-<h1 id="实验9"><a href="#实验9" class="headerlink" title="实验9"></a>实验9</h1><p><img src="/.com//image-20250417175101-50g9dml.png" alt="image"></p>
-<p><img src="/.com//image-20250417175105-z4p4lmw.png" alt="image"></p>
+<h1 id="实验9"><a href="#实验9" class="headerlink" title="实验9"></a>实验9</h1><p><img src="/.com//image-20250417175101-50g9dml.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417175105-z4p4lmw.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>‍</p>
 <h1 id="NAN-和-INF"><a href="#NAN-和-INF" class="headerlink" title="NAN 和 INF"></a>NAN 和 INF</h1><p>NAN和INF，分别为非数字和无穷大，但是通过<code>var_dump</code>​查看数据类型却是double，那么在md5函数处理它们的时候，是将其直接转换为字符串<code>NAN</code>​和字符串<code>INF</code>​使用的，但是它们拥有特殊的性质，它们与任何数据类型（除了true）做强类型或弱类型比较均为false，甚至<code>NAN=NAN</code>​都是false，但<code>md5(&#39;NaN&#39;)==md5(&#39;NAN&#39;)</code>​为true。</p>
 <p>‍</p>
-<h1 id="实验10"><a href="#实验10" class="headerlink" title="实验10"></a>实验10</h1><p><img src="/.com//image-20250417175117-ndyibgq.png" alt="image"></p>
-<p><img src="/.com//image-20250417175121-hgvnlqn.png" alt="image"></p>
-<p><img src="/.com//image-20250417175124-dql4g5j.png" alt="image"></p>
-<p><img src="/.com//image-20250417175127-ivcykbh.png" alt="image"></p>
+<h1 id="实验10"><a href="#实验10" class="headerlink" title="实验10"></a>实验10</h1><p><img src="/.com//image-20250417175117-ndyibgq.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417175121-hgvnlqn.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417175124-dql4g5j.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417175127-ivcykbh.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>可以使用<code>NAN</code>​绕过<code>md5()</code>​和<code>sha1()</code>​</p>
 <p>‍</p>
-<h1 id="截断比较"><a href="#截断比较" class="headerlink" title="截断比较"></a>截断比较</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>),<span class="number">0</span>,<span class="number">5</span>)===<span class="string">&#x27;8ffb1&#x27;</span></span><br></pre></td></tr></table></figure>
+<h1 id="截断比较"><a href="#截断比较" class="headerlink" title="截断比较"></a>截断比较</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$a</span>),<span class="hljs-number">0</span>,<span class="hljs-number">5</span>)===<span class="hljs-string">&#x27;8ffb1&#x27;</span><br></code></pre></td></tr></table></figure>
 
 <p>‍</p>
 <h2 id="MD5截断爆破"><a href="#MD5截断爆破" class="headerlink" title="MD5截断爆破"></a>MD5截断爆破</h2><p>给出一段<code>md5</code>​值要求找到匹配的原码。一般使用爆破脚本：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"><span class="keyword">from</span> multiprocessing.dummy import Pool <span class="keyword">as</span> ThreadPool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># MD5截断数值已知 求原始数据</span></span><br><span class="line"><span class="comment"># 例子 substr(md5(captcha), 0, 6)=60b7ef</span></span><br><span class="line"></span><br><span class="line">def <span class="title function_ invoke__">md5</span>(ant):  <span class="comment"># 计算MD5字符串</span></span><br><span class="line">    <span class="keyword">return</span> hashlib.<span class="title function_ invoke__">md5</span>(<span class="title function_ invoke__">str</span>(ant).<span class="title function_ invoke__">encode</span>(<span class="string">&#x27;utf-8&#x27;</span>)).<span class="title function_ invoke__">hexdigest</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">keymd5 = <span class="string">&#x27;8ffb1&#x27;</span>  <span class="comment"># 已知的md5截断值</span></span><br><span class="line">md5start = <span class="number">0</span>  <span class="comment"># 设置题目已知的截断位置</span></span><br><span class="line">md5length = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def <span class="title function_ invoke__">findmd5</span>(sss):  <span class="comment"># 输入范围 里面会进行md5测试</span></span><br><span class="line">    key = sss.<span class="title function_ invoke__">split</span>(<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">    start = <span class="keyword">int</span>(key[<span class="number">0</span>])  <span class="comment"># 开始位置</span></span><br><span class="line">    end = <span class="keyword">int</span>(key[<span class="number">1</span>])  <span class="comment"># 结束位置</span></span><br><span class="line">    result = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i in <span class="title function_ invoke__">range</span>(start, end):</span><br><span class="line">        <span class="comment"># print(md5(i)[md5start:md5length])</span></span><br><span class="line">        <span class="keyword">if</span> <span class="title function_ invoke__">md5</span>(i)[<span class="number">0</span>:<span class="number">5</span>] == keymd5:  <span class="comment"># 拿到加密字符串</span></span><br><span class="line">            result = i</span><br><span class="line">            <span class="keyword">print</span>(f<span class="string">&#x27;&#123;result&#125; &#123;md5(result)&#125;&#x27;</span>)  <span class="comment"># 打印</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">list</span> = []  <span class="comment"># 参数列表</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="title function_ invoke__">range</span>(<span class="number">10</span>):  <span class="comment"># 多线程的数字列表 开始与结尾</span></span><br><span class="line">    <span class="keyword">list</span>.<span class="title function_ invoke__">append</span>(<span class="title function_ invoke__">str</span>(<span class="number">10000000</span> * i) + <span class="string">&#x27;:&#x27;</span> + <span class="title function_ invoke__">str</span>(<span class="number">10000000</span> * (i + <span class="number">1</span>)))</span><br><span class="line"><span class="comment"># print(list)</span></span><br><span class="line">pool = <span class="title function_ invoke__">ThreadPool</span>()  <span class="comment"># 多线程任务</span></span><br><span class="line">pool.<span class="title function_ invoke__">map</span>(findmd5, <span class="keyword">list</span>)  <span class="comment"># 函数 与参数列表</span></span><br><span class="line">pool.<span class="title function_ invoke__">close</span>()</span><br><span class="line">pool.<span class="title function_ invoke__">join</span>()</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs php">import hashlib<br><span class="hljs-keyword">from</span> multiprocessing.dummy import Pool <span class="hljs-keyword">as</span> ThreadPool<br><br><br><span class="hljs-comment"># MD5截断数值已知 求原始数据</span><br><span class="hljs-comment"># 例子 substr(md5(captcha), 0, 6)=60b7ef</span><br><br>def <span class="hljs-title function_ invoke__">md5</span>(ant):  <span class="hljs-comment"># 计算MD5字符串</span><br>    <span class="hljs-keyword">return</span> hashlib.<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-title function_ invoke__">str</span>(ant).<span class="hljs-title function_ invoke__">encode</span>(<span class="hljs-string">&#x27;utf-8&#x27;</span>)).<span class="hljs-title function_ invoke__">hexdigest</span>()<br><br><br>keymd5 = <span class="hljs-string">&#x27;8ffb1&#x27;</span>  <span class="hljs-comment"># 已知的md5截断值</span><br>md5start = <span class="hljs-number">0</span>  <span class="hljs-comment"># 设置题目已知的截断位置</span><br>md5length = <span class="hljs-number">5</span><br><br><br>def <span class="hljs-title function_ invoke__">findmd5</span>(sss):  <span class="hljs-comment"># 输入范围 里面会进行md5测试</span><br>    key = sss.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;:&#x27;</span>)<br>    start = <span class="hljs-keyword">int</span>(key[<span class="hljs-number">0</span>])  <span class="hljs-comment"># 开始位置</span><br>    end = <span class="hljs-keyword">int</span>(key[<span class="hljs-number">1</span>])  <span class="hljs-comment"># 结束位置</span><br>    result = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i in <span class="hljs-title function_ invoke__">range</span>(start, end):<br>        <span class="hljs-comment"># print(md5(i)[md5start:md5length])</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-title function_ invoke__">md5</span>(i)[<span class="hljs-number">0</span>:<span class="hljs-number">5</span>] == keymd5:  <span class="hljs-comment"># 拿到加密字符串</span><br>            result = i<br>            <span class="hljs-keyword">print</span>(f<span class="hljs-string">&#x27;&#123;result&#125; &#123;md5(result)&#125;&#x27;</span>)  <span class="hljs-comment"># 打印</span><br>            <span class="hljs-keyword">break</span><br><br><br><span class="hljs-keyword">list</span> = []  <span class="hljs-comment"># 参数列表</span><br><span class="hljs-keyword">for</span> i in <span class="hljs-title function_ invoke__">range</span>(<span class="hljs-number">10</span>):  <span class="hljs-comment"># 多线程的数字列表 开始与结尾</span><br>    <span class="hljs-keyword">list</span>.<span class="hljs-title function_ invoke__">append</span>(<span class="hljs-title function_ invoke__">str</span>(<span class="hljs-number">10000000</span> * i) + <span class="hljs-string">&#x27;:&#x27;</span> + <span class="hljs-title function_ invoke__">str</span>(<span class="hljs-number">10000000</span> * (i + <span class="hljs-number">1</span>)))<br><span class="hljs-comment"># print(list)</span><br>pool = <span class="hljs-title function_ invoke__">ThreadPool</span>()  <span class="hljs-comment"># 多线程任务</span><br>pool.<span class="hljs-title function_ invoke__">map</span>(findmd5, <span class="hljs-keyword">list</span>)  <span class="hljs-comment"># 函数 与参数列表</span><br>pool.<span class="hljs-title function_ invoke__">close</span>()<br>pool.<span class="hljs-title function_ invoke__">join</span>()<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//image-20250417175151-7xw4wjg.png" alt="image"></p>
+<p><img src="/.com//image-20250417175151-7xw4wjg.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>‍</p>
 <h2 id="sha256截断爆破"><a href="#sha256截断爆破" class="headerlink" title="sha256截断爆破"></a>sha256截断爆破</h2><p>脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">from</span> multiprocessing.dummy <span class="keyword">import</span> Pool <span class="keyword">as</span> ThreadPool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># sha256截断数值已知 求原始数据</span></span><br><span class="line"><span class="comment"># 例子 substr(sha256(captcha), 0, 6)=60b7ef</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sha256</span>(<span class="params">s</span>):  <span class="comment"># 计算sha256字符串</span></span><br><span class="line">    <span class="keyword">return</span> hashlib.sha256(<span class="string">f&#x27;TQLCTF<span class="subst">&#123;s&#125;</span>&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>)).hexdigest()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">keysha256 = <span class="string">&#x27;5625f&#x27;</span>  <span class="comment"># 已知的sha256截断值</span></span><br><span class="line">sha256start = <span class="number">0</span>  <span class="comment"># 设置题目已知的截断位置</span></span><br><span class="line">sha256length = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">findsha256</span>(<span class="params">sss</span>):  <span class="comment"># 输入范围 里面会进行sha256测试</span></span><br><span class="line">    key = sss.split(<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">    start = <span class="built_in">int</span>(key[<span class="number">0</span>])  <span class="comment"># 开始位置</span></span><br><span class="line">    end = <span class="built_in">int</span>(key[<span class="number">1</span>])  <span class="comment"># 结束位置</span></span><br><span class="line">    result = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(start, end):</span><br><span class="line">        <span class="comment"># print(sha256(i)[sha256start:sha256length])</span></span><br><span class="line">        <span class="keyword">if</span> sha256(i)[<span class="number">0</span>:<span class="number">5</span>] == keysha256:  <span class="comment"># 拿到加密字符串</span></span><br><span class="line">            result = i</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;result&#125;</span> <span class="subst">&#123;sha256(result)&#125;</span>&#x27;</span>)  <span class="comment"># 打印</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">list</span> = []  <span class="comment"># 参数列表</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):  <span class="comment"># 多线程的数字列表 开始与结尾</span></span><br><span class="line">    <span class="built_in">list</span>.append(<span class="built_in">str</span>(<span class="number">10000000</span> * i) + <span class="string">&#x27;:&#x27;</span> + <span class="built_in">str</span>(<span class="number">10000000</span> * (i + <span class="number">1</span>)))</span><br><span class="line">pool = ThreadPool()  <span class="comment"># 多线程任务</span></span><br><span class="line">pool.<span class="built_in">map</span>(findsha256, <span class="built_in">list</span>)  <span class="comment"># 函数 与参数列表</span></span><br><span class="line">pool.close()</span><br><span class="line">pool.join()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">from</span> multiprocessing.dummy <span class="hljs-keyword">import</span> Pool <span class="hljs-keyword">as</span> ThreadPool<br><br><br><span class="hljs-comment"># sha256截断数值已知 求原始数据</span><br><span class="hljs-comment"># 例子 substr(sha256(captcha), 0, 6)=60b7ef</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sha256</span>(<span class="hljs-params">s</span>):  <span class="hljs-comment"># 计算sha256字符串</span><br>    <span class="hljs-keyword">return</span> hashlib.sha256(<span class="hljs-string">f&#x27;TQLCTF<span class="hljs-subst">&#123;s&#125;</span>&#x27;</span>.encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)).hexdigest()<br><br><br>keysha256 = <span class="hljs-string">&#x27;5625f&#x27;</span>  <span class="hljs-comment"># 已知的sha256截断值</span><br>sha256start = <span class="hljs-number">0</span>  <span class="hljs-comment"># 设置题目已知的截断位置</span><br>sha256length = <span class="hljs-number">5</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">findsha256</span>(<span class="hljs-params">sss</span>):  <span class="hljs-comment"># 输入范围 里面会进行sha256测试</span><br>    key = sss.split(<span class="hljs-string">&#x27;:&#x27;</span>)<br>    start = <span class="hljs-built_in">int</span>(key[<span class="hljs-number">0</span>])  <span class="hljs-comment"># 开始位置</span><br>    end = <span class="hljs-built_in">int</span>(key[<span class="hljs-number">1</span>])  <span class="hljs-comment"># 结束位置</span><br>    result = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(start, end):<br>        <span class="hljs-comment"># print(sha256(i)[sha256start:sha256length])</span><br>        <span class="hljs-keyword">if</span> sha256(i)[<span class="hljs-number">0</span>:<span class="hljs-number">5</span>] == keysha256:  <span class="hljs-comment"># 拿到加密字符串</span><br>            result = i<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;result&#125;</span> <span class="hljs-subst">&#123;sha256(result)&#125;</span>&#x27;</span>)  <span class="hljs-comment"># 打印</span><br>            <span class="hljs-keyword">break</span><br><br><br><span class="hljs-built_in">list</span> = []  <span class="hljs-comment"># 参数列表</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):  <span class="hljs-comment"># 多线程的数字列表 开始与结尾</span><br>    <span class="hljs-built_in">list</span>.append(<span class="hljs-built_in">str</span>(<span class="hljs-number">10000000</span> * i) + <span class="hljs-string">&#x27;:&#x27;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-number">10000000</span> * (i + <span class="hljs-number">1</span>)))<br>pool = ThreadPool()  <span class="hljs-comment"># 多线程任务</span><br>pool.<span class="hljs-built_in">map</span>(findsha256, <span class="hljs-built_in">list</span>)  <span class="hljs-comment"># 函数 与参数列表</span><br>pool.close()<br>pool.join()<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//image-20250417175213-75wbvwu.png" alt="image"></p>
+<p><img src="/.com//image-20250417175213-75wbvwu.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 <p>‍</p>
-<h1 id="array-search和is-array"><a href="#array-search和is-array" class="headerlink" title="array_search和is_array"></a>array_search和is_array</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="keyword">if</span> (!is_array($_GET[<span class="string">&#x27;test&#x27;</span>])) &#123;</span><br><span class="line">    exit();</span><br><span class="line">&#125;</span><br><span class="line">$test = $_GET[<span class="string">&#x27;test&#x27;</span>];</span><br><span class="line"><span class="keyword">for</span> ($i = <span class="number">0</span>; $i &lt; count($test); $i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> ($test[$i] === <span class="string">&quot;admin&quot;</span>) &#123;</span><br><span class="line">        echo <span class="string">&quot;error&quot;</span>;</span><br><span class="line">        exit();</span><br><span class="line">    &#125;</span><br><span class="line">    $test[$i] = intval($test[$i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (array_search(<span class="string">&quot;admin&quot;</span>, $test) === <span class="number">0</span>) &#123;</span><br><span class="line">    echo <span class="string">&quot;success&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    echo <span class="string">&quot;failed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="array-search和is-array"><a href="#array-search和is-array" class="headerlink" title="array_search和is_array"></a>array_search和is_array</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python">&lt;?php<br><span class="hljs-keyword">if</span> (!is_array($_GET[<span class="hljs-string">&#x27;test&#x27;</span>])) &#123;<br>    exit();<br>&#125;<br>$test = $_GET[<span class="hljs-string">&#x27;test&#x27;</span>];<br><span class="hljs-keyword">for</span> ($i = <span class="hljs-number">0</span>; $i &lt; count($test); $i++) &#123;<br>    <span class="hljs-keyword">if</span> ($test[$i] === <span class="hljs-string">&quot;admin&quot;</span>) &#123;<br>        echo <span class="hljs-string">&quot;error&quot;</span>;<br>        exit();<br>    &#125;<br>    $test[$i] = intval($test[$i]);<br>&#125;<br><span class="hljs-keyword">if</span> (array_search(<span class="hljs-string">&quot;admin&quot;</span>, $test) === <span class="hljs-number">0</span>) &#123;<br>    echo <span class="hljs-string">&quot;success&quot;</span>;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    echo <span class="hljs-string">&quot;failed&quot;</span>;<br>&#125;<br>?&gt;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/.com//image-20250417175225-hxln96p.png" alt="image"></p>
-<p><img src="/.com//image-20250417175228-20igd3y.png" alt="image"></p>
+<p><img src="/.com//image-20250417175225-hxln96p.png" srcset="/image/loading.gif" lazyload alt="image"></p>
+<p><img src="/.com//image-20250417175228-20igd3y.png" srcset="/image/loading.gif" lazyload alt="image"></p>
 
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/20/Web/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" data-id="cmaxygi0h0004oc7k3fogg629" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
+
+<span class="category-chains">
+  
   
     
-<nav id="article-nav">
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
   
-    <a href="/2025/05/20/Web/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5%E9%9D%B6%E5%9C%BA/sql%E2%80%94%E2%80%94labs/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/PHP%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" class="print-no-link">#PHP比较漏洞</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>PHP比较漏洞</div>
+      <div>http://example.com/2025/05/20/Web/PHP比较漏洞/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/05/20/Web/%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6/" title="备份文件">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">备份文件</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/20/Web/XXE%EF%BC%88XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%89/" title="XXE（XML外部实体注入）">
+                        <span class="hidden-mobile">XXE（XML外部实体注入）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
       </div>
-    </a>
-  
-  
-    <a href="/2025/05/20/Web/%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/HTTP%E6%95%99%E7%A8%8B/">HTTP教程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/PHP%E5%AE%89%E5%85%A8/">PHP安全</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/XSS/">XSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">注入漏洞</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></li></ul></li></ul></li></ul>
     </div>
-  </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSRF/" rel="tag">CSRF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF%E9%A2%98%E7%9B%AE/" rel="tag">CTF题目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSTI/" rel="tag">SSTI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSStrike/" rel="tag">XSStrike</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/labs/" rel="tag">labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E6%88%98/" rel="tag">实战</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" rel="tag">对象注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" rel="tag">报错注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" rel="tag">模板注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" rel="tag">比较漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" rel="tag">跨站脚本</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/CTF%E9%A2%98%E7%9B%AE/" style="font-size: 10px;">CTF题目</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/PHP/" style="font-size: 16.67px;">PHP</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13.33px;">SQL注入</a> <a href="/tags/SSTI/" style="font-size: 10px;">SSTI</a> <a href="/tags/XSS/" style="font-size: 20px;">XSS</a> <a href="/tags/XSStrike/" style="font-size: 10px;">XSStrike</a> <a href="/tags/labs/" style="font-size: 10px;">labs</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13.33px;">反序列化</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13.33px;">安全</a> <a href="/tags/%E5%AE%9E%E6%88%98/" style="font-size: 10px;">实战</a> <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">对象注入</a> <a href="/tags/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">报错注入</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">模板注入</a> <a href="/tags/%E6%AF%94%E8%BE%83%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">比较漏洞</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">渗透测试</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">网络协议</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a> <a href="/tags/%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">跨站脚本</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/xsstrike/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/sqlmap/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E7%BB%95%E8%BF%87/%E7%BB%95%E8%BF%87/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E+%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/20/Web/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/upload-labs/user.ini/">(no title)</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
+    <div class="side-col d-none d-lg-block col-lg-2">
       
-      &copy; 2025 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
 
     </div>
-    <nav id="mobile-nav">
+  </div>
+</div>
+
+
+
+
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
+
+
+
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+
+
+
   
-</nav>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
 
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="/js/jquery.min.js/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
-<script src="/js/script.js"></script>
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-  </div>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>
